@@ -1,4 +1,4 @@
-import { spartan, poppins } from "@/lib/fonts";
+import { spartan, baloo, poppins } from "@/lib/fonts";
 import { Providers } from "@/providers/Providers";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${spartan.variable} ${poppins.variable}`}
+      className={`${spartan.variable} ${baloo.variable} ${poppins.variable}`}
     >
       <body className="flex min-h-screen flex-col antialiased">
         <Providers>

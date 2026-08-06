@@ -1,112 +1,142 @@
 import Link from "next/link";
-import { Plane, Mail, Phone, MapPin } from "lucide-react";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaXTwitter,
-  FaYoutube,
-} from "react-icons/fa6";
+import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa6";
 import { Container } from "@/components/common/Container";
 
 const QUICK_LINKS = [
-  { label: "About", href: "/about" },
-  { label: "Destinations", href: "/destinations" },
-  { label: "Tours", href: "/tours" },
-  { label: "Blogs", href: "/blogs" },
-  { label: "Contact", href: "/contact" },
+  { label: "Terms and conditions", href: "/terms-and-conditions" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Gallery", href: "/gallery" },
 ];
 
 const SOCIAL_LINKS = [
-  { label: "Facebook", href: "https://facebook.com", icon: FaFacebookF },
   { label: "Instagram", href: "https://instagram.com", icon: FaInstagram },
-  { label: "Twitter", href: "https://twitter.com", icon: FaXTwitter },
+  { label: "Facebook", href: "https://facebook.com", icon: FaFacebookF },
   { label: "YouTube", href: "https://youtube.com", icon: FaYoutube },
+];
+
+const OFFICES = [
+  {
+    name: "Corporate Office",
+    phone: "+91 9656 211 888",
+    address:
+      "Mannamthara Tower, Paramara Rd, Ernakulam North, Ernakulam, Kerala 682018",
+  },
+  {
+    name: "Branch Office",
+    phone: "+91 9656 211 888",
+    address:
+      "6th Floor, KG Oxford Business Center, Sreekandath Road, Perumanoor, Kochi, 682016",
+  },
+  {
+    name: "Trivandrum",
+    phone: "+91 7558 887 711",
+    address:
+      "2nd floor, Annas Arcade, Spencer Junction, M.G Road, Trivandrum – 695 001",
+  },
+  {
+    name: "Thrissur",
+    phone: "+91 9656 211 888",
+    address:
+      "St Antony's Tower, Fathima Nagar, East Fort, Nellikunnu, Thrissur, Kerala 680005",
+  },
+  {
+    name: "Kannur",
+    phone: "+91 8156 911 888",
+    address:
+      "KZN.11/39. E2, 1st Floor, Umbai Tower, Opp. Training School, Civil Station, Kannur-670002.",
+  },
 ];
 
 export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-navy/10 bg-cream dark:border-cream/10 dark:bg-navy border-t">
-      <Container className="grid grid-cols-1 gap-10 py-16 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="flex flex-col gap-4">
-          <Link
-            href="/"
-            className="font-heading text-navy dark:text-cream flex items-center gap-2 text-xl"
-          >
-            <Plane className="text-sky size-6" aria-hidden="true" />
-            Fortune Travels
-          </Link>
-          <p className="text-navy/70 dark:text-cream/70 text-sm">
-            Curated journeys and unforgettable adventures to the world&apos;s
-            most breathtaking destinations.
-          </p>
-        </div>
+    <footer className="bg-black text-white">
+      <Container className="py-16 lg:py-20">
+        <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
+          <div className="flex flex-col gap-6">
+            <Link
+              href="/"
+              className="font-heading w-fit text-3xl italic text-white"
+            >
+              fortune
+            </Link>
 
-        <div>
-          <h3 className="font-top text-navy dark:text-cream mb-4 text-sm font-semibold tracking-wider uppercase">
-            Quick Links
-          </h3>
-          <ul className="flex flex-col gap-3">
-            {QUICK_LINKS.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="text-navy/70 hover:text-sky dark:text-cream/70 text-sm transition-colors"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+            <p className="max-w-xs text-sm leading-relaxed text-white/70">
+              An editorial travel house. Cinematic journeys, quietly curated
+              since 1998.
+            </p>
 
-        <div>
-          <h3 className="font-top text-navy dark:text-cream mb-4 text-sm font-semibold tracking-wider uppercase">
-            Contact
-          </h3>
-          <ul className="text-navy/70 dark:text-cream/70 flex flex-col gap-3 text-sm">
-            <li className="flex items-center gap-2">
-              <MapPin className="text-sky size-4 shrink-0" aria-hidden="true" />
-              123 Travel Street, Wander City
-            </li>
-            <li className="flex items-center gap-2">
-              <Phone className="text-sky size-4 shrink-0" aria-hidden="true" />
-              +1 (555) 123-4567
-            </li>
-            <li className="flex items-center gap-2">
-              <Mail className="text-sky size-4 shrink-0" aria-hidden="true" />
-              hello@fortunetravels.com
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="font-top text-navy dark:text-cream mb-4 text-sm font-semibold tracking-wider uppercase">
-            Follow Us
-          </h3>
-          <div className="flex items-center gap-3">
-            {SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="bg-navy/10 text-navy hover:bg-sky dark:bg-cream/10 dark:text-cream inline-flex size-10 items-center justify-center rounded-full transition-colors hover:text-white"
-              >
-                <Icon className="size-4" aria-hidden="true" />
-              </a>
-            ))}
+            <ul className="mt-2 flex items-center gap-8">
+              {SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="inline-flex text-white/80 transition-colors hover:text-white"
+                  >
+                    <Icon className="size-5" aria-hidden="true" />
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
+
+          {/* Offset at lg so the row lines up with the tagline rather than
+              the wordmark, matching the design. */}
+          <nav aria-label="Quick links" className="lg:mt-15">
+            <ul className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              <li className="font-heading text-base text-white">
+                Quick Links :
+              </li>
+              {QUICK_LINKS.map((link, index) => (
+                <li key={link.href} className="flex items-center gap-4">
+                  {/* Hidden below sm: the row wraps there, which would strand
+                      a divider at the start of a new line. */}
+                  {index > 0 && (
+                    <span
+                      className="hidden h-4 w-px bg-white/25 sm:block"
+                      aria-hidden="true"
+                    />
+                  )}
+                  <Link
+                    href={link.href}
+                    className="text-sm text-white/70 transition-colors hover:text-white"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+
+        <div className="mt-20 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
+          {OFFICES.map((office) => (
+            <div key={office.name} className="flex flex-col gap-3">
+              <h3 className="font-heading text-lg text-white">{office.name}</h3>
+              <a
+                href={`tel:${office.phone.replace(/\s/g, "")}`}
+                className="text-sm text-white/70 transition-colors hover:text-white"
+              >
+                {office.phone}
+              </a>
+              <address className="text-sm leading-relaxed text-white/60 not-italic">
+                {office.address}
+              </address>
+            </div>
+          ))}
         </div>
       </Container>
 
-      <div className="border-navy/10 dark:border-cream/10 border-t py-6">
-        <Container>
-          <p className="text-navy/60 dark:text-cream/60 text-center text-sm">
-            © {year} Fortune Travels. All rights reserved.
+      <div className="border-t border-white/15">
+        <Container className="flex flex-col gap-2 py-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-white/60">
+            © {year} Fortune Tours &amp; Travels. All journeys reserved.
           </p>
+          <p className="text-sm text-white/60">Est. 1998 — India · Worldwide</p>
         </Container>
       </div>
     </footer>

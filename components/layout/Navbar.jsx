@@ -4,18 +4,17 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Plane } from "lucide-react";
-import { Button } from "@/components/common/Button";
 import { Container } from "@/components/common/Container";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
   { label: "Destinations", href: "/destinations" },
-  { label: "Tours", href: "/tours" },
-  { label: "Blogs", href: "/blogs" },
-  { label: "Contact", href: "/contact" },
+  { label: "Experiences", href: "/experiences" },
+  { label: "Departures", href: "/departures" },
+  { label: "Journal", href: "/journal" },
 ];
+
+const CONCIERGE_LINK = { label: "Concierge", href: "/concierge" };
 
 export function Navbar() {
   const pathname = usePathname();
@@ -41,16 +40,21 @@ export function Navbar() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        isSolid && "bg-cream/90 dark:bg-navy/90 shadow-sm backdrop-blur-md",
+        isSolid
+          ? "bg-cream/90 dark:bg-navy/90 shadow-sm backdrop-blur-md"
+          : "bg-transparent",
       )}
     >
       <Container className="flex h-20 items-center justify-between">
         <Link
           href="/"
-          className="font-heading text-navy dark:text-cream flex items-center gap-2 text-xl"
+          className={cn(
+            "font-heading flex items-center gap-2 text-xl italic transition-colors",
+            isSolid ? "text-navy dark:text-cream" : "text-white",
+          )}
         >
           <Plane className="text-sky size-6" aria-hidden="true" />
-          Fortune Travels
+          fortune
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Main">
@@ -62,23 +66,43 @@ export function Navbar() {
                 href={link.href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "after:bg-sky text-navy/80 dark:text-cream/80 relative text-sm font-medium transition-colors after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:transition-all after:duration-300 hover:after:w-full",
-                  isActive && "text-navy dark:text-cream after:w-full",
+                  "after:bg-sky relative text-sm font-medium transition-colors after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:transition-all after:duration-300 hover:after:w-full",
+                  isSolid ? "text-navy/80 dark:text-cream/80" : "text-white/90",
+                  isActive &&
+                    (isSolid ? "text-navy dark:text-cream" : "text-white") +
+                      " after:w-full",
                 )}
               >
                 {link.label}
               </Link>
             );
           })}
-        </nav>
 
-        <div className="hidden lg:block">
-          <Button size="sm">Book Now</Button>
-        </div>
+          <span
+            className={cn(
+              "h-4 w-px",
+              isSolid ? "bg-navy/20 dark:bg-cream/20" : "bg-white/30",
+            )}
+            aria-hidden="true"
+          />
+
+          <Link
+            href={CONCIERGE_LINK.href}
+            className={cn(
+              "text-sm font-medium transition-colors",
+              isSolid ? "text-navy dark:text-cream" : "text-white",
+            )}
+          >
+            {CONCIERGE_LINK.label}
+          </Link>
+        </nav>
 
         <button
           type="button"
-          className="text-navy dark:text-cream inline-flex items-center justify-center rounded-full p-2 lg:hidden"
+          className={cn(
+            "inline-flex items-center justify-center rounded-full p-2 lg:hidden",
+            isSolid ? "text-navy dark:text-cream" : "text-white",
+          )}
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMenuOpen}
           onClick={() => setIsMenuOpen((prev) => !prev)}
@@ -97,7 +121,7 @@ export function Navbar() {
           aria-label="Mobile"
         >
           <ul className="flex flex-col gap-4">
-            {NAV_LINKS.map((link) => (
+            {[...NAV_LINKS, CONCIERGE_LINK].map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
@@ -111,9 +135,6 @@ export function Navbar() {
               </li>
             ))}
           </ul>
-          <Button fullWidth className="mt-6">
-            Book Now
-          </Button>
         </nav>
       )}
     </header>
