@@ -1,26 +1,47 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0c2233;
+}
+
+.dark {
+  --background: #0c2233;
+  --foreground: #faf7f2;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Fortune Travels brand palette */
+  --color-cream: #faf7f2;
+  --color-navy: #0c2233;
+  --color-sky: #00a2d9;
+
+  /* Spartan = top headings/labels, Neiko = main headings, Poppins = body */
+  --font-top: var(--font-spartan), ui-sans-serif, system-ui, sans-serif;
+  --font-heading:
+    "Neiko", var(--font-spartan), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+
+  /* Type scale: base 16px, ratio 1.25 */
+  --text-h1: clamp(2.75rem, 1.5rem + 5vw, 5.938rem);
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.02em;
+  --text-h2: clamp(2.25rem, 1.4rem + 3.5vw, 4.75rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.02em;
+  --text-eyebrow: clamp(1rem, 0.85rem + 0.6vw, 1.563rem);
+  --text-eyebrow--line-height: 1.3;
+  --text-lead: clamp(1rem, 0.9rem + 0.35vw, 1.25rem);
+  --text-lead--line-height: 1.6;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
 }
