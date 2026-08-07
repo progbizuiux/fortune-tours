@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/common/Container";
 import { gsap, useGSAP } from "@/lib/gsap";
@@ -61,13 +60,16 @@ export function HeroSection() {
       </noscript>
 
       <div className="hero-image absolute inset-0">
-        <Image
-          src="/hero-bg.avif"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center"
+        {/* Hero background video — falls back to the poster image */}
+        <video
+          className="absolute inset-0 h-full w-full object-cover object-center"
+          src="/home-banner-asset/hero-bg.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden="true"
         />
         {/* Scrim tuned so white/90 copy clears WCAG AA over the brightest
             areas of the photo, including the sky band on tall viewports. */}
@@ -77,7 +79,7 @@ export function HeroSection() {
       </div>
 
       <Container className="relative flex flex-col items-center gap-6 pt-20 text-center">
-        <span className="hero-eyebrow font-top text-sm tracking-[0.2em] text-white/90 uppercase opacity-0">
+        <span className="hero-eyebrow font-top text-small tracking-[0.2em] text-white/90 uppercase opacity-0">
           Fortune Tours &amp; Travels — Est. 1998
         </span>
 
@@ -85,12 +87,12 @@ export function HeroSection() {
           The journey begins before you leave home.
         </h1>
 
-        <p className="hero-description text-lead max-w-xl text-white/90 opacity-0">
+        <p className="hero-description text-body max-w-xl text-white/90 opacity-0">
           Travel isn&apos;t measured by miles. It&apos;s measured by moments
           that stay with you forever.
         </p>
 
-        <div className="hero-cta mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-white/90 opacity-0">
+        <div className="hero-cta mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-small text-white/90 opacity-0">
           {/* Dividers are hidden below sm, where the row wraps and would
               otherwise strand a bar at the start of a new line. */}
           <span

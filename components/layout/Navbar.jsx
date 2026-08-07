@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Plane } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { cn } from "@/lib/utils";
 
@@ -48,13 +49,18 @@ export function Navbar() {
       <Container className="flex h-20 items-center justify-between">
         <Link
           href="/"
-          className={cn(
-            "font-heading flex items-center gap-2 text-xl italic transition-colors",
-            isSolid ? "text-navy dark:text-cream" : "text-white",
-          )}
+          aria-label="Fortune Tours & Travels — Home"
+          className="flex items-center transition-[filter] duration-300"
+          style={isSolid ? { filter: "invert(1) brightness(0)" } : {}}
         >
-          <Plane className="text-sky size-6" aria-hidden="true" />
-          fortune
+          <Image
+            src="/fortune_Logo_White (1).png"
+            alt="Fortune Tours & Travels"
+            width={140}
+            height={48}
+            className="object-contain"
+            priority
+          />
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Main">
@@ -66,7 +72,7 @@ export function Navbar() {
                 href={link.href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "after:bg-sky relative text-sm font-medium transition-colors after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:transition-all after:duration-300 hover:after:w-full",
+                  "after:bg-sky relative text-small font-medium transition-colors after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:transition-all after:duration-300 hover:after:w-full",
                   isSolid ? "text-navy/80 dark:text-cream/80" : "text-white/90",
                   isActive &&
                     (isSolid ? "text-navy dark:text-cream" : "text-white") +
@@ -89,7 +95,7 @@ export function Navbar() {
           <Link
             href={CONCIERGE_LINK.href}
             className={cn(
-              "text-sm font-medium transition-colors",
+              "text-small font-medium transition-colors",
               isSolid ? "text-navy dark:text-cream" : "text-white",
             )}
           >
@@ -126,7 +132,7 @@ export function Navbar() {
                 <Link
                   href={link.href}
                   className={cn(
-                    "text-navy/80 dark:text-cream/80 block text-base font-medium",
+                    "text-navy/80 dark:text-cream/80 block text-body font-medium",
                     pathname === link.href && "text-sky",
                   )}
                 >

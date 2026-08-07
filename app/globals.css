@@ -22,23 +22,24 @@
   --color-navy: #0c2233;
   --color-sky: #00a2d9;
 
-  /* Spartan = top headings/labels, Neiko = main headings, Poppins = body */
-  --font-top: var(--font-spartan), ui-sans-serif, system-ui, sans-serif;
+  /* Spartan = top headings/labels, Neiko = main headings, Poppins = body.
+     Every var() carries a fallback: an undefined variable with no fallback
+     invalidates the whole font-family declaration and silently drops the
+     element to the default sans stack. */
+  --font-top:
+    var(--font-spartan, "Spartan"), ui-sans-serif, system-ui, sans-serif;
   --font-heading:
-    "Neiko", var(--font-spartan), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+    "Neiko", var(--font-spartan, "Spartan"), ui-sans-serif, system-ui,
+    sans-serif;
+  --font-sans:
+    var(--font-poppins, "Poppins"), ui-sans-serif, system-ui, sans-serif;
 
-  /* Type scale: base 16px, ratio 1.25 */
-  --text-h1: clamp(2.75rem, 1.5rem + 5vw, 5.938rem);
-  --text-h1--line-height: 1.05;
-  --text-h1--letter-spacing: -0.02em;
-  --text-h2: clamp(2.25rem, 1.4rem + 3.5vw, 4.75rem);
-  --text-h2--line-height: 1.1;
-  --text-h2--letter-spacing: -0.02em;
-  --text-eyebrow: clamp(1rem, 0.85rem + 0.6vw, 1.563rem);
-  --text-eyebrow--line-height: 1.3;
-  --text-lead: clamp(1rem, 0.9rem + 0.35vw, 1.25rem);
-  --text-lead--line-height: 1.6;
+  /* Type scale — single source of truth (Fortune Tours style guide) */
+  --text-h1: 5.313rem; /* 85px — h1 */
+  --text-h2: 4.063rem; /* 65px — h2 */
+  --text-h4: 1.25rem; /* 20px — "Top heading" / eyebrow */
+  --text-body: 1.125rem; /* 18px — body text */
+  --text-small: 1rem; /* 16px — small text */
 }
 
 body {

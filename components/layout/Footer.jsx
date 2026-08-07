@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa6";
 import { Container } from "@/components/common/Container";
@@ -57,12 +58,19 @@ export function Footer() {
           <div className="flex flex-col gap-6">
             <Link
               href="/"
-              className="font-heading w-fit text-3xl italic text-white"
+              aria-label="Fortune Tours & Travels — Home"
+              className="w-fit"
             >
-              fortune
+              <Image
+                src="/fortune_Logo_White (1).png"
+                alt="Fortune Tours & Travels"
+                width={160}
+                height={56}
+                className="object-contain"
+              />
             </Link>
 
-            <p className="max-w-xs text-sm leading-relaxed text-white/70">
+            <p className="max-w-xs text-small leading-relaxed text-white/70">
               An editorial travel house. Cinematic journeys, quietly curated
               since 1998.
             </p>
@@ -88,7 +96,7 @@ export function Footer() {
               the wordmark, matching the design. */}
           <nav aria-label="Quick links" className="lg:mt-15">
             <ul className="flex flex-wrap items-center gap-x-4 gap-y-2">
-              <li className="font-heading text-base text-white">
+              <li className="font-heading text-body text-white">
                 Quick Links :
               </li>
               {QUICK_LINKS.map((link, index) => (
@@ -103,7 +111,7 @@ export function Footer() {
                   )}
                   <Link
                     href={link.href}
-                    className="text-sm text-white/70 transition-colors hover:text-white"
+                    className="text-small text-white/70 transition-colors hover:text-white"
                   >
                     {link.label}
                   </Link>
@@ -116,14 +124,14 @@ export function Footer() {
         <div className="mt-20 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
           {OFFICES.map((office) => (
             <div key={office.name} className="flex flex-col gap-3">
-              <h3 className="font-heading text-lg text-white">{office.name}</h3>
+              <h3 className="font-heading text-h4 text-white">{office.name}</h3>
               <a
                 href={`tel:${office.phone.replace(/\s/g, "")}`}
-                className="text-sm text-white/70 transition-colors hover:text-white"
+                className="text-small text-white/70 transition-colors hover:text-white"
               >
                 {office.phone}
               </a>
-              <address className="text-sm leading-relaxed text-white/60 not-italic">
+              <address className="text-small leading-relaxed text-white/60 not-italic">
                 {office.address}
               </address>
             </div>
@@ -133,10 +141,12 @@ export function Footer() {
 
       <div className="border-t border-white/15">
         <Container className="flex flex-col gap-2 py-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-white/60">
+          <p className="text-small text-white/60">
             © {year} Fortune Tours &amp; Travels. All journeys reserved.
           </p>
-          <p className="text-sm text-white/60">Est. 1998 — India · Worldwide</p>
+          <p className="text-small text-white/60">
+            Est. 1998 — India · Worldwide
+          </p>
         </Container>
       </div>
     </footer>
