@@ -62,7 +62,7 @@ export function Footer() {
               className="w-fit"
             >
               <Image
-                src="/fortune_Logo_White (1).png"
+                src="/fortune_Logo_White.png"
                 alt="Fortune Tours & Travels"
                 width={160}
                 height={56}
