@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./design-system.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -24,8 +25,7 @@
   /* Spartan = top headings/labels, Neiko = main headings, Poppins = body */
   --font-top: var(--font-spartan), ui-sans-serif, system-ui, sans-serif;
   --font-heading:
-    "Neiko", var(--font-baloo), var(--font-spartan), ui-sans-serif, system-ui,
-    sans-serif;
+    "Neiko", var(--font-spartan), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
 
   /* Type scale: base 16px, ratio 1.25 */
