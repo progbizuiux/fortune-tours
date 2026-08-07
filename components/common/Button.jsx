@@ -12,9 +12,9 @@ const VARIANT_CLASSES = {
 };
 
 const SIZE_CLASSES = {
-  sm: "h-9 px-4 text-sm gap-1.5",
-  md: "h-11 px-6 text-base gap-2",
-  lg: "h-12 px-8 text-lg gap-2.5",
+  sm: "h-9 px-4 text-small gap-1.5",
+  md: "h-11 px-6 text-body gap-2",
+  lg: "h-12 px-8 text-h4 gap-2.5",
 };
 
 export function Button({
