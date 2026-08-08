@@ -32,43 +32,29 @@
   --font-sans:
     var(--font-poppins, "Poppins"), ui-sans-serif, system-ui, sans-serif;
 
-  /* Type scale — single source of truth (Fortune Tours style guide).
-     Fluid: each clamp reaches the guide's exact size at ~1280px and above, so
-     desktop is unchanged, and scales down below that. Fixed px headings meant
-     an 85px h1 swallowed a 375px screen whole. */
-  --text-h1: clamp(2.75rem, 1.6875rem + 4.53vw, 5.313rem); /* 44 → 85px */
-  --text-h2: clamp(2.25rem, 1.5rem + 3.2vw, 4.063rem); /* 36 → 65px */
-  --text-h3: clamp(
-    1.75rem,
-    1.23rem + 2.21vw,
-    3rem
-  ); /* 28 → 48px; not in the
-                      guide, fills the 20→65px gap (Atlas/Credentials headings) */
-  --text-h4: clamp(1.125rem, 1.073rem + 0.22vw, 1.25rem); /* 18 → 20px */
-  --text-body: 1.125rem; /* 18px — body text */
+  /* Type scale — single source of truth (Figma "final" desktop frame).
+     Each size holds a small-screen floor up to 768px, ramps linearly from
+     768px → 1280px, and is the exact Figma px from 1280px (xl) up — the
+     clamp() max pins it there for every larger screen. Ramp math: the vw/rem
+     pair is solved so the middle term equals the floor at 768 and the Figma
+     px at 1280. The --line-height/--font-weight companions bake the Figma
+     values into each text-* utility, so one class sets all three. */
+  --text-h1: clamp(2.75rem, 8.0078125vw - 1.09375rem, 5.3125rem); /* 44px → 85px */
+  --text-h1--line-height: 1; /* 100% */
+  --text-h1--font-weight: 400;
+  --text-h2: clamp(2.25rem, 5.6640625vw - 0.46875rem, 4.0625rem); /* 36px → 65px */
+  --text-h2--line-height: 1;
+  --text-h2--font-weight: 400;
+  --text-h4: clamp(1rem, 0.78125vw + 0.625rem, 1.25rem); /* 16px → 20px — eyebrow */
+  --text-h4--line-height: 1;
+  --text-h4--font-weight: 400;
+  --text-body: clamp(1rem, 0.390625vw + 0.8125rem, 1.125rem); /* 16px → 18px */
+  --text-body--line-height: 1.5rem; /* 24px */
+  --text-body--font-weight: 300;
   --text-small: 1rem; /* 16px — small text */
-  /* Below the guide's 16px floor. The guide stops at "small text", but the
-     section designs use finer supporting copy, so these are named explicitly
-     rather than reusing Tailwind's text-sm/text-xs (too easy to confuse with
-     --text-small above). */
-  --text-caption: 0.875rem; /* 14px — sub-headings, supporting copy */
-  --text-micro: 0.75rem; /* 12px — card captions, fine print */
-}
-
-@theme {
-  /* Infinite left-scrolling marquee. The track renders its items twice, so
-     translating exactly -50% lands on an identical frame — the loop is
-     seamless with no jump. */
-  --animate-marquee: marquee 40s linear infinite;
-
-  @keyframes marquee {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
+  --text-nav: 1.0625rem; /* 17px — navbar links (desktop nav only) */
+  --text-nav--line-height: 1;
+  --text-nav--font-weight: 300;
 }
 
 body {

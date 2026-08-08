@@ -82,7 +82,7 @@ export function HeroSection() {
       </div>
 
       <Container className="relative flex flex-col items-center gap-6 pt-20 text-center">
-        <span className="hero-eyebrow font-top text-small tracking-[0.2em] text-white/90 uppercase opacity-0">
+        <span className="hero-eyebrow font-top text-h4 text-white/90 opacity-0">
           Fortune Tours &amp; Travels — Est. 1998
         </span>
 
@@ -90,12 +90,12 @@ export function HeroSection() {
           The journey begins before you leave home.
         </h1>
 
-        <p className="hero-description text-body max-w-xl text-white/90 opacity-0">
+        <p className="hero-description text-body max-w-lg text-white/90 opacity-0">
           Travel isn&apos;t measured by miles. It&apos;s measured by moments
           that stay with you forever.
         </p>
 
-        <div className="hero-cta mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-small text-white/90 opacity-0">
+        <div className="hero-cta mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-body text-white/90 opacity-0">
           {/* Dividers are hidden below sm, where the row wraps and would
               otherwise strand a bar at the start of a new line. */}
           <span
