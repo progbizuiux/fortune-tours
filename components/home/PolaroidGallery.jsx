@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { FaInstagram } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
-import { Reveal } from "@/components/common/Reveal";
 import styles from "./PolaroidGallery.module.css";
+import { AnimateIn } from "@/components/common/AnimateIn";
 
 /* Rotation, vertical offset (% of card height) and stacking order are tuned
    per card to match the scattered Figma composition. Cards 2 and 4 drop out
@@ -58,10 +58,11 @@ export function PolaroidGallery() {
       aria-label="Travel moments from our journeys"
       className="bg-cream overflow-hidden pt-[17vw] md:pt-[10vw] lg:pt-[8.5vw]"
     >
-      {/* y={0} — the cards' scatter and hover run on the CSS
-          translate/rotate/scale properties, which GSAP would pin to "none"
-          inline if it animated transform; fade-only keeps them untouched */}
-      <Reveal as="ul" stagger={0.1} y={0} className={styles.strip}>
+      {/* <ul className={styles.strip}> */}
+      <AnimateIn
+                as="ul"
+                stagger={0.12}
+                className={styles.strip}>
         {POLAROIDS.map((shot) => (
           <li
             key={shot.src}
@@ -86,7 +87,7 @@ export function PolaroidGallery() {
             </figure>
           </li>
         ))}
-      </Reveal>
+      </AnimateIn>
     </section>
   );
 }

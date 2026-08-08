@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
-import { Reveal } from "@/components/common/Reveal";
+import { useReveal } from "@/lib/useReveal";
 
 /* Curated departures (Figma "final" → Chapter 06 — Timetable).
    Tabs are Poppins Light 18/24; the active month is white on a black chip
@@ -106,10 +106,12 @@ export function DeparturesSection() {
   const activeMonth = MONTHS.find((month) => month.key === activeKey);
   const sectionRef = useRef(null);
   const isFirstRender = useRef(true);
+  const tabsRef = useReveal({ delay: 0.1, stagger: 0.05, y: 16 });
+  const cardsRef = useReveal({ stagger: 0.15, y: 40 });
 
   // Rise-in for the freshly mounted cards on each month switch. The initial
-  // scroll entrance stays owned by <Reveal>, so the first render is skipped;
-  // reduced-motion users get an instant swap.
+  // scroll entrance stays owned by useReveal (cardsRef), so the first render
+  // is skipped; reduced-motion users get an instant swap.
   useGSAP(
     () => {
       if (isFirstRender.current) {
@@ -147,10 +149,8 @@ export function DeparturesSection() {
 
         {/* Inactive months carry hairline left/right borders (Figma); the
             active chip keeps transparent ones so the row never shifts */}
-        <Reveal
-          delay={0.1}
-          stagger={0.05}
-          y={16}
+        <div
+          ref={tabsRef}
           className="mt-16 flex flex-wrap items-center justify-center gap-8"
         >
           {MONTHS.map((month) => (
@@ -169,16 +169,11 @@ export function DeparturesSection() {
               {month.label}
             </button>
           ))}
-        </Reveal>
+        </div>
       </Container>
 
       {/* Full-bleed departure cards: 6px outer margin + 6px gap (Figma) */}
-      <Reveal
-        as="ul"
-        stagger={0.15}
-        y={40}
-        className="mt-20 grid gap-1.5 px-1.5 md:grid-cols-2"
-      >
+      <ul ref={cardsRef} className="mt-20 grid gap-1.5 px-1.5 md:grid-cols-2">
         {DEPARTURES[activeKey].map((trip) => (
           <li
             key={trip.title}
@@ -209,7 +204,7 @@ export function DeparturesSection() {
             </div>
           </li>
         ))}
-      </Reveal>
+      </ul>
     </section>
   );
 }

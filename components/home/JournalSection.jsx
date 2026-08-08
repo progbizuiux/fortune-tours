@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
-import { Reveal } from "@/components/common/Reveal";
+import { AnimateIn } from "@/components/common/AnimateIn";
 
 /* Journal strip (Figma "final" → Chapter 07 — Journal).
    Card type per Figma: meta = Spartan Light 16/100%, story = Poppins Light
@@ -48,7 +48,7 @@ export function JournalSection() {
         />
 
         {/* 12px column gap and 431:551 image ratio from the Figma frame */}
-        <Reveal
+        <AnimateIn
           as="ul"
           stagger={0.12}
           y={36}
@@ -86,7 +86,7 @@ export function JournalSection() {
               </Link>
             </li>
           ))}
-        </Reveal>
+        </AnimateIn>
       </Container>
     </section>
   );

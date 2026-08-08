@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Reveal } from "@/components/common/Reveal";
+import { AnimateIn } from "@/components/common/AnimateIn";
 
 /* Chapter header used above the numbered home-page sections (Figma "final"):
    a "Chapter NN — Label" eyebrow over the section heading.
@@ -21,7 +21,7 @@ export function SectionHeading({
   const centered = align === "center";
 
   return (
-    <Reveal
+    <AnimateIn
       stagger={0.12}
       className={cn(
         "flex flex-col gap-5 md:gap-7",
@@ -64,6 +64,6 @@ export function SectionHeading({
           </p>
         )}
       </div>
-    </Reveal>
+    </AnimateIn>
   );
 }
