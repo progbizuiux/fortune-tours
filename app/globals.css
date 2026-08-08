@@ -41,13 +41,30 @@
      pair is solved so the middle term equals the floor at 768 and the Figma
      px at 1280. The --line-height/--font-weight companions bake the Figma
      values into each text-* utility, so one class sets all three. */
-  --text-h1: clamp(2.75rem, 8.0078125vw - 1.09375rem, 5.3125rem); /* 44px → 85px */
+  --text-h1: clamp(
+    2.75rem,
+    8.0078125vw - 1.09375rem,
+    5.3125rem
+  ); /* 44px → 85px */
   --text-h1--line-height: 1; /* 100% */
   --text-h1--font-weight: 400;
-  --text-h2: clamp(2.25rem, 5.6640625vw - 0.46875rem, 4.0625rem); /* 36px → 65px */
+  --text-h2: clamp(
+    2.25rem,
+    5.6640625vw - 0.46875rem,
+    4.0625rem
+  ); /* 36px → 65px */
   --text-h2--line-height: 1;
   --text-h2--font-weight: 400;
-  --text-h4: clamp(1rem, 0.78125vw + 0.625rem, 1.25rem); /* 16px → 20px — eyebrow */
+  --text-h2--letter-spacing: -0.01em; /* -1% */
+  --text-h3: clamp(1.5rem, 1.5625vw + 0.75rem, 2rem); /* 24px → 32px */
+  --text-h3--line-height: 1;
+  --text-h3--font-weight: 400;
+  --text-h3--letter-spacing: -0.01em; /* -1% */
+  --text-h4: clamp(
+    1rem,
+    0.78125vw + 0.625rem,
+    1.25rem
+  ); /* 16px → 20px — eyebrow */
   --text-h4--line-height: 1;
   --text-h4--font-weight: 400;
   --text-body: clamp(1rem, 0.390625vw + 0.8125rem, 1.125rem); /* 16px → 18px */

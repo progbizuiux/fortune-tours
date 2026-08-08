@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { FaInstagram } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
+import { Reveal } from "@/components/common/Reveal";
 import styles from "./PolaroidGallery.module.css";
 
 /* Rotation, vertical offset (% of card height) and stacking order are tuned
@@ -57,7 +58,10 @@ export function PolaroidGallery() {
       aria-label="Travel moments from our journeys"
       className="bg-cream overflow-hidden pt-[17vw] md:pt-[10vw] lg:pt-[8.5vw]"
     >
-      <ul className={styles.strip}>
+      {/* y={0} — the cards' scatter and hover run on the CSS
+          translate/rotate/scale properties, which GSAP would pin to "none"
+          inline if it animated transform; fade-only keeps them untouched */}
+      <Reveal as="ul" stagger={0.1} y={0} className={styles.strip}>
         {POLAROIDS.map((shot) => (
           <li
             key={shot.src}
@@ -70,7 +74,6 @@ export function PolaroidGallery() {
                   src={shot.src}
                   alt={shot.alt}
                   fill
-                  blurDataURL="/home/image-1.png"
                   sizes="(min-width: 1024px) 20vw, (min-width: 768px) 23vw, 36vw"
                   className="object-cover"
                 />
@@ -83,7 +86,7 @@ export function PolaroidGallery() {
             </figure>
           </li>
         ))}
-      </ul>
+      </Reveal>
     </section>
   );
 }
