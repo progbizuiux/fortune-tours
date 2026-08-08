@@ -50,15 +50,30 @@ export function Navbar() {
         <Link
           href="/"
           aria-label="Fortune Tours & Travels — Home"
-          className="flex items-center transition-[filter] duration-300"
-          style={isSolid ? { filter: "invert(1) brightness(0)" } : {}}
+          className="flex items-center"
         >
+          {/* White logo — visible on transparent navbar (over hero) */}
           <Image
-            src="/fortune_Logo_White (1).png"
+            src="/fortune_Logo_White.png"
             alt="Fortune Tours & Travels"
             width={140}
             height={48}
-            className="object-contain"
+            className={cn(
+              "object-contain transition-opacity duration-300",
+              isSolid ? "opacity-0 absolute" : "opacity-100",
+            )}
+            priority
+          />
+          {/* Black & Blue logo — visible when navbar is solid/scrolled */}
+          <Image
+            src="/fortune_Logo_Black&Blue.png"
+            alt="Fortune Tours & Travels"
+            width={140}
+            height={48}
+            className={cn(
+              "object-contain transition-opacity duration-300",
+              isSolid ? "opacity-100" : "opacity-0 absolute",
+            )}
             priority
           />
         </Link>

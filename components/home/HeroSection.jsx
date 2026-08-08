@@ -73,9 +73,9 @@ export function HeroSection() {
         />
         {/* Scrim tuned so white/90 copy clears WCAG AA over the brightest
             areas of the photo, including the sky band on tall viewports. */}
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent" />
-        <div className="absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-black/35" />
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-black/20 to-transparent" />
       </div>
 
       <Container className="relative flex flex-col items-center gap-6 pt-20 text-center">
