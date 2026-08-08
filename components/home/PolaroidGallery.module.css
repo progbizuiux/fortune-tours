@@ -1,0 +1,151 @@
+/* Scattered polaroid strip (Figma "final" → Frame 33, cards ≈ 403×461).
+ *
+ * The strip's height is ~73% of a card's height, so every card hangs ~27%
+ * past the section's bottom edge; the section clips it there and the black
+ * footer that follows makes the cards read as tucked behind it. Hovering a
+ * card straightens it and lifts it just far enough (-27.5% − 12px) that its
+ * bottom edge lands a few px above that crop line, fully visible.
+ *
+ * Card width, strip height and frame thickness all scale in vw so the
+ * crop ratio (and therefore the hover lift) stays constant across screens.
+ */
+
+.strip {
+  --dur: 800ms;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --frame: 8px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: 30vw; /* card: 36vw × 461/403 ≈ 41.2vw tall */
+}
+
+.card {
+  position: relative;
+  width: 36vw;
+  aspect-ratio: 403 / 461;
+  z-index: var(--z);
+  rotate: var(--r);
+  translate: 0 var(--y);
+  box-shadow: 0 22px 44px -20px rgb(12 34 51 / 0.4);
+  transition:
+    translate var(--dur) var(--ease),
+    rotate var(--dur) var(--ease),
+    scale var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease),
+    z-index 0s calc(var(--dur) / 2); /* stay on top while settling back */
+}
+
+.card + .card {
+  margin-left: -9vw;
+}
+
+.card:hover {
+  z-index: 10;
+  rotate: 0deg;
+  translate: 0 calc(-27.5% - 12px);
+  scale: 1.04;
+  box-shadow: 0 34px 64px -26px rgb(12 34 51 / 0.5);
+  transition:
+    translate var(--dur) var(--ease),
+    rotate var(--dur) var(--ease),
+    scale var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease),
+    z-index 0s 0s;
+}
+
+/* A settling card keeps z-index 10 for --dur/2 (delay above), which ties with
+   a newly hovered card and lets DOM order win — trapping the hovered card
+   underneath. When the pointer is on another card, drop the hold instantly. */
+.strip:has(.card:hover) .card:not(:hover) {
+  transition-delay: 0s;
+}
+
+.frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding:6px;
+  background: #fff;
+}
+
+.photo {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgb(0 0 0 / 0.55), transparent 45%);
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.card:hover .scrim {
+  opacity: 1;
+}
+
+.caption {
+  position: absolute;
+  left: calc(var(--frame) + 12px);
+  bottom: calc(var(--frame) + 12px);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  translate: 0 10px;
+  transition:
+    opacity 300ms ease,
+    translate 300ms ease;
+}
+
+.card:hover .caption {
+  opacity: 1;
+  translate: 0 0;
+  /* trails in once the card has mostly straightened */
+  transition:
+    opacity 500ms var(--ease) 180ms,
+    translate 500ms var(--ease) 180ms;
+}
+
+@media (min-width: 768px) {
+  .strip {
+    --frame: 10px;
+    height: 19.2vw; /* card: 23vw → ≈26.3vw tall */
+  }
+  .card {
+    width: 23vw;
+  }
+  .card + .card {
+    margin-left: -4vw;
+  }
+}
+
+@media (min-width: 1024px) {
+  .strip {
+    --frame: 12px;
+    height: 16.3vw; /* card: 19.5vw → ≈22.3vw tall */
+  }
+  .card {
+    width: 19.5vw;
+  }
+  .card + .card {
+    margin-left: -2.5vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .scrim,
+  .caption {
+    transition-duration: 1ms;
+    transition-delay: 0s;
+  }
+}

@@ -72,7 +72,7 @@ export function Navbar() {
                 href={link.href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "after:bg-sky relative text-small font-medium transition-colors after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:transition-all after:duration-300 hover:after:w-full",
+                  "after:bg-sky relative text-nav transition-colors after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:transition-all after:duration-300 hover:after:w-full",
                   isSolid ? "text-navy/80 dark:text-cream/80" : "text-white/90",
                   isActive &&
                     (isSolid ? "text-navy dark:text-cream" : "text-white") +
@@ -95,7 +95,7 @@ export function Navbar() {
           <Link
             href={CONCIERGE_LINK.href}
             className={cn(
-              "text-small font-medium transition-colors",
+              "text-nav transition-colors",
               isSolid ? "text-navy dark:text-cream" : "text-white",
             )}
           >
@@ -132,7 +132,7 @@ export function Navbar() {
                 <Link
                   href={link.href}
                   className={cn(
-                    "text-navy/80 dark:text-cream/80 block text-body font-medium",
+                    "text-navy/80 dark:text-cream/80 block text-body",
                     pathname === link.href && "text-sky",
                   )}
                 >
