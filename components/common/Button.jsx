@@ -3,12 +3,10 @@ import { cn } from "@/lib/utils";
 
 const VARIANT_CLASSES = {
   primary: "bg-sky text-white hover:bg-[#0089b8] focus-visible:outline-sky",
-  secondary:
-    "bg-navy text-white hover:bg-navy/90 focus-visible:outline-navy dark:bg-cream dark:text-navy dark:hover:bg-white",
+  secondary: "bg-navy text-white hover:bg-navy/90 focus-visible:outline-navy",
   outline:
-    "border border-navy/20 text-navy hover:bg-navy/5 focus-visible:outline-navy/40 dark:border-cream/30 dark:text-cream dark:hover:bg-white/10",
-  ghost:
-    "text-navy hover:bg-navy/5 focus-visible:outline-navy/30 dark:text-cream dark:hover:bg-white/10",
+    "border border-navy/20 text-navy hover:bg-navy/5 focus-visible:outline-navy/40",
+  ghost: "text-navy hover:bg-navy/5 focus-visible:outline-navy/30",
 };
 
 const SIZE_CLASSES = {

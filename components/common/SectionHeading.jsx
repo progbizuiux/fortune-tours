@@ -20,13 +20,9 @@ export function SectionHeading({
           {eyebrow}
         </span>
       )}
-      <h2 className="font-heading text-h2 text-navy dark:text-cream">
-        {title}
-      </h2>
+      <h2 className="font-heading text-h2 text-navy">{title}</h2>
       {description && (
-        <p className="text-body text-navy/70 dark:text-cream/70 max-w-2xl">
-          {description}
-        </p>
+        <p className="text-body text-navy/70 max-w-2xl">{description}</p>
       )}
     </div>
   );

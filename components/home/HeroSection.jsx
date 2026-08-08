@@ -49,10 +49,13 @@ export function HeroSection() {
     { scope: containerRef },
   );
 
+  // Pinned to the top while the rest of the page scrolls up over it. z-0 keeps
+  // it at the bottom of the stacking order; every following block is z-10 so it
+  // paints on top rather than sliding underneath.
   return (
     <section
       ref={containerRef}
-      className="relative flex min-h-screen items-center justify-center overflow-hidden"
+      className="sticky top-0 z-0 flex min-h-screen items-center justify-center overflow-hidden"
     >
       {/* Without JS the entrance tweens never run, so reveal the copy up front. */}
       <noscript>

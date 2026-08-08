@@ -41,9 +41,7 @@ export function Navbar() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        isSolid
-          ? "bg-cream/90 dark:bg-navy/90 shadow-sm backdrop-blur-md"
-          : "bg-transparent",
+        isSolid ? "bg-cream/90 shadow-sm backdrop-blur-md" : "bg-transparent",
       )}
     >
       <Container className="flex h-20 items-center justify-between">
@@ -88,10 +86,9 @@ export function Navbar() {
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
                   "after:bg-sky relative text-small font-medium transition-colors after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:transition-all after:duration-300 hover:after:w-full",
-                  isSolid ? "text-navy/80 dark:text-cream/80" : "text-white/90",
+                  isSolid ? "text-navy/80" : "text-white/90",
                   isActive &&
-                    (isSolid ? "text-navy dark:text-cream" : "text-white") +
-                      " after:w-full",
+                    (isSolid ? "text-navy" : "text-white") + " after:w-full",
                 )}
               >
                 {link.label}
@@ -100,10 +97,7 @@ export function Navbar() {
           })}
 
           <span
-            className={cn(
-              "h-4 w-px",
-              isSolid ? "bg-navy/20 dark:bg-cream/20" : "bg-white/30",
-            )}
+            className={cn("h-4 w-px", isSolid ? "bg-navy/20" : "bg-white/30")}
             aria-hidden="true"
           />
 
@@ -111,7 +105,7 @@ export function Navbar() {
             href={CONCIERGE_LINK.href}
             className={cn(
               "text-small font-medium transition-colors",
-              isSolid ? "text-navy dark:text-cream" : "text-white",
+              isSolid ? "text-navy" : "text-white",
             )}
           >
             {CONCIERGE_LINK.label}
@@ -122,7 +116,7 @@ export function Navbar() {
           type="button"
           className={cn(
             "inline-flex items-center justify-center rounded-full p-2 lg:hidden",
-            isSolid ? "text-navy dark:text-cream" : "text-white",
+            isSolid ? "text-navy" : "text-white",
           )}
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMenuOpen}
@@ -138,7 +132,7 @@ export function Navbar() {
 
       {isMenuOpen && (
         <nav
-          className="border-navy/10 bg-cream dark:border-cream/10 dark:bg-navy border-t px-4 py-6 lg:hidden"
+          className="border-navy/10 bg-cream border-t px-4 py-6 lg:hidden"
           aria-label="Mobile"
         >
           <ul className="flex flex-col gap-4">
@@ -147,7 +141,7 @@ export function Navbar() {
                 <Link
                   href={link.href}
                   className={cn(
-                    "text-navy/80 dark:text-cream/80 block text-body font-medium",
+                    "text-navy/80 block text-body font-medium",
                     pathname === link.href && "text-sky",
                   )}
                 >

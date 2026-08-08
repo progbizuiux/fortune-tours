@@ -1,16 +1,14 @@
 @import "tailwindcss";
 @import "./design-system.css";
 
+/* Keeps the `dark:` variant class-gated rather than Tailwind v4's built-in
+   prefers-color-scheme default. Nothing applies `.dark` today, so this is what
+   stops OS dark mode from styling the site — do not remove it. */
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   --background: #ffffff;
   --foreground: #0c2233;
-}
-
-.dark {
-  --background: #0c2233;
-  --foreground: #faf7f2;
 }
 
 @theme inline {
@@ -34,12 +32,43 @@
   --font-sans:
     var(--font-poppins, "Poppins"), ui-sans-serif, system-ui, sans-serif;
 
-  /* Type scale — single source of truth (Fortune Tours style guide) */
-  --text-h1: 5.313rem; /* 85px — h1 */
-  --text-h2: 4.063rem; /* 65px — h2 */
-  --text-h4: 1.25rem; /* 20px — "Top heading" / eyebrow */
+  /* Type scale — single source of truth (Fortune Tours style guide).
+     Fluid: each clamp reaches the guide's exact size at ~1280px and above, so
+     desktop is unchanged, and scales down below that. Fixed px headings meant
+     an 85px h1 swallowed a 375px screen whole. */
+  --text-h1: clamp(2.75rem, 1.6875rem + 4.53vw, 5.313rem); /* 44 → 85px */
+  --text-h2: clamp(2.25rem, 1.5rem + 3.2vw, 4.063rem); /* 36 → 65px */
+  --text-h3: clamp(
+    1.75rem,
+    1.23rem + 2.21vw,
+    3rem
+  ); /* 28 → 48px; not in the
+                      guide, fills the 20→65px gap (Atlas/Credentials headings) */
+  --text-h4: clamp(1.125rem, 1.073rem + 0.22vw, 1.25rem); /* 18 → 20px */
   --text-body: 1.125rem; /* 18px — body text */
   --text-small: 1rem; /* 16px — small text */
+  /* Below the guide's 16px floor. The guide stops at "small text", but the
+     section designs use finer supporting copy, so these are named explicitly
+     rather than reusing Tailwind's text-sm/text-xs (too easy to confuse with
+     --text-small above). */
+  --text-caption: 0.875rem; /* 14px — sub-headings, supporting copy */
+  --text-micro: 0.75rem; /* 12px — card captions, fine print */
+}
+
+@theme {
+  /* Infinite left-scrolling marquee. The track renders its items twice, so
+     translating exactly -50% lands on an identical frame — the loop is
+     seamless with no jump. */
+  --animate-marquee: marquee 40s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
 }
 
 body {
