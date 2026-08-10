@@ -3,21 +3,14 @@ import Link from "next/link";
 import { Star } from "lucide-react";
 import { FaGoogle } from "react-icons/fa6";
 import { Container } from "@/components/common/Container";
-
-// Save the partner logos (transparent PNG or SVG) here, then flip the flag.
-const PARTNERS = [
-  { name: "Incredible India", src: "/credentials/incredible-india.png" },
-  { name: "OTOAI", src: "/credentials/otoai.png" },
-  { name: "IATA", src: "/credentials/iata.png" },
-  { name: "TAFI", src: "/credentials/tafi.png" },
-  { name: "Kerala Tourism", src: "/credentials/kerala.png" },
-];
+import { PartnerLogos } from "@/components/home/PartnerLogos";
 
 const REVIEWERS = [
-  { key: "r1", src: "/credentials/reviewer-1.jpg" },
-  { key: "r2", src: "/credentials/reviewer-2.jpg" },
-  { key: "r3", src: "/credentials/reviewer-3.jpg" },
-  { key: "r4", src: "/credentials/reviewer-4.jpg" },
+  { key: "r1", src: "/credentials/user-profile/Ellipse 2.svg" },
+  { key: "r2", src: "/credentials/user-profile/Ellipse 3.svg" },
+  { key: "r3", src: "/credentials/user-profile/Ellipse 4.svg" },
+  { key: "r4", src: "/credentials/user-profile/Ellipse 5.svg" },
+  { key: "r5", src: "/credentials/user-profile/Ellipse 6.svg" },
 ];
 
 // The design numbers the fourth column "III." as well — treated as a typo and
@@ -29,7 +22,7 @@ const REVIEWS = [
       "Planning to the final day was flawless. The itinerary was well designed, and every experience exceeded expectations.",
     name: "Sarah Johnson",
     rating: "4.6",
-    src: "/credentials/review-1.jpg",
+    src: "/credentials/image 191.png",
   },
   {
     numeral: "II.",
@@ -37,7 +30,7 @@ const REVIEWS = [
       "Our vacation was stress-free. The team handled details, letting us enjoy the journey and create memories.",
     name: "Rahul Menon",
     rating: "4.6",
-    src: "/credentials/review-2.jpg",
+    src: "/credentials/image 192.png",
   },
   {
     numeral: "III.",
@@ -45,7 +38,7 @@ const REVIEWS = [
       "Professional and knowledgeable. They suggested destinations we wouldn't have found. Highly recommended!",
     name: "Emily Carter",
     rating: "4.6",
-    src: "/credentials/review-3.jpg",
+    src: "/credentials/image 193.png",
   },
   {
     numeral: "IV.",
@@ -53,13 +46,12 @@ const REVIEWS = [
       "Visa help, hotel tips, and local experiences were great. The trip felt seamless and well-organised.",
     name: "Ahmed Al Mansouri",
     rating: "4.6",
-    src: "/credentials/review-4.jpg",
+    src: "/credentials/image 194.png",
   },
 ];
 
-const HAS_PARTNER_LOGOS = false;
-const HAS_REVIEWER_PHOTOS = false;
-const HAS_REVIEW_PHOTOS = false;
+const HAS_REVIEWER_PHOTOS = true;
+const HAS_REVIEW_PHOTOS = true;
 
 export function CredentialsSection() {
   return (
@@ -82,10 +74,10 @@ export function CredentialsSection() {
 
           <div className="flex shrink-0 flex-col items-start gap-3 lg:items-end">
             <div className="flex items-center">
-              {REVIEWERS.map((reviewer, index) => (
+              {REVIEWERS.slice(0, -1).map((reviewer, index) => (
                 <div
                   key={reviewer.key}
-                  className={`ring-cream bg-navy/15 relative size-12 overflow-hidden rounded-full ring-2 ${
+                  className={`ring-cream bg-navy/15 relative size-10 overflow-hidden rounded-full ring-2 ${
                     index > 0 ? "-ml-3" : ""
                   }`}
                 >
@@ -94,16 +86,30 @@ export function CredentialsSection() {
                       src={reviewer.src}
                       alt=""
                       fill
-                      sizes="48px"
+                      sizes="40px"
                       className="object-cover"
                     />
                   )}
                 </div>
               ))}
 
-              <span className="bg-sky ring-cream text-small -ml-3 inline-flex size-16 items-center justify-center rounded-full font-semibold text-white ring-2">
-                13k+
-              </span>
+              {/* Last avatar: profile image is the background, 13k+ overlaid on top */}
+              <div className="ring-cream bg-navy/15 relative -ml-3 size-14 overflow-hidden rounded-full ring-2">
+                {HAS_REVIEWER_PHOTOS && (
+                  <Image
+                    src={REVIEWERS[REVIEWERS.length - 1].src}
+                    alt=""
+                    fill
+                    sizes="56px"
+                    className="object-cover"
+                  />
+                )}
+                <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/45">
+                  <span className="text-small font-semibold text-white">
+                    13k+
+                  </span>
+                </div>
+              </div>
             </div>
 
             <p className="text-caption text-navy/70">
@@ -112,26 +118,7 @@ export function CredentialsSection() {
           </div>
         </div>
 
-        <ul className="mt-20 grid grid-cols-2 items-center justify-items-center gap-x-8 gap-y-12 sm:grid-cols-3 lg:mt-28 lg:grid-cols-5">
-          {PARTNERS.map((partner) => (
-            <li key={partner.name} className="flex justify-center">
-              {HAS_PARTNER_LOGOS ? (
-                <Image
-                  src={partner.src}
-                  alt={partner.name}
-                  width={200}
-                  height={80}
-                  sizes="200px"
-                  className="h-20 w-auto object-contain"
-                />
-              ) : (
-                <span className="text-small text-navy/40 flex h-20 items-center text-center font-semibold">
-                  {partner.name}
-                </span>
-              )}
-            </li>
-          ))}
-        </ul>
+        <PartnerLogos className="mt-20 lg:mt-28" />
 
         {/* The gap is a percentage so the column-to-gutter proportion holds at
             any width, matching the design's narrow cards and wide gutters. */}

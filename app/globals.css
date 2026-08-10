@@ -62,3 +62,18 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
 }
+
+/* ── Cloud marquee ────────────────────────────────────────────────── */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 90s linear infinite;
+}
+
+/* Same keyframes at logo speed — the partner strip loops in 28s. */
+.animate-marquee-logos {
+  animation: marquee 28s linear infinite;
+}

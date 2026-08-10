@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/common/Container";
 import { FullContainer } from "@/components/common/FullContainer";
+import { CloudTransition } from "@/components/home/CloudTransition";
 
 // Drop matching files into public/destinations/ and the placeholder below is
 // replaced automatically — no other change needed.
@@ -43,6 +44,8 @@ export function DestinationsSection() {
     // relative z-10 is required, not cosmetic: the hero is sticky (positioned),
     // so without a stacking position of its own this section would paint
     // underneath it instead of scrolling over it.
+    <>
+    <CloudTransition />
     <section className="bg-background relative z-10">
       {/* Vertical rhythm measured off the design: 40px above the eyebrow,
           24px to the heading, 12px to the sub-line, 56px down to the strip. */}
@@ -98,5 +101,6 @@ export function DestinationsSection() {
         </ul>
       </FullContainer>
     </section>
+    </>
   );
 }
