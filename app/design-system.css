@@ -17,16 +17,6 @@
   font-display: swap;
 }
 
-@theme inline {
-  /* Palette aliases. The canonical brand tokens (cream/navy/sky) live in
-     globals.css; --color-background is deliberately NOT redeclared here so the
-     theme-aware value in globals.css stays authoritative. */
-  --color-surface: #faf7f2;
-  --color-text: #000000;
-  --color-primary-dark: #0c2233;
-  --color-accent: #00a2d9;
-}
-
 /* ─── Global Type Scale ─────────────────────────────────────────────────── */
 /* Element defaults carrying the full Figma spec (family/size/weight/leading),
    so bare tags are correct without classes. The matching text-* utilities are
@@ -35,6 +25,7 @@
    every Tailwind utility, making text-* and font-* overrides silently no-op.
    (Never write "star-slash" inside this comment — it ends it early and the
    parser then eats the whole @layer block.) */
+
 @layer base {
   h1 {
     font-family: var(--font-heading);

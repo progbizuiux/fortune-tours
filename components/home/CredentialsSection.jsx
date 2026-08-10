@@ -1,0 +1,182 @@
+import Image from "next/image";
+import Link from "next/link";
+import { Star } from "lucide-react";
+import { FaGoogle } from "react-icons/fa6";
+import { Container } from "@/components/common/Container";
+import { PartnerLogos } from "@/components/home/PartnerLogos";
+
+const REVIEWERS = [
+  { key: "r1", src: "/credentials/user-profile/Ellipse 2.svg" },
+  { key: "r2", src: "/credentials/user-profile/Ellipse 3.svg" },
+  { key: "r3", src: "/credentials/user-profile/Ellipse 4.svg" },
+  { key: "r4", src: "/credentials/user-profile/Ellipse 5.svg" },
+  { key: "r5", src: "/credentials/user-profile/Ellipse 6.svg" },
+];
+
+// The design numbers the fourth column "III." as well — treated as a typo and
+// continued as IV so the sequence reads correctly.
+const REVIEWS = [
+  {
+    numeral: "I.",
+    quote:
+      "Planning to the final day was flawless. The itinerary was well designed, and every experience exceeded expectations.",
+    name: "Sarah Johnson",
+    rating: "4.6",
+    src: "/credentials/image 191.png",
+  },
+  {
+    numeral: "II.",
+    quote:
+      "Our vacation was stress-free. The team handled details, letting us enjoy the journey and create memories.",
+    name: "Rahul Menon",
+    rating: "4.6",
+    src: "/credentials/image 192.png",
+  },
+  {
+    numeral: "III.",
+    quote:
+      "Professional and knowledgeable. They suggested destinations we wouldn't have found. Highly recommended!",
+    name: "Emily Carter",
+    rating: "4.6",
+    src: "/credentials/image 193.png",
+  },
+  {
+    numeral: "IV.",
+    quote:
+      "Visa help, hotel tips, and local experiences were great. The trip felt seamless and well-organised.",
+    name: "Ahmed Al Mansouri",
+    rating: "4.6",
+    src: "/credentials/image 194.png",
+  },
+];
+
+const HAS_REVIEWER_PHOTOS = true;
+const HAS_REVIEW_PHOTOS = true;
+
+export function CredentialsSection() {
+  return (
+    // relative z-10 keeps it above the sticky hero, same as the other sections.
+    <section className="bg-cream relative z-10">
+      {/* Explicit padding rather than `spacing` (130/130): the design's block is
+          proportionally shorter — roughly 88px above the eyebrow and 40px below
+          the logo row at this width. */}
+      <Container className="pt-16 pb-10 lg:pt-22">
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
+          <div>
+            <p className="font-top text-h4 text-navy">
+              Chapter 03 - Credentials
+            </p>
+
+            <h2 className="font-heading text-h3 text-navy mt-6 max-w-xl">
+              Your journey, backed by excellence.
+            </h2>
+          </div>
+
+          <div className="flex shrink-0 flex-col items-start gap-3 lg:items-end">
+            <div className="flex items-center">
+              {REVIEWERS.slice(0, -1).map((reviewer, index) => (
+                <div
+                  key={reviewer.key}
+                  className={`ring-cream bg-navy/15 relative size-10 overflow-hidden rounded-full ring-2 ${
+                    index > 0 ? "-ml-3" : ""
+                  }`}
+                >
+                  {HAS_REVIEWER_PHOTOS && (
+                    <Image
+                      src={reviewer.src}
+                      alt=""
+                      fill
+                      sizes="40px"
+                      className="object-cover"
+                    />
+                  )}
+                </div>
+              ))}
+
+              {/* Last avatar: profile image is the background, 13k+ overlaid on top */}
+              <div className="ring-cream bg-navy/15 relative -ml-3 size-14 overflow-hidden rounded-full ring-2">
+                {HAS_REVIEWER_PHOTOS && (
+                  <Image
+                    src={REVIEWERS[REVIEWERS.length - 1].src}
+                    alt=""
+                    fill
+                    sizes="56px"
+                    className="object-cover"
+                  />
+                )}
+                <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/45">
+                  <span className="text-small font-semibold text-white">
+                    13k+
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <p className="text-caption text-navy/70">
+              4.8 Rating from 13K+ Google Reviews
+            </p>
+          </div>
+        </div>
+
+        <PartnerLogos className="mt-20 lg:mt-28" />
+
+        {/* The gap is a percentage so the column-to-gutter proportion holds at
+            any width, matching the design's narrow cards and wide gutters. */}
+        {/* Four across only from xl: at lg the 8% gutters squeezed each card to
+            ~161px, too narrow for the name + rating overlay to read. */}
+        <ul className="mt-20 grid grid-cols-1 gap-x-10 gap-y-14 sm:grid-cols-2 lg:mt-28 xl:grid-cols-4 xl:gap-x-[8%]">
+          {REVIEWS.map((review) => (
+            // The divider is a pseudo-element sitting in the gutter rather than
+            // a border + padding: padding would shrink every column except the
+            // first, leaving card 1 visibly wider than the other three.
+            <li
+              key={review.numeral}
+              className="xl:before:bg-navy/15 relative flex flex-col xl:before:absolute xl:before:top-0 xl:before:-left-[4%] xl:before:h-full xl:before:w-px xl:before:content-[''] xl:first:before:hidden"
+            >
+              <p className="text-caption text-navy/70">{review.numeral}</p>
+
+              <p className="text-small text-navy mt-8">{review.quote}</p>
+
+              <div className="bg-navy/10 relative mt-10 aspect-5/6 w-full overflow-hidden">
+                {HAS_REVIEW_PHOTOS && (
+                  <Image
+                    src={review.src}
+                    alt=""
+                    fill
+                    sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
+                    className="object-cover"
+                  />
+                )}
+
+                <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 bg-gradient-to-t from-black/70 to-transparent p-4">
+                  <span className="text-small truncate font-medium text-white">
+                    {review.name}
+                  </span>
+
+                  <span className="flex shrink-0 items-center gap-2 text-white">
+                    <FaGoogle className="size-4" aria-hidden="true" />
+                    <span className="h-4 w-px bg-white/40" aria-hidden="true" />
+                    <Star className="size-4 fill-white" aria-hidden="true" />
+                    <span className="text-caption">{review.rating}</span>
+                    <span className="sr-only">out of 5 on Google</span>
+                  </span>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-16 flex items-center justify-center gap-6">
+          <span className="bg-navy/20 h-6 w-px" aria-hidden="true" />
+          <Link
+            href="/reviews"
+            className="text-body text-navy hover:text-sky transition-colors"
+          >
+            View more
+          </Link>
+          <span className="bg-navy/20 h-6 w-px" aria-hidden="true" />
+        </div>
+      </Container>
+    </section>
+  );
+}
