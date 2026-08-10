@@ -1,6 +1,8 @@
 import { HeroSection } from "@/components/home/HeroSection";
 import { DestinationsSection } from "@/components/home/DestinationsSection";
 import { CredentialsSection } from "@/components/home/CredentialsSection";
+import { DeparturesSection } from "@/components/home/DeparturesSection";
+import { JournalSection } from "@/components/home/JournalSection";
 import { PolaroidGallery } from "@/components/home/PolaroidGallery";
 
 export default function Home() {
@@ -16,6 +18,8 @@ export default function Home() {
         <DestinationsSection />
       </div>
       <CredentialsSection />
+      <DeparturesSection />
+      <JournalSection />
       <PolaroidGallery />
     </>
   );
