@@ -54,10 +54,9 @@ export function SectionHeading({
         {description && (
           <p
             className={cn(
-              !centered && "max-w-lg",
               centered
-                ? "text-black/80 dark:text-cream/80"
-                : "text-navy/70 dark:text-cream/70 md:text-right",
+                ? "max-w-xl text-black/80 dark:text-cream/80"
+                : "max-w-lg text-navy/70 dark:text-cream/70 md:text-right",
             )}
           >
             {description}

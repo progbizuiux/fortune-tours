@@ -1,4 +1,6 @@
 import { HeroSection } from "@/components/home/HeroSection";
+import { TravelStylesSection } from "@/components/home/TravelStylesSection";
+import { GlobeSection } from "@/components/home/GlobeSection";
 import { DestinationsSection } from "@/components/home/DestinationsSection";
 import { CredentialsSection } from "@/components/home/CredentialsSection";
 import { DeparturesSection } from "@/components/home/DeparturesSection";
@@ -19,9 +21,11 @@ export default function Home() {
         <DestinationsSection />
       </div>
       <CredentialsSection />
+      <TravelStylesSection />
+      <FeaturedDestinations />
       <DeparturesSection />
       <JournalSection />
-      <FeaturedDestinations />
+      <GlobeSection />
       <PolaroidGallery />
     </>
   );
