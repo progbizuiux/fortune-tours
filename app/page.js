@@ -4,6 +4,7 @@ import { CredentialsSection } from "@/components/home/CredentialsSection";
 import { DeparturesSection } from "@/components/home/DeparturesSection";
 import { JournalSection } from "@/components/home/JournalSection";
 import { PolaroidGallery } from "@/components/home/PolaroidGallery";
+import { FeaturedDestinations } from "@/components/home/FeaturedDestinations";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <CredentialsSection />
       <DeparturesSection />
       <JournalSection />
+      <FeaturedDestinations />
       <PolaroidGallery />
     </>
   );
