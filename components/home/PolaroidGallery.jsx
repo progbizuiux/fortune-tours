@@ -23,7 +23,6 @@ const POLAROIDS = [
     rotate: "-6deg",
     offsetY: "5%",
     z: 4,
-    className: "hidden md:block",
   },
   {
     src: "/home/image-4.png",
@@ -40,7 +39,6 @@ const POLAROIDS = [
     rotate: "-5deg",
     offsetY: "13%",
     z: 2,
-    className: "hidden lg:block",
   },
   {
     src: "/home/image-1.png",
@@ -81,7 +79,7 @@ export function PolaroidGallery() {
                 <div className={styles.scrim} aria-hidden="true" />
               </div>
               <figcaption className={styles.caption}>
-                <FaInstagram aria-hidden="true" className="size-4" />
+                <FaInstagram aria-hidden="true" className="size-3 md:size-4" />
                 {shot.handle}
               </figcaption>
             </figure>

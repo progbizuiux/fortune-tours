@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Star } from "lucide-react";
 import { FaGoogle } from "react-icons/fa6";
 import { Container } from "@/components/common/Container";
+import { FrameButton } from "@/components/common/FrameButton";
 import { PartnerLogos } from "@/components/home/PartnerLogos";
 
 const REVIEWERS = [
@@ -63,11 +64,11 @@ export function CredentialsSection() {
       <Container className="pt-16 pb-10 lg:pt-22">
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <p className="font-top text-h4 text-navy">
+            <p className="font-top max-sm:text-[12px] max-sm:leading-none text-h4 lg:text-[20px] lg:leading-none text-navy">
               Chapter 03 - Credentials
             </p>
 
-            <h2 className="font-heading text-h3 text-navy mt-6 max-w-xl">
+            <h2 className="font-heading max-sm:text-[30px] max-sm:leading-none max-sm:tracking-[-0.01em] text-h3 lg:text-[65px] lg:leading-none lg:tracking-[-0.01em] text-navy mt-6 max-w-xl lg:max-w-3xl">
               Your journey, backed by excellence.
             </h2>
           </div>
@@ -112,7 +113,7 @@ export function CredentialsSection() {
               </div>
             </div>
 
-            <p className="text-caption text-navy/70">
+            <p className="max-sm:font-light max-sm:text-[11px] max-sm:leading-[14px] text-caption lg:font-light lg:text-[18px] lg:leading-6 text-navy/70 lg:text-black/80">
               4.8 Rating from 13K+ Google Reviews
             </p>
           </div>
@@ -124,20 +125,22 @@ export function CredentialsSection() {
             any width, matching the design's narrow cards and wide gutters. */}
         {/* Four across only from xl: at lg the 8% gutters squeezed each card to
             ~161px, too narrow for the name + rating overlay to read. */}
-        <ul className="mt-20 grid grid-cols-1 gap-x-10 gap-y-14 sm:grid-cols-2 lg:mt-28 xl:grid-cols-4 xl:gap-x-[8%]">
-          {REVIEWS.map((review) => (
+        <ul className="mt-20 grid grid-cols-2 max-sm:gap-x-4 gap-x-10 max-sm:gap-y-8 gap-y-14 sm:grid-cols-2 lg:mt-28 xl:grid-cols-4 xl:gap-x-[8%]">
+          {REVIEWS.map((review, i) => (
             // The divider is a pseudo-element sitting in the gutter rather than
             // a border + padding: padding would shrink every column except the
             // first, leaving card 1 visibly wider than the other three.
             <li
               key={review.numeral}
-              className="xl:before:bg-navy/15 relative flex flex-col xl:before:absolute xl:before:top-0 xl:before:-left-[4%] xl:before:h-full xl:before:w-px xl:before:content-[''] xl:first:before:hidden"
+              className={`before:bg-navy/15 relative flex flex-col before:absolute before:top-0 max-sm:before:-left-2 sm:max-xl:before:-left-5 xl:before:-left-[4%] before:h-full before:w-px before:content-[''] xl:first:before:hidden ${i >= 2 ? "max-xl:hidden" : ""}`}
             >
               <p className="text-caption text-navy/70">{review.numeral}</p>
 
-              <p className="text-small text-navy mt-8">{review.quote}</p>
+              <p className="max-sm:font-light max-sm:text-[12px] max-sm:leading-[1.2] max-sm:tracking-[-0.3px] text-small lg:font-light lg:text-[18px] lg:leading-[1.2] lg:tracking-[-1.4px] text-navy lg:text-[#333333] mt-8">
+                {review.quote}
+              </p>
 
-              <div className="bg-navy/10 relative mt-10 aspect-5/6 w-full overflow-hidden">
+              <div className="bg-navy/10 relative mt-10 grow aspect-5/6 max-sm:aspect-[179/216] lg:aspect-[319/386] w-full overflow-hidden">
                 {HAS_REVIEW_PHOTOS && (
                   <Image
                     src={review.src}
@@ -167,14 +170,7 @@ export function CredentialsSection() {
         </ul>
 
         <div className="mt-16 flex items-center justify-center gap-6">
-          <span className="bg-navy/20 h-6 w-px" aria-hidden="true" />
-          <Link
-            href="/reviews"
-            className="text-body text-navy hover:text-sky transition-colors"
-          >
-            View more
-          </Link>
-          <span className="bg-navy/20 h-6 w-px" aria-hidden="true" />
+          <FrameButton variant="rail">View more</FrameButton>
         </div>
       </Container>
     </section>
