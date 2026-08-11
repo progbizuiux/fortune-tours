@@ -54,7 +54,7 @@ export function PolaroidGallery() {
   return (
     <section
       aria-label="Travel moments from our journeys"
-      className="bg-cream overflow-hidden pt-[17vw] md:pt-[10vw] lg:pt-[8.5vw]"
+      className="overflow-hidden pt-[17vw] md:pt-[10vw] lg:pt-[8.5vw]"
     >
       {/* <ul className={styles.strip}> */}
       <AnimateIn
