@@ -1,10 +1,12 @@
-// "use client";
+"use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { AnimateIn } from "@/components/common/AnimateIn";
 import { FrameButton } from "@/components/common/FrameButton";
+import { useReveal } from "@/lib/useReveal";
 
 const STYLES = [
   {
@@ -58,6 +60,17 @@ const STYLES = [
 ];
 
 export function TravelStylesSection() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const scrollRef = useReveal({ stagger: 0.08, y: 40 });
+
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const scrollLeft = scrollRef.current.scrollLeft;
+    const childWidth = scrollRef.current.children[0].offsetWidth;
+    const gap = 6; // gap-1.5 is 6px
+    const index = Math.round(scrollLeft / (childWidth + gap));
+    setActiveIndex(index);
+  };
 
   return (
     <section
@@ -74,17 +87,15 @@ export function TravelStylesSection() {
       </Container>
 
       {/* Full-bleed style cards: 6px outer margin + 6px gap (Figma) */}
-      <AnimateIn
-        as="ul"
-        stagger={0.08}
-
-        y={40}
-        className="mt-16 grid grid-cols-2 gap-1.5 px-1.5 sm:grid-cols-4 lg:grid-cols-8"
+      <ul
+        ref={scrollRef}
+        onScroll={handleScroll}
+        className="mt-16 max-lg:flex max-lg:overflow-x-auto max-lg:snap-x max-lg:snap-mandatory grid grid-cols-2 gap-1.5 px-1.5 sm:grid-cols-4 lg:grid-cols-8 max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden"
       >
         {STYLES.map((style) => (
           <li
             key={style.key}
-            className="relative aspect-[234/397] overflow-hidden"
+            className="max-lg:snap-center max-lg:shrink-0 max-sm:w-[142px] sm:max-lg:w-[35vw] relative max-sm:aspect-[142/233] aspect-[234/397] overflow-hidden w-full"
           >
             <Image
               src={style.image}
@@ -99,7 +110,7 @@ export function TravelStylesSection() {
               aria-hidden="true"
             />
 
-            <span className="text-body pointer-events-none absolute inset-x-0 top-6 text-center text-white">
+            <span className="text-body max-sm:font-light max-sm:text-[12px] max-sm:leading-6 pointer-events-none absolute inset-x-0 top-6 text-center text-white">
               I want.
             </span>
 
@@ -112,7 +123,20 @@ export function TravelStylesSection() {
             </span>
           </li>
         ))}
-      </AnimateIn>
+      </ul>
+
+      {/* Pagination Dots (Mobile Only) */}
+      <div className="mt-6 flex justify-center gap-[4px] lg:hidden">
+        {STYLES.map((_, i) => (
+          <span
+            key={i}
+            className={`h-[7px] w-[7px] transition-colors ${
+              i === activeIndex ? "bg-black" : "bg-black/20"
+            }`}
+            aria-hidden="true"
+          />
+        ))}
+      </div>
 
       <AnimateIn y={16} className="mt-24 flex justify-center">
         <FrameButton variant="rail">Reveal my journeys.</FrameButton>

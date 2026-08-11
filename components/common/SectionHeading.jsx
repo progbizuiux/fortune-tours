@@ -32,7 +32,7 @@ export function SectionHeading({
       {eyebrow && (
         <span
           className={cn(
-            "font-top text-h4",
+            "font-top max-lg:text-[12px] max-lg:leading-none text-h4",
             centered
               ? "text-black dark:text-cream"
               : "text-navy/70 dark:text-cream/70",
@@ -50,12 +50,13 @@ export function SectionHeading({
             : "md:flex-row md:items-end md:justify-between md:gap-8",
         )}
       >
-        <h2 className="text-navy dark:text-cream">{title}</h2>
+        <h2 className="max-lg:text-[30px] max-lg:leading-none max-lg:tracking-[-0.01em] text-navy dark:text-cream">{title}</h2>
         {description && (
           <p
             className={cn(
+              "max-lg:text-[13px] max-lg:font-light max-lg:leading-[1.2]",
               centered
-                ? "max-w-xl text-black/80 dark:text-cream/80"
+                ? "max-lg:max-w-[283px] max-w-xl text-black/80 dark:text-cream/80"
                 : "max-w-lg text-navy/70 dark:text-cream/70 md:text-right",
             )}
           >
