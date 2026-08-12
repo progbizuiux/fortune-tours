@@ -15,25 +15,25 @@ const DESTINATIONS = [
     name: "Japan.",
     caption: "Temples, cities, blossoms.",
     href: "/destinations/japan",
-    image: "/destination/japan.png",
+    image: "/destination/japan.avif",
   },
   {
     name: "Switzerland.",
     caption: "Wake up in the Alps.",
     href: "/destinations/switzerland",
-    image: "/destination/switzerland.png",
+    image: "/destination/switzerland.avif",
   },
   {
     name: "India.",
     caption: "Where time slows.",
     href: "/destinations/india",
-    image: "/destination/india.png",
+    image: "/destination/india.avif",
   },
   {
     name: "Norway.",
     caption: "Chase northern lights.",
     href: "/destinations/norway",
-    image: "/destination/norway.png",
+    image: "/destination/norway.avif",
   },
 ];
 
