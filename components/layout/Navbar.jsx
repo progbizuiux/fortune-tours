@@ -17,19 +17,34 @@ const NAV_LINKS = [
 
 const CONCIERGE_LINK = { label: "Concierge", href: "/concierge" };
 
+// Must match the header's `h-20` below.
+const NAVBAR_HEIGHT = 80;
+
 export function Navbar() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
+    // Stay transparent over the hero and turn solid the moment the next
+    // section's top edge slides under the bar. Resolved from the marked
+    // element rather than a scroll offset so it tracks the real section
+    // boundary instead of the hero's assumed height. Pages that don't mark
+    // one fall back to turning solid as soon as the page moves.
+    const trigger = document.querySelector("[data-navbar-solid-from]");
+
     function handleScroll() {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(
+        trigger
+          ? trigger.getBoundingClientRect().top <= NAVBAR_HEIGHT
+          : window.scrollY > 20,
+      );
     }
+
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -41,7 +56,7 @@ export function Navbar() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        isSolid ? "bg-cream/90 shadow-sm backdrop-blur-md" : "bg-transparent",
+        isSolid ? "bg-white/90 shadow-sm backdrop-blur-md" : "bg-transparent",
       )}
     >
       <Container className="flex h-20 items-center justify-between">
@@ -132,7 +147,7 @@ export function Navbar() {
 
       {isMenuOpen && (
         <nav
-          className="border-navy/10 bg-cream border-t px-4 py-6 lg:hidden"
+          className="border-navy/10 bg-white border-t px-4 py-6 lg:hidden"
           aria-label="Mobile"
         >
           <ul className="flex flex-col gap-4">
