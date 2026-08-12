@@ -1,5 +1,9 @@
 @import "tailwindcss";
 @import "./design-system.css";
+/* Required by Lenis (see providers/LenisProvider.jsx): unpins html/body height,
+   makes lenis.stop() actually lock scrolling, and stops iframes from eating the
+   wheel. Without it the scroller mostly works but those cases silently break. */
+@import "lenis/dist/lenis.css";
 
 /* Keeps the `dark:` variant class-gated rather than Tailwind v4's built-in
    prefers-color-scheme default. Nothing applies `.dark` today, so this is what
