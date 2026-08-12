@@ -6,6 +6,9 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/common/Container";
+import { CtaLink } from "@/components/common/CtaLink";
+import { SectionHeading } from "@/components/common/SectionHeading";
+import { FrameButton } from "@/components/common/FrameButton";
 
 // Tab casing follows the design frame verbatim.
 const CATEGORIES = [
@@ -96,7 +99,18 @@ export function FeaturedDestinations() {
   };
 
   return (
-    <section className="bg-navy relative z-10 overflow-hidden">
+    <section className="relative z-10">
+      <div className="bg-background">
+        <Container className="pt-16 pb-10 lg:pb-16 lg:pt-24">
+          <SectionHeading
+            eyebrow="Chapter 05 — Signature"
+            title="Where will your next journey?"
+            description="Explore curated destinations that match your travel dreams and create lasting memories."
+          />
+        </Container>
+      </div>
+
+      <div className="bg-navy relative overflow-hidden">
       {/* Active slide echoed as the dimmed full-bleed backdrop */}
       <div key={`bg-${active.key}`} className="animate-fade-in absolute inset-0">
         <Image
@@ -110,20 +124,20 @@ export function FeaturedDestinations() {
         <div className="absolute inset-0 bg-black/55" />
       </div>
 
-      <Container className="relative flex min-h-screen flex-col pt-10 pb-10 lg:pt-14 lg:pb-11">
+      <Container className="relative flex max-lg:min-h-0 lg:min-h-screen flex-col pt-10 pb-10 lg:pt-14 lg:pb-11">
         {/* Category tabs — individually outlined boxes with small gaps;
             the active tab flips to solid white, as in the design. */}
-        <div className="flex flex-wrap gap-3 lg:justify-end">
+        <div className="flex max-lg:flex-nowrap max-lg:overflow-x-auto max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden flex-wrap gap-3 lg:justify-end">
           {CATEGORIES.map((tab) => (
             <button
               key={tab.key}
               type="button"
               onClick={() => selectCategory(tab.key)}
               className={cn(
-                "text-nav border px-5 py-3.5 transition-colors",
+                "text-nav max-sm:text-[11px] max-sm:px-3 max-sm:py-2 whitespace-nowrap border px-5 py-3.5 transition-colors",
                 tab.key === category
                   ? "border-white bg-white text-navy"
-                  : "border-white/25 text-white/90 hover:bg-white/10",
+                  : "border-white/25 border-y-transparent text-white/90 hover:bg-white/10",
               )}
             >
               {tab.label}
@@ -133,32 +147,27 @@ export function FeaturedDestinations() {
 
         {/* mt-auto drops the content block to the section's bottom edge;
             items-end aligns the copy's CTA with the card bottoms. */}
-        <div className="mt-auto flex flex-col gap-14 pt-14 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
+        <div className="max-lg:mt-10 lg:mt-auto flex flex-col max-lg:gap-8 lg:gap-14 max-lg:pt-0 lg:pt-14 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
           {/* Active destination copy */}
           {/* pb offsets the controls bar under the rail (28px gap + 60px
               buttons) so the CTA baseline aligns with the card bottoms,
               matching the design. */}
           <div
             key={`copy-${active.key}`}
-            className="animate-fade-in max-w-[452px] shrink-0 lg:pb-[88px]"
+            className="animate-fade-in max-w-[452px] shrink-0 lg:pb-[88px] max-lg:flex max-lg:flex-col max-lg:items-center max-lg:text-center max-lg:mx-auto"
           >
-            <p className="font-top text-h4 text-white/95">{active.location}</p>
+            <p className="font-top max-sm:text-[12px] max-sm:leading-none text-h4 text-white/95">{active.location}</p>
 
-            <h2 className="font-heading text-h3 lg:text-[2.5rem] mt-8 leading-none text-white">
+            <h2 className="font-heading max-sm:text-[25px] max-sm:tracking-[-0.01em] max-sm:mt-4 text-h3 lg:text-[2.5rem] mt-8 leading-none text-white">
               {active.title}
             </h2>
 
-            <p className="text-body mt-5 text-white/85">{active.description}</p>
+            <p className="text-body max-sm:font-light max-sm:text-[12px] max-sm:leading-[120%] mt-5 text-white/80">{active.description}</p>
 
-            <div className="text-body mt-16 flex items-center gap-4 text-white/95">
-              <span className="h-6 w-px bg-white/40" aria-hidden="true" />
-              <Link
-                href="/destinations"
-                className="hover:text-sky px-1 transition-colors"
-              >
+            <div className="text-body mt-16 flex items-center gap-4 text-white/95 max-lg:hidden">
+              <CtaLink href="/destinations" className="px-1" withLeftDivider>
                 Explore the destination
-              </Link>
-              <span className="h-6 w-px bg-white/40" aria-hidden="true" />
+              </CtaLink>
             </div>
           </div>
 
@@ -172,15 +181,15 @@ export function FeaturedDestinations() {
                 edge (scrollable, scrollbar hidden) — on narrower desktops the
                 fixed-size cards would otherwise spill into a page-wide
                 horizontal scroll. */}
-            <div className="flex items-end gap-[13px] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex items-end gap-[13px] overflow-x-auto max-lg:justify-center [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {visible.map((slide, i) => (
                 <figure
                   key={`${slide.key}-${i}`}
                   className={cn(
                     "animate-fade-in relative shrink-0 overflow-hidden",
                     i === 0
-                      ? "aspect-424/545 w-[280px] sm:w-[340px] lg:w-[384px]"
-                      : "aspect-352/454 w-[230px] sm:w-[280px] lg:w-[318px]",
+                      ? "aspect-424/545 max-sm:aspect-[300/384] w-full max-w-[300px] sm:w-[340px] lg:w-[384px]"
+                      : "aspect-352/454 w-[230px] sm:w-[280px] lg:w-[318px] max-lg:hidden",
                   )}
                 >
                   <Image
@@ -190,7 +199,8 @@ export function FeaturedDestinations() {
                     sizes="(min-width: 1024px) 424px, 340px"
                     className="object-cover"
                   />
-                  <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent p-6">
+                  {/* Hide the inner text block on mobile since the location is already shown in the copy block */}
+                  <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent p-6 max-lg:hidden">
                     <span className="font-top text-h4 text-white">
                       {slide.location}
                     </span>
@@ -199,7 +209,8 @@ export function FeaturedDestinations() {
               ))}
             </div>
 
-            <div className="mt-7 flex items-center justify-between gap-6 lg:pr-20">
+            {/* Desktop Controls */}
+            <div className="mt-7 flex items-center justify-between gap-6 lg:pr-20 max-lg:hidden">
               <div className="flex gap-4">
                 <button
                   type="button"
@@ -220,18 +231,40 @@ export function FeaturedDestinations() {
               </div>
 
               <div className="text-body flex items-center gap-4 text-white/95">
-                <Link
-                  href="/destinations"
-                  className="hover:text-sky transition-colors"
-                >
+                <CtaLink href="/destinations">
                   View all destinations
-                </Link>
-                <span className="h-6 w-px bg-white/40" aria-hidden="true" />
+                </CtaLink>
               </div>
+            </div>
+
+            {/* Mobile Controls */}
+            <div className="mt-7 flex items-center justify-between gap-4 lg:hidden w-full max-w-[300px] mx-auto">
+              <button
+                type="button"
+                onClick={() => setIndex((i) => (i - 1 + count) % count)}
+                aria-label="Previous destination"
+                className="flex size-10 items-center justify-center border border-white/30 text-white transition-colors hover:bg-white/10"
+              >
+                <ChevronLeft className="size-5" strokeWidth={1.5} aria-hidden="true" />
+              </button>
+
+              <FrameButton variant="rail" className="max-sm:text-[12px] text-white/95 max-sm:font-light px-4">
+                Explore the destination
+              </FrameButton>
+
+              <button
+                type="button"
+                onClick={() => setIndex((i) => (i + 1) % count)}
+                aria-label="Next destination"
+                className="flex size-10 items-center justify-center border border-white/30 text-white transition-colors hover:bg-white/10"
+              >
+                <ChevronRight className="size-5" strokeWidth={1.5} aria-hidden="true" />
+              </button>
             </div>
           </div>
         </div>
       </Container>
+      </div>
     </section>
   );
 }

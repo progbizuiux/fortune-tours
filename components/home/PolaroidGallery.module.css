@@ -17,12 +17,12 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  height: 30vw; /* card: 36vw × 461/403 ≈ 41.2vw tall */
+  height: 122px; /* card: 147px × 461/403 ≈ 168px tall. 168 * 0.73 = 122 */
 }
 
 .card {
   position: relative;
-  width: 36vw;
+  width: 147px; /* 135px image + 12px padding */
   aspect-ratio: 403 / 461;
   z-index: var(--z);
   rotate: var(--r);
@@ -37,7 +37,7 @@
 }
 
 .card + .card {
-  margin-left: -9vw;
+  margin-left: -37px;
 }
 
 .card:hover {
@@ -90,13 +90,13 @@
 
 .caption {
   position: absolute;
-  left: calc(var(--frame) + 12px);
-  bottom: calc(var(--frame) + 12px);
+  left: calc(var(--frame) + 6px);
+  bottom: calc(var(--frame) + 6px);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
   color: #fff;
-  font-size: 0.8rem;
+  font-size: 0.65rem;
   font-weight: 500;
   letter-spacing: 0.02em;
   opacity: 0;
@@ -125,6 +125,12 @@
   }
   .card + .card {
     margin-left: -4vw;
+  }
+  .caption {
+    left: calc(var(--frame) + 12px);
+    bottom: calc(var(--frame) + 12px);
+    font-size: 0.8rem;
+    gap: 0.5rem;
   }
 }
 

@@ -151,7 +151,7 @@ export function DeparturesSection() {
             active chip keeps transparent ones so the row never shifts */}
         <div
           ref={tabsRef}
-          className="mt-16 flex flex-wrap items-center justify-center gap-8"
+          className="mt-16 flex max-xl:flex-nowrap max-xl:overflow-x-auto max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden flex-wrap items-center justify-center gap-2 sm:gap-4 lg:gap-6 xl:gap-8"
         >
           {MONTHS.map((month) => (
             <button
@@ -160,7 +160,11 @@ export function DeparturesSection() {
               aria-pressed={activeKey === month.key}
               onClick={() => setActiveKey(month.key)}
               className={cn(
-                "text-body border-x px-7 py-3 transition-colors cursor-pointer",
+                "whitespace-nowrap border-x transition-colors cursor-pointer",
+                "text-[12px] px-3 py-1.5",
+                "sm:text-[14px] sm:px-4 sm:py-2",
+                "lg:text-[16px] lg:px-5 lg:py-2.5",
+                "xl:text-[18px] xl:px-7 xl:py-3",
                 activeKey === month.key
                   ? "border-transparent bg-black text-white"
                   : "border-black/20 text-black/80 hover:text-black dark:border-cream/20 dark:text-cream/80 dark:hover:text-cream",
@@ -173,11 +177,11 @@ export function DeparturesSection() {
       </Container>
 
       {/* Full-bleed departure cards: 6px outer margin + 6px gap (Figma) */}
-      <ul ref={cardsRef} className="mt-20 grid gap-1.5 px-1.5 md:grid-cols-2">
+      <ul ref={cardsRef} className="max-sm:mt-8 mt-20 grid gap-1.5 px-1.5 md:grid-cols-2">
         {DEPARTURES[activeKey].map((trip) => (
           <li
             key={trip.title}
-            className="departure-card relative aspect-[951/696] overflow-hidden"
+            className="departure-card relative max-sm:aspect-[432/273] aspect-[951/696] overflow-hidden"
           >
             <Image
               src={trip.image}
@@ -193,13 +197,13 @@ export function DeparturesSection() {
               aria-hidden="true"
             />
 
-            <div className="absolute inset-0 flex flex-col justify-between p-6 sm:p-8 md:pt-11 md:pb-16">
-              <span className="text-body text-white/80">
+            <div className="absolute inset-0 flex flex-col justify-between p-5 sm:p-8 md:pt-11 md:pb-16">
+              <span className="text-body max-sm:text-[12px] max-sm:font-light text-white/80">
                 {activeMonth.name}.
               </span>
               <div>
-                <h3 className="text-white">{trip.title}</h3>
-                <p className="mt-3 text-white/80">{trip.meta}</p>
+                <h3 className="text-white max-sm:text-[18px] max-sm:leading-none max-sm:tracking-[-0.01em]">{trip.title}</h3>
+                <p className="mt-3 max-sm:mt-1 max-sm:text-[12px] max-sm:leading-6 max-sm:font-normal text-white/80">{trip.meta}</p>
               </div>
             </div>
           </li>

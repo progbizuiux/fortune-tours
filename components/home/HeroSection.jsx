@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import Link from "next/link";
 import { Container } from "@/components/common/Container";
+import { CtaLink } from "@/components/common/CtaLink";
 import { gsap, useGSAP } from "@/lib/gsap";
 
 const CTA_LINKS = [
@@ -81,39 +82,39 @@ export function HeroSection() {
         <div className="absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-black/20 to-transparent" />
       </div>
 
-      <Container className="relative flex flex-col items-center gap-6 pt-20 text-center">
-        <span className="hero-eyebrow font-top text-h4 text-white/90 opacity-0">
+      <Container className="relative flex flex-col items-center max-md:gap-4 gap-6 pt-20 text-center">
+        <span className="hero-eyebrow font-top max-md:text-[13px] text-h4 text-white/90 opacity-0">
           Fortune Tours &amp; Travels — Est. 1998
         </span>
 
-        <h1 className="hero-heading font-heading text-h1 max-w-4xl text-white opacity-0">
+        <h1 className="hero-heading font-heading max-md:text-[42px] max-md:leading-none text-h1 max-md:max-w-[400px] max-w-4xl text-white opacity-0">
           The journey begins before you leave home.
         </h1>
 
-        <p className="hero-description text-body max-w-lg text-white/90 opacity-0">
+        <p className="hero-description max-md:text-[13px] max-md:leading-[1.2] text-body max-md:max-w-[313px] max-w-lg max-md:text-white/80 text-white/90 opacity-0 max-md:px-4">
           Travel isn&apos;t measured by miles. It&apos;s measured by moments
           that stay with you forever.
         </p>
 
-        <div className="hero-cta mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-body text-white/90 opacity-0">
+        <div className="hero-cta mt-4 flex flex-wrap items-center justify-center max-md:gap-4 gap-x-6 gap-y-3 max-md:text-[13px] max-md:leading-6 text-body text-white/90 opacity-0">
           {/* Dividers are hidden below sm, where the row wraps and would
               otherwise strand a bar at the start of a new line. */}
           <span
             className="hidden h-4 w-px bg-white/30 sm:block"
             aria-hidden="true"
           />
-          {CTA_LINKS.map((link) => (
-            <span key={link.href} className="flex items-center gap-6">
-              <Link
+          {CTA_LINKS.map((link, i) => (
+            <span key={link.href} className="flex items-center max-md:gap-4 gap-6">
+              <CtaLink
                 href={link.href}
-                className="hover:text-sky transition-colors"
+                dividerClassName={
+                  i === CTA_LINKS.length - 1
+                    ? "hidden h-4 w-px bg-white/30 sm:block"
+                    : "max-sm:block max-sm:h-3 hidden h-4 w-px bg-white/30 sm:block"
+                }
               >
                 {link.label}
-              </Link>
-              <span
-                className="hidden h-4 w-px bg-white/30 sm:block"
-                aria-hidden="true"
-              />
+              </CtaLink>
             </span>
           ))}
         </div>

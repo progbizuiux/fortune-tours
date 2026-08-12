@@ -6,9 +6,9 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 
 /* Palette sampled from the Figma globe section */
-const GLOBE_BODY = "#f6ecd9";
+const GLOBE_BODY = "#FAF7F2";
 
-const GLOBE_RADIUS = 2.28;
+const GLOBE_RADIUS = 4.0;
 const GLOBE_URL = "/models/Globe.glb";
 /* Arctic-facing view: pole tilted toward the camera so Greenland/Iceland sit
    centre and Mexico→Japan wrap the lower rim, as in the design. */
@@ -37,8 +37,7 @@ function ProceduralGlobe() {
 
 /* Renders Globe.glb centred and normalised to the scene's radius. The map
    artwork (country shapes and names) is baked into the model's texture, and
-   the material is swapped to an unlit one so it renders flat and bright,
-   exactly like the design — untouched by scene lighting. */
+   the material uses a warm golden tint so continents match the design. */
 function GlobeModel() {
   const { scene } = useGLTF(GLOBE_URL);
   const prepared = useMemo(() => {
@@ -48,8 +47,15 @@ function GlobeModel() {
       hasMesh = true;
       if (object.material && object.material.map) {
         const map = object.material.map;
-        map.anisotropy = 8; // keeps the printed country names crisp
-        object.material = new THREE.MeshBasicMaterial({ map });
+        map.anisotropy = 16; // Maximize crispness of text at oblique angles
+        map.generateMipmaps = true;
+        map.minFilter = THREE.LinearMipMapLinearFilter;
+        map.magFilter = THREE.LinearFilter;
+        map.colorSpace = THREE.SRGBColorSpace;
+        object.material = new THREE.MeshBasicMaterial({
+          map,
+          color: new THREE.Color("#EAD6B5"),
+        });
       }
     });
     if (!hasMesh) return null;
