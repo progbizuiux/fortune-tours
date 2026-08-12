@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Star } from "lucide-react";
 import { FaGoogle } from "react-icons/fa6";
 import { Container } from "@/components/common/Container";

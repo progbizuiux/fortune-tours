@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { CtaLink } from "@/components/common/CtaLink";
 import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
@@ -77,13 +77,14 @@ export function JournalSection() {
               {/* mt-auto bottom-anchors Read so it sits on the same line in
                   every card of a row, however many lines the story wraps to;
                   pt-4 keeps the 16px gap on the tallest card */}
-              <Link
+              <CtaLink
                 href={post.href}
-                className="font-top text-small max-sm:text-[12px] hover:text-sky mt-auto inline-flex items-center gap-1.5 pt-4 leading-none font-medium text-navy transition-colors dark:text-cream"
+                underline={false}
+                className="font-top text-small max-sm:text-[12px] hover:text-sky mt-auto inline-flex items-center gap-1.5 pt-4 leading-none font-medium text-navy dark:text-cream"
               >
                 Read
                 <ArrowUpRight aria-hidden="true" className="size-3.5 max-sm:size-3" />
-              </Link>
+              </CtaLink>
             </li>
           ))}
         </AnimateIn>

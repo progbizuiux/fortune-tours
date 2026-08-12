@@ -7,12 +7,18 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 export function LenisProvider({ children }) {
   useEffect(() => {
     const lenis = new Lenis({
-      // Scroll feel matched to aerodynamics.nl (Lenis 1.3.17). Setting `duration`
-      // switches Lenis off its default `lerp: 0.1` smoothing and onto a fixed
-      // 1.2s expo-out curve — that long, gliding tail is the whole difference.
-      // Both are passed to the animator on every wheel tick and duration wins,
-      // so `lerp` is deliberately left unset rather than set to a fighting value.
-      duration: 1.2,
+      // Setting `duration` switches Lenis off its default `lerp: 0.1` smoothing
+      // and onto a fixed expo-out curve. Both are passed to the animator on
+      // every wheel tick and duration wins, so `lerp` is deliberately left
+      // unset rather than set to a fighting value.
+      //
+      // aerodynamics.nl runs this same curve at 1.2. Raised here because the
+      // easing is heavily front-loaded — it covers 75% of the travel in the
+      // first 20% of the duration — so stretching the duration is what makes
+      // the glide read as longer. 1.2 -> 1.8 moves that 75% mark from 0.24s
+      // to 0.36s. Past roughly 2.2 the bar stops tracking the wheel and
+      // starts feeling laggy.
+      duration: 1.8,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       touchMultiplier: 2,
       autoRaf: false,

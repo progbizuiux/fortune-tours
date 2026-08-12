@@ -6,6 +6,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { Container } from "@/components/common/Container";
+import { CtaLink } from "@/components/common/CtaLink";
+import { FrameButton } from "@/components/common/FrameButton";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
@@ -94,45 +96,40 @@ export function Navbar() {
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Main">
           {NAV_LINKS.map((link) => {
             const isActive = pathname === link.href;
+            // Underline only — the sky fill is reserved for Concierge below,
+            // so it reads as the one primary action in the bar.
             return (
-              <Link
+              <CtaLink
                 key={link.href}
                 href={link.href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "after:bg-sky relative text-nav transition-colors after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:transition-all after:duration-300 hover:after:w-full",
+                  "text-nav",
                   isSolid ? "text-navy/80 dark:text-cream/80" : "text-white/90",
                   isActive &&
                     (isSolid ? "text-navy" : "text-white") + " after:w-full",
                 )}
               >
                 {link.label}
-              </Link>
+              </CtaLink>
             );
           })}
 
-          <span
-            className={cn("h-4 w-px", isSolid ? "bg-navy/20" : "bg-white/30")}
-            aria-hidden="true"
-          />
-
-          <Link
+          <CtaLink
             href={CONCIERGE_LINK.href}
+            fill
             className={cn(
-              "text-nav transition-colors",
+              "text-nav",
               isSolid ? "text-navy dark:text-cream" : "text-white",
             )}
           >
             {CONCIERGE_LINK.label}
-          </Link>
+          </CtaLink>
         </nav>
 
-        <button
-          type="button"
-          className={cn(
-            "inline-flex items-center justify-center rounded-full p-2 lg:hidden",
-            isSolid ? "text-navy" : "text-white",
-          )}
+        <FrameButton
+          variant="bare"
+          className={cn("lg:hidden", isSolid ? "text-navy" : "text-white")}
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMenuOpen}
           onClick={() => setIsMenuOpen((prev) => !prev)}
@@ -142,7 +139,7 @@ export function Navbar() {
           ) : (
             <Menu className="size-6" aria-hidden="true" />
           )}
-        </button>
+        </FrameButton>
       </Container>
 
       {isMenuOpen && (
@@ -153,15 +150,16 @@ export function Navbar() {
           <ul className="flex flex-col gap-4">
             {[...NAV_LINKS, CONCIERGE_LINK].map((link) => (
               <li key={link.href}>
-                <Link
+                <CtaLink
                   href={link.href}
+                  underline={false}
                   className={cn(
                     "text-navy/80 dark:text-cream/80 block text-body",
                     pathname === link.href && "text-sky",
                   )}
                 >
                   {link.label}
-                </Link>
+                </CtaLink>
               </li>
             ))}
           </ul>

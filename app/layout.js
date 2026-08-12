@@ -31,7 +31,16 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
       className={`${spartan.variable} ${poppins.variable}`}
     >
-      <body className="flex min-h-screen flex-col antialiased">
+      {/* Extensions write their own attributes onto <body> before React
+          hydrates (ColorZilla's cz-shortcut-listen, Grammarly's data-gr-*),
+          which reads as a hydration mismatch. suppressHydrationWarning only
+          applies one level deep, so the one on <html> above does not cover
+          this element — it needs its own. Scoped to this element's
+          attributes; mismatches inside the tree still surface. */}
+      <body
+        className="flex min-h-screen flex-col antialiased"
+        suppressHydrationWarning
+      >
         <Providers>
           <Navbar />
           <main className="flex-1">{children}</main>

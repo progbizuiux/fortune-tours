@@ -90,14 +90,136 @@ body {
   100% { transform: translateX(-50%); }
 }
 
+/* will-change promotes the track to its own compositor layer so each frame is a
+   GPU transform of an existing texture instead of a repaint. Both tracks sit
+   under a mask-image parent, which otherwise forces the masked region to
+   re-rasterise on every frame — that was the source of the dropped frames.
+   Permanent promotion is the right trade here: these animations never stop, so
+   there is no idle period during which the extra layer memory is wasted. */
 .animate-marquee {
   animation: marquee 90s linear infinite;
+  will-change: transform;
 }
 
 /* Same keyframes at logo speed — the partner strip loops in 28s. */
 .animate-marquee-logos {
   animation: marquee 28s linear infinite;
+  will-change: transform;
 }
+
+/* ── Featured destinations backdrop slide ─────────────────────────── */
+/* The outgoing and incoming backdrops sit edge to edge and travel as one, so
+   the pair covers the viewport for the whole animation and the navy behind is
+   never exposed. Both directions must share a duration and easing curve — if
+   they drift apart at any point a seam opens between them.
+   easeOutQuint: most of the distance is covered early, then it glides to rest. */
+@keyframes bg-in-from-right {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes bg-out-to-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+@keyframes bg-in-from-left {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes bg-out-to-right {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
+}
+
+.bg-slide-in-right,
+.bg-slide-out-left,
+.bg-slide-in-left,
+.bg-slide-out-right {
+  animation-duration: 1000ms;
+  /* Shared by the backdrop, the rail and the copy so the section moves as one.
+     This curve decelerates into the end instead of asymptoting toward it. The
+     ease-out curves tried before spent the last third of their runtime covering
+     the final few percent of the distance — measured at 515ms of a 1400ms run
+     past the 95% mark — which does not read as a slow glide, it reads as the
+     animation getting stuck just short of arriving. */
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both;
+  will-change: transform;
+}
+
+.bg-slide-in-right  { animation-name: bg-in-from-right; }
+.bg-slide-out-left  { animation-name: bg-out-to-left; }
+.bg-slide-in-left   { animation-name: bg-in-from-left; }
+.bg-slide-out-right { animation-name: bg-out-to-right; }
+
+/* Card rail travel.
+   Separate from the backdrop keyframes above because those move by 100%, which
+   is each element's OWN width. The backdrop layers are all viewport-sized so
+   that is exactly right for them, but the rail's lead card is 384px against its
+   followers' 318px — moving each by its own width makes them travel different
+   distances and collide mid-flight (measured: a 28px overlap between the second
+   and third card). A single shared distance keeps the gaps constant for the
+   whole animation no matter what the value is, so the rail moves as one piece.
+
+   Entry mirrors the direction of travel, so the rail moves opposite ways for
+   next and prev and matches the backdrop.
+
+   Known trade-off, chosen deliberately: the rail clips at its box and the lead
+   card sits flush against the left edge, so a leftward entry starts it 331px
+   outside a 384px frame and wipes it into view rather than showing it whole.
+   A rightward-only entry avoids that but makes both directions look identical.
+   Direction was judged the more important of the two. */
+@keyframes card-in-from-right {
+  from { transform: translateX(var(--card-shift)); }
+  to   { transform: translateX(0); }
+}
+@keyframes card-in-from-left {
+  from { transform: translateX(calc(var(--card-shift) * -1)); }
+  to   { transform: translateX(0); }
+}
+
+.card-slide-in-right,
+.card-slide-in-left {
+  --card-shift: 180px;
+  animation-duration: 1000ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both;
+  will-change: transform;
+}
+
+@media (min-width: 1024px) {
+  .card-slide-in-right,
+  .card-slide-in-left { --card-shift: 331px; } /* one follower card + its gap */
+}
+
+.card-slide-in-right { animation-name: card-in-from-right; }
+.card-slide-in-left  { animation-name: card-in-from-left; }
+
+/* Copy block travel.
+   Same direction and curve as the rail so the whole section moves as one, but
+   over a much shorter distance and with a fade. Text dragged the full 331px
+   reads as the paragraph being thrown across the section rather than settling,
+   and unlike the images there is no second copy behind it to hide a bare
+   slide — so it needs the fade to arrive rather than just appear. */
+@keyframes copy-in-from-right {
+  from { opacity: 0; transform: translateX(var(--copy-shift)); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes copy-in-from-left {
+  from { opacity: 0; transform: translateX(calc(var(--copy-shift) * -1)); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.copy-slide-in-right,
+.copy-slide-in-left {
+  --copy-shift: 48px;
+  animation-duration: 1000ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both;
+  will-change: transform, opacity;
+}
+
+.copy-slide-in-right { animation-name: copy-in-from-right; }
+.copy-slide-in-left  { animation-name: copy-in-from-left; }
 
 /* ── Featured destinations slide change ───────────────────────────── */
 @keyframes fade-in {

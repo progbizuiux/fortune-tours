@@ -2,9 +2,9 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { Container } from "@/components/common/Container";
+import { FrameButton } from "@/components/common/FrameButton";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { useReveal } from "@/lib/useReveal";
 
@@ -154,24 +154,15 @@ export function DeparturesSection() {
           className="mt-16 flex max-xl:flex-nowrap max-xl:overflow-x-auto max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden flex-wrap items-center justify-center gap-2 sm:gap-4 lg:gap-6 xl:gap-8"
         >
           {MONTHS.map((month) => (
-            <button
+            <FrameButton
               key={month.key}
-              type="button"
+              variant="month"
+              active={activeKey === month.key}
               aria-pressed={activeKey === month.key}
               onClick={() => setActiveKey(month.key)}
-              className={cn(
-                "whitespace-nowrap border-x transition-colors cursor-pointer",
-                "text-[12px] px-3 py-1.5",
-                "sm:text-[14px] sm:px-4 sm:py-2",
-                "lg:text-[16px] lg:px-5 lg:py-2.5",
-                "xl:text-[18px] xl:px-7 xl:py-3",
-                activeKey === month.key
-                  ? "border-transparent bg-black text-white"
-                  : "border-black/20 text-black/80 hover:text-black dark:border-cream/20 dark:text-cream/80 dark:hover:text-cream",
-              )}
             >
               {month.label}
-            </button>
+            </FrameButton>
           ))}
         </div>
       </Container>

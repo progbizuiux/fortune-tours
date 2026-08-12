@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa6";
 import { Container } from "@/components/common/Container";
+import { CtaLink } from "@/components/common/CtaLink";
 
 const QUICK_LINKS = [
   { label: "Terms and conditions", href: "/terms-and-conditions" },
@@ -107,12 +108,13 @@ export function Footer() {
                       aria-hidden="true"
                     />
                   )}
-                  <Link
+                  <CtaLink
                     href={link.href}
-                    className="text-small text-white/70 transition-colors hover:text-white max-sm:text-[12px] max-sm:font-light"
+                    underline={false}
+                    className="text-small text-white/70 hover:text-white max-sm:text-[12px] max-sm:font-light"
                   >
                     {link.label}
-                  </Link>
+                  </CtaLink>
                 </li>
               ))}
             </ul>
