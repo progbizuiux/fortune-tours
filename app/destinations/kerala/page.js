@@ -6,6 +6,8 @@ import { MustVisitSection } from "@/components/destinations/kerala/MustVisitSect
 import { HighlightsSection } from "@/components/destinations/kerala/HighlightsSection";
 
 import { PlanJourneySection } from "@/components/destinations/kerala/PlanJourneySection";
+import { SeasonsSection } from "@/components/destinations/kerala/SeasonsSection";
+import { FixedPackagesSection } from "@/components/destinations/kerala/FixedPackagesSection";
 
 export const metadata = {
   title: "Kerala | Fortune Travels",
@@ -23,6 +25,8 @@ export default function KeralaPage() {
       <MustVisitSection />
       <HighlightsSection />
       <PlanJourneySection />
+      <SeasonsSection />
+      <FixedPackagesSection />
     </>
   );
 }
