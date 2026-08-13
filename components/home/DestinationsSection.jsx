@@ -79,7 +79,7 @@ export function DestinationsSection() {
           <ul
             ref={scrollRef}
             onScroll={handleScroll}
-            className="mt-14 max-lg:flex max-lg:overflow-x-auto max-lg:snap-x max-lg:snap-mandatory grid grid-cols-1 max-lg:gap-2 gap-4 max-lg:pb-6 pb-16 sm:grid-cols-2 lg:grid-cols-4 lg:pb-24 max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden"
+            className="mt-14 max-lg:flex max-lg:overflow-x-auto max-lg:snap-x max-lg:snap-mandatory grid grid-cols-1 max-lg:gap-2 gap-1.5 max-lg:pb-6 pb-16 sm:grid-cols-2 lg:grid-cols-4 lg:pb-24 max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden"
           >
             {DESTINATIONS.map((destination) => (
               <li key={destination.href} className="max-lg:snap-center max-lg:shrink-0 max-sm:w-[215px] sm:max-md:w-[45vw] md:max-lg:w-[35vw]">

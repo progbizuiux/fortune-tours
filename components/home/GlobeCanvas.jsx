@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useRef } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
@@ -151,10 +151,13 @@ function GlobeScene() {
   useFrame((_, delta) => {
     const d = drag.current;
     if (d.active || !spinRef.current) return;
+    /* Clamped because the first frame after the canvas resumes from
+       frameloop="never" carries the whole paused interval as its delta, which
+       would snap the globe forward by however long it was off screen. */
+    const dt = Math.min(delta, 1 / 30);
     /* Ease momentum back to the baseline drift, then keep drifting right. */
-    d.velocity +=
-      (SPIN_SPEED - d.velocity) * (1 - Math.exp(-delta / RETURN_TAU));
-    spinRef.current.rotation.y += d.velocity * delta;
+    d.velocity += (SPIN_SPEED - d.velocity) * (1 - Math.exp(-dt / RETURN_TAU));
+    spinRef.current.rotation.y += d.velocity * dt;
   });
 
   return (
@@ -168,17 +171,40 @@ function GlobeScene() {
 }
 
 export default function GlobeCanvas() {
+  const wrapRef = useRef(null);
+  const [onScreen, setOnScreen] = useState(false);
+
+  /* R3F renders every frame by default, so without this the globe keeps doing
+     a full antialiased WebGL draw at up to 2x DPR for the whole life of the
+     page — including the long stretches when it is nowhere near the viewport.
+     That competes for frame budget with everything else on the page, the
+     marquees included. rootMargin resumes it just before it scrolls in, so the
+     globe is already turning by the time it appears. */
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setOnScreen(entry.isIntersecting),
+      { rootMargin: "200px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <Canvas
-      flat
-      dpr={[1, 2]}
-      camera={{ fov: 40, near: 0.1, far: 100, position: [0, 0, 4.2] }}
-      gl={{ antialias: true, alpha: true }}
-    >
-      <Suspense fallback={null}>
-        <GlobeScene />
-      </Suspense>
-    </Canvas>
+    <div ref={wrapRef} className="h-full w-full">
+      <Canvas
+        flat
+        frameloop={onScreen ? "always" : "never"}
+        dpr={[1, 2]}
+        camera={{ fov: 40, near: 0.1, far: 100, position: [0, 0, 4.2] }}
+        gl={{ antialias: true, alpha: true }}
+      >
+        <Suspense fallback={null}>
+          <GlobeScene />
+        </Suspense>
+      </Canvas>
+    </div>
   );
 }
 

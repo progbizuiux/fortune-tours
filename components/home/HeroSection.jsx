@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import Link from "next/link";
 import { Container } from "@/components/common/Container";
 import { CtaLink } from "@/components/common/CtaLink";
 import { gsap, useGSAP } from "@/lib/gsap";
@@ -97,25 +96,10 @@ export function HeroSection() {
         </p>
 
         <div className="hero-cta mt-4 flex flex-wrap items-center justify-center max-md:gap-4 gap-x-6 gap-y-3 max-md:text-[13px] max-md:leading-6 text-body text-white/90 opacity-0">
-          {/* Dividers are hidden below sm, where the row wraps and would
-              otherwise strand a bar at the start of a new line. */}
-          <span
-            className="hidden h-4 w-px bg-white/30 sm:block"
-            aria-hidden="true"
-          />
-          {CTA_LINKS.map((link, i) => (
-            <span key={link.href} className="flex items-center max-md:gap-4 gap-6">
-              <CtaLink
-                href={link.href}
-                dividerClassName={
-                  i === CTA_LINKS.length - 1
-                    ? "hidden h-4 w-px bg-white/30 sm:block"
-                    : "max-sm:block max-sm:h-3 hidden h-4 w-px bg-white/30 sm:block"
-                }
-              >
-                {link.label}
-              </CtaLink>
-            </span>
+          {CTA_LINKS.map((link) => (
+            <CtaLink key={link.href} href={link.href} fill>
+              {link.label}
+            </CtaLink>
           ))}
         </div>
       </Container>

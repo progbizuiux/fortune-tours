@@ -21,9 +21,14 @@ const TRACK = [...CLOUDS, ...CLOUDS];
 
 export function CloudTransition() {
   return (
+    // The cloud bank is the visual top edge of section 02, so it is also where
+    // the navbar has to stop being transparent — white nav text is invisible
+    // against these clouds. Navbar finds this marker by attribute; see
+    // components/layout/Navbar.jsx.
     <div
       className="relative z-10 -mt-10 lg:-mt-16"
       aria-hidden="true"
+      data-navbar-solid-from=""
       style={{ pointerEvents: "none" }}
     >
       {/* Seamless scrolling cloud strip */}

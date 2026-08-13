@@ -2,6 +2,15 @@
 
 import { TabbedCardsSection } from "@/components/common/TabbedCardsSection";
 
+/* Curated departures (Figma "final" → Chapter 06 — Timetable).
+   Tabs are Poppins Light 18/24; the active month is white on a black chip
+   (≈91×49). Cards run nearly full-bleed — 6px outer margin and 6px gap at a
+   951:696 ratio — with a bottom scrim; the title is Neiko 32/100%/-1% via the
+   h3 tag default and the meta line Poppins Light 18/24 at white 80%.
+   Each month has its own departures so the cards change with the active tab;
+   September carries the Figma copy, the rest are placeholder entries (images
+   reused from public/home) until real timetable data (CMS) lands. */
+
 const MONTHS = [
   { key: "sep", label: "Sep.", name: "September" },
   { key: "oct", label: "Oct.", name: "October" },

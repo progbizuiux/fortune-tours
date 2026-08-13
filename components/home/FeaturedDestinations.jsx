@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/common/Container";
@@ -93,9 +92,22 @@ export function FeaturedDestinations() {
     (_, i) => slides[(index + i) % count],
   );
 
+  // Which slide is travelling out and which way, so the outgoing and incoming
+  // backdrops can move as one pair. dir 1 = "next": the new panel enters from
+  // the right and the old one leaves to the left. `from` is null before the
+  // first navigation so the initial backdrop does not slide in on load.
+  const [nav, setNav] = useState({ from: null, dir: 1 });
+
+  const go = (delta) => {
+    setNav({ from: active.key, dir: delta });
+    setIndex((i) => (i + delta + count) % count);
+  };
+
   const selectCategory = (key) => {
     setCategory(key);
     setIndex(0);
+    // A category switch is not a step through the rail, so it should not slide.
+    setNav({ from: null, dir: 1 });
   };
 
   return (
@@ -111,17 +123,54 @@ export function FeaturedDestinations() {
       </div>
 
       <div className="bg-navy relative overflow-hidden">
-      {/* Active slide echoed as the dimmed full-bleed backdrop */}
-      <div key={`bg-${active.key}`} className="animate-fade-in absolute inset-0">
-        <Image
-          src={active.image}
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover"
-          aria-hidden="true"
-        />
-        <div className="absolute inset-0 bg-black/55" />
+      {/* Active slide echoed as the dimmed full-bleed backdrop.
+          Every slide in the category stays mounted and the swap is a pure
+          opacity crossfade. Keying a single layer on the active slide instead
+          made React tear the old image out and mount a fresh one at opacity 0,
+          so the navy behind flashed through and the change stalled on the new
+          file decoding.
+          `isolate` keeps the z-indexes below contained: this wrapper stays at
+          z-auto so the Container after it still paints on top. */}
+      <div className="absolute inset-0 isolate" aria-hidden="true">
+        {slides.map((slide) => {
+          const isActive = slide.key === active.key;
+          const isLeaving = !isActive && slide.key === nav.from;
+          // Only the pair either side of the change animates. Everything else
+          // stays mounted but transparent, purely so its image is already
+          // decoded when its turn comes and the slide never waits on a fetch.
+          const motion = isActive
+            ? nav.from &&
+              (nav.dir > 0 ? "bg-slide-in-right" : "bg-slide-in-left")
+            : isLeaving && (nav.dir > 0 ? "bg-slide-out-left" : "bg-slide-out-right");
+
+          return (
+            <div
+              key={slide.key}
+              className={cn(
+                // will-change here rather than only on the .bg-slide-* classes
+                // is what makes the movement smooth. Promoted at animation time
+                // instead, the compositor has to rasterise a fresh
+                // viewport-sized texture from a 1261x1840 source just as the
+                // slide begins — measured as a single 100ms stall ~140ms in,
+                // with no long task on the main thread to explain it. Holding
+                // the layers promoted pays that cost while the page is idle.
+                "absolute inset-0 will-change-transform",
+                isActive ? "z-10" : isLeaving ? "z-0" : "z-0 opacity-0",
+                motion,
+              )}
+            >
+              <Image
+                src={slide.image}
+                alt=""
+                fill
+                sizes="100vw"
+                className="object-cover"
+              />
+            </div>
+          );
+        })}
+        {/* Above every layer, so the dim never fades along with the swap. */}
+        <div className="absolute inset-0 z-20 bg-black/55" />
       </div>
 
       <Container className="relative flex max-lg:min-h-0 lg:min-h-screen flex-col pt-10 pb-10 lg:pt-14 lg:pb-11">
@@ -129,19 +178,14 @@ export function FeaturedDestinations() {
             the active tab flips to solid white, as in the design. */}
         <div className="flex max-lg:flex-nowrap max-lg:overflow-x-auto max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden flex-wrap gap-3 lg:justify-end">
           {CATEGORIES.map((tab) => (
-            <button
+            <FrameButton
               key={tab.key}
-              type="button"
+              variant="tab"
+              active={tab.key === category}
               onClick={() => selectCategory(tab.key)}
-              className={cn(
-                "text-nav max-sm:text-[11px] max-sm:px-3 max-sm:py-2 whitespace-nowrap border px-5 py-3.5 transition-colors",
-                tab.key === category
-                  ? "border-white bg-white text-navy"
-                  : "border-white/25 border-y-transparent text-white/90 hover:bg-white/10",
-              )}
             >
               {tab.label}
-            </button>
+            </FrameButton>
           ))}
         </div>
 
@@ -154,7 +198,17 @@ export function FeaturedDestinations() {
               matching the design. */}
           <div
             key={`copy-${active.key}`}
-            className="animate-fade-in max-w-[452px] shrink-0 lg:pb-[88px] max-lg:flex max-lg:flex-col max-lg:items-center max-lg:text-center max-lg:mx-auto"
+            className={cn(
+              "max-w-[452px] shrink-0 lg:pb-[88px] max-lg:flex max-lg:flex-col max-lg:items-center max-lg:text-center max-lg:mx-auto",
+              // Travels with the rail rather than cutting, so the whole section
+              // reads as one move. No stagger offset: the copy is the thing you
+              // are actually reading, so it leads and the cards follow it in.
+              nav.from
+                ? nav.dir > 0
+                  ? "copy-slide-in-right"
+                  : "copy-slide-in-left"
+                : "animate-fade-in",
+            )}
           >
             <p className="font-top max-sm:text-[12px] max-sm:leading-none text-h4 text-white/95">{active.location}</p>
 
@@ -165,7 +219,12 @@ export function FeaturedDestinations() {
             <p className="text-body max-sm:font-light max-sm:text-[12px] max-sm:leading-[120%] mt-5 text-white/80">{active.description}</p>
 
             <div className="text-body mt-16 flex items-center gap-4 text-white/95 max-lg:hidden">
-              <CtaLink href="/destinations" className="px-1" withLeftDivider>
+              <CtaLink
+                href="/destinations"
+                className="hover:text-sky px-1"
+                withLeftDivider
+                withRightDivider
+              >
                 Explore the destination
               </CtaLink>
             </div>
@@ -185,10 +244,44 @@ export function FeaturedDestinations() {
               {visible.map((slide, i) => (
                 <figure
                   key={`${slide.key}-${i}`}
+                  // Cards travel the same way as the backdrop, offset per
+                  // position so the rail reads as one group shifting rather
+                  // than three tiles moving in lockstep. Falls back to the plain
+                  // fade on first paint, where there is no direction yet.
+                  //
+                  // Stagger runs from the trailing edge inward, so it has to
+                  // reverse with direction. A card that starts late is still
+                  // further along the incoming direction than its neighbour, so
+                  // ordering it the wrong way walks it into the card ahead —
+                  // going back with a front-to-back stagger overlapped them by
+                  // 46px.
+                  //
+                  // The 40ms base just sets the cards off after the backdrop so
+                  // the two read as layered.
+                  style={
+                    nav.from
+                      ? {
+                          animationDelay: `${
+                            40 +
+                            (nav.dir > 0 ? i : visible.length - 1 - i) * 90
+                          }ms`,
+                        }
+                      : undefined
+                  }
                   className={cn(
-                    "animate-fade-in relative shrink-0 overflow-hidden",
+                    "relative shrink-0 overflow-hidden",
+                    nav.from
+                      ? nav.dir > 0
+                        ? "card-slide-in-right"
+                        : "card-slide-in-left"
+                      : "animate-fade-in",
+                    // lg:max-w-none is required, not cosmetic: max-w-[300px] is
+                    // the mobile cap, and without lifting it the lead card
+                    // stays clamped to 300px on desktop — narrower than the
+                    // 318px followers, so it sinks below them instead of
+                    // rising above as the design intends.
                     i === 0
-                      ? "aspect-424/545 max-sm:aspect-[300/384] w-full max-w-[300px] sm:w-[340px] lg:w-[384px]"
+                      ? "aspect-424/545 max-sm:aspect-[300/384] w-full max-w-[300px] sm:w-[340px] lg:w-[384px] lg:max-w-none"
                       : "aspect-352/454 w-[230px] sm:w-[280px] lg:w-[318px] max-lg:hidden",
                   )}
                 >
@@ -212,26 +305,31 @@ export function FeaturedDestinations() {
             {/* Desktop Controls */}
             <div className="mt-7 flex items-center justify-between gap-6 lg:pr-20 max-lg:hidden">
               <div className="flex gap-4">
-                <button
-                  type="button"
-                  onClick={() => setIndex((i) => (i - 1 + count) % count)}
+                <FrameButton
+                  variant="icon"
+                  className="size-15"
+                  onClick={() => go(-1)}
                   aria-label="Previous destination"
-                  className="flex size-15 items-center justify-center border border-white/30 text-white transition-colors hover:bg-white/10"
                 >
                   <ChevronLeft className="size-6" strokeWidth={1.5} aria-hidden="true" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setIndex((i) => (i + 1) % count)}
+                </FrameButton>
+                <FrameButton
+                  variant="icon"
+                  className="size-15"
+                  onClick={() => go(1)}
                   aria-label="Next destination"
-                  className="flex size-15 items-center justify-center border border-white/30 text-white transition-colors hover:bg-white/10"
                 >
                   <ChevronRight className="size-6" strokeWidth={1.5} aria-hidden="true" />
-                </button>
+                </FrameButton>
               </div>
 
               <div className="text-body flex items-center gap-4 text-white/95">
-                <CtaLink href="/destinations">
+                <CtaLink
+                  href="/destinations"
+                  className="hover:text-sky"
+                  withLeftDivider
+                  withRightDivider
+                >
                   View all destinations
                 </CtaLink>
               </div>
@@ -239,27 +337,27 @@ export function FeaturedDestinations() {
 
             {/* Mobile Controls */}
             <div className="mt-7 flex items-center justify-between gap-4 lg:hidden w-full max-w-[300px] mx-auto">
-              <button
-                type="button"
-                onClick={() => setIndex((i) => (i - 1 + count) % count)}
+              <FrameButton
+                variant="icon"
+                className="size-10"
+                onClick={() => go(-1)}
                 aria-label="Previous destination"
-                className="flex size-10 items-center justify-center border border-white/30 text-white transition-colors hover:bg-white/10"
               >
                 <ChevronLeft className="size-5" strokeWidth={1.5} aria-hidden="true" />
-              </button>
+              </FrameButton>
 
               <FrameButton variant="rail" className="max-sm:text-[12px] text-white/95 max-sm:font-light px-4">
                 Explore the destination
               </FrameButton>
 
-              <button
-                type="button"
-                onClick={() => setIndex((i) => (i + 1) % count)}
+              <FrameButton
+                variant="icon"
+                className="size-10"
+                onClick={() => go(1)}
                 aria-label="Next destination"
-                className="flex size-10 items-center justify-center border border-white/30 text-white transition-colors hover:bg-white/10"
               >
                 <ChevronRight className="size-5" strokeWidth={1.5} aria-hidden="true" />
-              </button>
+              </FrameButton>
             </div>
           </div>
         </div>

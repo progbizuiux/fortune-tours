@@ -37,6 +37,42 @@ export function HeroSection() {
           { y: 0, opacity: 1, duration: 0.6 },
           "-=0.4",
         );
+
+      /* Scroll-linked exit. The image is pinned by `sticky top-0`, so without
+         this the copy sits frozen mid-screen until the intro section covers it.
+         The prototype instead drifts the copy up and fades it out while the
+         image stays put, so the hero empties before the intro's white bleed
+         arrives.
+
+         Scoped to matchMedia so reduced-motion users get the static hero, and
+         driven off the section's normal-flow box: `sticky` does not move an
+         element's layout position, so top top -> bottom top is exactly the
+         first viewport-height of scrolling.
+
+         `y` is a function value, not yPercent: yPercent resolves against the
+         copy block's own height, which changes with the heading's line count,
+         so the travel would differ between breakpoints. ScrollTrigger
+         re-evaluates function values on refresh, so this re-measures on
+         resize. Transform + opacity only, and deliberately no clearProps —
+         a scrubbed tween has to keep owning both across the whole range. */
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top top",
+              end: "bottom top",
+              scrub: true,
+            },
+          })
+          .to(
+            ".hero-copy",
+            { y: () => -window.innerHeight * 0.38, ease: "none", duration: 1 },
+            0,
+          )
+          .to(".hero-copy", { opacity: 0, ease: "none", duration: 0.55 }, 0);
+      });
     },
     { scope: containerRef },
   );
@@ -58,12 +94,17 @@ export function HeroSection() {
           fill
           priority
         />
-        <div className="absolute inset-0 bg-black/35" />
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent" />
-        <div className="absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-black/20 to-transparent" />
+
+        {/* Figma → kerala landing, the overlay layer above the hero photo:
+            fill #000000 at 40%, layer opacity 48%. Written as the two separate
+            values rather than the collapsed 19.2% so it stays readable against
+            the Figma panel. Replaces the old hand-rolled scrim stack (a flat
+            black/35 plus top and bottom gradients), which was much heavier and
+            not in the design. */}
+        <div className="absolute inset-0 bg-black/40 opacity-[0.48]" />
       </div>
 
-      <Container className="relative flex flex-col items-center text-center md:items-end md:text-right md:pt-[30vh]">
+      <Container className="hero-copy relative flex flex-col items-center text-center md:items-end md:text-right md:pt-[30vh]">
         <span className="hero-eyebrow font-top max-md:text-[13px] text-h4 text-white/90 opacity-0 mb-8 md:mb-11">
           Fortune Tours &amp; Travels — Est. 1998
         </span>

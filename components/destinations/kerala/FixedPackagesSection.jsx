@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
-import { CtaLink } from "@/components/common/CtaLink";
+import { FrameButton } from "@/components/common/FrameButton";
 
 const PACKAGES = [
   {
@@ -115,16 +115,10 @@ export function FixedPackagesSection() {
             ))}
           </div>
 
-          <div className="mt-12 md:mt-16 flex items-center justify-center gap-6">
-            <CtaLink
-              href="/destinations/kerala/packages"
-              className="font-sans font-light text-[12px] md:text-[14px] uppercase tracking-wider text-black hover:text-black/70"
-              withLeftDivider
-              withRightDivider
-              dividerClassName="h-[24px] w-px bg-black/20"
-            >
+          <div className="mt-12 md:mt-16 flex items-center justify-center">
+            <FrameButton variant="rail" className="max-md:text-[13px]">
               View all Kerala packages
-            </CtaLink>
+            </FrameButton>
           </div>
         </div>
       </Container>

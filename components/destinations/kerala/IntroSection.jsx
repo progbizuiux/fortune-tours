@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Container } from "@/components/common/Container";
-import { CtaLink } from "@/components/common/CtaLink";
+import { FrameButton } from "@/components/common/FrameButton";
 import { AnimateIn } from "@/components/common/AnimateIn";
 
 export function IntroSection() {
@@ -10,7 +10,18 @@ export function IntroSection() {
     // relative z-10 is required, not cosmetic: the hero is sticky (positioned),
     // so without a stacking position of its own this section would paint
     // underneath it instead of scrolling over it.
-    <section className="bg-background relative z-10 pt-24 pb-24 md:pt-32">
+    // A ramp, not a flat fill. The reference keeps the hero photograph clearly
+    // readable behind the heading, then washes it out progressively until the
+    // background is FULLY white by the Explore Packages button — everything
+    // below that (the houseboat image) sits on plain white. bg-background was
+    // opaque from the first pixel, which killed the photograph instantly; a
+    // flat translucent fill kept it visible the whole way down. Both are wrong.
+    //
+    // 45% is where the CTA lands in this section's height at desktop, so the
+    // white is complete exactly as it comes into view. The hero stays pinned
+    // behind for this section's height (see the pin-scope wrapper in
+    // app/destinations/kerala/page.js), which is what there is to wash out.
+    <section className="bg-[linear-gradient(to_bottom,#ffffff73_0%,#ffffff_45%)] relative z-10 pt-24 pb-24 md:pt-32">
       {/* White bleed that rides this section's top edge as it scrolls over the
           sticky hero, so the hero always dissolves into this background instead
           of meeting it at a hard line. It has to live here, not on the hero:
@@ -18,10 +29,19 @@ export function IntroSection() {
           get buried under this section's opaque background the moment the page
           scrolls. Spelled as a raw gradient because `from-white/0` compiles to a
           transparent *black* stop — harmless in browsers that premultiply, a
-          grey haze in any that don't. `#fff0` is white at both ends either way. */}
+          grey haze in any that don't. `#fff0` is white at both ends either way.
+
+          Deliberately SHORT (30vh) and only reaching 45% white. This element is
+          anchored to this section's top edge, which sits at exactly 100vh — so
+          its height is how far up the hero it reaches at scroll 0. At h-screen
+          it covered the entire hero from the very first frame, which is why the
+          reference's opening shot was washed out when it should be fully
+          saturated. 30vh keeps the wash off-screen at rest and lets it arrive
+          only once the hero starts leaving. Its end colour matches this
+          section's gradient start, so the two meet without a seam. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-full h-[25vh] bg-[linear-gradient(to_bottom,#fff0,#fff)]"
+        className="pointer-events-none absolute inset-x-0 bottom-full h-[30vh] bg-[linear-gradient(to_bottom,#fff0,#ffffff73)]"
       />
 
       <Container>
@@ -62,16 +82,10 @@ export function IntroSection() {
                 </p>
               </div>
 
-              <div className="mt-9 md:mt-32 flex items-center gap-4">
-                <CtaLink
-                  href="#packages"
-                  withLeftDivider={true}
-                  withRightDivider={false}
-                  dividerClassName="h-5 w-px bg-black/30"
-                  className="text-black text-body max-md:text-[13px] hover:text-sky transition-colors"
-                >
+              <div className="mt-9 md:mt-32 flex items-center">
+                <FrameButton variant="rail" className="max-md:text-[13px]">
                   Explore Packages
-                </CtaLink>
+                </FrameButton>
               </div>
             </div>
           </AnimateIn>

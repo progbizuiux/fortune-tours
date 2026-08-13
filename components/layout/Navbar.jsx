@@ -6,6 +6,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { Container } from "@/components/common/Container";
+import { CtaLink } from "@/components/common/CtaLink";
+import { FrameButton } from "@/components/common/FrameButton";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
@@ -17,19 +19,34 @@ const NAV_LINKS = [
 
 const CONCIERGE_LINK = { label: "Concierge", href: "/concierge" };
 
+// Must match the header's `h-20` below.
+const NAVBAR_HEIGHT = 80;
+
 export function Navbar() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
+    // Stay transparent over the hero and turn solid the moment the next
+    // section's top edge slides under the bar. Resolved from the marked
+    // element rather than a scroll offset so it tracks the real section
+    // boundary instead of the hero's assumed height. Pages that don't mark
+    // one fall back to turning solid as soon as the page moves.
+    const trigger = document.querySelector("[data-navbar-solid-from]");
+
     function handleScroll() {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(
+        trigger
+          ? trigger.getBoundingClientRect().top <= NAVBAR_HEIGHT
+          : window.scrollY > 20,
+      );
     }
+
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -41,7 +58,7 @@ export function Navbar() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        isSolid ? "bg-cream/90 shadow-sm backdrop-blur-md" : "bg-transparent",
+        isSolid ? "bg-white/90 shadow-sm backdrop-blur-md" : "bg-transparent",
       )}
     >
       <Container className="flex h-20 items-center justify-between">
@@ -79,45 +96,40 @@ export function Navbar() {
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Main">
           {NAV_LINKS.map((link) => {
             const isActive = pathname === link.href;
+            // Underline only — the sky fill is reserved for Concierge below,
+            // so it reads as the one primary action in the bar.
             return (
-              <Link
+              <CtaLink
                 key={link.href}
                 href={link.href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "after:bg-sky relative text-nav transition-colors after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:transition-all after:duration-300 hover:after:w-full",
+                  "text-nav",
                   isSolid ? "text-navy/80 dark:text-cream/80" : "text-white/90",
                   isActive &&
                     (isSolid ? "text-navy" : "text-white") + " after:w-full",
                 )}
               >
                 {link.label}
-              </Link>
+              </CtaLink>
             );
           })}
 
-          <span
-            className={cn("h-4 w-px", isSolid ? "bg-navy/20" : "bg-white/30")}
-            aria-hidden="true"
-          />
-
-          <Link
+          <CtaLink
             href={CONCIERGE_LINK.href}
+            fill
             className={cn(
-              "text-nav transition-colors",
+              "text-nav",
               isSolid ? "text-navy dark:text-cream" : "text-white",
             )}
           >
             {CONCIERGE_LINK.label}
-          </Link>
+          </CtaLink>
         </nav>
 
-        <button
-          type="button"
-          className={cn(
-            "inline-flex items-center justify-center rounded-full p-2 lg:hidden",
-            isSolid ? "text-navy" : "text-white",
-          )}
+        <FrameButton
+          variant="bare"
+          className={cn("lg:hidden", isSolid ? "text-navy" : "text-white")}
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMenuOpen}
           onClick={() => setIsMenuOpen((prev) => !prev)}
@@ -127,26 +139,27 @@ export function Navbar() {
           ) : (
             <Menu className="size-6" aria-hidden="true" />
           )}
-        </button>
+        </FrameButton>
       </Container>
 
       {isMenuOpen && (
         <nav
-          className="border-navy/10 bg-cream border-t px-4 py-6 lg:hidden"
+          className="border-navy/10 bg-white border-t px-4 py-6 lg:hidden"
           aria-label="Mobile"
         >
           <ul className="flex flex-col gap-4">
             {[...NAV_LINKS, CONCIERGE_LINK].map((link) => (
               <li key={link.href}>
-                <Link
+                <CtaLink
                   href={link.href}
+                  underline={false}
                   className={cn(
                     "text-navy/80 dark:text-cream/80 block text-body",
                     pathname === link.href && "text-sky",
                   )}
                 >
                   {link.label}
-                </Link>
+                </CtaLink>
               </li>
             ))}
           </ul>

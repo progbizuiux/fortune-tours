@@ -49,7 +49,7 @@ export function ImageCarouselSection({
         {items.map((item) => (
           <li
             key={item.key}
-            className="max-lg:snap-center max-lg:shrink-0 max-sm:w-[142px] sm:max-lg:w-[35vw] relative max-sm:aspect-[142/233] aspect-[234/397] overflow-hidden w-full"
+            className="group max-lg:snap-center max-lg:shrink-0 max-sm:w-[142px] sm:max-lg:w-[35vw] relative max-sm:aspect-[142/233] aspect-[234/397] overflow-hidden w-full cursor-pointer"
           >
             <Image
               src={item.image}
@@ -72,7 +72,13 @@ export function ImageCarouselSection({
 
             {/* 125x43 label chip, 20px off the bottom (Figma) */}
             <span className="absolute inset-x-0 bottom-5 flex justify-center">
-              <FrameButton>{item.label}</FrameButton>
+              {/* Mirrors FILL_SWEEP's own hover, driven by the card instead of
+                  the button — hovering anywhere on the card sweeps the panel in.
+                  Scoped here rather than added to FILL_SWEEP so other `group`
+                  wrappers in the app don't start filling their buttons too. */}
+              <FrameButton className="group-hover:text-white group-hover:before:scale-x-100">
+                {item.label}
+              </FrameButton>
             </span>
           </li>
         ))}
