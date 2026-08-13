@@ -17,10 +17,15 @@ export const metadata = {
 export default function KeralaPage() {
   return (
     <>
+      {/* Pin scope for the sticky hero: sticky positioning is bounded by the
+          parent box, so the hero stays pinned only while this wrapper is on
+          screen. When the intro section's end scrolls up past the viewport
+          bottom, it pushes the hero away with it instead of leaving it pinned
+          for the rest of the page. */}
       <div>
         <HeroSection />
+        <IntroSection />
       </div>
-      <IntroSection />
       <JourneysSection />
       <MustVisitSection />
       <HighlightsSection />

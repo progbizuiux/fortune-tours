@@ -7,7 +7,23 @@ import { AnimateIn } from "@/components/common/AnimateIn";
 
 export function IntroSection() {
   return (
-    <section className="bg-background pt-24 pb-24 md:pt-32">
+    // relative z-10 is required, not cosmetic: the hero is sticky (positioned),
+    // so without a stacking position of its own this section would paint
+    // underneath it instead of scrolling over it.
+    <section className="bg-background relative z-10 pt-24 pb-24 md:pt-32">
+      {/* White bleed that rides this section's top edge as it scrolls over the
+          sticky hero, so the hero always dissolves into this background instead
+          of meeting it at a hard line. It has to live here, not on the hero:
+          anchored to the hero it would sit at a fixed spot in the viewport and
+          get buried under this section's opaque background the moment the page
+          scrolls. Spelled as a raw gradient because `from-white/0` compiles to a
+          transparent *black* stop — harmless in browsers that premultiply, a
+          grey haze in any that don't. `#fff0` is white at both ends either way. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-full h-[25vh] bg-[linear-gradient(to_bottom,#fff0,#fff)]"
+      />
+
       <Container>
         <div className="flex flex-col">
           {/* Top: Eyebrow and Heading */}

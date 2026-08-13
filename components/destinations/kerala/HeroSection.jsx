@@ -61,8 +61,6 @@ export function HeroSection() {
         <div className="absolute inset-0 bg-black/35" />
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent" />
         <div className="absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-black/20 to-transparent" />
-        {/* White fade at the bottom to blend into the next section */}
-        <div className="absolute inset-x-0 bottom-0 h-[25vh] bg-gradient-to-t from-white to-transparent" />
       </div>
 
       <Container className="relative flex flex-col items-center text-center md:items-end md:text-right md:pt-[30vh]">
