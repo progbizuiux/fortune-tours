@@ -65,29 +65,55 @@ export function Navbar() {
         <Link
           href="/"
           aria-label="Fortune Tours & Travels — Home"
-          className="flex items-center"
+          // relative is load-bearing: the cut being faded out is absolutely
+          // positioned, and without a positioned parent it anchors to the fixed
+          // <header> instead of this box — so it leaves the logo's slot and
+          // parks in the bar's top-left corner mid-fade.
+          className="relative flex items-center"
         >
-          {/* White logo — visible on transparent navbar (over hero) */}
+          {/* Two cuts of one mark, cross-faded. Both files are 192x70, so the
+              pair sits pixel for pixel on top of each other through the fade.
+
+              width/height carry the file's intrinsic size, not the display
+              size — that is what Next reserves space from, and giving it the
+              exact numbers means the ratio hint needs no rounding. The 140px
+              the bar actually shows is set in CSS below. */}
+          {/* White — visible on the transparent navbar (over the hero) */}
           <Image
             src="/fortune_Logo_White.png"
             alt="Fortune Tours & Travels"
-            width={140}
-            height={48}
+            width={192}
+            height={70}
             className={cn(
-              "object-contain transition-opacity duration-300",
-              isSolid ? "opacity-0 absolute" : "opacity-100",
+              // Both axes sized in CSS on purpose. Tailwind's preflight sets
+              // `height: auto` on every img, which left height CSS-driven and
+              // width attribute-driven — Next flags that mismatch in dev and
+              // can no longer guarantee the aspect ratio. Pairing w-[140px]
+              // with h-auto puts both under CSS and silences it; the width and
+              // height props stay as the ratio hint that reserves the space.
+              "h-auto w-[140px] object-contain transition-opacity duration-300",
+              isSolid ? "absolute opacity-0" : "opacity-100",
             )}
             priority
           />
-          {/* Black & Blue logo — visible when navbar is solid/scrolled */}
+          {/* Black — visible once the navbar turns solid.
+              Do not point this back at fortune_Logo_Black&Blue.png: the `&` in
+              that filename makes the request to the image optimiser hang in the
+              browser and never resolve, so the mark silently never paints. */}
           <Image
-            src="/fortune_Logo_Black&Blue.png"
+            src="/fortune_Logo_Black.png"
             alt="Fortune Tours & Travels"
-            width={140}
-            height={48}
+            width={192}
+            height={70}
             className={cn(
-              "object-contain transition-opacity duration-300",
-              isSolid ? "opacity-100" : "opacity-0 absolute",
+              // Both axes sized in CSS on purpose. Tailwind's preflight sets
+              // `height: auto` on every img, which left height CSS-driven and
+              // width attribute-driven — Next flags that mismatch in dev and
+              // can no longer guarantee the aspect ratio. Pairing w-[140px]
+              // with h-auto puts both under CSS and silences it; the width and
+              // height props stay as the ratio hint that reserves the space.
+              "h-auto w-[140px] object-contain transition-opacity duration-300",
+              isSolid ? "opacity-100" : "absolute opacity-0",
             )}
             priority
           />
@@ -144,17 +170,23 @@ export function Navbar() {
 
       {isMenuOpen && (
         <nav
-          className="border-navy/10 bg-white border-t px-4 py-6 lg:hidden"
+          // md:px-8 tracks Container's own padding — at 768-1023 the panel's
+          // links sat 16px from the edge while the logo and menu button above
+          // them sat 32px in.
+          className="border-navy/10 bg-white border-t px-4 py-6 md:px-8 lg:hidden"
           aria-label="Mobile"
         >
-          <ul className="flex flex-col gap-4">
+          {/* gap-1 rather than gap-4: each link now carries its own 44px touch
+              height (this is the only navigation below lg, tablets included),
+              so the row rhythm comes from the links instead of the gap. */}
+          <ul className="flex flex-col gap-1">
             {[...NAV_LINKS, CONCIERGE_LINK].map((link) => (
               <li key={link.href}>
                 <CtaLink
                   href={link.href}
                   underline={false}
                   className={cn(
-                    "text-navy/80 dark:text-cream/80 block text-body",
+                    "text-navy/80 dark:text-cream/80 text-body flex min-h-11 items-center",
                     pathname === link.href && "text-sky",
                   )}
                 >
