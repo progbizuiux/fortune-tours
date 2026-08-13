@@ -16,7 +16,8 @@ const VARIANT_CLASSES = {
   rail: {
     base: "text-body border-x px-2.5 py-2",
     idle: "border-black/20 text-black hover:border-transparent dark:border-cream/20 dark:text-cream",
-    active: "border-transparent bg-black text-white dark:bg-cream dark:text-navy",
+    active:
+      "border-transparent bg-black text-white dark:bg-cream dark:text-navy",
   },
   // Departures month selector. Steps up in size at every breakpoint, so the
   // sizing lives in the variant rather than being passed in per call site.
@@ -47,6 +48,47 @@ const VARIANT_CLASSES = {
     base: "rounded-full p-2",
     idle: "",
     active: "",
+    fill: false,
+  },
+  // ── Filter bar (/search) ────────────────────────────────────────────────
+  // The four below all opt out of FILL_SWEEP. It is the treatment for the one
+  // primary action in a view; a toolbar is a row of equal, repeated controls,
+  // and sweeping a sky panel across each on hover reads as the page flashing.
+  //
+  // Dropdown trigger. Cell in a divided rail, so it carries only its left rule
+  // and the rail draws the closing one. `active` = this group has a value.
+  filter: {
+    base: "border-navy/20 text-body border-l px-5 py-3 gap-2 whitespace-nowrap",
+    idle: "text-navy/90 hover:text-sky",
+    active: "text-navy font-medium",
+    fill: false,
+  },
+  // Removable active-filter chip. Full box of its own, since these sit loose
+  // on the page rather than in a rail.
+  filterChip: {
+    base: "border-navy/20 gap-2 border px-3 py-1.5 text-[13px]",
+    idle: "text-navy hover:border-navy/50",
+    active: "border-navy/50 text-navy",
+    fill: false,
+  },
+  // Row inside an open dropdown. Left-aligned against the base's centring —
+  // cn() runs twMerge, so the justify-start passed at the call site wins.
+  filterOption: {
+    base: "w-full justify-start px-5 py-2.5 text-left text-[15px]",
+    idle: "text-navy/80 hover:bg-navy/5",
+    active: "bg-navy/5 text-navy font-medium",
+    fill: false,
+  },
+  // Text action with an icon (Reset filters) — no frame at all, so nothing to
+  // fill and no padding that would push it out of line with the chips.
+  // min-h-11 buys the 44px touch target it otherwise lacks entirely: with no
+  // padding and no border its box was just the 13px line box, 19.5px tall. The
+  // negative margin gives that height back to the layout, so the control still
+  // sits on the same line as the chips beside it.
+  textAction: {
+    base: "-my-3 min-h-11 gap-1.5 text-[13px]",
+    idle: "text-navy/80 hover:text-sky",
+    active: "text-sky",
     fill: false,
   },
 };
