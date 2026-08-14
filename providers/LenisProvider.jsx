@@ -18,7 +18,7 @@ export function LenisProvider({ children }) {
       // 0.1 is Lenis's own default, and what both reference sites for this
       // feel resolve to — unilawtech.com passes it explicitly, and
       // webandcrafts.com falls back to it.
-      lerp: 0.05,
+      lerp: 0.055,
       // Touch stays on native OS momentum (syncTouch defaults to false):
       // iOS/Android inertia is already tuned per-platform, and running it
       // through this animator too is what makes mobile feel rubbery.

@@ -1,5 +1,3 @@
-"use client";
-
 import { TabbedCardsSection } from "@/components/common/TabbedCardsSection";
 
 /* Curated departures (Figma "final" → Chapter 06 — Timetable).

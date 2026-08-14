@@ -31,14 +31,18 @@ export function TabbedCardsSection({
       }
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".departure-card", {
-          y: 24,
-          opacity: 0,
-          duration: 0.5,
-          stagger: 0.08,
-          ease: "power3.out",
-          clearProps: "transform,opacity",
-        });
+        gsap.fromTo(".departure-card", 
+          { y: 30, opacity: 0, scale: 0.98 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power3.out",
+            clearProps: "transform,opacity",
+          }
+        );
       });
     },
     { scope: sectionRef, dependencies: [activeKey] },
@@ -91,29 +95,29 @@ export function TabbedCardsSection({
         {cardsData[activeKey]?.map((card) => (
           <li
             key={card.title}
-            className="departure-card relative max-sm:aspect-[432/273] aspect-[951/696] overflow-hidden"
+            className="group cursor-pointer departure-card relative max-sm:aspect-[432/273] aspect-[951/696] overflow-hidden"
           >
             <Image
               src={card.image}
               alt={card.title}
               fill
               sizes="(min-width: 768px) 50vw, 100vw"
-              className="object-cover"
+              className="object-cover transition-transform duration-[2000ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-110"
             />
             <div
-              className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent"
+              className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent transition-colors duration-[1500ms] group-hover:from-black/90 group-hover:via-black/30"
               aria-hidden="true"
             />
 
             <div className="absolute inset-0 flex flex-col justify-between p-5 sm:p-8 md:pt-11 md:pb-16">
-              <span className="text-body max-sm:text-[12px] max-sm:font-light text-white/80">
+              <span className="text-body max-sm:text-[12px] max-sm:font-light text-white/80 transition-all duration-[1000ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:translate-x-3 group-hover:text-white">
                 {activeTab?.name ? `${activeTab.name}.` : ""}
               </span>
-              <div>
+              <div className="transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-3">
                 <h3 className="text-white max-sm:text-[18px] max-sm:leading-none max-sm:tracking-[-0.01em]">
                   {card.title}
                 </h3>
-                <p className="mt-3 max-sm:mt-1 max-sm:text-[12px] max-sm:leading-6 max-sm:font-normal text-white/80">
+                <p className="mt-3 max-sm:mt-1 max-sm:text-[12px] max-sm:leading-6 max-sm:font-normal text-white/80 transition-colors duration-[1000ms] group-hover:text-white">
                   {card.meta}
                 </p>
               </div>

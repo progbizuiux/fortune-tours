@@ -1,5 +1,3 @@
-"use client";
-
 import { ImageCarouselSection } from "@/components/common/ImageCarouselSection";
 
 const STYLES = [
@@ -69,7 +67,7 @@ export function TravelStylesSection() {
       title="Discover your travel style."
       description="Share how you want to feel. Our concierge will create a unique itinerary."
       items={STYLES}
-      buttonText="Reveal my journeys."
+      // buttonText="Reveal my journeys."
       gridClassName="grid-cols-2 sm:grid-cols-4 lg:grid-cols-8"
     />
   );

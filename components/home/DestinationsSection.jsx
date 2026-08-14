@@ -62,7 +62,7 @@ export function DestinationsSection() {
     // underneath it instead of scrolling over it.
     <>
     <CloudTransition />
-    <section className="bg-background relative z-10">
+    <section className="bg-background relative z-10 overflow-x-clip">
       {/* Vertical rhythm measured off the design: 40px above the eyebrow,
           24px to the heading, 12px to the sub-line, 56px down to the strip. */}
       <Container className="pt-10 lg:pt-14">
@@ -84,15 +84,15 @@ export function DestinationsSection() {
             {DESTINATIONS.map((destination) => (
               <li key={destination.href} className="max-lg:snap-center max-lg:shrink-0 max-sm:w-[215px] sm:max-md:w-[45vw] md:max-lg:w-[35vw]">
                 <Link href={destination.href} className="group block">
-                {/* max-lg:aspect-[215/314] for mobile card size, aspect-7/12 for desktop */}
-                <div className="bg-navy/5 relative max-lg:aspect-[215/314] aspect-7/12 w-full overflow-hidden">
+                {/* max-lg:aspect-[215/314] for mobile card size, aspect-[3/4] for desktop */}
+                <div className="bg-navy/5 relative max-lg:aspect-[215/314] aspect-[3/4] w-full overflow-hidden">
                   {HAS_IMAGES ? (
                     <Image
                       src={destination.image}
                       alt={destination.name}
                       fill
                       sizes={CARD_SIZES}
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="object-cover transition-all duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.07] group-hover:brightness-105"
                     />
                   ) : (
                     <div className="from-navy/15 to-navy/5 absolute inset-0 flex items-center justify-center bg-gradient-to-br">
@@ -118,10 +118,10 @@ export function DestinationsSection() {
 
                 {/* Desktop Text (Outside image) */}
                 <div className="mt-3 max-lg:hidden">
-                  <h3 className="font-heading text-[24px] leading-none group-hover:text-sky text-navy transition-colors">
+                  <h3 className="font-heading text-[24px] leading-none text-navy transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-sky group-hover:translate-x-2">
                     {destination.name}
                   </h3>
-                  <p className="font-light text-[16px] leading-6 text-black/80 mt-1">
+                  <p className="font-light text-[16px] leading-6 text-black/80 mt-1 transition-all duration-700 delay-75 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:opacity-75 group-hover:translate-x-4">
                     {destination.caption}
                   </p>
                 </div>
