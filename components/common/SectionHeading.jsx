@@ -17,6 +17,8 @@ export function SectionHeading({
   description,
   align = "left",
   className,
+  eyebrowClassName,
+  descriptionClassName,
 }) {
   const centered = align === "center";
 
@@ -36,6 +38,7 @@ export function SectionHeading({
             centered
               ? "text-black dark:text-cream"
               : "text-navy/70 dark:text-cream/70",
+            eyebrowClassName,
           )}
         >
           {eyebrow}
@@ -58,6 +61,7 @@ export function SectionHeading({
               centered
                 ? "max-lg:max-w-[283px] max-w-xl text-black/80 dark:text-cream/80"
                 : "max-w-lg text-navy/70 dark:text-cream/70 md:text-right",
+              descriptionClassName,
             )}
           >
             {description}

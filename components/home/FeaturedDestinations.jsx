@@ -46,7 +46,7 @@ const SLIDES = [
     title: "Spring under the blossoms.",
     description:
       "Time your journey with the sakura and watch the city soften into pink. From castle gardens to riverside promenades, Osaka in bloom is a season worth crossing the world for.",
-    image: "/destination/japan.png",
+    image: "/destination/japan.avif",
     categories: ["featured", "international"],
   },
   {
@@ -55,7 +55,7 @@ const SLIDES = [
     title: "Backwaters at their own pace.",
     description:
       "Board a houseboat and let the palm-lined canals set the rhythm. Kerala's backwaters trade itineraries for stillness — village life, birdsong and water that mirrors the sky.",
-    image: "/destination/india.png",
+    image: "/destination/india.avif",
     categories: ["featured", "india", "kerala", "pilgrimage"],
   },
   {
@@ -64,7 +64,7 @@ const SLIDES = [
     title: "Wake up above the clouds.",
     description:
       "Ride cliff-hugging trains to villages where the air is thin and the views are not. The Alps deliver postcard mornings — snow peaks, still lakes and slow breakfasts.",
-    image: "/destination/switzerland.png",
+    image: "/destination/switzerland.avif",
     categories: ["featured", "international"],
   },
   {
@@ -73,7 +73,7 @@ const SLIDES = [
     title: "Chase the northern lights.",
     description:
       "Sail deep into the fjords where waterfalls drop from the mist and winter skies put on their green show. Norway is nature at full scale, best seen from the water.",
-    image: "/destination/norway.png",
+    image: "/destination/norway.avif",
     categories: ["international", "cruises"],
   },
 ];

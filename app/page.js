@@ -25,7 +25,7 @@ export default function Home() {
       <FeaturedDestinations />
       <DeparturesSection />
       <JournalSection />
-      <GlobeSection />
+      {/* <GlobeSection /> */}
       <PolaroidGallery />
     </>
   );
