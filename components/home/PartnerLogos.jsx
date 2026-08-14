@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 
 // Save the partner logos (transparent PNG or SVG) here, then flip the flag.
@@ -33,7 +35,11 @@ export function PartnerLogos({ className = "" }) {
           "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
       }}
     >
-      <ul className="animate-marquee-logos flex w-max items-center">
+      <ul 
+        className="animate-marquee-logos flex w-max items-center"
+        onMouseEnter={(e) => (e.currentTarget.style.animationPlayState = "paused")}
+        onMouseLeave={(e) => (e.currentTarget.style.animationPlayState = "running")}
+      >
         {TRACK.map((partner, index) => (
           <li
             key={`${partner.name}-${index}`}
@@ -47,7 +53,7 @@ export function PartnerLogos({ className = "" }) {
                 width={162}
                 height={117}
                 sizes="(min-width: 1024px) 157px, 112px"
-                className="h-20 w-28 object-contain lg:h-[112.08px] lg:w-[156.713px]"
+                className="h-20 w-28 object-contain lg:h-[112.08px] lg:w-[156.713px] opacity-60 grayscale transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.15] hover:opacity-100 hover:grayscale-0 hover:drop-shadow-2xl cursor-pointer"
               />
             ) : (
               <span className="text-small text-navy/40 flex h-20 items-center text-center font-semibold">

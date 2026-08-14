@@ -56,7 +56,7 @@ export function ImageCarouselSection({
               alt={item.alt}
               fill
               sizes="(min-width: 1024px) 12vw, (min-width: 640px) 25vw, 50vw"
-              className="object-cover"
+              className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.08]"
             />
             {/* Figma image overlay: black fading out towards the base */}
             <div
@@ -65,13 +65,13 @@ export function ImageCarouselSection({
             />
 
             {item.tag && (
-              <span className="text-body max-sm:font-light max-sm:text-[12px] max-sm:leading-6 pointer-events-none absolute inset-x-0 top-6 text-center text-white">
+              <span className="text-body max-sm:font-light max-sm:text-[12px] max-sm:leading-6 pointer-events-none absolute inset-x-0 top-6 text-center text-white transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-1.5 group-hover:opacity-80">
                 {item.tag}
               </span>
             )}
 
             {/* 125x43 label chip, 20px off the bottom (Figma) */}
-            <span className="absolute inset-x-0 bottom-5 flex justify-center">
+            <span className="absolute inset-x-0 bottom-5 flex justify-center transition-transform duration-700 delay-75 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-2">
               {/* Mirrors FILL_SWEEP's own hover, driven by the card instead of
                   the button — hovering anywhere on the card sweeps the panel in.
                   Scoped here rather than added to FILL_SWEEP so other `group`

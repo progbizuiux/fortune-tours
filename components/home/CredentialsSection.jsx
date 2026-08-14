@@ -4,14 +4,7 @@ import { FaGoogle } from "react-icons/fa6";
 import { Container } from "@/components/common/Container";
 import { FrameButton } from "@/components/common/FrameButton";
 import { PartnerLogos } from "@/components/home/PartnerLogos";
-
-const REVIEWERS = [
-  { key: "r1", src: "/credentials/user-profile/Ellipse 2.svg" },
-  { key: "r2", src: "/credentials/user-profile/Ellipse 3.svg" },
-  { key: "r3", src: "/credentials/user-profile/Ellipse 4.svg" },
-  { key: "r4", src: "/credentials/user-profile/Ellipse 5.svg" },
-  { key: "r5", src: "/credentials/user-profile/Ellipse 6.svg" },
-];
+import { AnimatedAvatars } from "@/components/home/AnimatedAvatars";
 
 // The design numbers the fourth column "III." as well — treated as a typo and
 // continued as IV so the sequence reads correctly.
@@ -54,6 +47,7 @@ const HAS_REVIEWER_PHOTOS = true;
 const HAS_REVIEW_PHOTOS = true;
 
 export function CredentialsSection() {
+
   return (
     // relative z-10 keeps it above the sticky hero, same as the other sections.
     <section className="bg-cream relative z-10">
@@ -73,44 +67,7 @@ export function CredentialsSection() {
           </div>
 
           <div className="flex shrink-0 flex-col items-start gap-3 lg:items-end">
-            <div className="flex items-center">
-              {REVIEWERS.slice(0, -1).map((reviewer, index) => (
-                <div
-                  key={reviewer.key}
-                  className={`ring-cream bg-navy/15 relative size-10 overflow-hidden rounded-full ring-2 ${
-                    index > 0 ? "-ml-3" : ""
-                  }`}
-                >
-                  {HAS_REVIEWER_PHOTOS && (
-                    <Image
-                      src={reviewer.src}
-                      alt=""
-                      fill
-                      sizes="40px"
-                      className="object-cover"
-                    />
-                  )}
-                </div>
-              ))}
-
-              {/* Last avatar: profile image is the background, 13k+ overlaid on top */}
-              <div className="ring-cream bg-navy/15 relative -ml-3 size-14 overflow-hidden rounded-full ring-2">
-                {HAS_REVIEWER_PHOTOS && (
-                  <Image
-                    src={REVIEWERS[REVIEWERS.length - 1].src}
-                    alt=""
-                    fill
-                    sizes="56px"
-                    className="object-cover"
-                  />
-                )}
-                <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/45">
-                  <span className="text-small font-semibold text-white">
-                    13k+
-                  </span>
-                </div>
-              </div>
-            </div>
+            <AnimatedAvatars />
 
             <p className="max-sm:font-light max-sm:text-[11px] max-sm:leading-[14px] text-caption lg:font-light lg:text-[18px] lg:leading-6 text-navy/70 lg:text-black/80">
               4.8 Rating from 13K+ Google Reviews
@@ -131,11 +88,13 @@ export function CredentialsSection() {
             // first, leaving card 1 visibly wider than the other three.
             <li
               key={review.numeral}
-              className={`before:bg-navy/15 relative flex flex-col before:absolute before:top-0 max-sm:before:-left-2 sm:max-xl:before:-left-5 xl:before:-left-[4%] before:h-full before:w-px before:content-[''] xl:first:before:hidden ${i >= 2 ? "max-xl:hidden" : ""}`}
+              className={`group cursor-pointer before:bg-navy/15 relative flex flex-col before:absolute before:top-0 max-sm:before:-left-2 sm:max-xl:before:-left-5 xl:before:-left-[4%] before:h-full before:w-px before:content-[''] xl:first:before:hidden ${i >= 2 ? "max-xl:hidden" : ""}`}
             >
-              <p className="text-caption text-navy/70">{review.numeral}</p>
+              <p className="text-caption text-navy/70 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-sky group-hover:translate-x-2">
+                {review.numeral}
+              </p>
 
-              <p className="max-sm:font-light max-sm:text-[12px] max-sm:leading-[1.2] max-sm:tracking-[-0.3px] text-small lg:font-light lg:text-[18px] lg:leading-[1.2] lg:tracking-[-1.4px] text-navy lg:text-[#333333] mt-8">
+              <p className="max-sm:font-light max-sm:text-[12px] max-sm:leading-[1.2] max-sm:tracking-[-0.3px] text-small lg:font-light lg:text-[18px] lg:leading-[1.2] lg:tracking-[-1.4px] text-navy lg:text-[#333333] mt-8 transition-colors duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-black">
                 {review.quote}
               </p>
 
@@ -146,16 +105,21 @@ export function CredentialsSection() {
                     alt=""
                     fill
                     sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
-                    className="object-cover"
+                    className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.08]"
                   />
                 )}
 
-                <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 bg-gradient-to-t from-black/70 to-transparent p-4">
-                  <span className="text-small truncate font-medium text-white">
+                <div
+                  className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 via-black/40 to-transparent pointer-events-none"
+                  aria-hidden="true"
+                />
+
+                <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 p-4 transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-2">
+                  <span className="text-small truncate font-medium text-white/90 transition-colors duration-700 group-hover:text-white">
                     {review.name}
                   </span>
 
-                  <span className="flex shrink-0 items-center gap-2 text-white">
+                  <span className="flex shrink-0 items-center gap-2 text-white/90 transition-colors duration-700 group-hover:text-white">
                     <FaGoogle className="size-4" aria-hidden="true" />
                     <span className="h-4 w-px bg-white/40" aria-hidden="true" />
                     <Star className="size-4 fill-white" aria-hidden="true" />
