@@ -7,20 +7,21 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 export function LenisProvider({ children }) {
   useEffect(() => {
     const lenis = new Lenis({
-      // Setting `duration` switches Lenis off its default `lerp: 0.1` smoothing
-      // and onto a fixed expo-out curve. Both are passed to the animator on
-      // every wheel tick and duration wins, so `lerp` is deliberately left
-      // unset rather than set to a fighting value.
+      // Lerp, not `duration`/`easing` — Lenis runs one animator or the other,
+      // and `duration` silently wins if both are set. With a duration, every
+      // wheel tick restarts a fresh fixed-length tween from zero velocity, so
+      // repeated ticks read as a chain of restarts instead of one glide. Lerp
+      // has no end time: it eases toward a moving target each frame, so new
+      // input blends into the motion already in progress. That continuity is
+      // the smoothness being asked for, so do not reintroduce `duration`.
       //
-      // aerodynamics.nl runs this same curve at 1.2. Raised here because the
-      // easing is heavily front-loaded — it covers 75% of the travel in the
-      // first 20% of the duration — so stretching the duration is what makes
-      // the glide read as longer. 1.2 -> 1.8 moves that 75% mark from 0.24s
-      // to 0.36s. Past roughly 2.2 the bar stops tracking the wheel and
-      // starts feeling laggy.
-      duration: 1.8,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      touchMultiplier: 2,
+      // 0.1 is Lenis's own default, and what both reference sites for this
+      // feel resolve to — unilawtech.com passes it explicitly, and
+      // webandcrafts.com falls back to it.
+      lerp: 0.05,
+      // Touch stays on native OS momentum (syncTouch defaults to false):
+      // iOS/Android inertia is already tuned per-platform, and running it
+      // through this animator too is what makes mobile feel rubbery.
       autoRaf: false,
     });
 
