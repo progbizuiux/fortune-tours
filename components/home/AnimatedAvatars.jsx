@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { gsap, useGSAP } from "@/lib/gsap";
+
 
 const REVIEWERS = [
   { key: "r1", src: "/credentials/user-profile/Ellipse 2.svg" },
@@ -16,23 +16,6 @@ const HAS_REVIEWER_PHOTOS = true;
 
 export function AnimatedAvatars() {
   const avatarsRef = useRef(null);
-
-  useGSAP(() => {
-    if (!avatarsRef.current) return;
-    
-    // Select all the avatar divs inside the container
-    const avatars = avatarsRef.current.children;
-
-    // Create a very subtle, premium floating wave (y-axis only) to avoid z-index overlap glitches
-    gsap.to(avatars, {
-      y: -6,
-      duration: 1.5,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-      stagger: 0.2, // Smooth, slow ripple effect
-    });
-  }, { scope: avatarsRef });
 
   return (
     <div ref={avatarsRef} className="flex items-center">

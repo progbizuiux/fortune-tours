@@ -21,7 +21,7 @@ export function IntroSection() {
     // white is complete exactly as it comes into view. The hero stays pinned
     // behind for this section's height (see the pin-scope wrapper in
     // app/destinations/kerala/page.js), which is what there is to wash out.
-    <section className="bg-[linear-gradient(to_bottom,#ffffff73_0%,#ffffff_45%)] relative z-10 pt-24 pb-24 md:pt-32">
+    <section className="bg-[linear-gradient(to_bottom,#ffffff73_0%,#ffffff_45%)] relative z-10 pt-24 pb-0 md:pt-[120px]">
       {/* White bleed that rides this section's top edge as it scrolls over the
           sticky hero, so the hero always dissolves into this background instead
           of meeting it at a hard line. It has to live here, not on the hero:
@@ -51,7 +51,7 @@ export function IntroSection() {
             <span className="font-top text-h4 max-md:text-[12px] text-black mb-4 md:mb-8">
               Discover Kerala
             </span>
-            <h2 className="font-heading text-h2 text-black leading-[1.1] max-w-[1759px]">
+            <h2 className="font-heading text-h2 text-black max-md:leading-[45px] leading-[1.1] 2xl:leading-[97.5px] max-w-[1759px]">
               Where Nature Meets Timeless<br className="hidden md:block" /> Traditions
             </h2>
           </AnimateIn>
@@ -92,7 +92,7 @@ export function IntroSection() {
         </div>
 
         {/* Large Image */}
-        <AnimateIn y={40} delay={0.4} className="mt-16 md:mt-32 relative max-md:aspect-[440/334] md:aspect-[1755/635] max-md:w-[calc(100%+2rem)] max-md:-ml-4 max-md:rounded-none md:w-full overflow-hidden rounded-sm">
+        <AnimateIn y={40} delay={0.4} className="mt-16 md:mt-32 lg:mt-[56px] relative max-md:aspect-[440/334] md:aspect-[1755/635] max-md:w-[calc(100%+2rem)] max-md:-ml-4 max-md:rounded-none md:w-full overflow-hidden rounded-sm">
           <Image
             src="/destinations/kerala/house-boat.avif"
             alt="House boat cruising Kerala backwaters at sunrise"

@@ -90,14 +90,19 @@ export function HeroSection() {
           The journey begins before you leave home.
         </h1>
 
-        <p className="hero-description max-md:text-[13px] max-md:leading-[1.2] text-body max-md:max-w-[313px] max-w-lg max-md:text-white/80 text-white/90 opacity-0 max-md:px-4">
+        <p className="hero-description max-md:text-[13px] max-md:leading-120 text-body max-md:max-w-[313px] max-w-lg max-md:text-white/80 text-white/90 opacity-0 max-md:px-4">
           Travel isn&apos;t measured by miles. It&apos;s measured by moments
           that stay with you forever.
         </p>
 
         <div className="hero-cta mt-4 flex flex-wrap items-center justify-center max-md:gap-4 gap-x-6 gap-y-3 max-md:text-[13px] max-md:leading-6 text-body text-white/90 opacity-0">
           {CTA_LINKS.map((link) => (
-            <CtaLink key={link.href} href={link.href} fill>
+            <CtaLink
+              key={link.href}
+              href={link.href}
+              fill
+              className="border-x border-white/40 px-5"
+            >
               {link.label}
             </CtaLink>
           ))}

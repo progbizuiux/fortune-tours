@@ -63,12 +63,13 @@ export default async function SearchPage({ searchParams }) {
         className="scroll-mt-24 pt-20 pb-24 lg:pt-28 lg:pb-32"
       >
         <Container>
-          <AnimateIn stagger={0.12}>
+          <AnimateIn stagger={0.12} className="flex flex-col">
+
             {/* h2, not h1 — the banner above carries this page's only h1. The
                 text-h1 class keeps the size it has always had, so this is a
                 document-outline fix and nothing more. */}
-            <h2 className="text-h2 text-navy">Explore Relaxing Journeys</h2>
-            <p className="text-navy/70 mt-5">
+            <h2 className="text-h2 text-navy max-lg:capitalize max-lg:text-[30px] max-lg:leading-[120%] max-lg:tracking-[0px]">Explore relaxing journeys</h2>
+            <p className="text-navy/70 mt-[14px] max-lg:mt-[6px] max-lg:font-light max-lg:text-[14px] max-lg:leading-[100%] max-lg:tracking-[0px] max-lg:text-black/80">
               Find your perfect stay anywhere in the world.
             </p>
           </AnimateIn>

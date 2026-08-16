@@ -71,6 +71,7 @@ export function DestinationsSection() {
           eyebrow="Chapter 02 - Atlas"
           title="Where will your story start?"
           description="Not destinations, but openings. Each place teaches us something."
+          descriptionClassName="lg:max-w-3xl"
         />
       </Container>
 
@@ -107,10 +108,10 @@ export function DestinationsSection() {
 
                   {/* Mobile Text (Inside image) */}
                   <div className="absolute inset-x-0 bottom-0 p-4 lg:hidden">
-                    <h3 className="font-sans text-[16px] text-white font-semibold">
+                    <h3 className="font-heading text-[18px] font-normal leading-none text-white">
                       {destination.name}
                     </h3>
-                    <p className="text-[12px] text-white/80 mt-1">
+                    <p className="text-[12px] text-white/80 mt-[10px]">
                       {destination.caption}
                     </p>
                   </div>

@@ -61,7 +61,7 @@ export function FixedPackagesSection() {
           <div 
             ref={scrollRef}
             onScroll={handleScroll}
-            className="flex max-xl:overflow-x-auto max-xl:snap-x max-xl:snap-mandatory max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden xl:grid xl:grid-cols-3 gap-4 md:gap-6 lg:gap-[15px] xl:gap-[42px]"
+            className="flex max-xl:overflow-x-auto max-xl:snap-x max-xl:snap-mandatory max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden xl:grid xl:grid-cols-3 gap-4 xl:gap-[42px]"
           >
             {PACKAGES.map((pkg) => (
               <div

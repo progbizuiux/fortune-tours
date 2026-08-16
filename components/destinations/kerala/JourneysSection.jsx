@@ -67,7 +67,8 @@ export function JourneysSection() {
       title="Find the Side of Kerala You'll Love"
       description="Choose the experiences that inspire you and create a Kerala journey that's uniquely yours."
       items={JOURNEYS}
-      buttonText="Reveal my journeys."
+      // buttonText="Reveal my journeys."
+      buttonContainerClassName="mt-24 lg:mt-20 flex justify-center"
     />
   );
 }

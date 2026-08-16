@@ -9,12 +9,12 @@ import { FILL_SWEEP } from "@/lib/motion";
 // frame of their own, where a full-bleed panel has nothing to sit inside.
 const VARIANT_CLASSES = {
   chip: {
-    base: "h-[43px] w-[125px] border-x border-white font-heading text-[22px] leading-none tracking-[-0.01em]",
+    base: "max-sm:h-[32px] sm:h-[43px] max-sm:w-[77px] sm:w-[125px] border-x border-white font-heading max-sm:text-[14px] sm:text-[22px] leading-none tracking-[-0.01em]",
     idle: "text-white",
     active: "bg-white text-black",
   },
   rail: {
-    base: "text-body border-x px-2.5 py-2",
+    base: "text-body border-x px-5 py-2",
     idle: "border-black/20 text-black hover:border-transparent dark:border-cream/20 dark:text-cream",
     active:
       "border-transparent bg-black text-white dark:bg-cream dark:text-navy",
@@ -58,7 +58,7 @@ const VARIANT_CLASSES = {
   // Dropdown trigger. Cell in a divided rail, so it carries only its left rule
   // and the rail draws the closing one. `active` = this group has a value.
   filter: {
-    base: "border-navy/20 text-body border-l px-5 py-3 gap-2 whitespace-nowrap",
+    base: "border-navy/20 text-body border-l max-lg:border-[0.7px] max-lg:border-black/50 px-5 max-lg:px-[14px] py-3 max-lg:py-[8px] max-lg:h-[34px] gap-2 max-lg:gap-[6px] max-lg:text-[12px] max-lg:leading-[100%] max-lg:font-normal max-lg:tracking-[0px] max-lg:text-black whitespace-nowrap",
     idle: "text-navy/90 hover:text-sky",
     active: "text-navy font-medium",
     fill: false,

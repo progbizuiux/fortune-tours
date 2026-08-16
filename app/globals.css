@@ -23,6 +23,7 @@
   --color-cream: #faf7f2;
   --color-navy: #0c2233;
   --color-sky: #00a2d9;
+  --color-charcoal: #333333;
 
   /* Spartan = top headings/labels, Neiko = main headings, Poppins = body.
      Every var() carries a fallback: an undefined variable with no fallback
@@ -76,6 +77,19 @@
   --text-nav: 1.0625rem; /* 17px — navbar links (desktop nav only) */
   --text-nav--line-height: 1;
   --text-nav--font-weight: 300;
+}
+
+/* Specific text size reduction for laptop screens (1024px to 1535px) */
+@media (min-width: 1024px) and (max-width: 1535px) {
+  :root {
+    --text-h1: 60px;
+    --text-h2: 46px;
+    --text-h3: 26px;
+    --text-h4: 17px;
+    --text-body: 16px;
+    --text-nav: 15px;
+    --text-small: 14px;
+  }
 }
 
 body {

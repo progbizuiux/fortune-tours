@@ -73,14 +73,18 @@ export function MustVisitSection() {
 
   return (
     <section className="bg-cream spacing relative">
-      <SectionHeading
-        align="center"
-        eyebrow="Must Visit Places"
-        title="Explore Kerala's Most Loved Destinations"
-        className="px-5 md:px-8 md:gap-[40px]"
-      />
+      <Container>
+        <SectionHeading
+          align="center"
+          eyebrow="Must Visit Places"
+          title="Explore Kerala's Most Loved Destinations"
+          description="A few places we plan around most. Each one asks for a different pace."
+          eyebrowClassName="lg:text-[20px]"
+          descriptionClassName="max-lg:max-w-[560px] max-w-[828px] lg:leading-[29px]"
+        />
+      </Container>
 
-      <div className="relative mt-12 md:mt-[121px]">
+      <div className="relative mt-12 md:mt-[77px]">
         <ul
           ref={scrollRef}
           onScroll={checkScroll}
@@ -89,9 +93,9 @@ export function MustVisitSection() {
           {PLACES.map((place) => (
             <li
               key={place.key}
-              className="snap-start shrink-0 w-[323px] md:w-[437px] flex flex-col gap-[18px]"
+              className="snap-start shrink-0 w-[323px] md:w-[437px] lg:w-[323px] 2xl:w-[437px] flex flex-col gap-[18px]"
             >
-              <div className="relative w-full aspect-[323/371] md:aspect-[437/502] overflow-hidden bg-navy/5">
+              <div className="relative w-full aspect-[323/371] md:aspect-[437/502] lg:aspect-[323/371] 2xl:aspect-[437/502] overflow-hidden bg-navy/5">
                 <Image
                   src={place.image}
                   alt={place.title}
@@ -115,7 +119,7 @@ export function MustVisitSection() {
         {canScrollLeft && (
           <button 
             onClick={() => scroll("left")}
-            className="hidden md:flex absolute left-4 md:left-12 top-[140px] md:top-[251px] -translate-y-1/2 w-10 h-10 bg-white rounded-full items-center justify-center shadow-md transition-transform hover:scale-110 z-10"
+            className="hidden md:flex absolute left-4 md:left-12 top-[140px] md:top-[251px] lg:top-[185px] 2xl:top-[251px] -translate-y-1/2 w-10 h-10 bg-white rounded-full items-center justify-center shadow-md transition-transform hover:scale-110 z-10"
             aria-label="Previous"
           >
             <ChevronLeft className="w-5 h-5 text-black/60" strokeWidth={2} />
@@ -125,7 +129,7 @@ export function MustVisitSection() {
         {canScrollRight && (
           <button 
             onClick={() => scroll("right")}
-            className="hidden md:flex absolute right-4 md:right-12 top-[140px] md:top-[251px] -translate-y-1/2 w-10 h-10 bg-white rounded-full items-center justify-center shadow-md transition-transform hover:scale-110 z-10"
+            className="hidden md:flex absolute right-4 md:right-12 top-[140px] md:top-[251px] lg:top-[185px] 2xl:top-[251px] -translate-y-1/2 w-10 h-10 bg-white rounded-full items-center justify-center shadow-md transition-transform hover:scale-110 z-10"
             aria-label="Next"
           >
             <ChevronRight className="w-5 h-5 text-black/60" strokeWidth={2} />

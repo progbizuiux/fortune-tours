@@ -105,32 +105,24 @@ export function HeroSection() {
       </div>
 
       <Container className="hero-copy relative flex flex-col items-center text-center md:items-end md:text-right md:pt-[30vh]">
-        <span className="hero-eyebrow font-top max-md:text-[13px] text-h4 text-white/90 opacity-0 mb-8 md:mb-11">
+        <span className="hero-eyebrow font-top max-md:text-[13px] text-h4 text-white/90 opacity-0 mb-8 md:mb-11 lg:mb-0">
           Fortune Tours &amp; Travels — Est. 1998
         </span>
 
-        <h1 className="hero-heading font-heading max-md:text-[42px] max-md:leading-none text-h1 max-md:max-w-[400px] max-w-[889px] text-white opacity-0">
-          Explore Kerala Beyond the Guidebooks
+        <h1 className="hero-heading font-heading max-md:text-[42px] max-md:leading-none text-h1 lg:leading-[103.5px] lg:mt-[70px] max-md:max-w-[400px] max-w-[889px] text-white opacity-0">
+          Everyone Sees Kerala. Few Actually Feel It.
         </h1>
 
-        <div className="hero-cta mt-11 md:mt-16 flex flex-wrap items-center justify-center md:justify-end max-md:gap-4 gap-x-3 gap-y-3 max-md:text-[13px] max-md:leading-6 text-body text-white/90 opacity-0">
-          <span
-            className="hidden h-4 w-px bg-white/30 sm:block"
-            aria-hidden="true"
-          />
-          {CTA_LINKS.map((link, i) => (
-            <span key={link.href} className="flex items-center max-md:gap-4 gap-3">
-              <CtaLink
-                href={link.href}
-                dividerClassName={
-                  i === CTA_LINKS.length - 1
-                    ? "hidden h-4 w-px bg-white/30 sm:block"
-                    : "max-sm:block max-sm:h-3 hidden h-4 w-px bg-white/30 sm:block"
-                }
-              >
-                {link.label}
-              </CtaLink>
-            </span>
+        <div className="hero-cta mt-11 md:mt-16 flex flex-wrap items-center justify-center md:justify-end max-md:gap-4 gap-x-6 gap-y-3 max-md:text-[13px] max-md:leading-6 text-body text-white/90 opacity-0">
+          {CTA_LINKS.map((link) => (
+            <CtaLink
+              key={link.href}
+              href={link.href}
+              fill
+              className="border-x border-white/40 px-5"
+            >
+              {link.label}
+            </CtaLink>
           ))}
         </div>
       </Container>

@@ -22,7 +22,7 @@ export function HighlightsSection() {
                 the screen edge, and take a 20px left inset (16px gutter + 4px)
                 per the mobile frame. w-auto lets the negative margin widen the
                 box; md:w-full restores normal in-column behaviour. */}
-            <div className="relative w-auto md:w-full ml-1 -mr-4 md:ml-0 md:mr-0 aspect-[420/317] md:aspect-[886/700]">
+            <div className="relative w-auto md:w-full lg:w-[70%] xl:w-full ml-1 -mr-4 md:ml-0 md:mr-0 aspect-[420/317] md:aspect-[886/700]">
               <Image
                 src="/destinations/kerala/dancer-performing.png"
                 alt="Kathakali Dancer"
@@ -48,7 +48,7 @@ export function HighlightsSection() {
             {/* Mirrored against the other two: this one bleeds off the LEFT
                 edge and insets 20px on the right, which also matches the way
                 it overhangs its column to the left from xl up. */}
-            <div className="relative w-auto md:w-full -ml-4 mr-1 md:ml-0 md:mr-0 aspect-[600/380] xl:aspect-[782/300] mt-[45px] md:mt-16 xl:mt-[96px] z-20 xl:hidden 2xl:block 2xl:w-[782px] 2xl:h-[300px] xl:-ml-[240px]">
+            <div className="relative w-auto md:w-full lg:w-[70%] lg:ml-auto xl:w-full -ml-4 mr-1 md:ml-0 md:mr-0 aspect-[600/380] xl:aspect-[782/300] mt-[45px] md:mt-16 xl:mt-[96px] z-20 xl:hidden 2xl:block 2xl:w-[782px] 2xl:h-[300px] xl:-ml-[240px]">
               <Image
                 src="/destinations/kerala/elephants-sri-lanka.jpg"
                 alt="Elephants in Kerala"
@@ -65,14 +65,14 @@ export function HighlightsSection() {
           {/* Left Column */}
           <div className="w-full xl:w-1/2 flex flex-col">
             <TextBlock
-              className="md:pr-[15%] xl:pr-0 xl:pl-[90px]"
+              className="md:pr-[15%] lg:w-[70%] lg:ml-auto lg:pr-0 xl:w-full xl:ml-0 xl:pl-[90px]"
               eyebrow="Spotlight Experience"
               title="Cruise Through Timeless Backwaters"
               description="Step aboard a traditional houseboat and drift through Kerala's serene backwaters, where quiet canals, swaying coconut palms, and charming villages create a journey unlike any other. Slow down, soak in the scenery, and experience life at its most peaceful."
               ctaLabel="PLAN MY TRIP"
             />
 
-            <div className="hidden xl:block relative w-full aspect-[875/846] mt-16 md:mt-24 md:pr-12">
+            <div className="hidden xl:block relative w-full lg:w-[70%] xl:w-full aspect-[875/846] mt-16 md:mt-24 md:pr-12">
               <Image
                 src="/destinations/kerala/people-practicing.jpg"
                 alt="Wellness and Yoga in Kerala"
@@ -85,7 +85,7 @@ export function HighlightsSection() {
 
           {/* Right Column */}
           <div className="w-full xl:w-1/2 flex flex-col mt-0 xl:mt-0 relative">
-            <div className="relative w-auto md:w-full ml-1 -mr-4 md:ml-0 md:mr-0 aspect-[864/600] xl:max-w-[864px]">
+            <div className="relative w-auto md:w-full lg:w-[70%] xl:w-full ml-1 -mr-4 md:ml-0 md:mr-0 aspect-[864/600] xl:max-w-[864px]">
               <Image
                 src="/destinations/kerala/houseboat-alappuzha.jpg"
                 alt="Houseboat in Kerala Backwaters"

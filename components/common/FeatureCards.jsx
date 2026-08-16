@@ -32,15 +32,15 @@ export function FeatureCards({ items, className, cardClassName }) {
     <AnimateIn
       as="ul"
       stagger={0.12}
-      className={cn("grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4", className)}
+      className={cn("grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 max-md:gap-5", className)}
     >
       {items.map((item) => (
         <li
           key={item.key}
           className={cn(
-            "flex flex-col items-center text-center rounded-[4px] border-black/20",
+            "flex flex-col items-center text-center max-md:bg-white max-md:rounded-[8px] md:rounded-[4px] border-black/20",
             "px-6 sm:px-8 pt-10 pb-8 md:pt-12 xl:min-h-[294px]",
-            "border-t first:border-t-0",
+            "max-md:border md:border-t md:first:border-t-0",
             "md:[&:nth-child(-n+2)]:border-t-0 md:odd:border-r",
             "xl:border-t-0 xl:border-l xl:odd:border-r-0 xl:last:border-r",
             cardClassName,
@@ -52,15 +52,21 @@ export function FeatureCards({ items, className, cardClassName }) {
               alt={item.iconAlt ?? ""}
               width={item.iconWidth}
               height={item.iconHeight}
-              className="object-contain"
+              className="object-contain transition-all duration-300 w-[var(--w)] h-[var(--h)] lg:w-[var(--w-lg)] lg:h-[var(--h-lg)]"
+              style={{
+                "--w": `${item.iconWidth}px`,
+                "--h": `${item.iconHeight}px`,
+                "--w-lg": `${item.iconWidth * 1.5}px`,
+                "--h-lg": `${item.iconHeight * 1.5}px`,
+              }}
             />
           )}
 
-          <h3 className="font-heading text-[20px] md:text-[22px] font-normal leading-[1.3] md:leading-[33px] tracking-normal text-black mt-4">
+          <h3 className="font-heading text-[20px] md:text-[22px] font-normal leading-[1.3] md:leading-[33px] lg:leading-[28px] xl:leading-[33px] tracking-normal text-black mt-4">
             {item.title}
           </h3>
 
-          <p className="font-sans text-[13px] md:text-[14px] font-normal leading-[21px] text-black/80 mt-3 md:mt-4">
+          <p className="font-sans text-[13px] md:text-[14px] font-normal max-md:leading-[145%] md:leading-[21px] text-black/80 max-md:mt-7 md:mt-4">
             {item.lead}
           </p>
 
