@@ -94,7 +94,7 @@ export function SearchToolbar({ className }) {
           slightly different lengths. */}
       <div
         ref={railRef}
-        className="flex flex-col items-stretch lg:flex-row"
+        className="flex flex-col max-lg:flex-col-reverse items-stretch lg:flex-row"
         role="search"
       >
         {/* Nothing here may scroll or clip. The open dropdown is absolutely
@@ -111,7 +111,7 @@ export function SearchToolbar({ className }) {
             edge and the whole page scrolls sideways. Below lg the panel anchors
             to this row instead and spans its full width; from lg there is room
             to hang it under its own cell. */}
-        <div className="relative flex flex-wrap lg:static">
+        <div className="relative flex flex-wrap max-lg:gap-3 lg:static">
           {FILTER_GROUPS.map((group, index) => {
             const value = searchParams.get(group.key);
             const isOpen = openKey === group.key;
@@ -129,7 +129,7 @@ export function SearchToolbar({ className }) {
                   // cells wrap instead of stranding itself at the right edge.
                   className={cn(
                     index === FILTER_GROUPS.length - 1 &&
-                      "border-navy/20 border-r",
+                      "lg:border-navy/20 lg:border-r",
                   )}
                 >
                   {value ?? group.label}
@@ -187,7 +187,7 @@ export function SearchToolbar({ className }) {
           // line with ~190px of dead rail beside the other two — the layout was
           // worse at 1024 than at 1023. It flexes into whatever is left until
           // xl, where 360px fits comfortably.
-          className="border-navy/20 flex items-center gap-3 border-l px-5 py-3 max-sm:gap-2 max-sm:px-3 max-lg:mt-px max-lg:border-r lg:ml-auto lg:w-auto lg:min-w-[240px] lg:flex-1 xl:w-[360px] xl:flex-none"
+          className="border-navy/20 flex items-center gap-3 border-l px-5 py-3 max-lg:bg-[#F9F9F9] max-lg:border-none max-lg:mb-[20px] max-lg:w-full max-lg:h-[56px] max-lg:px-[20px] max-lg:gap-[12px] lg:ml-auto lg:w-auto lg:min-w-[240px] lg:flex-1 xl:w-[360px] xl:flex-none"
         >
           {/* A real submit button, not a decorative glyph. It gives the search
               a control you can click, and it is what makes Enter submit
@@ -213,14 +213,14 @@ export function SearchToolbar({ className }) {
             value={term}
             onChange={(event) => setTerm(event.target.value)}
             placeholder="Search destinations, experiences..."
-            className="text-body placeholder:text-navy/50 w-full bg-transparent font-light outline-none"
+            className="text-body placeholder:text-navy/50 max-lg:text-[14px] max-lg:leading-[100%] max-lg:tracking-[0px] max-lg:placeholder:text-black/50 w-full bg-transparent font-light outline-none"
           />
         </form>
       </div>
 
       {activeChips.length > 0 && (
-        <div className="mt-6 flex flex-wrap items-center gap-3">
-          <span className="font-top text-navy text-[13px] font-medium">
+        <div className="mt-6 flex flex-wrap items-center gap-3 max-lg:mt-[20px] max-lg:border-t max-lg:border-[#E5E2DC] max-lg:pt-[20px] max-lg:mb-[28px]">
+          <span className="font-top text-navy text-[13px] font-medium max-lg:w-full max-lg:font-sans max-lg:font-semibold max-lg:leading-[100%] max-lg:tracking-[0px]">
             Active Filters:
           </span>
 

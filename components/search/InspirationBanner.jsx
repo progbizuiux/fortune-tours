@@ -30,7 +30,7 @@ export function InspirationBanner({ inspiration, ctaHref }) {
           viewport and reflowed the heading onto an extra line all the way to
           1573. Floored, the column only ever grows, and the design ratio takes
           over on its own once 35.78% overtakes the floor. */}
-      <div className="grid lg:grid-cols-[44fr_56fr] lg:pt-12 xl:grid-cols-[minmax(563px,687fr)_1233fr]">
+      <div className="grid lg:grid-cols-2 lg:pt-12 2xl:grid-cols-[minmax(563px,687fr)_1233fr]">
         {/* The small lg:pt-3 is deliberate: it sets the eyebrow a dozen pixels
             below the top edge of the photograph, which is where the design
             lines the two up. The panel's height comes from the picture. */}
@@ -61,7 +61,7 @@ export function InspirationBanner({ inspiration, ctaHref }) {
                 the band is stacked, and from lg a clamp tracks the column: 42px
                 at 1024, 62px at 1440, and exactly the spec's 85px from 1920 up,
                 holding "Travel at Your" on one line throughout. */}
-            <h1 className="text-navy leading-[1.1118] lg:text-[clamp(2.5rem,4.8vw_-_7.16px,5.3125rem)]">
+            <h1 className="text-navy leading-[1.1118] lg:text-h2 xl:text-[clamp(2.5rem,4.8vw_-_7.16px,5.3125rem)]">
               {inspiration.title}
             </h1>
 

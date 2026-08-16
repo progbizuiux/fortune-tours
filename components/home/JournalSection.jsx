@@ -21,13 +21,13 @@ const POSTS = [
     meta: "City Guide — 9 min read",
     title: "Explore twelve secret cafés in Paris known only to locals.",
     href: "/journal/secret-cafes-paris",
-    image: "/home/journal/city-guide.png",
+    image: "/home/journal/coastal-escape.png",
   },
   {
     meta: "Coastal Escape — 7 min read",
     title: "Five charming towns on Italy's Amalfi Coast.",
     href: "/journal/amalfi-coast-towns",
-    image: "/home/journal/coastal-escape.png",
+    image: "/home/journal/city-guide.png",
   },
   {
     meta: "Card 04 — Kyoto, Japan",
@@ -39,7 +39,7 @@ const POSTS = [
 
 export function JournalSection() {
   return (
-    <section aria-label="Journal — stories from the field" className="spacing">
+    <section aria-label="Journal — stories from the field" className="spacing -mt-[40px] lg:-mt-[100px] 2xl:mt-0 relative z-10">
       <Container>
         <SectionHeading
           eyebrow="Chapter 07 — Journal"
@@ -55,7 +55,7 @@ export function JournalSection() {
           className="mt-16 grid max-xl:flex max-xl:flex-nowrap max-xl:overflow-x-auto max-xl:snap-x max-xl:snap-mandatory max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden gap-x-3 gap-y-10 xl:grid-cols-4"
         >
           {POSTS.map((post) => (
-            <li key={post.href} className="flex flex-col items-start max-sm:w-[254px] sm:max-xl:w-[320px] lg:max-xl:w-[380px] max-xl:shrink-0 max-xl:snap-center">
+            <li key={post.href} className="flex flex-col items-start max-sm:w-[254px] sm:max-md:w-[320px] md:max-lg:w-[280px] lg:max-xl:w-[320px] max-xl:shrink-0 max-xl:snap-center">
               <div className="relative aspect-[431/551] w-full overflow-hidden">
                 <Image
                   src={post.image}
@@ -70,7 +70,7 @@ export function JournalSection() {
                 {post.meta}
               </span>
 
-              <p className="mt-4 max-sm:mt-2 max-sm:font-light max-sm:text-[13px] max-sm:leading-[110%] text-black/80 dark:text-cream/80">
+              <p className="mt-4 max-sm:mt-2 max-sm:font-light max-sm:text-[13px] max-sm:leading-[110%] text-black/80 dark:text-cream/80 xl:max-w-[90%]">
                 {post.title}
               </p>
 

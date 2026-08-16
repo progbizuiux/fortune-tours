@@ -145,8 +145,10 @@ export function Navbar() {
             href={CONCIERGE_LINK.href}
             fill
             className={cn(
-              "text-nav",
-              isSolid ? "text-navy dark:text-cream" : "text-white",
+              "text-nav border-r pr-6",
+              isSolid
+                ? "text-navy dark:text-cream border-navy/20 dark:border-cream/20"
+                : "text-white border-white/40"
             )}
           >
             {CONCIERGE_LINK.label}

@@ -16,6 +16,7 @@ export function ImageCarouselSection({
   buttonText,
   ariaLabel,
   gridClassName = "grid-cols-2 sm:grid-cols-4 lg:grid-cols-8",
+  buttonContainerClassName = "mt-24 flex justify-center",
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useReveal({ stagger: 0.08, y: 40 });
@@ -58,9 +59,9 @@ export function ImageCarouselSection({
               sizes="(min-width: 1024px) 12vw, (min-width: 640px) 25vw, 50vw"
               className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.08]"
             />
-            {/* Figma image overlay: black fading out towards the base */}
+            {/* Figma image overlay: black to transparent (bottom to top) */}
             <div
-              className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/10 to-transparent"
+              className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"
               aria-hidden="true"
             />
 
@@ -98,7 +99,7 @@ export function ImageCarouselSection({
       </div>
 
       {buttonText && (
-        <AnimateIn y={16} className="mt-24 flex justify-center">
+        <AnimateIn y={16} className={buttonContainerClassName}>
           <FrameButton variant="rail">{buttonText}</FrameButton>
         </AnimateIn>
       )}

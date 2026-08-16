@@ -66,7 +66,7 @@ export function TabbedCardsSection({
 
         <div
           ref={tabsRef}
-          className="mt-16 flex max-xl:flex-nowrap max-xl:overflow-x-auto max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden flex-wrap items-center justify-center gap-2 sm:gap-4 lg:gap-6 xl:gap-8"
+          className="mt-8 sm:mt-12 lg:mt-20 flex max-xl:flex-nowrap max-xl:overflow-x-auto max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden flex-wrap items-center justify-center gap-2 sm:gap-4 lg:gap-6 xl:gap-8"
         >
           {tabs.map((tab) => (
             <button
@@ -91,7 +91,7 @@ export function TabbedCardsSection({
         </div>
       </Container>
 
-      <ul ref={cardsRef} className="max-sm:mt-8 mt-20 grid gap-1.5 px-1.5 md:grid-cols-2">
+      <ul ref={cardsRef} className="mt-8 sm:mt-12 lg:mt-20 grid gap-1.5 px-1.5 md:grid-cols-2">
         {cardsData[activeKey]?.map((card) => (
           <li
             key={card.title}

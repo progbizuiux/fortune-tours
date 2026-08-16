@@ -552,7 +552,7 @@ export function FeaturedDestinations() {
         {/* Padding tracks viewport height above lg so a short laptop screen
             gives up whitespace before the section gives up the fold, and returns
             to its original spacing at 2xl along with the cards. */}
-        <Container className="pt-16 pb-10 lg:pt-[min(4rem,6vh)] lg:pb-[min(2.5rem,4vh)] 2xl:pt-24 2xl:pb-16">
+        <Container className="max-md:pt-0 md:pt-16 pb-10 lg:pt-[min(4rem,6vh)] lg:pb-[min(2.5rem,4vh)] 2xl:pt-24 2xl:pb-16">
           <SectionHeading
             eyebrow="Chapter 05 — Signature"
             title="Where will your next journey?"
@@ -793,9 +793,8 @@ export function FeaturedDestinations() {
                 <div className="text-body flex items-center gap-4 text-white/95">
                   <CtaLink
                     href="/destinations"
-                    className="hover:text-sky"
-                    withLeftDivider
-                    withRightDivider
+                    fill
+                    className="border-x border-white/40 px-5 hover:text-white"
                   >
                     View all destinations
                   </CtaLink>
@@ -871,9 +870,8 @@ function SlideCopy({ slide }) {
       <div className="fd-cta text-body mt-16 flex items-center gap-4 text-white/95 max-lg:hidden">
         <CtaLink
           href="/destinations"
-          className="hover:text-sky px-1"
-          withLeftDivider
-          withRightDivider
+          fill
+          className="border-x border-white/40 px-5 hover:text-white"
         >
           Explore the destination
         </CtaLink>

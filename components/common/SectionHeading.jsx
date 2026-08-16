@@ -26,7 +26,7 @@ export function SectionHeading({
     <AnimateIn
       stagger={0.12}
       className={cn(
-        "flex flex-col gap-5 md:gap-7",
+        "flex flex-col gap-5 md:gap-7 lg:gap-6 2xl:gap-[35px]",
         centered && "items-center text-center",
         className,
       )}
@@ -49,15 +49,15 @@ export function SectionHeading({
         className={cn(
           "flex flex-col gap-4",
           centered
-            ? "items-center"
-            : "md:flex-row md:items-end md:justify-between md:gap-8",
+            ? "items-center lg:gap-5 2xl:gap-[30px]"
+            : "md:flex-row md:items-center md:justify-between md:gap-8 lg:gap-6 2xl:gap-8",
         )}
       >
         <h2 className="max-lg:text-[30px] max-lg:leading-none max-lg:tracking-[-0.01em] text-navy dark:text-cream">{title}</h2>
         {description && (
           <p
             className={cn(
-              "max-lg:text-[13px] max-lg:font-light max-lg:leading-[1.2]",
+              "max-lg:text-[13px] max-lg:font-light max-lg:leading-120",
               centered
                 ? "max-lg:max-w-[283px] max-w-xl text-black/80 dark:text-cream/80"
                 : "max-w-lg text-navy/70 dark:text-cream/70 md:text-right",
