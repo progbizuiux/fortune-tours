@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { Star } from "lucide-react";
 import { FaGoogle } from "react-icons/fa6";
@@ -5,6 +8,7 @@ import { Container } from "@/components/common/Container";
 import { CtaLink } from "@/components/common/CtaLink";
 import { PartnerLogos } from "@/components/home/PartnerLogos";
 import { AnimatedAvatars } from "@/components/home/AnimatedAvatars";
+import { HERO_CTA } from "@/lib/typography";
 
 // The design numbers the fourth column "III." as well — treated as a typo and
 // continued as IV so the sequence reads correctly.
@@ -46,7 +50,93 @@ const REVIEWS = [
 const HAS_REVIEWER_PHOTOS = true;
 const HAS_REVIEW_PHOTOS = true;
 
+function ReviewCard({ review, index, isExpanded, onToggle }) {
+  const textRef = useRef(null);
+  const [needsReadMore, setNeedsReadMore] = useState(false);
+
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (textRef.current) {
+        // If it's currently expanded, we can't accurately check if it WOULD overflow in clamped state
+        // unless we briefly clamp it. But since we only need to know this initially or on resize,
+        // it's best to check when it's clamped.
+        if (!isExpanded) {
+          setNeedsReadMore(textRef.current.scrollHeight > textRef.current.clientHeight);
+        }
+      }
+    };
+    
+    checkOverflow();
+    window.addEventListener("resize", checkOverflow);
+    return () => window.removeEventListener("resize", checkOverflow);
+  }, [review.quote, isExpanded]);
+
+  return (
+    <li
+      className={`group cursor-pointer before:bg-navy/15 relative flex flex-col before:absolute before:top-0 max-sm:before:-left-2 sm:max-xl:before:-left-5 xl:before:-left-[4%] before:h-full before:w-px before:content-[''] xl:first:before:hidden ${index >= 2 ? "max-xl:hidden" : ""}`}
+    >
+      <p className="text-caption text-navy/70 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-sky group-hover:translate-x-2">
+        {review.numeral}
+      </p>
+
+      <div className="flex-1 flex flex-col items-start mt-8">
+        <p 
+          ref={textRef}
+          className={`max-sm:font-light max-sm:text-[12px] max-sm:leading-120 max-sm:tracking-[-0.3px] text-small lg:font-sans lg:font-light lg:text-[18px] lg:leading-120 lg:tracking-[-1.4px] text-navy lg:text-charcoal transition-colors duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-black ${!isExpanded ? "line-clamp-3" : ""}`}
+        >
+          {review.quote}
+        </p>
+        {needsReadMore && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggle();
+            }}
+            className="mt-3 max-sm:text-[11px] text-[13px] font-medium text-sky hover:text-navy transition-colors"
+          >
+            {isExpanded ? "Read less" : "Read more"}
+          </button>
+        )}
+      </div>
+
+      <div className="bg-navy/10 relative mt-10 shrink-0 aspect-5/6 max-sm:aspect-[179/216] lg:aspect-[319/386] w-full md:max-lg:max-w-[280px] lg:max-xl:max-w-[320px] overflow-hidden">
+        {HAS_REVIEW_PHOTOS && (
+          <Image
+            src={review.src}
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
+            className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.08]"
+          />
+        )}
+
+        <div
+          className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 via-black/40 to-transparent pointer-events-none"
+          aria-hidden="true"
+        />
+
+        <div className="absolute inset-0 border border-white/40 pointer-events-none" aria-hidden="true" />
+
+        <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 p-4 transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-2">
+          <span className="max-md:font-sans max-md:text-[11px] max-md:font-normal max-md:leading-[120%] max-md:tracking-[-0.84px] md:text-small md:font-medium truncate text-white/90 transition-colors duration-700 group-hover:text-white">
+            {review.name}
+          </span>
+
+          <span className="flex shrink-0 items-center gap-2 text-white/90 transition-colors duration-700 group-hover:text-white">
+            <FaGoogle className="max-md:h-[14.43px] max-md:w-[14.43px] md:size-4" aria-hidden="true" />
+            <span className="h-4 w-px bg-white/40" aria-hidden="true" />
+            <Star className="max-md:h-[10.82px] max-md:w-[10.22px] md:size-4 fill-white" aria-hidden="true" />
+            <span className="max-md:font-sans max-md:text-[10.82px] max-md:font-light max-md:leading-[120%] max-md:tracking-[-0.84px] md:text-caption">{review.rating}</span>
+            <span className="sr-only">out of 5 on Google</span>
+          </span>
+        </div>
+      </div>
+    </li>
+  );
+}
+
 export function CredentialsSection() {
+  const [expandedId, setExpandedId] = useState(null);
 
   return (
     // relative z-10 keeps it above the sticky hero, same as the other sections.
@@ -83,59 +173,18 @@ export function CredentialsSection() {
             ~161px, too narrow for the name + rating overlay to read. */}
         <ul className="mt-20 grid grid-cols-2 max-sm:gap-x-4 gap-x-10 max-sm:gap-y-8 gap-y-14 sm:grid-cols-2 lg:mt-20 2xl:mt-28 xl:grid-cols-4 xl:gap-x-[8%]">
           {REVIEWS.map((review, i) => (
-            // The divider is a pseudo-element sitting in the gutter rather than
-            // a border + padding: padding would shrink every column except the
-            // first, leaving card 1 visibly wider than the other three.
-            <li
-              key={review.numeral}
-              className={`group cursor-pointer before:bg-navy/15 relative flex flex-col before:absolute before:top-0 max-sm:before:-left-2 sm:max-xl:before:-left-5 xl:before:-left-[4%] before:h-full before:w-px before:content-[''] xl:first:before:hidden ${i >= 2 ? "max-xl:hidden" : ""}`}
-            >
-              <p className="text-caption text-navy/70 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-sky group-hover:translate-x-2">
-                {review.numeral}
-              </p>
-
-              <p className="max-sm:font-light max-sm:text-[12px] max-sm:leading-120 max-sm:tracking-[-0.3px] text-small lg:font-heading lg:font-normal lg:text-[20px] lg:leading-120 lg:tracking-[1px] text-navy lg:text-charcoal xl:font-sans xl:font-light xl:text-[18px] xl:tracking-[-1.4px] mt-8 transition-colors duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-black">
-                {review.quote}
-              </p>
-
-              <div className="bg-navy/10 relative mt-10 grow aspect-5/6 max-sm:aspect-[179/216] lg:aspect-[319/386] w-full md:max-lg:max-w-[280px] lg:max-xl:max-w-[320px] overflow-hidden">
-                {HAS_REVIEW_PHOTOS && (
-                  <Image
-                    src={review.src}
-                    alt=""
-                    fill
-                    sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
-                    className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.08]"
-                  />
-                )}
-
-                <div
-                  className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 via-black/40 to-transparent pointer-events-none"
-                  aria-hidden="true"
-                />
-
-                <div className="absolute inset-0 border border-white/40 pointer-events-none" aria-hidden="true" />
-
-                <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 p-4 transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-2">
-                  <span className="max-md:font-sans max-md:text-[11px] max-md:font-normal max-md:leading-[120%] max-md:tracking-[-0.84px] md:text-small md:font-medium truncate text-white/90 transition-colors duration-700 group-hover:text-white">
-                    {review.name}
-                  </span>
-
-                  <span className="flex shrink-0 items-center gap-2 text-white/90 transition-colors duration-700 group-hover:text-white">
-                    <FaGoogle className="max-md:h-[14.43px] max-md:w-[14.43px] md:size-4" aria-hidden="true" />
-                    <span className="h-4 w-px bg-white/40" aria-hidden="true" />
-                    <Star className="max-md:h-[10.82px] max-md:w-[10.22px] md:size-4 fill-white" aria-hidden="true" />
-                    <span className="max-md:font-sans max-md:text-[10.82px] max-md:font-light max-md:leading-[120%] max-md:tracking-[-0.84px] md:text-caption">{review.rating}</span>
-                    <span className="sr-only">out of 5 on Google</span>
-                  </span>
-                </div>
-              </div>
-            </li>
+            <ReviewCard 
+              key={review.numeral} 
+              review={review} 
+              index={i} 
+              isExpanded={expandedId === review.numeral}
+              onToggle={() => setExpandedId(expandedId === review.numeral ? null : review.numeral)}
+            />
           ))}
         </ul>
 
         <div className="max-md:mt-[26.82px] md:mt-16 flex items-center justify-center gap-6">
-          <CtaLink href="#" fill className="text-body text-navy border-x border-navy/20 px-5">
+          <CtaLink href="#" fill className={`${HERO_CTA} border-navy/20 text-navy`}>
             View more
           </CtaLink>
         </div>

@@ -92,7 +92,7 @@ export function TabbedCardsSection({
         </div>
       </Container>
 
-      <ul ref={cardsRef} className="mt-8 sm:mt-12 lg:mt-20 grid gap-1.5 px-1.5 md:grid-cols-2">
+      <ul ref={cardsRef} className="mt-8 sm:mt-12 lg:mt-20 grid gap-1.5 px-1.5 md:max-xl:px-12 lg:max-xl:px-24 md:grid-cols-2">
         {cardsData[activeKey]?.map((card) => (
           <li
             key={card.title}

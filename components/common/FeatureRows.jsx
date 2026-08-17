@@ -85,23 +85,18 @@ export function FeatureRows({ items, className, ariaLabel }) {
                 construction rather than breaking out of a Container. */}
             <div
               className={cn(
-                /* The stacked bands take progressively shallower crops than the
-                   frame's 585: 540 from md, and 480 again from lg. The picture is
-                   full-bleed while stacked, so height is the only dimension that
-                   can come down without abandoning the edge bleed — the wider the
-                   viewport gets, the taller a fixed ratio stands the picture, so
-                   the crop has to give a little at each step. The frame's own
-                   1027:585 returns at xl with the two-column layout, and the
-                   phone keeps it too. */
-                "relative aspect-[1027/585] w-[calc(100%_-_20px)] shrink-0 md:aspect-[1027/540] lg:aspect-[1027/480] xl:mx-0 xl:aspect-[1027/585] xl:w-[53.4896%]",
-                pictureRight ? "ml-5" : "mr-5",
+                "relative aspect-[1027/585] w-[calc(100%_-_20px)] shrink-0",
+                "md:aspect-[1027/540] md:w-[75%] md:mx-auto",
+                "lg:aspect-[1027/480] lg:w-[65%]",
+                "xl:mx-0 xl:aspect-[1027/585] xl:w-[53.4896%]",
+                pictureRight ? "max-md:ml-5" : "max-md:mr-5",
               )}
             >
               <Image
                 src={item.image}
                 alt={item.alt}
                 fill
-                sizes="(min-width: 1280px) 54vw, 100vw"
+                sizes="(min-width: 1280px) 54vw, (min-width: 768px) 85vw, 100vw"
                 className="object-cover"
               />
             </div>
