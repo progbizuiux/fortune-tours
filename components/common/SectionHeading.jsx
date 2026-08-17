@@ -18,6 +18,11 @@ export function SectionHeading({
   align = "left",
   className,
   eyebrowClassName,
+  // For sections whose heading is drawn at a size the h2 token does not reach.
+  // `text-h2` is generated from an `@theme inline` token, so it compiles to the
+  // literal clamp and always resolves to 65px at 1920 — the 1024-1535 downscale
+  // in globals.css only reaches bare tags. Left unset, nothing changes.
+  titleClassName,
   descriptionClassName,
 }) {
   const centered = align === "center";
@@ -53,7 +58,14 @@ export function SectionHeading({
             : "md:flex-row md:items-center md:justify-between md:gap-8 lg:gap-6 2xl:gap-8",
         )}
       >
-        <h2 className="max-lg:text-[30px] max-lg:leading-none max-lg:tracking-[-0.01em] text-navy dark:text-cream">{title}</h2>
+        <h2
+          className={cn(
+            "max-lg:text-[30px] max-lg:leading-none max-lg:tracking-[-0.01em] text-navy dark:text-cream",
+            titleClassName,
+          )}
+        >
+          {title}
+        </h2>
         {description && (
           <p
             className={cn(

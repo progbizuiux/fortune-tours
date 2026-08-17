@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { AnimateIn } from "@/components/common/AnimateIn";
+import { cn } from "@/lib/utils";
 
 /* Journal strip (Figma "final" → Chapter 07 — Journal).
    Card type per Figma: meta = Spartan Light 16/100%, story = Poppins Light
@@ -37,9 +38,18 @@ const POSTS = [
   },
 ];
 
-export function JournalSection() {
+/* The negative top margins pull this up under the home page's cloud transition.
+   Any other page reusing the strip has nothing to tuck under, so `className` is
+   there to cancel them — see the experience pages, which pass mt-0!. */
+export function JournalSection({ className }) {
   return (
-    <section aria-label="Journal — stories from the field" className="spacing -mt-[40px] lg:-mt-[100px] 2xl:mt-0 relative z-10">
+    <section
+      aria-label="Journal — stories from the field"
+      className={cn(
+        "spacing -mt-[40px] lg:-mt-[100px] 2xl:mt-0 relative z-10",
+        className,
+      )}
+    >
       <Container>
         <SectionHeading
           eyebrow="Chapter 07 — Journal"
@@ -55,7 +65,10 @@ export function JournalSection() {
           className="mt-16 grid max-xl:flex max-xl:flex-nowrap max-xl:overflow-x-auto max-xl:snap-x max-xl:snap-mandatory max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden gap-x-3 gap-y-10 xl:grid-cols-4"
         >
           {POSTS.map((post) => (
-            <li key={post.href} className="flex flex-col items-start max-sm:w-[254px] sm:max-md:w-[320px] md:max-lg:w-[280px] lg:max-xl:w-[320px] max-xl:shrink-0 max-xl:snap-center">
+            <li
+              key={post.href}
+              className="flex flex-col items-start max-sm:w-[254px] sm:max-md:w-[320px] md:max-lg:w-[280px] lg:max-xl:w-[320px] max-xl:shrink-0 max-xl:snap-center"
+            >
               <div className="relative aspect-[431/551] w-full overflow-hidden">
                 <Image
                   src={post.image}
@@ -83,7 +96,10 @@ export function JournalSection() {
                 className="font-top text-small max-sm:text-[12px] hover:text-sky mt-auto inline-flex items-center gap-1.5 pt-4 leading-none font-medium text-navy dark:text-cream"
               >
                 Read
-                <ArrowUpRight aria-hidden="true" className="size-3.5 max-sm:size-3" />
+                <ArrowUpRight
+                  aria-hidden="true"
+                  className="size-3.5 max-sm:size-3"
+                />
               </CtaLink>
             </li>
           ))}

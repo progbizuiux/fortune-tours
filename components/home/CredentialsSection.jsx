@@ -94,7 +94,7 @@ export function CredentialsSection() {
                 {review.numeral}
               </p>
 
-              <p className="max-sm:font-light max-sm:text-[12px] max-sm:leading-120 max-sm:tracking-[-0.3px] text-small lg:font-heading lg:font-normal lg:text-[20px] 2xl:text-[24px] lg:leading-120 lg:tracking-[1px] text-navy lg:text-charcoal mt-8 transition-colors duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-black">
+              <p className="max-sm:font-light max-sm:text-[12px] max-sm:leading-120 max-sm:tracking-[-0.3px] text-small lg:font-heading lg:font-normal lg:text-[20px] lg:leading-120 lg:tracking-[1px] text-navy lg:text-charcoal xl:font-sans xl:font-light xl:text-[18px] xl:tracking-[-1.4px] mt-8 transition-colors duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-black">
                 {review.quote}
               </p>
 
