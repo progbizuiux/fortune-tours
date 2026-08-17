@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Triangle } from "lucide-react";
 import { AnimateIn } from "@/components/common/AnimateIn";
 import { CtaLink } from "@/components/common/CtaLink";
+import { HERO_BODY, HERO_HEADING_NARROW } from "@/lib/typography";
 
 /* Editorial band at the top of /search — cream copy panel on the left, a
    photograph bleeding off the right edge.
@@ -61,7 +62,7 @@ export function InspirationBanner({ inspiration, ctaHref }) {
                 the band is stacked, and from lg a clamp tracks the column: 42px
                 at 1024, 62px at 1440, and exactly the spec's 85px from 1920 up,
                 holding "Travel at Your" on one line throughout. */}
-            <h1 className="text-navy leading-[1.1118] lg:text-h2 xl:text-[clamp(2.5rem,4.8vw_-_7.16px,5.3125rem)]">
+            <h1 className={`${HERO_HEADING_NARROW} text-navy`}>
               {inspiration.title}
             </h1>
 
@@ -73,7 +74,14 @@ export function InspirationBanner({ inspiration, ctaHref }) {
                 18px); the token hardcodes 1.5rem, which is 150% at the 16px
                 floor but stays 24px once the size ramps up. Expressing it as a
                 ratio hits the spec at every width. */}
-            <p className="text-body mt-8 max-w-[470px] leading-[1.5] text-black/80 max-lg:mt-6">
+            {/* The 470 measure is the stacked phone layout's. From md to xl the
+                copy has more width than that to use — full width while stacked,
+                and the wider half of the grid once the band splits at lg — so
+                the cap only held it to a short column. Released through that
+                band and restored at xl, where the design's own column returns. */}
+            <p
+              className={`${HERO_BODY} mt-8 max-w-[470px] text-black/80 max-lg:mt-6 md:max-w-none xl:max-w-[470px]`}
+            >
               {inspiration.body}
             </p>
 
@@ -120,8 +128,29 @@ export function InspirationBanner({ inspiration, ctaHref }) {
             746px at 1700 and holds, which is the spec value at the 1920 frame
             the design was drawn on.
             NOTE: 746px is the design file's height, so it undoes the two rounds
-            of shrinking that came before the spec arrived. */}
-        <div className="relative h-[clamp(180px,24.4vw_+_119.4px,400px)] w-full lg:h-auto lg:min-h-[clamp(460px,43.9vw,746px)]">
+            of shrinking that came before the spec arrived.
+
+            That 43.9vw rule is now scaled back across lg-to-2xl, because it was
+            reading far too tall on a laptop: the picture is drawn 746px for a
+            1920 frame, and 43.9vw carried most of that height into a viewport
+            two thirds the size. The replacement ramp lands on the same 746px at
+            1920 and is ~85% of the old height through 1280-1536, so the spec
+            width is untouched and there is no step at the breakpoint — the same
+            no-snapping rule the interpolated stacked height above follows.
+
+            It also has to be `h` with `self-start`, not `min-h` on a stretched
+            cell. The picture and the copy share a grid row, so a stretched cell
+            takes the taller of the two — and since the old floor was exactly the
+            copy's height at 1024, every pixel of the reduction would have been
+            handed straight back by the copy. */}
+        {/* The lg-to-xl band is pulled back again, ~13% at 1024 (340 against
+            391). The ramp is steeper than the one it hands over to so that it
+            closes most of the gap by 1280 — 460 against the xl rule's 478 —
+            because a flat 13% cut across the band would have snapped 60px at the
+            breakpoint, which is exactly the stepping the stacked height above is
+            written to avoid. From xl the rule that reaches the design's 746 at
+            1920 takes over untouched. */}
+        <div className="relative h-[clamp(180px,24.4vw_+_119.4px,400px)] w-full lg:h-[clamp(340px,47.06vw_-_142px,640px)] lg:self-start xl:h-[clamp(391px,41.938vw_-_59.2px,746px)]">
           <Image
             src={inspiration.image}
             alt={inspiration.imageAlt}

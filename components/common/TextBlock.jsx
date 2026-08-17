@@ -37,7 +37,7 @@ export function TextBlock({
       {eyebrow && (
         <span
           className={cn(
-            "font-top text-[12px] md:text-[16px] font-normal leading-[11.7px] text-black",
+            "font-top text-[12px] md:text-[14px] xl:text-[16px] font-normal leading-[11.7px] text-black",
             eyebrowClassName,
           )}
         >
@@ -48,7 +48,7 @@ export function TextBlock({
       {title && (
         <Heading
           className={cn(
-            "font-heading text-[25px] md:text-[45px] leading-[41.4px] tracking-[-0.7px] mt-[9px] md:mt-[20px] text-navy",
+            "font-heading text-[25px] md:text-[30px] xl:text-[45px] leading-[41.4px] md:leading-120 xl:leading-[41.4px] tracking-[-0.7px] mt-[9px] md:mt-[20px] text-navy",
             titleClassName,
           )}
         >
@@ -59,7 +59,7 @@ export function TextBlock({
       {description && (
         <p
           className={cn(
-            "font-sans text-[13px] md:text-[18px] font-light leading-[21px] md:leading-[28.9px] text-black/80 mt-[6px] md:mt-[32px] max-w-[668.7px]",
+            "font-sans text-[13px] md:text-[16px] xl:text-[18px] font-light leading-[21px] md:leading-[24px] xl:leading-[28.9px] text-black/80 mt-[6px] md:mt-[32px] max-w-[668.7px]",
             descriptionClassName,
           )}
         >

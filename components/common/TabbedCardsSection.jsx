@@ -15,6 +15,7 @@ export function TabbedCardsSection({
   tabs = [],
   cardsData = {},
   sectionAriaLabel = "Tabbed cards section",
+  extraCls
 }) {
   const [activeKey, setActiveKey] = useState(tabs[0]?.key);
   const activeTab = tabs.find((tab) => tab.key === activeKey);
@@ -54,7 +55,7 @@ export function TabbedCardsSection({
     <section
       ref={sectionRef}
       aria-label={sectionAriaLabel}
-      className="spacing"
+      className={`spacing ${extraCls}`}
     >
       <Container>
         <SectionHeading

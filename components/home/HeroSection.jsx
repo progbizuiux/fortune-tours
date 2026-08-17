@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { Container } from "@/components/common/Container";
 import { CtaLink } from "@/components/common/CtaLink";
 import { gsap, useGSAP } from "@/lib/gsap";
+import { HERO_BODY, HERO_CTA, HERO_HEADING } from "@/lib/typography";
 
 const CTA_LINKS = [
   { label: "Discover experiences", href: "/experiences" },
@@ -86,11 +87,15 @@ export function HeroSection() {
           Fortune Tours &amp; Travels — Est. 1998
         </span>
 
-        <h1 className="hero-heading font-heading max-md:text-[42px] max-md:leading-none text-h1 max-md:max-w-[400px] max-w-4xl text-white opacity-0">
+        <h1
+          className={`hero-heading ${HERO_HEADING} max-md:max-w-[400px] max-w-4xl text-white opacity-0`}
+        >
           The journey begins before you leave home.
         </h1>
 
-        <p className="hero-description max-md:text-[13px] max-md:leading-120 text-body max-md:max-w-[313px] max-w-lg max-md:text-white/80 text-white/90 opacity-0 max-md:px-4">
+        <p
+          className={`hero-description ${HERO_BODY} max-md:max-w-[313px] max-w-lg max-md:text-white/80 text-white/90 opacity-0 max-md:px-4`}
+        >
           Travel isn&apos;t measured by miles. It&apos;s measured by moments
           that stay with you forever.
         </p>
@@ -101,7 +106,7 @@ export function HeroSection() {
               key={link.href}
               href={link.href}
               fill
-              className="border-x border-white/40 px-5"
+              className={`${HERO_CTA} border-white/40`}
             >
               {link.label}
             </CtaLink>
