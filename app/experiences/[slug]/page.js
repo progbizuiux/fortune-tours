@@ -62,7 +62,7 @@ export default async function ExperiencePage({ params }) {
            the hero copy above it — that is what the design shows. */
         trackClassName="px-4 md:px-8 lg:px-20 scroll-pl-4 md:scroll-pl-8 lg:scroll-pl-20"
         /* The cards rise in on the shared scroll-scrubbed entrance the home
-           page's destination strip uses — see lib/useRowRise.js. Kerala renders
+           page's destination strip uses — see lib/gsap/useRowRise.js. Kerala renders
            the same section and is deliberately left without it. */
         riseOnScroll
       />
@@ -86,6 +86,9 @@ export default async function ExperiencePage({ params }) {
         ctaLabel={experience.packagesCtaLabel}
         ctaHref={experience.packagesCtaHref}
         items={experience.packages}
+        /* The vita-travel.webflow.io statistics cascade, on the one section
+           here that had no motion of its own — see lib/gsap/useCardCascade.js. */
+        cascade
       />
 
       <CalloutSection

@@ -3,7 +3,8 @@ import { CtaLink } from "@/components/common/CtaLink";
 import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
-import { AnimateIn } from "@/components/common/AnimateIn";
+import { CardCascade } from "@/components/common/CardCascade";
+import { CascadeText } from "@/components/common/CascadeText";
 import { cn } from "@/lib/utils";
 
 /* Journal strip (Figma "final" → Chapter 07 — Journal).
@@ -58,18 +59,20 @@ export function JournalSection({ className }) {
         />
 
         {/* 12px column gap and 431:551 image ratio from the Figma frame */}
-        <AnimateIn
+        <CardCascade
           as="ul"
-          stagger={0.12}
-          y={36}
           className="mt-16 grid max-xl:flex max-xl:flex-nowrap max-xl:overflow-x-auto max-xl:snap-x max-xl:snap-mandatory max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden gap-x-3 gap-y-10 xl:grid-cols-4"
         >
           {POSTS.map((post) => (
             <li
               key={post.href}
+              data-cascade-card
               className="flex flex-col items-start max-sm:w-[254px] sm:max-md:w-[320px] md:max-lg:w-[280px] lg:max-xl:w-[320px] max-xl:shrink-0 max-xl:snap-center"
             >
-              <div className="relative aspect-[431/551] w-full overflow-hidden">
+              <div
+                data-cascade-picture
+                className="relative aspect-[431/551] w-full overflow-hidden"
+              >
                 <Image
                   src={post.image}
                   alt={post.title}
@@ -80,11 +83,11 @@ export function JournalSection({ className }) {
               </div>
 
               <span className="font-top text-small max-sm:text-[12px] mt-5 max-sm:mt-3 leading-none font-light text-navy dark:text-cream">
-                {post.meta}
+                <CascadeText part="title">{post.meta}</CascadeText>
               </span>
 
               <p className="mt-4 max-sm:mt-2 max-sm:font-light max-sm:text-[13px] max-sm:leading-[110%] text-black/80 dark:text-cream/80 xl:max-w-[90%]">
-                {post.title}
+                <CascadeText part="subtitle">{post.title}</CascadeText>
               </p>
 
               {/* mt-auto bottom-anchors Read so it sits on the same line in
@@ -103,7 +106,7 @@ export function JournalSection({ className }) {
               </CtaLink>
             </li>
           ))}
-        </AnimateIn>
+        </CardCascade>
       </Container>
     </section>
   );
