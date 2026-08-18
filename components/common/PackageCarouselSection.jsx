@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { CtaLink } from "@/components/common/CtaLink";
 import { PackageCard } from "@/components/common/PackageCard";
+import { useCardCascade } from "@/lib/gsap/useCardCascade";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { cn } from "@/lib/utils";
 
@@ -39,8 +40,15 @@ export function PackageCarouselSection({
   items,
   ariaLabel,
   className,
+  // Opt in to the scroll-in cascade (lib/gsap/useCardCascade.js). Off by default so
+  // the section can be dropped anywhere without bringing motion with it.
+  cascade = false,
 }) {
   const trackRef = useRef(null);
+  // The section is the trigger, not the track — the reference fires the whole
+  // row off its own section reaching 88% of the screen, so the cards cascade
+  // as the section arrives rather than each one waiting its turn.
+  const sectionRef = useCardCascade({ enabled: cascade });
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -86,6 +94,7 @@ export function PackageCarouselSection({
      same reason Kerala's packages section writes pt-0!. */
   return (
     <section
+      ref={sectionRef}
       aria-label={ariaLabel}
       className={cn("spacing pt-0 max-xl:pb-0!", className)}
     >
@@ -208,6 +217,7 @@ export function PackageCarouselSection({
             {items.map((item) => (
               <li
                 key={item.key}
+                data-cascade-card={cascade ? "" : undefined}
                 /* 462, not 460: the spec's 460x423 is the picture, and the
                    card's 1px border sits outside it on each side. */
                 className="w-[85vw] max-w-[348px] shrink-0 snap-start md:max-w-[462px] xl:w-[462px] xl:max-w-none"
@@ -219,6 +229,7 @@ export function PackageCarouselSection({
                   image={item.image}
                   alt={item.alt}
                   className="h-full"
+                  cascade={cascade}
                 />
               </li>
             ))}

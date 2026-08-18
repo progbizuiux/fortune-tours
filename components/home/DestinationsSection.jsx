@@ -7,7 +7,7 @@ import { Container } from "@/components/common/Container";
 import { FullContainer } from "@/components/common/FullContainer";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { CloudTransition } from "@/components/home/CloudTransition";
-import { useRowRise } from "@/lib/useRowRise";
+import { useRowRise } from "@/lib/gsap/useRowRise";
 
 // Drop matching files into public/destinations/ and the placeholder below is
 // replaced automatically — no other change needed.
@@ -48,7 +48,7 @@ export function DestinationsSection() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   // The scroll-scrubbed entrance the cards rise in on — shared, and described
-  // in full, in lib/useRowRise.js. The row already needs a ref for the mobile
+  // in full, in lib/gsap/useRowRise.js. The row already needs a ref for the mobile
   // scroll handler below, so the hook is handed that one rather than its own.
   const scrollRef = useRef(null);
   useRowRise({ ref: scrollRef });

@@ -1,6 +1,6 @@
 "use client";
 
-import { useReveal } from "@/lib/useReveal";
+import { useReveal } from "@/lib/gsap/useReveal";
 
 /* Client leaf for scroll-in reveals in server components.
 
@@ -11,7 +11,7 @@ import { useReveal } from "@/lib/useReveal";
 
    All animation behavior and its style-safety guarantees (transform+opacity
    only, clearProps self-clean, y=0 fade-only mode, reduced-motion no-op,
-   self-destroying triggers) live in lib/useReveal.js — client components
+   self-destroying triggers) live in lib/gsap/useReveal.js — client components
    should use that hook directly instead of this wrapper. */
 export function AnimateIn({
   as: Tag = "div",

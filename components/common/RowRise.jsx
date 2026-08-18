@@ -1,6 +1,6 @@
 "use client";
 
-import { useRowRise } from "@/lib/useRowRise";
+import { useRowRise } from "@/lib/gsap/useRowRise";
 
 /* Client leaf for the scroll-scrubbed card row entrance in server components.
 
@@ -15,7 +15,7 @@ import { useRowRise } from "@/lib/useRowRise";
      </RowRise>
 
    All animation behavior, its options and its style-safety guarantees live in
-   lib/useRowRise.js — client components should use that hook directly instead
+   lib/gsap/useRowRise.js — client components should use that hook directly instead
    of this wrapper, especially when the row already needs a ref of its own. */
 export function RowRise({
   as: Tag = "div",

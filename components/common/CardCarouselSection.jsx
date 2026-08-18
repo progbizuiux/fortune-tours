@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
-import { useRowRise } from "@/lib/useRowRise";
+import { useRowRise } from "@/lib/gsap/useRowRise";
 import { cn } from "@/lib/utils";
 
 /* Centred chapter heading over a horizontally-scrolled row of picture cards,
@@ -39,7 +39,7 @@ export function CardCarouselSection({
   // toward the viewport edge. The honeymoon page lines its track up with
   // Container's own padding instead, so this is the one layout knob.
   trackClassName = "px-5 md:px-8 scroll-pl-5 md:scroll-pl-8",
-  // Opt in to the shared scroll-scrubbed card entrance (lib/useRowRise.js).
+  // Opt in to the shared scroll-scrubbed card entrance (lib/gsap/useRowRise.js).
   // Off by default so call sites that predate it are left exactly as they were.
   riseOnScroll = false,
 }) {

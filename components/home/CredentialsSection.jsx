@@ -8,6 +8,8 @@ import { Container } from "@/components/common/Container";
 import { CtaLink } from "@/components/common/CtaLink";
 import { PartnerLogos } from "@/components/home/PartnerLogos";
 import { AnimatedAvatars } from "@/components/home/AnimatedAvatars";
+import { CascadeText } from "@/components/common/CascadeText";
+import { useCardCascade } from "@/lib/gsap/useCardCascade";
 import { HERO_CTA } from "@/lib/typography";
 
 // The design numbers the fourth column "III." as well — treated as a typo and
@@ -61,22 +63,30 @@ function ReviewCard({ review, index, isExpanded, onToggle }) {
         // unless we briefly clamp it. But since we only need to know this initially or on resize,
         // it's best to check when it's clamped.
         if (!isExpanded) {
-          setNeedsReadMore(textRef.current.scrollHeight > textRef.current.clientHeight);
+          // Add a 2px threshold to account for fractional pixel rounding errors
+          setNeedsReadMore(textRef.current.scrollHeight > textRef.current.clientHeight + 2);
         }
       }
     };
     
     checkOverflow();
+    
+    // Re-check after fonts have loaded, as they can change text dimensions
+    if (typeof document !== "undefined" && document.fonts) {
+      document.fonts.ready.then(checkOverflow);
+    }
+
     window.addEventListener("resize", checkOverflow);
     return () => window.removeEventListener("resize", checkOverflow);
   }, [review.quote, isExpanded]);
 
   return (
     <li
+      data-cascade-card
       className={`group cursor-pointer before:bg-navy/15 relative flex flex-col before:absolute before:top-0 max-sm:before:-left-2 sm:max-xl:before:-left-5 xl:before:-left-[4%] before:h-full before:w-px before:content-[''] xl:first:before:hidden ${index >= 2 ? "max-xl:hidden" : ""}`}
     >
       <p className="text-caption text-navy/70 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-sky group-hover:translate-x-2">
-        {review.numeral}
+        <CascadeText part="title">{review.numeral}</CascadeText>
       </p>
 
       <div className="flex-1 flex flex-col items-start mt-8">
@@ -99,7 +109,10 @@ function ReviewCard({ review, index, isExpanded, onToggle }) {
         )}
       </div>
 
-      <div className="bg-navy/10 relative mt-10 shrink-0 aspect-5/6 max-sm:aspect-[179/216] lg:aspect-[319/386] w-full md:max-lg:max-w-[280px] lg:max-xl:max-w-[320px] overflow-hidden">
+      <div
+        data-cascade-picture
+        className="bg-navy/10 relative mt-10 shrink-0 aspect-5/6 max-sm:aspect-[179/216] lg:aspect-[319/386] w-full md:max-lg:max-w-[280px] lg:max-xl:max-w-[320px] overflow-hidden"
+      >
         {HAS_REVIEW_PHOTOS && (
           <Image
             src={review.src}
@@ -137,6 +150,12 @@ function ReviewCard({ review, index, isExpanded, onToggle }) {
 
 export function CredentialsSection() {
   const [expandedId, setExpandedId] = useState(null);
+  /* The grid, not the section: this section carries a heading, the avatar row
+     and the partner logos above its cards, so triggering off the section's own
+     top would spend the whole cascade before a card was anywhere near the
+     screen. The card list is both what the trigger measures and what the hook
+     searches. */
+  const cardsRef = useCardCascade();
 
   return (
     // relative z-10 keeps it above the sticky hero, same as the other sections.
@@ -171,7 +190,10 @@ export function CredentialsSection() {
             any width, matching the design's narrow cards and wide gutters. */}
         {/* Four across only from xl: at lg the 8% gutters squeezed each card to
             ~161px, too narrow for the name + rating overlay to read. */}
-        <ul className="mt-20 grid grid-cols-2 max-sm:gap-x-4 gap-x-10 max-sm:gap-y-8 gap-y-14 sm:grid-cols-2 lg:mt-20 2xl:mt-28 xl:grid-cols-4 xl:gap-x-[8%]">
+        <ul
+          ref={cardsRef}
+          className="mt-20 grid grid-cols-2 max-sm:gap-x-4 gap-x-10 max-sm:gap-y-8 gap-y-14 sm:grid-cols-2 lg:mt-20 2xl:mt-28 xl:grid-cols-4 xl:gap-x-[8%]"
+        >
           {REVIEWS.map((review, i) => (
             <ReviewCard 
               key={review.numeral} 

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { CascadeText } from "@/components/common/CascadeText";
 import { cn } from "@/lib/utils";
 
 /* Bordered package card: picture, then the title, the nights/destinations line
@@ -33,6 +34,10 @@ export function PackageCard({
   // 15 from the picture to the title and 12 in from each edge, per the redline.
   contentClassName = "px-[12px] pt-[15px] pb-[16px] md:pb-[35px]",
   sizes = "(min-width: 1280px) 460px, 85vw",
+  /* Opt in to the scroll-in cascade (lib/gsap/useCardCascade.js), which needs the
+     hooks below to find the three parts that move. Off by default, so Kerala's
+     packages — which never asked for it — render exactly as they were. */
+  cascade = false,
 }) {
   return (
     <div
@@ -42,6 +47,7 @@ export function PackageCard({
       )}
     >
       <div
+        data-cascade-picture={cascade ? "" : undefined}
         className={cn("relative w-full overflow-hidden", imageAspectClassName)}
       >
         <Image
@@ -55,12 +61,16 @@ export function PackageCard({
 
       <div className={cn("flex flex-1 flex-col", contentClassName)}>
         <h3 className="font-heading mb-[20px] text-[18px] leading-[30px] font-normal text-black lg:mb-[60px] lg:text-[32px]">
-          {title}
+          {cascade ? <CascadeText part="title">{title}</CascadeText> : title}
         </h3>
 
         <div className="mt-auto">
           <p className={cn("font-sans font-light uppercase", metaClassName)}>
-            {meta}
+            {cascade ? (
+              <CascadeText part="subtitle">{meta}</CascadeText>
+            ) : (
+              meta
+            )}
           </p>
 
           <p className="font-sans mb-1 text-[13px] leading-[1] font-light uppercase text-black/80 lg:text-[16px]">

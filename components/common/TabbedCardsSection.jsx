@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
-import { useReveal } from "@/lib/useReveal";
+import { useReveal } from "@/lib/gsap/useReveal";
 
 export function TabbedCardsSection({
   eyebrow,
@@ -103,22 +103,22 @@ export function TabbedCardsSection({
               alt={card.title}
               fill
               sizes="(min-width: 768px) 50vw, 100vw"
-              className="object-cover transition-transform duration-[2000ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-110"
+              className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-110"
             />
             <div
-              className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent transition-colors duration-[1500ms] group-hover:from-black/90 group-hover:via-black/30"
+              className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent transition-colors duration-700 group-hover:from-black/90 group-hover:via-black/30"
               aria-hidden="true"
             />
 
             <div className="absolute inset-0 flex flex-col justify-between p-5 sm:p-8 md:pt-11 md:pb-16">
-              <span className="text-body max-sm:text-[12px] max-sm:font-light text-white/80 transition-all duration-[1000ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:translate-x-3 group-hover:text-white">
+              <span className="text-body max-sm:text-[12px] max-sm:font-light text-white/80 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:translate-x-3 group-hover:text-white">
                 {activeTab?.name ? `${activeTab.name}.` : ""}
               </span>
-              <div className="transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-3">
+              <div className="transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-3">
                 <h3 className="text-white max-sm:text-[18px] max-sm:leading-none max-sm:tracking-[-0.01em]">
                   {card.title}
                 </h3>
-                <p className="mt-3 max-sm:mt-1 max-sm:text-[12px] max-sm:leading-6 max-sm:font-normal text-white/80 transition-colors duration-[1000ms] group-hover:text-white">
+                <p className="mt-3 max-sm:mt-1 max-sm:text-[12px] max-sm:leading-6 max-sm:font-normal text-white/80 transition-colors duration-500 group-hover:text-white">
                   {card.meta}
                 </p>
               </div>
