@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Container } from "@/components/common/Container";
 import { CtaLink } from "@/components/common/CtaLink";
 import { gsap, useGSAP } from "@/lib/gsap";
+import { HERO_HEADING } from "@/lib/typography";
 
 const CTA_LINKS = [
   { label: "Explore Packages", href: "#packages" },
@@ -109,7 +110,7 @@ export function HeroSection() {
           Fortune Tours &amp; Travels — Est. 1998
         </span>
 
-        <h1 className="hero-heading font-heading max-md:text-[42px] max-md:leading-none text-h1 lg:leading-[103.5px] lg:mt-[70px] max-md:max-w-[400px] max-w-[889px] text-white opacity-0">
+        <h1 className={`hero-heading ${HERO_HEADING} lg:mt-[70px] max-md:max-w-[400px] max-w-[889px] text-white opacity-0`}>
           Everyone Sees Kerala. Few Actually Feel It.
         </h1>
 

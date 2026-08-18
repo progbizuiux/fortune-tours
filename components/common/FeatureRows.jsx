@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { StickyStack } from "@/components/common/StickyStack";
 import { TextBlock } from "@/components/common/TextBlock";
 import { cn } from "@/lib/utils";
 
@@ -24,14 +25,31 @@ import { cn } from "@/lib/utils";
  *
  * No section heading: this frame runs straight into the first row.
  *
+ * `stacked` gives the rows the reference's scroll effect: each one parks in
+ * the middle of the screen and the next slides up over it. It is lib/
+ * useStickyStack.js, which pins the rows themselves rather than wrapping them
+ * in panels — so the section keeps every gap, padding and margin below exactly
+ * as it has them flowing, at every width, and the rows need nothing from this
+ * file but a background to hide the row they cover.
+ *
  * `items`: { key, eyebrow, title, description, ctaLabel, ctaHref, image, alt }.
  * The split is at xl for the same reason as the hero — below it the copy column
  * is too narrow for a 45px heading, so the rows stack.
  */
-export function FeatureRows({ items, className, ariaLabel }) {
+export function FeatureRows({ items, className, ariaLabel, stacked = false }) {
   return (
-    <section
-      aria-label={ariaLabel}
+    <StickyStack
+      as="section"
+      enabled={stacked}
+      /* The fixed site header, and xl — the width the design stops stacking a
+         row under its picture and lays it out in two columns instead. Narrower
+         than that a row is barely half the screen tall, so centring it parked
+         it a long way down with an empty band under the header; below xl it
+         parks one row-gap under the header instead. From xl the rows centre,
+         which is the spacing already signed off there. */
+      headroom="header"
+      capBelow={1280}
+      ariaLabel={ariaLabel}
       /* Row rhythm: 64px between blocks on a phone (Kerala's HighlightsSection),
          and the frame's own 130 from xl.
 
@@ -66,6 +84,38 @@ export function FeatureRows({ items, className, ariaLabel }) {
             className={cn(
               "flex flex-col xl:flex-row xl:items-center",
               pictureRight && "xl:flex-row-reverse",
+              /* The only thing the scroll effect asks of the row: something
+                 to hide the row it slides over, instead of the two showing
+                 through each other. These rows sit on the page's white ground,
+                 so it is bg-background. Everything else about the effect — that
+                 the row pins, and where it parks — is lib/useStickyStack.js,
+                 which sets it on the element and leaves the box and the flow
+                 alone. So there is nothing here to gate by width: the row is
+                 laid out at every size exactly as it always was, and the stack
+                 rides along on top of whichever layout that is. */
+              stacked && "bg-background",
+              /* And the row carries its top margin with it as it slides.
+
+                 The row's box starts where its content starts, so on the way up
+                 its leading edge landed straight in the middle of the row it was
+                 covering — an image edge cutting a line of copy in half. The
+                 rows are meant to be 130px apart; that gap should still be there
+                 while one is passing over the other, not just when they are both
+                 at rest.
+
+                 A shadow, because it has to be paint and not layout: the gap
+                 between the rows is the section's already, and padding or a
+                 margin here would add a second one and move everything. No blur,
+                 no spread, offset up by exactly the gap at that width — an
+                 opaque band the height of the gap, sitting on the row's leading
+                 edge and travelling with it, and painting over the row below for
+                 the same reason the row itself does (later in source order).
+
+                 Not on the first row. Its band has nothing to cover and would
+                 reach up out of the section onto the section above it. */
+              stacked &&
+                index > 0 &&
+                "shadow-[0_-64px_0_var(--background)] md:shadow-[0_-72px_0_var(--background)] xl:shadow-[0_-130px_0_var(--background)]",
             )}
           >
             {/* shrink-0 is load-bearing: the copy beside it is a flex-1 box, and
@@ -85,23 +135,18 @@ export function FeatureRows({ items, className, ariaLabel }) {
                 construction rather than breaking out of a Container. */}
             <div
               className={cn(
-                /* The stacked bands take progressively shallower crops than the
-                   frame's 585: 540 from md, and 480 again from lg. The picture is
-                   full-bleed while stacked, so height is the only dimension that
-                   can come down without abandoning the edge bleed — the wider the
-                   viewport gets, the taller a fixed ratio stands the picture, so
-                   the crop has to give a little at each step. The frame's own
-                   1027:585 returns at xl with the two-column layout, and the
-                   phone keeps it too. */
-                "relative aspect-[1027/585] w-[calc(100%_-_20px)] shrink-0 md:aspect-[1027/540] lg:aspect-[1027/480] xl:mx-0 xl:aspect-[1027/585] xl:w-[53.4896%]",
-                pictureRight ? "ml-5" : "mr-5",
+                "relative aspect-[1027/585] w-[calc(100%_-_20px)] shrink-0",
+                "md:aspect-[1027/540] md:w-[75%] md:mx-auto",
+                "lg:aspect-[1027/480] lg:w-[65%]",
+                "xl:mx-0 xl:aspect-[1027/585] xl:w-[53.4896%]",
+                pictureRight ? "max-md:ml-5" : "max-md:mr-5",
               )}
             >
               <Image
                 src={item.image}
                 alt={item.alt}
                 fill
-                sizes="(min-width: 1280px) 54vw, 100vw"
+                sizes="(min-width: 1280px) 54vw, (min-width: 768px) 85vw, 100vw"
                 className="object-cover"
               />
             </div>
@@ -140,6 +185,6 @@ export function FeatureRows({ items, className, ariaLabel }) {
           </div>
         );
       })}
-    </section>
+    </StickyStack>
   );
 }

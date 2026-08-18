@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
+import { useRowRise } from "@/lib/useRowRise";
 import { cn } from "@/lib/utils";
 
 /* Centred chapter heading over a horizontally-scrolled row of picture cards,
@@ -38,11 +39,16 @@ export function CardCarouselSection({
   // toward the viewport edge. The honeymoon page lines its track up with
   // Container's own padding instead, so this is the one layout knob.
   trackClassName = "px-5 md:px-8 scroll-pl-5 md:scroll-pl-8",
+  // Opt in to the shared scroll-scrubbed card entrance (lib/useRowRise.js).
+  // Off by default so call sites that predate it are left exactly as they were.
+  riseOnScroll = false,
 }) {
   const scrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  useRowRise({ ref: scrollRef, enabled: riseOnScroll });
 
   const checkScroll = () => {
     const el = scrollRef.current;
@@ -78,7 +84,7 @@ export function CardCarouselSection({
   // Both arrows sit on the vertical centre of the card pictures, whose height
   // changes at md / lg / 2xl with the card width.
   const arrowPosition =
-    "top-[140px] md:top-[251px] lg:top-[185px] 2xl:top-[251px]";
+    "top-[140px] md:top-[185px] 2xl:top-[251px]";
 
   return (
     <section
@@ -108,14 +114,14 @@ export function CardCarouselSection({
           {items.map((item) => (
             <li
               key={item.key}
-              className="flex w-[323px] shrink-0 snap-start flex-col gap-[18px] md:w-[437px] lg:w-[323px] 2xl:w-[437px]"
+              className="flex w-[323px] shrink-0 snap-start flex-col gap-[18px] 2xl:w-[437px]"
             >
-              <div className="bg-navy/5 relative aspect-[323/371] w-full overflow-hidden md:aspect-[437/502] lg:aspect-[323/371] 2xl:aspect-[437/502]">
+              <div className="bg-navy/5 relative aspect-[323/371] w-full overflow-hidden 2xl:aspect-[437/502]">
                 <Image
                   src={item.image}
                   alt={item.alt ?? item.title}
                   fill
-                  sizes="(min-width: 768px) 437px, 323px"
+                  sizes="(min-width: 1536px) 437px, 323px"
                   className="object-cover transition-transform duration-700 hover:scale-105"
                 />
               </div>

@@ -48,21 +48,21 @@ export function IntroSection() {
         <div className="flex flex-col">
           {/* Top: Eyebrow and Heading */}
           <AnimateIn className="flex flex-col">
-            <span className="font-top text-h4 max-md:text-[12px] text-black mb-4 md:mb-8">
+            <span className="font-top text-h4 max-md:text-[12px] max-md:leading-none max-md:font-normal max-md:tracking-normal text-black max-md:mb-[19px] md:mb-8">
               Discover Kerala
             </span>
-            <h2 className="font-heading text-h2 text-black max-md:leading-[45px] leading-[1.1] 2xl:leading-[97.5px] max-w-[1759px]">
+            <h2 className="font-heading text-h2 max-md:text-[30px] max-md:font-normal max-md:tracking-[-0.01em] max-md:text-[#0C2233] text-black max-md:leading-[45px] leading-[1.1] 2xl:leading-[97.5px] max-w-[1759px]">
               Where Nature Meets Timeless<br className="hidden md:block" /> Traditions
             </h2>
           </AnimateIn>
 
           {/* Bottom Right: Description and CTA */}
-          <AnimateIn stagger={0.1} delay={0.2} className="flex md:justify-end mt-8 md:mt-16">
+          <AnimateIn stagger={0.1} delay={0.2} className="flex md:justify-end max-md:mt-[30px] md:mt-16">
             <div className="flex flex-col w-full max-w-[728px]">
-              <h3 className="font-heading text-h4 text-black mb-5 md:mb-3">
+              <h3 className="font-heading text-h4 max-md:text-[18px] max-md:leading-[28.9px] max-md:tracking-normal max-md:font-normal text-black max-md:mb-5 md:mb-3">
                 A Journey Filled With Stories
               </h3>
-              <div className="font-sans text-body max-md:text-[13px] max-md:leading-[22px] md:leading-[27px] font-light text-black/80 flex flex-col gap-4 md:gap-6">
+              <div className="font-sans text-body font-light text-black/80 flex flex-col gap-4 md:gap-6 [&_p]:font-light [&_p]:max-md:text-[13px] [&_p]:max-md:leading-[22px] [&_p]:max-md:tracking-normal [&_p]:md:leading-[27px]">
                 <p>
                   Kerala isn&apos;t just one destination. Every region has its own
                   rhythm, traditions, flavors, and landscapes. Wake up to tea
