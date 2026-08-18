@@ -7,6 +7,7 @@ import { Container } from "@/components/common/Container";
 import { FullContainer } from "@/components/common/FullContainer";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { CloudTransition } from "@/components/home/CloudTransition";
+import { useRowRise } from "@/lib/useRowRise";
 
 // Drop matching files into public/destinations/ and the placeholder below is
 // replaced automatically — no other change needed.
@@ -44,8 +45,13 @@ const CARD_SIZES =
   "(min-width: 1024px) 25vw, (min-width: 640px) 50vw, calc(100vw - 1rem)";
 
 export function DestinationsSection() {
-  const scrollRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  // The scroll-scrubbed entrance the cards rise in on — shared, and described
+  // in full, in lib/useRowRise.js. The row already needs a ref for the mobile
+  // scroll handler below, so the hook is handed that one rather than its own.
+  const scrollRef = useRef(null);
+  useRowRise({ ref: scrollRef });
 
   const handleScroll = () => {
     if (!scrollRef.current) return;
