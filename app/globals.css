@@ -77,6 +77,71 @@
   --text-nav: 1.0625rem; /* 17px — navbar links (desktop nav only) */
   --text-nav--line-height: 1;
   --text-nav--font-weight: 300;
+
+  /* ── Navbar menu motion (components/layout/navbar/) ─────────────────────
+     Declared as theme tokens rather than hand-written classes so Tailwind
+     emits each as a real `animate-*` utility — that is what lets the menus
+     gate them behind `motion-safe:` for reduced-motion users. Every keyframe
+     moves only opacity and transform, so the whole set runs on the compositor
+     and never triggers layout. `both` holds the first frame's opacity:0 until
+     the animation starts, so a slow first paint never flashes a panel fully
+     opaque before fading it in. One easing throughout — a quintic ease-out
+     that spends most of its time settling — and durations short enough that
+     nothing feels waited for. */
+
+  /* A panel opening under the bar — the mobile menu on the hamburger and every
+     desktop sheet (MobileMenu, MegaMenuPanel). */
+  --animate-menu-drop: menu-drop 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  @keyframes menu-drop {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Its rows, cards and tiles following, each delayed by the --row-delay the
+     item sets inline (lib/motion.js menuRowDelay staggers them by index). */
+  --animate-menu-row: menu-row 260ms cubic-bezier(0.22, 1, 0.36, 1) var(--row-delay, 0ms)
+    both;
+  @keyframes menu-row {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Drill-down: a sub-list slides in from the right over the top level; going
+     back slides the top level in from the left. */
+  --animate-menu-slide-in: menu-slide-in 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-menu-slide-back: menu-slide-back 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  @keyframes menu-slide-in {
+    from {
+      opacity: 0;
+      transform: translateX(28px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  @keyframes menu-slide-back {
+    from {
+      opacity: 0;
+      transform: translateX(-28px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
 }
 
 /* Specific text size reduction for laptop screens (1024px to 1535px) */

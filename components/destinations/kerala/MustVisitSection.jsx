@@ -43,6 +43,7 @@ export function MustVisitSection() {
       eyebrowClassName="lg:text-[20px]"
       descriptionClassName="max-lg:max-w-[560px] max-w-[828px] lg:leading-[29px]"
       items={PLACES}
+      riseOnScroll={true}
     />
   );
 }

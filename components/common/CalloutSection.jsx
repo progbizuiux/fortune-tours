@@ -50,14 +50,14 @@ export function CalloutSection({
           /* The lead reads as a standfirst rather than a section description:
              full black and a step heavier, and released from the shared max-w-xl
              so the one line does not wrap. */
-          descriptionClassName="max-w-none max-lg:max-w-none font-medium text-black max-lg:font-medium"
+          descriptionClassName="max-w-none max-lg:max-w-none font-heading font-normal text-[20px] leading-[28.9px] text-black max-lg:font-medium"
         />
 
-        {/* 800 measure, centred — wider than the heading block's max-w-xl, which
+        {/* 1048px measure, centred — wider than the heading block's max-w-xl, which
             is sized for a one-line description rather than body copy. */}
         <AnimateIn
           stagger={0.12}
-          className="mx-auto mt-10 flex max-w-[800px] flex-col gap-7 text-center md:mt-12"
+          className="mx-auto mt-10 flex max-w-[1048px] 2xl:max-w-[1240px] flex-col gap-7 text-center md:mt-12"
         >
           {paragraphs.map((paragraph, index) => (
             <p

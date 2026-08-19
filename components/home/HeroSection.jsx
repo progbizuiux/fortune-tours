@@ -100,7 +100,7 @@ export function HeroSection() {
           that stay with you forever.
         </p>
 
-        <div className="hero-cta mt-4 flex flex-wrap items-center justify-center max-md:gap-4 gap-x-6 gap-y-3 max-md:text-[13px] max-md:leading-6 text-body text-white/90 opacity-0">
+        <div className="hero-cta mt-4 flex flex-nowrap items-center justify-center max-md:gap-4 gap-x-6 gap-y-3 max-md:text-[13px] max-md:leading-6 text-body text-white/90 opacity-0">
           {CTA_LINKS.map((link) => (
             <CtaLink
               key={link.href}

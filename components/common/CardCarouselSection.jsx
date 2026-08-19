@@ -61,6 +61,11 @@ export function CardCarouselSection({
     setCanScrollLeft(scrollLeft > 40);
     setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth - 5);
 
+    if (scrollLeft + clientWidth >= scrollWidth - 2) {
+      setActiveIndex(items.length - 1);
+      return;
+    }
+
     const childWidth = el.children[0].offsetWidth;
     const gap = 15;
     setActiveIndex(Math.round(scrollLeft / (childWidth + gap)));
