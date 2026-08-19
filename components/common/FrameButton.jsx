@@ -91,6 +91,37 @@ const VARIANT_CLASSES = {
     active: "text-sky",
     fill: false,
   },
+  // The bar's menu button (Navbar → site menu sheet): a square with the
+  // hamburger glyph. Like `bare`, its colour is context-dependent — the bar is
+  // see-through over the hero and solid white after — so the fill comes from
+  // the call site in brand colours (white rule over the video, navy once
+  // solid). Opted out of the sky sweep: it is a filled block already.
+  menu: {
+    base: "size-10 shrink-0 border",
+    idle: "",
+    active: "",
+    fill: false,
+  },
+  // ── Mobile drill-down menu (components/layout/navbar/MobileMenu.jsx) ───
+  // A row that opens a sub-list. Same size and 44px touch height as the links
+  // it sits between, spread so the chevron sits at the far edge. No fill: it
+  // is navigation, not an action, and a sky panel sweeping across a menu row
+  // reads as a mis-tap.
+  menuRow: {
+    base: "text-body flex min-h-11 w-full justify-between gap-2 text-left",
+    idle: "text-navy/80 dark:text-cream/80",
+    active: "text-sky",
+    fill: false,
+  },
+  // "Back" at the top of a sub-list. Text with a leading chevron; the
+  // negative margin lets the chevron sit on the list's left edge so the label
+  // lines up with the rows below.
+  menuBack: {
+    base: "text-small -ml-1 min-h-11 gap-1",
+    idle: "text-navy/70 dark:text-cream/70 hover:text-navy dark:hover:text-cream",
+    active: "text-navy dark:text-cream",
+    fill: false,
+  },
 };
 
 export function FrameButton({

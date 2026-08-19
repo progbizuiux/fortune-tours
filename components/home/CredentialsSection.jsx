@@ -10,6 +10,7 @@ import { PartnerLogos } from "@/components/home/PartnerLogos";
 import { AnimatedAvatars } from "@/components/home/AnimatedAvatars";
 import { CascadeText } from "@/components/common/CascadeText";
 import { useCardCascade } from "@/lib/gsap/useCardCascade";
+import { useReveal } from "@/lib/gsap/useReveal";
 import { HERO_CTA } from "@/lib/typography";
 
 // The design numbers the fourth column "III." as well — treated as a typo and
@@ -92,7 +93,8 @@ function ReviewCard({ review, index, isExpanded, onToggle }) {
       <div className="flex-1 flex flex-col items-start mt-8">
         <p 
           ref={textRef}
-          className={`max-sm:font-light max-sm:text-[12px] max-sm:leading-120 max-sm:tracking-[-0.3px] text-small lg:font-sans lg:font-light lg:text-[18px] lg:leading-120 lg:tracking-[-1.4px] text-navy lg:text-charcoal transition-colors duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-black ${!isExpanded ? "line-clamp-3" : ""}`}
+          className={`overflow-hidden transition-[max-height] duration-500 ease-in-out max-sm:font-light max-sm:text-[12px] max-sm:leading-120 max-sm:tracking-[-0.3px] text-small lg:font-sans lg:font-light lg:text-[18px] lg:leading-120 lg:tracking-[-1.4px] text-navy lg:text-charcoal group-hover:text-black`}
+          style={{ maxHeight: isExpanded ? "500px" : "3.6em" }}
         >
           {review.quote}
         </p>
@@ -156,6 +158,7 @@ export function CredentialsSection() {
      screen. The card list is both what the trigger measures and what the hook
      searches. */
   const cardsRef = useCardCascade();
+  const headerRef = useReveal({ stagger: 0.12 });
 
   return (
     // relative z-10 keeps it above the sticky hero, same as the other sections.
@@ -164,7 +167,7 @@ export function CredentialsSection() {
           proportionally shorter — roughly 88px above the eyebrow and 40px below
           the logo row at this width. */}
       <Container className="pt-16 pb-10 lg:pt-22 lg:pb-[90px] min-[1900px]:pb-[40px]">
-        <div className="flex flex-row sm:flex-col lg:flex-row items-end sm:items-start justify-between gap-2 sm:gap-4 lg:items-start lg:gap-10">
+        <div ref={headerRef} className="flex flex-row sm:flex-col lg:flex-row items-end sm:items-start justify-between gap-2 sm:gap-4 lg:items-start lg:gap-10">
           <div>
             <p className="font-top max-sm:text-[12px] max-sm:leading-none text-h4 lg:text-[20px] lg:leading-none text-navy">
               Chapter 03 - Credentials

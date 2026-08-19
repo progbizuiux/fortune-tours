@@ -61,6 +61,11 @@ export function PackageCarouselSection({
     setCanScrollLeft(scrollLeft > 5);
     setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth - 5);
 
+    if (scrollLeft + clientWidth >= scrollWidth - 2) {
+      setActiveIndex(items.length - 1);
+      return;
+    }
+
     const step = el.children[0].offsetWidth + 15;
     setActiveIndex(Math.round(scrollLeft / step));
   };

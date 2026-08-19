@@ -52,8 +52,8 @@ export function PartnerLogos({ className = "" }) {
                 alt={index < PARTNERS.length ? partner.name : ""}
                 width={162}
                 height={117}
-                sizes="(min-width: 1024px) 157px, 102px"
-                className="h-[50px] w-[102px] object-contain lg:h-[112.08px] lg:w-[156.713px] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.15] hover:drop-shadow-2xl cursor-pointer"
+                sizes="(min-width: 1024px) 157px, 71px"
+                className="h-[35px] w-[71px] object-contain lg:h-[112.08px] lg:w-[156.713px] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.15] hover:drop-shadow-2xl cursor-pointer"
               />
             ) : (
               <span className="text-small text-navy/40 flex h-20 items-center text-center font-semibold">

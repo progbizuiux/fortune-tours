@@ -38,7 +38,7 @@ const SLIDES = [
     title: "Streets that never sleep.",
     description:
       "Weave through night markets, temple courtyards and neon-lit lanes where every corner serves something new. Thailand's cities reward the curious with flavour, colour and life at all hours.",
-    image: "/home/image-2.jpg",
+    image: "/experiance/beach-escape.png",
     categories: ["featured", "international"],
   },
   {

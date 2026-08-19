@@ -55,8 +55,14 @@ export function DestinationsSection() {
 
   const handleScroll = () => {
     if (!scrollRef.current) return;
-    const scrollLeft = scrollRef.current.scrollLeft;
-    const childWidth = scrollRef.current.children[0].offsetWidth;
+    const { scrollLeft, scrollWidth, clientWidth, children } = scrollRef.current;
+    
+    if (scrollLeft + clientWidth >= scrollWidth - 2) {
+      setActiveIndex(DESTINATIONS.length - 1);
+      return;
+    }
+
+    const childWidth = children[0].offsetWidth;
     const gap = window.innerWidth >= 640 ? 16 : 8;
     const index = Math.round(scrollLeft / (childWidth + gap));
     setActiveIndex(index);
