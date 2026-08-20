@@ -31,16 +31,25 @@ const PACKAGES = [
   },
 ];
 
-export function FixedPackagesSection() {
+/* Content comes from lib/strapi/kerala.js via the page; PACKAGES above is the
+   fallback. The CMS stores duration and the place list as separate fields —
+   the normaliser is what joins them into the card's single meta line. */
+export function FixedPackagesSection({
+  eyebrow = "Fixed Packages",
+  title = "Find the Perfect Escape",
+  description = "Small-group journeys with a host. Fixed dates, limited seats.",
+  items = PACKAGES,
+  ctaLabel = "View all Kerala packages",
+}) {
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef(null);
 
   const handleScroll = () => {
     if (!scrollRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth, children } = scrollRef.current;
-    
+
     if (scrollLeft + clientWidth >= scrollWidth - 2) {
-      setActiveIndex(PACKAGES.length - 1);
+      setActiveIndex(items.length - 1);
       return;
     }
 
@@ -55,9 +64,9 @@ export function FixedPackagesSection() {
       <Container>
         <SectionHeading
           align="center"
-          eyebrow="Fixed Packages"
-          title="Find the Perfect Escape"
-          description="Small-group journeys with a host. Fixed dates, limited seats."
+          eyebrow={eyebrow}
+          title={title}
+          description={description}
         />
 
         <div className="mt-16 max-w-7xl mx-auto">
@@ -72,13 +81,14 @@ export function FixedPackagesSection() {
                 section's own values — a 447x423 picture and the smaller,
                 letter-spaced, full-black meta line — so nothing here changed
                 when the markup moved. */}
-            {PACKAGES.map((pkg) => (
+            {items.map((pkg) => (
               <PackageCard
                 key={pkg.id}
                 title={pkg.title}
                 meta={pkg.meta}
                 experiences={pkg.experiences}
                 image={pkg.image}
+                alt={pkg.alt}
                 className="max-xl:w-[85vw] max-md:max-w-[348px] md:max-xl:max-w-[447px] max-xl:shrink-0 max-xl:snap-center"
                 imageAspectClassName="aspect-[348/329] md:aspect-[447/423]"
                 metaClassName="text-[13px] md:text-[12px] leading-tight text-black tracking-wider mb-[10px] lg:mb-[12px]"
@@ -90,7 +100,7 @@ export function FixedPackagesSection() {
 
           {/* Pagination Dots */}
           <div className="mt-6 flex justify-center gap-1 xl:hidden">
-            {PACKAGES.map((_, i) => (
+            {items.map((_, i) => (
               <span
                 key={i}
                 className={`block h-[6px] w-[6px] transition-colors ${
@@ -103,7 +113,7 @@ export function FixedPackagesSection() {
 
           <div className="mt-12 md:mt-16 flex items-center justify-center">
             <FrameButton variant="rail" className="max-md:text-[13px]">
-              View all Kerala packages
+              {ctaLabel}
             </FrameButton>
           </div>
         </div>

@@ -44,7 +44,14 @@ const HAS_IMAGES = true;
 const CARD_SIZES =
   "(min-width: 1024px) 25vw, (min-width: 640px) 50vw, calc(100vw - 1rem)";
 
-export function DestinationsSection() {
+/* Content comes from the `sections.destinations` block via lib/strapi/home.js;
+   the constants above are the fallback. */
+export function DestinationsSection({
+  eyebrow = "Chapter 02 - Atlas",
+  title = "Where will your story start?",
+  description = "Not destinations, but openings. Each place teaches us something.",
+  items = DESTINATIONS,
+}) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   // The scroll-scrubbed entrance the cards rise in on — shared, and described
@@ -58,7 +65,7 @@ export function DestinationsSection() {
     const { scrollLeft, scrollWidth, clientWidth, children } = scrollRef.current;
     
     if (scrollLeft + clientWidth >= scrollWidth - 2) {
-      setActiveIndex(DESTINATIONS.length - 1);
+      setActiveIndex(items.length - 1);
       return;
     }
 
@@ -80,9 +87,9 @@ export function DestinationsSection() {
       <Container className="pt-10 lg:pt-14">
         <SectionHeading
           align="center"
-          eyebrow="Chapter 02 - Atlas"
-          title="Where will your story start?"
-          description="Not destinations, but openings. Each place teaches us something."
+          eyebrow={eyebrow}
+          title={title}
+          description={description}
           descriptionClassName="lg:max-w-3xl"
         />
       </Container>
@@ -94,7 +101,7 @@ export function DestinationsSection() {
             onScroll={handleScroll}
             className="mt-14 max-lg:flex max-lg:overflow-x-auto max-lg:snap-x max-lg:snap-mandatory grid grid-cols-1 max-lg:gap-2 gap-1.5 max-lg:pb-6 pb-16 sm:grid-cols-2 lg:grid-cols-4 lg:pb-24 max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden"
           >
-            {DESTINATIONS.map((destination) => (
+            {items.map((destination) => (
               <li key={destination.href} className="max-lg:snap-center max-lg:shrink-0 max-sm:w-[215px] sm:max-md:w-[45vw] md:max-lg:w-[35vw]">
                 <Link href={destination.href} className="group block">
                 {/* max-lg:aspect-[215/314] for mobile card size, aspect-[3/4] for desktop */}
@@ -102,7 +109,7 @@ export function DestinationsSection() {
                   {HAS_IMAGES ? (
                     <Image
                       src={destination.image}
-                      alt={destination.name}
+                      alt={destination.alt ?? destination.name}
                       fill
                       sizes={CARD_SIZES}
                       className="object-cover transition-all duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.07] group-hover:brightness-105"
@@ -144,7 +151,7 @@ export function DestinationsSection() {
         </ul>
         {/* Pagination Dots (Mobile Only) */}
         <div className="flex justify-center gap-[4px] pb-10 lg:hidden">
-          {DESTINATIONS.map((_, i) => (
+          {items.map((_, i) => (
             <span
               key={i}
               className={`h-[7px] w-[7px] transition-colors ${

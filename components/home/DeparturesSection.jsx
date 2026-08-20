@@ -93,14 +93,23 @@ const DEPARTURES = {
   ],
 };
 
-export function DeparturesSection() {
+/* Heading comes from the `sections.timetable` block via lib/strapi/home.js.
+   Its months carry no departures yet, so MONTHS/DEPARTURES above stand in —
+   taking CMS months without their sailings would render empty tabs. */
+export function DeparturesSection({
+  eyebrow = "Chapter 06 — Timetable",
+  title = "Curated departures.",
+  description = "Small-group journeys with a host. Fixed dates, limited seats.",
+  tabs = MONTHS,
+  cardsData = DEPARTURES,
+}) {
   return (
     <TabbedCardsSection
-      eyebrow="Chapter 06 — Timetable"
-      title="Curated departures."
-      description="Small-group journeys with a host. Fixed dates, limited seats."
-      tabs={MONTHS}
-      cardsData={DEPARTURES}
+      eyebrow={eyebrow}
+      title={title}
+      description={description}
+      tabs={tabs}
+      cardsData={cardsData}
       sectionAriaLabel="Timetable — curated departures"
     />
   );

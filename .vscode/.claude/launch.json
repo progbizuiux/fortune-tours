@@ -3,7 +3,8 @@
   "configurations": [
     {
       "name": "fortune-tours-dev",
-      "url": "http://localhost:3000",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "..", "run", "dev"],
       "port": 3000
     }
   ]

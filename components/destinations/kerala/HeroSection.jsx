@@ -7,13 +7,28 @@ import { CtaLink } from "@/components/common/CtaLink";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { HERO_HEADING } from "@/lib/typography";
 
+/* Defaults are the copy this section shipped with. They stand in whenever the
+   matching CMS field is empty, so an unfilled entry renders the design rather
+   than a hole. Content comes from lib/strapi/kerala.js via the page. */
 const CTA_LINKS = [
   { label: "Explore Packages", href: "#packages" },
   { label: "Design your itinerary", href: "/itinerary" },
 ];
 
-export function HeroSection() {
+const DEFAULT_EYEBROW = "Fortune Tours & Travels — Est. 1998";
+const DEFAULT_TITLE = "Everyone Sees Kerala. Few Actually Feel It.";
+const DEFAULT_IMAGE = "/destinations/kerala/kerala.avif";
+const DEFAULT_IMAGE_ALT = "Kerala backwaters with palm trees and a boat";
+
+export function HeroSection({
+  eyebrow = DEFAULT_EYEBROW,
+  title = DEFAULT_TITLE,
+  image = '',
+  imageAlt = DEFAULT_IMAGE_ALT,
+  ctas,
+}) {
   const containerRef = useRef(null);
+  const ctaLinks = ctas?.length ? ctas : CTA_LINKS;
 
   useGSAP(
     () => {
@@ -90,8 +105,8 @@ export function HeroSection() {
       <div className="hero-image absolute inset-0">
         <Image
           className="absolute inset-0 h-full w-full object-cover max-md:object-[25%] md:object-center"
-          src="/destinations/kerala/kerala.avif"
-          alt="Kerala backwaters with palm trees and a boat"
+          src={image}
+          alt={imageAlt}
           fill
           priority
         />
@@ -107,15 +122,15 @@ export function HeroSection() {
 
       <Container className="hero-copy relative flex flex-col items-center text-center md:items-end md:text-right md:pt-[30vh]">
         <span className="hero-eyebrow font-top max-md:text-[13px] text-h4 text-white/90 opacity-0 mb-8 md:mb-11 lg:mb-0">
-          Fortune Tours &amp; Travels — Est. 1998
+          {eyebrow}
         </span>
 
         <h1 className={`hero-heading ${HERO_HEADING} lg:mt-[70px] max-md:max-w-[400px] max-w-[889px] text-white opacity-0`}>
-          Everyone Sees Kerala. Few Actually Feel It.
+          {title}
         </h1>
 
         <div className="hero-cta mt-11 md:mt-16 flex flex-wrap items-center justify-center md:justify-end max-md:gap-4 gap-x-6 gap-y-3 max-md:text-[13px] max-md:leading-6 text-body text-white/90 opacity-0">
-          {CTA_LINKS.map((link) => (
+          {ctaLinks.map((link) => (
             <CtaLink
               key={link.href}
               href={link.href}

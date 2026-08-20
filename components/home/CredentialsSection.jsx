@@ -150,7 +150,14 @@ function ReviewCard({ review, index, isExpanded, onToggle }) {
   );
 }
 
-export function CredentialsSection() {
+/* Draws on two CMS blocks: `sections.brand` supplies the heading, and
+   `sections.reviews` the cards. The reviews list is still empty in Strapi, so
+   REVIEWS above stands in — see lib/strapi/home.js. */
+export function CredentialsSection({
+  eyebrow = "Chapter 03 - Credentials",
+  title = "Your journey, backed by excellence.",
+  reviews = REVIEWS,
+}) {
   const [expandedId, setExpandedId] = useState(null);
   /* The grid, not the section: this section carries a heading, the avatar row
      and the partner logos above its cards, so triggering off the section's own
@@ -170,11 +177,11 @@ export function CredentialsSection() {
         <div ref={headerRef} className="flex flex-row sm:flex-col lg:flex-row items-end sm:items-start justify-between gap-2 sm:gap-4 lg:items-start lg:gap-10">
           <div>
             <p className="font-top max-sm:text-[12px] max-sm:leading-none text-h4 lg:text-[20px] lg:leading-none text-navy">
-              Chapter 03 - Credentials
+              {eyebrow}
             </p>
 
             <h2 className="font-heading max-sm:text-[30px] max-sm:leading-none max-sm:tracking-[-0.01em] text-h3 lg:text-[46px] 2xl:text-[65px] lg:leading-none lg:tracking-[-0.01em] text-navy max-lg:mt-[20px] lg:mt-6 2xl:mt-[40px] max-w-[240px] sm:max-w-md lg:max-w-3xl">
-              Your journey, backed by excellence.
+              {title}
             </h2>
           </div>
 
@@ -197,7 +204,7 @@ export function CredentialsSection() {
           ref={cardsRef}
           className="mt-20 grid grid-cols-2 max-sm:gap-x-4 gap-x-10 max-sm:gap-y-8 gap-y-14 sm:grid-cols-2 lg:mt-20 2xl:mt-28 xl:grid-cols-4 xl:gap-x-[8%]"
         >
-          {REVIEWS.map((review, i) => (
+          {reviews.map((review, i) => (
             <ReviewCard 
               key={review.numeral} 
               review={review} 

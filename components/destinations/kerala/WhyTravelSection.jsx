@@ -53,21 +53,29 @@ const WHY_TRAVEL_CARDS = [
   },
 ];
 
-export function WhyTravelSection() {
+/* Content comes from lib/strapi/kerala.js via the page. The CMS holds text
+   only — icons keep coming from WHY_TRAVEL_CARDS above, matched by position in
+   the normaliser, until the schema gains a media field for them. */
+export function WhyTravelSection({
+  eyebrow = "Why Travel With Fortune",
+  title = "We Plan Every Journey Around You",
+  description = "Every journey is planned around you, from your interests and travel style to the experiences you want to discover. We handle the details, so you can focus on enjoying the journey and making memories.",
+  items ,
+}) {
   return (
     <section className="bg-cream spacing">
       <Container>
         <SectionHeading
           align="center"
-          eyebrow="Why Travel With Fortune"
-          title="We Plan Every Journey Around You"
-          description="Every journey is planned around you, from your interests and travel style to the experiences you want to discover. We handle the details, so you can focus on enjoying the journey and making memories."
+          eyebrow={eyebrow}
+          title={title}
+          description={description}
           eyebrowClassName="lg:text-[20px]"
           descriptionClassName="max-lg:max-w-[560px] max-w-[828px] lg:leading-[29px]"
         />
 
         <FeatureCards
-          items={WHY_TRAVEL_CARDS}
+          items={items}
           className="mt-12 md:mt-16 lg:mt-[64px] mx-auto max-w-[600px] md:max-w-none xl:max-w-[1080px]"
         />
       </Container>

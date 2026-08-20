@@ -33,16 +33,23 @@ const PLACES = [
   },
 ];
 
-export function MustVisitSection() {
+/* Content comes from lib/strapi/kerala.js via the page; the PLACES above are
+   the fallback for whatever the CMS entry leaves blank. */
+export function MustVisitSection({
+  eyebrow = "Must Visit Places",
+  title = "Explore Kerala's Most Loved Destinations",
+  description = "A few places we plan around most. Each one asks for a different pace.",
+  items = PLACES,
+}) {
   return (
     <CardCarouselSection
       className="bg-cream"
-      eyebrow="Must Visit Places"
-      title="Explore Kerala's Most Loved Destinations"
-      description="A few places we plan around most. Each one asks for a different pace."
+      eyebrow={eyebrow}
+      title={title}
+      description={description}
       eyebrowClassName="lg:text-[20px]"
       descriptionClassName="max-lg:max-w-[560px] max-w-[828px] lg:leading-[29px]"
-      items={PLACES}
+      items={items}
       riseOnScroll={true}
     />
   );
