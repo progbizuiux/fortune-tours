@@ -59,14 +59,21 @@ const STYLES = [
   },
 ];
 
-export function TravelStylesSection() {
+/* Heading comes from the `sections.region-picker` block via lib/strapi/home.js.
+   Its `regions` list is still empty in Strapi, so STYLES above stands in. */
+export function TravelStylesSection({
+  eyebrow = "Chapter 04 — Compass",
+  title = "Discover your travel style.",
+  description = "Share how you want to feel. Our concierge will create a unique itinerary.",
+  items = STYLES,
+}) {
   return (
     <ImageCarouselSection
       ariaLabel="Compass — discover your travel style"
-      eyebrow="Chapter 04 — Compass"
-      title="Discover your travel style."
-      description="Share how you want to feel. Our concierge will create a unique itinerary."
-      items={STYLES}
+      eyebrow={eyebrow}
+      title={title}
+      description={description}
+      items={items}
       // buttonText="Reveal my journeys."
       gridClassName="grid-cols-2 sm:grid-cols-4 lg:grid-cols-8"
     />

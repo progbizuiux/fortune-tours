@@ -6,13 +6,27 @@ import { CtaLink } from "@/components/common/CtaLink";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { HERO_BODY, HERO_CTA, HERO_HEADING } from "@/lib/typography";
 
+/* Defaults are the copy this section shipped with; the CMS supplies them via
+   lib/strapi/home.js and these stand in for any field left blank. The
+   background video is not CMS-driven — see the note in normaliseHero. */
 const CTA_LINKS = [
   { label: "Discover experiences", href: "/experiences" },
   { label: "Design your itinerary", href: "/itinerary" },
 ];
 
-export function HeroSection() {
+const DEFAULT_EYEBROW = "Fortune Tours & Travels — Est. 1998";
+const DEFAULT_TITLE = "The journey begins before you leave home.";
+const DEFAULT_DESCRIPTION =
+  "Travel isn't measured by miles. It's measured by moments that stay with you forever.";
+
+export function HeroSection({
+  eyebrow = DEFAULT_EYEBROW,
+  title = DEFAULT_TITLE,
+  description = DEFAULT_DESCRIPTION,
+  ctas,
+}) {
   const containerRef = useRef(null);
+  const ctaLinks = ctas?.length ? ctas : CTA_LINKS;
 
   useGSAP(
     () => {
@@ -84,24 +98,23 @@ export function HeroSection() {
 
       <Container className="relative flex flex-col items-center max-md:gap-4 gap-6 pt-20 text-center">
         <span className="hero-eyebrow font-top max-md:text-[13px] text-h4 text-white/90 opacity-0">
-          Fortune Tours &amp; Travels — Est. 1998
+          {eyebrow}
         </span>
 
         <h1
           className={`hero-heading ${HERO_HEADING} max-md:max-w-[400px] max-w-4xl text-white opacity-0`}
         >
-          The journey begins before you leave home.
+          {title}
         </h1>
 
         <p
           className={`hero-description ${HERO_BODY} max-md:max-w-[313px] max-w-lg max-md:text-white/80 text-white/90 opacity-0 max-md:px-4`}
         >
-          Travel isn&apos;t measured by miles. It&apos;s measured by moments
-          that stay with you forever.
+          {description}
         </p>
 
         <div className="hero-cta mt-4 flex flex-nowrap items-center justify-center max-md:gap-4 gap-x-6 gap-y-3 max-md:text-[13px] max-md:leading-6 text-body text-white/90 opacity-0">
-          {CTA_LINKS.map((link) => (
+          {ctaLinks.map((link) => (
             <CtaLink
               key={link.href}
               href={link.href}

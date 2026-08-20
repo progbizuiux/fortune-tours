@@ -42,7 +42,16 @@ const POSTS = [
 /* The negative top margins pull this up under the home page's cloud transition.
    Any other page reusing the strip has nothing to tuck under, so `className` is
    there to cancel them — see the experience pages, which pass mt-0!. */
-export function JournalSection({ className }) {
+/* Content comes from the `sections.journal` block via lib/strapi/home.js on the
+   home page. Other pages render it with no props and get POSTS above. */
+export function JournalSection({
+  className,
+  eyebrow = "Chapter 07 — Journal",
+  title = "From the field.",
+  description = "Every destination tells a story. Discover guides and experiences to inspire your next adventure.",
+  items = POSTS,
+  readLabel = "Read",
+}) {
   return (
     <section
       aria-label="Journal — stories from the field"
@@ -53,9 +62,9 @@ export function JournalSection({ className }) {
     >
       <Container>
         <SectionHeading
-          eyebrow="Chapter 07 — Journal"
-          title="From the field."
-          description="Every destination tells a story. Discover guides and experiences to inspire your next adventure."
+          eyebrow={eyebrow}
+          title={title}
+          description={description}
         />
 
         {/* 12px column gap and 431:551 image ratio from the Figma frame */}
@@ -63,7 +72,7 @@ export function JournalSection({ className }) {
           as="ul"
           className="mt-16 grid max-xl:flex max-xl:flex-nowrap max-xl:overflow-x-auto max-xl:snap-x max-xl:snap-mandatory max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden gap-x-3 gap-y-10 xl:grid-cols-4"
         >
-          {POSTS.map((post) => (
+          {items.map((post) => (
             <li
               key={post.href}
               data-cascade-card
@@ -75,7 +84,7 @@ export function JournalSection({ className }) {
               >
                 <Image
                   src={post.image}
-                  alt={post.title}
+                  alt={post.alt ?? post.title}
                   fill
                   sizes="(min-width: 1024px) 23vw, (min-width: 640px) 46vw, 254px"
                   className="object-cover"
@@ -98,7 +107,7 @@ export function JournalSection({ className }) {
                 underline={false}
                 className="font-top text-small max-sm:text-[12px] hover:text-sky mt-auto inline-flex items-center gap-1.5 pt-4 leading-none font-medium text-navy dark:text-cream"
               >
-                Read
+                {readLabel}
                 <ArrowUpRight
                   aria-hidden="true"
                   className="size-3.5 max-sm:size-3"

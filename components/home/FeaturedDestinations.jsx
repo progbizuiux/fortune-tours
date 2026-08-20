@@ -144,7 +144,15 @@ const EXIT_SCALE = 1.043;
 // second, which leaves this much of the cycle sitting still.
 const AUTOPLAY_REST = 2.7;
 
-export function FeaturedDestinations() {
+/* Heading comes from the `sections.featured-destinations` block via
+   lib/strapi/home.js. Only the heading: the CMS tabs carry no slides yet, and
+   the carousel filters SLIDES by category key, so adopting CMS tabs today
+   would leave every tab empty. */
+export function FeaturedDestinations({
+  eyebrow = "Chapter 05 — Signature",
+  title = "Where will your next journey?",
+  description = "Explore curated destinations that match your travel dreams and create lasting memories.",
+}) {
   const [category, setCategory] = useState("featured");
   const [index, setIndex] = useState(0);
 
@@ -554,9 +562,9 @@ export function FeaturedDestinations() {
             to its original spacing at 2xl along with the cards. */}
         <Container className="max-md:pt-0 md:pt-16 pb-10 lg:pt-[min(4rem,6vh)] lg:pb-[min(2.5rem,4vh)] 2xl:pt-24 2xl:pb-16">
           <SectionHeading
-            eyebrow="Chapter 05 — Signature"
-            title="Where will your next journey?"
-            description="Explore curated destinations that match your travel dreams and create lasting memories."
+            eyebrow={eyebrow}
+            title={title}
+            description={description}
           />
         </Container>
       </div>
