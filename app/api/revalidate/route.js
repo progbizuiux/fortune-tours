@@ -1,6 +1,7 @@
 import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
+import { DESTINATION_TAGS } from "@/lib/strapi/destination";
 import { HOME_TAGS } from "@/lib/strapi/home";
 import { KERALA_TAGS } from "@/lib/strapi/kerala";
 
@@ -23,6 +24,10 @@ import { KERALA_TAGS } from "@/lib/strapi/kerala";
    apart from what its query actually tagged. */
 const TAGS_BY_MODEL = {
   "kerala-page": KERALA_TAGS,
+  /* The region pages behind /africa and its siblings. They share the
+     "destinations" tag with Kerala, so publishing either drops both — the
+     cheaper mistake, since the two describe the same places. */
+  "destination-page": DESTINATION_TAGS,
   /* Strapi sends the content type's singular name. Both spellings are mapped
      because the endpoint is /api/homepages and the singular could be generated
      either way — an unmapped model would silently no-op. */

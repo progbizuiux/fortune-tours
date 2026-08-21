@@ -1,5 +1,15 @@
 import Image from "next/image";
 
+/* The cloud bank that closes a full-bleed hero: a scrolling strip of cloud art
+ * pulled up over the section above it, fading into the page ground below.
+ *
+ * Shared, because two pages draw it: the home page hands it to
+ * DestinationsSection, which renders it as that section's top edge, and the
+ * destination pages (/africa and its siblings) render it straight under the
+ * hero. It carries no props — the -mt pull and the white fade are the same
+ * measurements wherever it lands, and the section under it only has to share
+ * the page's own background colour, which every one of them does. */
+
 // Four cloud PNGs rendered at their native aspect ratio (1580 × 440 px).
 // Each frame's cloud mass is inset from the PNG's left/right borders, so
 // butting the frames edge-to-edge leaves see-through gaps at every junction.
@@ -21,8 +31,8 @@ const TRACK = [...CLOUDS, ...CLOUDS];
 
 export function CloudTransition() {
   return (
-    // The cloud bank is the visual top edge of section 02, so it is also where
-    // the navbar has to stop being transparent — white nav text is invisible
+    // The cloud bank is the visual end of the hero, so it is also where the
+    // navbar has to stop being transparent — white nav text is invisible
     // against these clouds. Navbar finds this marker by attribute; see
     // components/layout/Navbar.jsx.
     <div

@@ -71,7 +71,7 @@ export function SectionHeading({
             className={cn(
               "max-lg:text-[13px] max-lg:font-light max-lg:leading-[21px]",
               centered
-                ? "max-lg:max-w-[283px] max-w-xl text-black/80 dark:text-cream/80"
+                ? "max-lg:max-w-[340px] max-w-xl text-black/80 dark:text-cream/80"
                 : "max-w-lg text-navy/70 dark:text-cream/70 md:text-right",
               descriptionClassName,
             )}
