@@ -10,6 +10,7 @@ import { FeaturedDestinations } from "@/components/home/FeaturedDestinations";
 import { getHomePage } from "@/lib/strapi/home";
 
 
+
 /* ISR, same terms as the Kerala page: cached until POST /api/revalidate fires
    on publish, with this window as the backstop. No `export const dynamic` —
    force-dynamic would silently override it. */
