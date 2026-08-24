@@ -6,22 +6,24 @@ import { PackageCarouselSection } from "@/components/common/PackageCarouselSecti
 import { TabbedCardsSection } from "@/components/common/TabbedCardsSection";
 import { JournalSection } from "@/components/home/JournalSection";
 import { ExperienceHero } from "@/components/experiences/ExperienceHero";
-import { getExperience, getExperienceSlugs } from "@/lib/experiences";
+import {
+  getExperience,
+  getExperienceSlugs,
+} from "@/lib/strapi/experiences";
 
 /* Every experience renders through this one file — the sections are shape-only
-   and all the content comes from lib/experiences.js, so adding an experience is
-   a data entry rather than a new route. */
+   and all the content comes from Strapi, so adding an experience is
+   a CMS entry rather than a code change. */
 
-export function generateStaticParams() {
-  return getExperienceSlugs().map((slug) => ({ slug }));
+export async function generateStaticParams() {
+  const slugs = await getExperienceSlugs();
+  return (slugs || []).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const experience = getExperience(slug);
+  const experience = await getExperience(slug);
 
-  // No entry means notFound() below, and Next renders the 404 — so there is no
-  // page here to describe.
   if (!experience) return {};
 
   return {
@@ -32,7 +34,7 @@ export async function generateMetadata({ params }) {
 
 export default async function ExperiencePage({ params }) {
   const { slug } = await params;
-  const experience = getExperience(slug);
+  const experience = await getExperience(slug);
 
   if (!experience) notFound();
 
@@ -48,6 +50,7 @@ export default async function ExperiencePage({ params }) {
         imageAlt={experience.imageAlt}
       />
 
+      {experience.destinations?.length > 0 && (
       <CardCarouselSection
         ariaLabel={experience.destinationsTitle}
         eyebrow={experience.destinationsEyebrow}
@@ -66,7 +69,9 @@ export default async function ExperiencePage({ params }) {
            the same section and is deliberately left without it. */
         riseOnScroll
       />
+      )}
 
+      {experience.escapes?.length > 0 && (
       <FeatureRows
         ariaLabel={experience.escapesLabel}
         items={experience.escapes}
@@ -76,7 +81,9 @@ export default async function ExperiencePage({ params }) {
            See components/common/FeatureRows.jsx for how it is built. */
         stacked
       />
+      )}
 
+      {experience.packages?.length > 0 && (
       <PackageCarouselSection
         ariaLabel={experience.packagesTitle}
         eyebrow={experience.packagesEyebrow}
@@ -90,7 +97,9 @@ export default async function ExperiencePage({ params }) {
            here that had no motion of its own — see lib/gsap/useCardCascade.js. */
         cascade
       />
+      )}
 
+      {experience.calloutTitle && (
       <CalloutSection
         ariaLabel={experience.calloutTitle}
         title={experience.calloutTitle}
@@ -98,7 +107,9 @@ export default async function ExperiencePage({ params }) {
         paragraphs={experience.calloutParagraphs}
         ctaLabel={experience.calloutCtaLabel}
       />
+      )}
 
+      {experience.monthTabs?.length > 0 && (
       <TabbedCardsSection
         sectionAriaLabel={experience.monthsLabel}
         eyebrow={experience.monthsEyebrow}
@@ -108,6 +119,7 @@ export default async function ExperiencePage({ params }) {
         cardsData={experience.monthCards}
         extraCls="!py-0 xl:!py-[100px]"
       />
+      )}
 
       {/* !mt-0 cancels the negative top margin the home page needs to tuck this
           strip under its cloud transition — there is nothing to tuck under

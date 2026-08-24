@@ -40,7 +40,8 @@
   margin-left: -37px;
 }
 
-.card:hover {
+.card:hover,
+.card:focus-within {
   z-index: 10;
   rotate: 0deg;
   translate: 0 calc(-27.5% - 12px);
@@ -84,7 +85,8 @@
   transition: opacity var(--dur) var(--ease);
 }
 
-.card:hover .scrim {
+.card:hover .scrim,
+.card:focus-within .scrim {
   opacity: 1;
 }
 
@@ -106,13 +108,27 @@
     translate 300ms ease;
 }
 
-.card:hover .caption {
+.card:hover .caption,
+.card:focus-within .caption {
   opacity: 1;
   translate: 0 0;
   /* trails in once the card has mostly straightened */
   transition:
     opacity 500ms var(--ease) 180ms,
     translate 500ms var(--ease) 180ms;
+}
+
+.handle {
+  display: inline-flex;
+  align-items: center;
+  gap: inherit;
+  color: inherit;
+  text-decoration: none;
+}
+
+.handle:hover,
+.handle:focus-visible {
+  text-decoration: underline;
 }
 
 @media (min-width: 768px) {

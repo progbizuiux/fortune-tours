@@ -8,6 +8,7 @@ import { JournalSection } from "@/components/home/JournalSection";
 import { PolaroidGallery } from "@/components/home/PolaroidGallery";
 import { FeaturedDestinations } from "@/components/home/FeaturedDestinations";
 import { getHomePage } from "@/lib/strapi/home";
+import { getTravelStyles } from "@/lib/strapi/travel-styles";
 
 
 
@@ -21,15 +22,20 @@ export default async function Home() {
      entry — every section still has its own copy — so a missing entry renders
      the design rather than a 404. A failed REQUEST still throws, which keeps
      Next serving the last good render instead of caching a stripped page. */
-  const page = (await getHomePage()) ?? {};
+  const [page, travelStyles] = await Promise.all([
+    getHomePage(),
+    getTravelStyles(),
+  ]);
+
+  const homeData = page ?? {};
 
   /* The content type stores these sections in a dynamic zone, so the editor
      controls their ORDER as well as their content. This page still fixes the
-     order in JSX, because three things do not line up one-to-one yet:
+     order in JSX, because two things do not line up one-to-one yet:
      `sections.brand` and `sections.reviews` both feed CredentialsSection,
-     `sections.map-cta` has no rendered component (GlobeSection is commented
-     out below), and PolaroidGallery has no block at all. Resolve those three
-     and this becomes a map over the zone — see lib/strapi/blocks.js. */
+     and `sections.map-cta` has no rendered component (GlobeSection is
+     commented out below). Resolve those two and this becomes a map over the
+     zone — see lib/strapi/blocks.js. */
   return (
     <>
       {/* Pin scope for the sticky hero: sticky positioning is bounded by the
@@ -38,17 +44,16 @@ export default async function Home() {
           viewport bottom, it pushes the hero away with it instead of leaving
           it pinned for the rest of the page. */}
       <div>
-        <HeroSection {...page.hero} />
-        <DestinationsSection {...page.destinations} />
+        <HeroSection {...homeData.hero} />
+        <DestinationsSection {...homeData.destinations} />
       </div>
-      <CredentialsSection {...page.credentials} />
-      <TravelStylesSection {...page.travelStyles} />
-      <FeaturedDestinations {...page.featured} />
-      <DeparturesSection {...page.departures} />
-      <JournalSection {...page.journal} />
+      <CredentialsSection {...homeData.credentials} />
+      <TravelStylesSection {...homeData.travelStyles} items={travelStyles} />
+      <FeaturedDestinations {...homeData.featured} />
+      <DeparturesSection {...homeData.departures} />
+      <JournalSection {...homeData.journal} />
       {/* <GlobeSection /> */}
-      {/* No counterpart in the content type — keeps its own photographs. */}
-      <PolaroidGallery />
+      <PolaroidGallery {...homeData.gallery} />
     </>
   );
 }

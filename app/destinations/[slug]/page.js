@@ -4,13 +4,19 @@ import { HeroSection } from "@/components/destinations/kerala/HeroSection";
 import { IntroSection } from "@/components/destinations/kerala/IntroSection";
 import { JourneysSection } from "@/components/destinations/kerala/JourneysSection";
 import { MustVisitSection } from "@/components/destinations/kerala/MustVisitSection";
-
 import { HighlightsSection } from "@/components/destinations/kerala/HighlightsSection";
-
 import { WhyTravelSection } from "@/components/destinations/kerala/WhyTravelSection";
 import { SeasonsSection } from "@/components/destinations/kerala/SeasonsSection";
 import { FixedPackagesSection } from "@/components/destinations/kerala/FixedPackagesSection";
-import { getKeralaPage } from "@/lib/strapi/kerala";
+import { getDestinationPage, getDestinationSlugs } from "@/lib/strapi/kerala";
+
+/* One route for every destination. The design is fixed; the CMS supplies the
+   content, and the slug picks which entry — see destinationSlug() in
+   lib/strapi/kerala.js for how a slug maps onto an entry's internalName.
+
+   The section components still live under components/destinations/kerala/.
+   That folder name is now a misnomer rather than a constraint: none of them
+   are Kerala-specific, they just take props. */
 
 /* ISR. The page is built once and served from the cache; this window is only
    the backstop, because POST /api/revalidate drops the cache the moment an
@@ -21,28 +27,41 @@ import { getKeralaPage } from "@/lib/strapi/kerala";
    the DEFAULT_REVALIDATE constant from lib/strapi/client.js. */
 export const revalidate = 3600;
 
-export async function generateMetadata() {
+/* Only the slugs the CMS actually holds get rendered; anything else 404s
+   rather than being built on demand. That matters here because the site links
+   to destinations that have no entry yet — the home page's cards point at
+   /destinations/japan, /switzerland and /norway — and a 404 is the honest
+   answer for those until someone writes the content. */
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const slugs = await getDestinationSlugs();
+  return slugs.map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+
   /* Same call as the page body below. Because the data layer uses native
      fetch, Next memoises it per request and this costs no second round trip —
      the reason lib/strapi/client.js does not go through axios. */
-  const page = await getKeralaPage().catch(() => null);
+  const page = await getDestinationPage(slug).catch(() => null);
 
   /* Bare title on purpose — the root layout carries a
      `template: "%s | Fortune Travels"`, so adding the suffix here would print
      it twice. */
   return {
-    title: page?.hero?.title ?? "Kerala",
+    title: page?.hero?.title ?? "Destinations",
     description:
-      page?.hero?.description ?? "Explore Kerala Beyond the Guidebooks.",
+      page?.hero?.description ?? "Explore destinations beyond the guidebooks.",
   };
 }
 
-export default async function KeralaPage() {
-  const page = await getKeralaPage();
-console.log(page,"Dataaa")
-  /* null means Strapi has no published entry — a real 404. A failed request
-     throws instead, which lets Next keep serving the last good render rather
-     than caching an empty page. */
+export default async function DestinationPage({ params }) {
+  const { slug } = await params;
+
+  const page = await getDestinationPage(slug);
+
   if (!page) notFound();
 
   return (
@@ -56,9 +75,8 @@ console.log(page,"Dataaa")
         <HeroSection {...page.hero} />
         <IntroSection {...page.intro} />
       </div>
-      {/* Journeys and Seasons have no counterpart in the kerala-pages content
-          type yet, so they keep their own copy until the schema grows fields
-          for them. */}
+      {/* Journeys fetches travel styles from /api/travel-styles endpoint.
+          Same eight styles on every destination by design. */}
       <JourneysSection />
       <MustVisitSection {...page.mustVisit} />
       <HighlightsSection {...page.highlights} />
