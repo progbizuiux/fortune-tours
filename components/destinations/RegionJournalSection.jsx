@@ -9,21 +9,21 @@ const FALLBACK_JOURNALS = [
     title: "The Soul of Morocco",
     description: "Explore the vibrant colours, diverse flavours, and enchanting hidden corners of Morocco, a land rich in culture and history.",
     href: "/journal/soul-of-morocco",
-    image: "/destinations/kerala/elephants-sri-lanka.jpg",
+    image: "/countries/africa/into-the-wild.png",
   },
   {
     meta: "Journal — 02",
     title: "Into the Wild",
     description: "Let's take a closer look at Africa's extraordinary wildlife, showcasing its diverse species and breathtaking natural habitats.",
     href: "/journal/into-the-wild-africa",
-    image: "/destinations/kerala/elephants-sri-lanka.jpg",
+    image: "/countries/africa/elephant.png",
   },
   {
     meta: "Journal — 03",
     title: "Into the Wild",
     description: "Discover the rich culture, stunning landscapes, and vibrant people of Egypt as you embark on an unforgettable journey.",
     href: "/journal/into-the-wild-egypt",
-    image: "/destinations/kerala/elephants-sri-lanka.jpg",
+    image: "/countries/africa/safari.png",
   },
 ];
 

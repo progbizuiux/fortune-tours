@@ -104,7 +104,7 @@ export function RegionExperiencesSection({
   };
 
   const arrowClass =
-    "flex h-[70px] w-[62px] shrink-0 items-center justify-center border-[0.7px] border-black/50 p-[10px] backdrop-blur-[15px] transition-opacity disabled:opacity-30";
+    "flex h-[70px] w-[62px] shrink-0 items-center justify-center border-[0.7px] border-black/50 p-[10px] backdrop-blur-[15px] transition-opacity disabled:opacity-30 lg:max-xl:h-[54px] lg:max-xl:w-[48px]";
 
   return (
     <section className={cn("relative z-10 bg-background py-20 lg:py-32", className)}>

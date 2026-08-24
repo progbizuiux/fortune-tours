@@ -46,7 +46,10 @@ function QuestionGroup({ id, title, error, className, children }) {
     <div className={className}>
       {/* Figma: Neiko 35px — the h3 token caps at 32px, so the exact size is
           pinned from 2xl up while smaller screens keep the site scale. */}
-      <h3 id={id} className="2xl:text-[35px]">
+      <h3
+        id={id}
+        className="max-lg:text-[18px] max-lg:leading-[1.2] lg:max-2xl:text-[20px] 2xl:text-[35px]"
+      >
         {title}
       </h3>
       <div
@@ -75,11 +78,15 @@ function QuestionGroup({ id, title, error, className, children }) {
    aria-pressed carries the selection for screen readers. */
 function OptionChips({ options, isActive, onToggle }) {
   return (
-    <div className="flex flex-wrap gap-x-3 gap-y-4 sm:gap-x-[27px]">
+    <div className="flex flex-wrap gap-x-5 gap-y-4 sm:gap-x-9">
       {options.map((option) => (
         <FrameButton
           key={option}
           variant="option"
+          // Chips size to their label here, unlike the variant's 187px floor:
+          // seven equal-width chips overflow the column and wrap to a second
+          // row, and the design keeps this answer row on one line.
+          className="max-lg:text-[14px] sm:min-w-0"
           active={isActive(option)}
           aria-pressed={isActive(option)}
           onClick={() => onToggle(option)}
@@ -276,7 +283,7 @@ export function PlanMyTripSection({className}) {
       aria-label="Plan my trip"
       // scroll-mt clears the fixed navbar when a step change scrolls the
       // section back to its own top edge.
-      className={`${cn('spacing relative scroll-mt-20 overflow-hidden bg-black text-white',className)}`}
+      className={`${cn('relative scroll-mt-20 overflow-hidden bg-black text-white',className)}`}
     >
       {/* Backdrop: the art sits under a wash so the form stays legible over
           any image. First child, so everything after paints above it. */}
@@ -298,14 +305,26 @@ export function PlanMyTripSection({className}) {
         // Explicit paddings instead of `.spacing`: that rule is unlayered so
         // utilities can't shrink it below lg, and this section runs tighter
         // than the standard rhythm on small screens.
-        className="relative flex flex-col py-10 md:py-14 lg:py-[100px]"
+        // The body-copy step-down is set here rather than on each <p>: the
+        // element default comes from the base layer, so it does not inherit —
+        // every paragraph in the section needs the override, and there are six.
+        className="relative flex flex-col py-10 max-lg:[&_p]:text-[14px] max-lg:[&_p]:leading-[1.45] md:py-14 lg:pt-[80px] lg:pb-[85px] lg:max-2xl:pt-10 lg:max-2xl:pb-11"
       >
         <header>
           {/* Figma: Spartan 20px/100% — exactly the h4 element default. */}
-          <h4 className="text-white">Plan my trip</h4>
+          <h4 className="text-white max-lg:text-[14px]">Plan my trip</h4>
           <div className="mt-4 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
-            <h2>Craft your unique journey.</h2>
-            <p className="max-w-[706px] text-body text-white/80 lg:shrink-0 lg:text-right">
+            {/* Below lg this section runs its own, smaller step of the type
+                scale: the site h2 lands at 36px on a phone, which crowds the
+                descenders against the line box at leading-1. lg and up keep
+                the global token. */}
+            <h2 className="max-lg:text-[24px] max-lg:leading-[1.2] lg:max-2xl:text-[32px] lg:max-2xl:leading-[1.1]">
+              Craft your unique journey.
+            </h2>
+            {/* The 706px intro is a shrink-0 sibling, so between lg and xl it
+                eats the row and leaves the h2 ~144px — enough for one word a
+                line. Capped here until the column is wide enough to seat both. */}
+            <p className="max-w-[706px] text-white/80 lg:max-2xl:max-w-[360px] lg:shrink-0 lg:text-right">
               Tell us what you're dreaming about, how you like to travel and
               what you want to experience. We'll help shape a journey around
               you.
@@ -315,8 +334,10 @@ export function PlanMyTripSection({className}) {
 
         {submitted ? (
           <div className="flex flex-col items-start py-16 motion-safe:animate-menu-drop md:py-24">
-            <h3 className="text-h3">Thank you, {submittedName}.</h3>
-            <p className="mt-6 max-w-[560px] text-body text-white/80">
+            <h3 className="max-lg:text-[18px] max-lg:leading-[1.2] lg:max-2xl:text-[20px]">
+              Thank you, {submittedName}.
+            </h3>
+            <p className="mt-6 max-w-[560px] text-white/80">
               Your journey brief is with our travel designers. Expect
               personalised recommendations from a real person — usually within a
               day, always with no obligation.
@@ -327,7 +348,7 @@ export function PlanMyTripSection({className}) {
             {/* Progress: numbers are back-jumps (earlier steps only —
                 forward always goes through Continue's validation), the rail
                 beneath fills with completion. */}
-            <div className="mt-8 md:mt-10 lg:mt-[80px]">
+            <div className="mt-8 md:mt-10 lg:mt-[80px] lg:max-2xl:mt-8">
               <div className="flex items-baseline justify-between gap-6">
                 <div
                   aria-label="Steps"
@@ -354,7 +375,7 @@ export function PlanMyTripSection({className}) {
                   ))}
                 </div>
                 {/* Figma: 50px between "Step 01" and the step name. */}
-                <p className="text-body flex min-w-0 items-baseline gap-5 md:gap-[50px]">
+                <p className="flex min-w-0 items-baseline gap-5 md:gap-[50px]">
                   <span className="shrink-0 text-white/90">
                     Step {stepNumber}
                   </span>
@@ -385,7 +406,7 @@ export function PlanMyTripSection({className}) {
               ref={stepPanelRef}
               tabIndex={-1}
               className={cn(
-                "min-h-[160px] pt-8 outline-none md:min-h-[220px] md:pt-10 lg:min-h-[300px] lg:pt-[70px]",
+                "min-h-[160px] pt-8 outline-none md:min-h-[220px] md:pt-10 lg:min-h-[300px] lg:pt-[70px] lg:max-2xl:min-h-[170px] lg:max-2xl:pt-7",
                 direction === "forward"
                   ? "motion-safe:animate-menu-slide-in"
                   : "motion-safe:animate-menu-slide-back",
@@ -579,7 +600,7 @@ export function PlanMyTripSection({className}) {
             </div>
 
             {/* Figma: 58px between the rule and the footer row. */}
-            <div className="mt-8 flex flex-wrap items-center justify-between gap-x-6 gap-y-5 border-t-[0.5px] border-white/50 pt-5 md:mt-10 md:pt-6 lg:mt-14 lg:pt-[58px]">
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-x-6 gap-y-5 border-t-[0.5px] border-white/50 pt-5 md:mt-10 md:pt-6 lg:mt-14 lg:pt-[58px] lg:max-2xl:mt-7 lg:max-2xl:pt-5">
               {step > 0 && (
                 <FrameButton
                   variant="option"
@@ -590,7 +611,7 @@ export function PlanMyTripSection({className}) {
               )}
               <p
                 className={cn(
-                  "text-body order-last w-full text-center text-white/80 md:order-none md:w-auto md:flex-1",
+                  "order-last w-full text-center text-white/80 md:order-none md:w-auto md:flex-1",
                   step === 0 ? "md:text-left" : "md:text-center",
                 )}
               >

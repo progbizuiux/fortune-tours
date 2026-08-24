@@ -81,7 +81,11 @@ export function RegionFeaturesSection({
                   "xl:border-b-0 xl:pb-0" // No bottom borders on desktop
                 )}
               >
-              <h3 className="flex max-xl:items-end justify-center font-heading max-xl:text-[20px] xl:text-[24px] font-normal max-xl:leading-[1.2] xl:leading-[33px] text-black max-xl:min-h-[48px]">
+              {/* Two lines' worth of height at every breakpoint, with the
+                  title bottom-aligned inside it: titles run to one or two
+                  lines, and without a common floor each description starts at
+                  a different baseline across the row. xl is 2 x 33px leading. */}
+              <h3 className="flex items-end justify-center font-heading max-xl:text-[20px] xl:text-[24px] font-normal max-xl:leading-[1.2] xl:leading-[33px] text-black max-xl:min-h-[48px] xl:min-h-[66px]">
                 {feature.title}
               </h3>
               <p className="mt-[10px] font-sans max-xl:text-[14px] xl:text-[16px] font-light max-xl:leading-[21px] xl:leading-[24px] text-black/80 max-xl:flex-1">
