@@ -36,6 +36,12 @@ const DEFAULT_BLOCKS = [
 
 const CTA_LABELS = ["GET STARTED", "PLAN MY TRIP", "VIEW DESTINATIONS"];
 
+/* TextBlock's xl title is 45px on 41.4px leading — under its own font size, so
+   a two-line title here stacks its lines into each other. Opened up from xl,
+   where these titles are largest and wrap most. Below xl keeps the shared
+   values, and TextBlock itself is untouched for its other caller. */
+const HIGHLIGHT_TITLE = "xl:leading-[1.15]";
+
 const DEFAULT_IMAGES = [
   { src: "/destinations/kerala/dancer-performing.png", alt: "Kathakali Dancer" },
   { src: "/destinations/kerala/elephants-sri-lanka.jpg", alt: "Elephants in Kerala" },
@@ -98,7 +104,7 @@ export function HighlightsSection({
               className="pr-4 md:pr-0"
               eyebrow={copy[0].eyebrow}
               title={copy[0].title}
-              titleClassName="md:mt-[30px]"
+              titleClassName={`md:mt-[30px] ${HIGHLIGHT_TITLE}`}
               description={copy[0].description}
               descriptionClassName="md:mt-[27px] max-w-[612px]"
               ctaLabel={CTA_LABELS[0]}
@@ -127,6 +133,7 @@ export function HighlightsSection({
               className="md:pr-[15%] lg:w-[70%] lg:ml-auto lg:pr-0 xl:w-full xl:ml-0 xl:pl-[90px]"
               eyebrow={copy[1].eyebrow}
               title={copy[1].title}
+              titleClassName={HIGHLIGHT_TITLE}
               description={copy[1].description}
               ctaLabel={CTA_LABELS[1]}
             />
@@ -158,6 +165,7 @@ export function HighlightsSection({
               className="mt-[45px] md:mt-16 xl:mt-0 xl:flex-1 xl:justify-center xl:pl-[90px]"
               eyebrow={copy[2].eyebrow}
               title={copy[2].title}
+              titleClassName={HIGHLIGHT_TITLE}
               description={copy[2].description}
               ctaLabel={CTA_LABELS[2]}
             />

@@ -62,6 +62,18 @@ const CLOSE_DELAY_MS = 200;
 // Must match the header's `h-20` below.
 const NAVBAR_HEIGHT = 80;
 
+/* Bar triggers opt out of the shared LINK_UNDERLINE — no rule is drawn under
+   them at any point. Hover swells the label a touch and brings it to full
+   strength; scaling from the centre keeps the row's metrics fixed, so the
+   labels beside it never shift. Colour and transform only, so it stays on the
+   compositor and never triggers layout. */
+const NAV_TRIGGER = "text-nav transition-colors duration-300 ease-out";
+
+/* Only the page you are actually on marks itself, and it does so by weight
+   rather than a rule. Hovering a trigger opens its panel, so anything keyed to
+   the open state would read as a hover effect. */
+const NAV_TRIGGER_MARKER = "font-medium";
+
 export function Navbar() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -378,11 +390,16 @@ export function Navbar() {
                     ? (event) => handleTriggerKeyDown(event, link.menu)
                     : undefined
                 }
+                underline={false}
                 className={cn(
-                  "text-nav",
-                  isSolid ? "text-navy/80 dark:text-cream/80" : "text-white/90",
-                  (isActive || isOpen) &&
-                    (isSolid ? "text-navy" : "text-white") + " after:w-full",
+                  NAV_TRIGGER,
+                  isSolid
+                    ? "text-navy/80 hover:text-navy dark:text-cream/80 dark:hover:text-cream"
+                    : "text-white/90 hover:text-white",
+                  isActive && NAV_TRIGGER_MARKER,
+                  (isActive || isOpen) && [
+                    isSolid ? "text-navy" : "text-white",
+                  ],
                 )}
               >
                 {link.label}

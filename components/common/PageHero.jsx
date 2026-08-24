@@ -133,7 +133,11 @@ export function PageHero({
         </span>
 
         <h1
-          className={`hero-heading ${HERO_HEADING} max-md:max-w-[400px] max-w-4xl text-white opacity-0`}
+          // lg to 2xl: a narrower measure so the title holds two lines, and
+          // the h2 token instead of HERO_HEADING's 52px step — the next size
+          // down that already exists in the scale, so nothing new is invented
+          // for this band. Below lg and from 2xl up are untouched.
+          className={`hero-heading ${HERO_HEADING} max-md:max-w-[400px] max-w-4xl lg:max-2xl:max-w-[620px] lg:max-2xl:text-h2 text-white opacity-0`}
         >
           {title}
         </h1>

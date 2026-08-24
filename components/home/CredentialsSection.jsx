@@ -53,25 +53,32 @@ const REVIEWS = [
 const HAS_REVIEWER_PHOTOS = true;
 const HAS_REVIEW_PHOTOS = true;
 
+// Collapsed height of a review quote. Shared by the clamp style below and the
+// overflow check above, so the two can never disagree about where the cut is.
+const CLAMP_EM = 3.6;
+
 function ReviewCard({ review, index, isExpanded, onToggle }) {
   const textRef = useRef(null);
   const [needsReadMore, setNeedsReadMore] = useState(false);
 
   useEffect(() => {
     const checkOverflow = () => {
-      if (textRef.current) {
-        // If it's currently expanded, we can't accurately check if it WOULD overflow in clamped state
-        // unless we briefly clamp it. But since we only need to know this initially or on resize,
-        // it's best to check when it's clamped.
-        if (!isExpanded) {
-          // Add a 2px threshold to account for fractional pixel rounding errors
-          setNeedsReadMore(textRef.current.scrollHeight > textRef.current.clientHeight + 2);
-        }
-      }
+      const el = textRef.current;
+      if (!el) return;
+      // Measured against the clamp height in px, not against clientHeight.
+      // clientHeight is the *animating* height: collapsing sets max-height
+      // back to the clamp but the transition takes 500ms to get there, so a
+      // check on that frame still sees ~500px, concludes the text fits, and
+      // unmounts the button the moment "Read less" is pressed. scrollHeight is
+      // the full content height in either state, so this reads the same
+      // expanded or collapsed.
+      const clampPx = parseFloat(getComputedStyle(el).fontSize) * CLAMP_EM;
+      // 2px threshold absorbs fractional-pixel rounding.
+      setNeedsReadMore(el.scrollHeight > clampPx + 2);
     };
-    
+
     checkOverflow();
-    
+
     // Re-check after fonts have loaded, as they can change text dimensions
     if (typeof document !== "undefined" && document.fonts) {
       document.fonts.ready.then(checkOverflow);
@@ -94,7 +101,7 @@ function ReviewCard({ review, index, isExpanded, onToggle }) {
         <p 
           ref={textRef}
           className={`overflow-hidden transition-[max-height] duration-500 ease-in-out max-sm:font-light max-sm:text-[12px] max-sm:leading-120 max-sm:tracking-[-0.3px] text-small lg:font-sans lg:font-light lg:text-[18px] lg:leading-120 lg:tracking-[-1.4px] text-navy lg:text-charcoal group-hover:text-black`}
-          style={{ maxHeight: isExpanded ? "500px" : "3.6em" }}
+          style={{ maxHeight: isExpanded ? "500px" : `${CLAMP_EM}em` }}
         >
           {review.quote}
         </p>

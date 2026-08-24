@@ -70,15 +70,20 @@ export function JournalSection({
         {/* 12px column gap and 431:551 image ratio from the Figma frame */}
         <CardCascade
           as="ul"
-          className="mt-16 grid max-xl:flex max-xl:flex-nowrap max-xl:overflow-x-auto max-xl:snap-x max-xl:snap-mandatory max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden gap-x-3 gap-y-10 xl:grid-cols-4"
+          className="mt-16 grid max-xl:flex max-xl:flex-nowrap max-xl:overflow-x-auto max-xl:snap-x max-xl:snap-mandatory max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden max-xl:gap-x-[7px] gap-x-3 gap-y-10 xl:grid-cols-4 xl:max-2xl:mt-12 xl:max-2xl:gap-y-8"
         >
           {items.map((post) => (
             <li
               key={post.href}
               data-cascade-card
-              className="flex flex-col items-start max-sm:w-[254px] sm:max-md:w-[320px] md:max-lg:w-[280px] lg:max-xl:w-[320px] max-xl:shrink-0 max-xl:snap-center"
+              className="flex flex-col items-start max-xl:w-[254px] max-xl:shrink-0 max-xl:snap-center"
             >
+              {/* w-full: the card and this li are both `items-start` flex
+                  columns, so without it the card shrinks to its own text and
+                  the picture — sized w-full against that — comes out narrower
+                  on every card, by a different amount each time. */}
               <JournalCard
+                className="w-full"
                 meta={post.meta}
                 title={post.title}
                 href={post.href}

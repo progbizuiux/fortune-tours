@@ -33,6 +33,10 @@ export function PackageCard({
   metaClassName = "text-[13px] lg:text-[16px] leading-[1] text-black/80 mb-[10px] lg:mb-[12px]",
   // 15 from the picture to the title and 12 in from each edge, per the redline.
   contentClassName = "px-[12px] pt-[15px] pb-[16px] md:pb-[35px]",
+  // Caller-supplied overrides for the two blocks the props above do not reach.
+  // Left unset, both render exactly as they always have.
+  titleClassName,
+  experiencesClassName,
   sizes = "(min-width: 1280px) 460px, 85vw",
   /* Opt in to the scroll-in cascade (lib/gsap/useCardCascade.js), which needs the
      hooks below to find the three parts that move. Off by default, so Kerala's
@@ -60,7 +64,12 @@ export function PackageCard({
       </div>
 
       <div className={cn("flex flex-1 flex-col", contentClassName)}>
-        <h3 className="font-heading mb-[20px] text-[18px] leading-[30px] font-normal text-black lg:mb-[60px] lg:text-[32px]">
+        <h3
+          className={cn(
+            "font-heading mb-[20px] text-[18px] leading-[30px] font-normal text-black lg:mb-[60px] lg:text-[32px]",
+            titleClassName,
+          )}
+        >
           {cascade ? <CascadeText part="title">{title}</CascadeText> : title}
         </h3>
 
@@ -73,10 +82,20 @@ export function PackageCard({
             )}
           </p>
 
-          <p className="font-sans mb-1 text-[13px] leading-[1] font-light uppercase text-black/80 lg:text-[16px]">
+          <p
+            className={cn(
+              "font-sans mb-1 text-[13px] leading-[1] font-light uppercase text-black/80 lg:text-[16px]",
+              experiencesClassName,
+            )}
+          >
             EXPERIENCES:
           </p>
-          <p className="font-sans text-[13px] leading-[1.4] font-light text-black/80 lg:text-[16px] lg:leading-[20px]">
+          <p
+            className={cn(
+              "font-sans text-[13px] leading-[1.4] font-light text-black/80 lg:text-[16px] lg:leading-[20px]",
+              experiencesClassName,
+            )}
+          >
             {experiences}
           </p>
         </div>

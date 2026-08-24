@@ -51,6 +51,7 @@ export function MustVisitSection({
       descriptionClassName="max-lg:max-w-[560px] max-w-[828px] lg:leading-[29px]"
       items={items}
       riseOnScroll={true}
+      imageOverlay={true}
     />
   );
 }

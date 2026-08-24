@@ -125,11 +125,13 @@ export function HeroSection({
           {eyebrow}
         </span>
 
-        <h1 className={`hero-heading ${HERO_HEADING} lg:mt-[70px] max-md:max-w-[400px] max-w-[889px] text-white opacity-0`}>
+        {/* Narrower measure from lg to 2xl: at 889px this title sets on one
+            long line there, and the design holds it to two. */}
+        <h1 className={`hero-heading ${HERO_HEADING} lg:mt-[70px] lg:max-2xl:mt-8 max-md:max-w-[400px] max-w-[889px] lg:max-2xl:max-w-[620px] text-white opacity-0`}>
           {title}
         </h1>
 
-        <div className="hero-cta mt-11 md:mt-16 flex flex-wrap items-center justify-center md:justify-end max-md:gap-4 gap-x-6 gap-y-3 max-md:text-[13px] max-md:leading-6 text-body text-white/90 opacity-0">
+        <div className="hero-cta mt-11 md:mt-16 lg:max-2xl:mt-8 flex flex-wrap items-center justify-center md:justify-end max-md:gap-4 gap-x-6 gap-y-3 max-md:text-[13px] max-md:leading-6 text-body text-white/90 opacity-0">
           {ctaLinks.map((link) => (
             <CtaLink
               key={link.href}
