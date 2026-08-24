@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { DESTINATION_TAGS } from "@/lib/strapi/destination";
 import { HOME_TAGS } from "@/lib/strapi/home";
 import { KERALA_TAGS } from "@/lib/strapi/kerala";
+import { TRAVEL_STYLE_TAGS } from "@/lib/strapi/travel-styles";
 
 /* On-demand ISR. Strapi calls this on publish so an edit appears immediately
  * instead of waiting out the page's revalidate window.
@@ -28,6 +29,10 @@ const TAGS_BY_MODEL = {
      "destinations" tag with Kerala, so publishing either drops both — the
      cheaper mistake, since the two describe the same places. */
   "destination-page": DESTINATION_TAGS,
+  /* Travel styles render inside the destination pages, so publishing one has
+     to drop their cache too — TRAVEL_STYLE_TAGS carries "destinations" for
+     exactly that reason. */
+  "travel-style": TRAVEL_STYLE_TAGS,
   /* Strapi sends the content type's singular name. Both spellings are mapped
      because the endpoint is /api/homepages and the singular could be generated
      either way — an unmapped model would silently no-op. */

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { AnimateIn } from "@/components/common/AnimateIn";
@@ -87,6 +88,19 @@ export function ImageCarouselSection({
                 {item.label}
               </FrameButton>
             </span>
+
+            {/* An overlay anchor rather than wrapping the tile: the decorations
+                above are absolutely positioned against this <li>, and putting a
+                link in between would reparent them. Sits above them so the
+                whole card is the hit area, and carries the label as its
+                accessible name since it has no text of its own. */}
+            {item.href && (
+              <Link
+                href={item.href}
+                aria-label={item.label}
+                className="absolute inset-0 z-10 focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-white"
+              />
+            )}
           </li>
         ))}
       </ul>

@@ -4,6 +4,7 @@ import { InspirationBanner } from "@/components/search/InspirationBanner";
 import { ResultsGrid } from "@/components/search/ResultsGrid";
 import { SearchToolbar } from "@/components/search/SearchToolbar";
 import { getInspiration } from "@/lib/inspirationData";
+import { getTravelStyle, toInspiration } from "@/lib/strapi/travel-styles";
 import { filterJourneys } from "@/lib/searchCatalog";
 
 // The band's caret points at the results, so the link needs a target to reach
@@ -41,9 +42,19 @@ export default async function SearchPage({ searchParams }) {
     pkg: first(params.package),
   });
 
+  /* The band follows whichever theme the URL names. `?style=` comes from the
+     travel-style cards on the destination pages and is answered from the CMS;
+     `?experience=` is the older filter-driven path and still resolves from
+     lib/inspirationData. A style that no longer exists falls through to the
+     experience band rather than rendering an empty one.
+
+     Fetched only when the param is present, so the unfiltered page does not
+     pay for a request it will not use. */
+  const style = await getTravelStyle(first(params.style));
+
   // Re-themes with the experience filter, so the band never contradicts the
   // results underneath it.
-  const inspiration = getInspiration({ experience });
+  const inspiration = style ? toInspiration(style) : getInspiration({ experience });
 
   return (
     <>
