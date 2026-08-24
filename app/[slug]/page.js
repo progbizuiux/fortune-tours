@@ -6,6 +6,7 @@ import { RegionIntroSection } from "@/components/destinations/RegionIntroSection
 import { RegionExperiencesSection } from "@/components/destinations/RegionExperiencesSection";
 import { RegionDestinationsSection } from "@/components/destinations/RegionDestinationsSection";
 import { RegionFeaturesSection } from "@/components/destinations/RegionFeaturesSection";
+import { RegionJournalSection } from "@/components/destinations/RegionJournalSection";
 import {
   getDestinationPage,
   getDestinationRegion,
@@ -86,11 +87,12 @@ export default async function DestinationRegionPage({ params }) {
             paint on top rather than slide underneath. */}
         <RegionIntroSection {...page.intro} className="relative z-10" />
 
-        <RegionExperiencesSection />
 
         <RegionDestinationsSection className="!pt-0"/>
 
         <RegionFeaturesSection />
+        <RegionExperiencesSection />
+        <RegionJournalSection />
       </div>
     </>
   );

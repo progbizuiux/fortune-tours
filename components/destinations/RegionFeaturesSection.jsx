@@ -36,7 +36,7 @@ export function RegionFeaturesSection({
   features = FALLBACK_FEATURES,
 }) {
   return (
-    <section className="relative z-10 bg-[#FAF7F2] py-20 lg:py-32">
+    <section className="relative z-10 bg-[#FAF7F2] spacing">
       <Container>
         <SectionHeading
           align="center"
@@ -46,9 +46,11 @@ export function RegionFeaturesSection({
           titleClassName="max-w-[1050px]"
           descriptionClassName="max-w-[828px]"
         />
+      </Container>
 
-        {/* Features Grid */}
-        <div className="mt-[95px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-y-12">
+      {/* Features Grid */}
+      <div className="w-full px-4 md:px-8 lg:px-[80px] mt-[95px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-y-12 max-w-[1920px] mx-auto">
           {features.map((feature, i) => {
             // We hide the last 2 items on mobile/tablet (max-lg).
             const hideOnSmall = i >= features.length - 2;
@@ -64,7 +66,7 @@ export function RegionFeaturesSection({
               <div
                 key={i}
                 className={cn(
-                  "flex flex-col items-center justify-center text-center px-[22px] h-full",
+                  "flex flex-col items-center justify-start xl:justify-between text-center px-[22px] h-full pt-2",
                   hideOnSmall && "max-lg:hidden",
                   // Vertical borders
                   "md:border-r border-black/10 last:border-r-0",
@@ -79,17 +81,17 @@ export function RegionFeaturesSection({
                   "xl:border-b-0 xl:pb-0" // No bottom borders on desktop
                 )}
               >
-              <h3 className="font-heading max-xl:text-[20px] xl:text-[24px] font-normal max-xl:leading-[1.2] xl:leading-[33px] text-black">
+              <h3 className="flex max-xl:items-end justify-center font-heading max-xl:text-[20px] xl:text-[24px] font-normal max-xl:leading-[1.2] xl:leading-[33px] text-black max-xl:min-h-[48px]">
                 {feature.title}
               </h3>
-              <p className="mt-[10px] font-sans max-xl:text-[14px] xl:text-[16px] font-light max-xl:leading-[21px] xl:leading-[24px] text-black/80">
+              <p className="mt-[10px] font-sans max-xl:text-[14px] xl:text-[16px] font-light max-xl:leading-[21px] xl:leading-[24px] text-black/80 max-xl:flex-1">
                 {feature.body}
               </p>
             </div>
             );
           })}
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

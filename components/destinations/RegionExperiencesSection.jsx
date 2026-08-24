@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/common/Container";
@@ -55,6 +56,8 @@ export function RegionExperiencesSection({
 }) {
   const scrollRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
   
   // Re-use the existing gsap hook for animating items up on scroll
   useRowRise({ ref: scrollRef });
@@ -62,6 +65,9 @@ export function RegionExperiencesSection({
   const handleScroll = () => {
     if (!scrollRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth, children } = scrollRef.current;
+    
+    setCanScrollLeft(scrollLeft > 5);
+    setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth - 5);
     
     // Check if reached the end
     if (scrollLeft + clientWidth >= scrollWidth - 2) {
@@ -74,6 +80,12 @@ export function RegionExperiencesSection({
     const index = Math.round(scrollLeft / (childWidth + gap));
     setActiveIndex(index);
   };
+
+  useEffect(() => {
+    handleScroll();
+    window.addEventListener("resize", handleScroll);
+    return () => window.removeEventListener("resize", handleScroll);
+  }, []);
 
   const scrollPrev = () => {
     if (!scrollRef.current) return;
@@ -90,6 +102,9 @@ export function RegionExperiencesSection({
     const gap = 16;
     scrollRef.current.scrollBy({ left: childWidth + gap, behavior: "smooth" });
   };
+
+  const arrowClass =
+    "flex h-[70px] w-[62px] shrink-0 items-center justify-center border-[0.7px] border-black/50 p-[10px] backdrop-blur-[15px] transition-opacity disabled:opacity-30";
 
   return (
     <section className={cn("relative z-10 bg-background py-20 lg:py-32", className)}>
@@ -111,7 +126,7 @@ export function RegionExperiencesSection({
             {experiences.map((exp, i) => (
               <li 
                 key={exp.id} 
-                className="group relative snap-center shrink-0 w-[85vw] sm:w-[45vw] md:w-[calc(33.333%-11px)] lg:w-[calc(25%-12px)] aspect-[473/586] overflow-hidden bg-navy/5"
+                className="group relative snap-center shrink-0 w-[85vw] max-w-[348px] md:max-w-[473px] xl:max-w-none xl:w-[calc(25%-12px)] aspect-[473/586] overflow-hidden bg-navy/5"
               >
                 <Image
                   src={exp.image}
@@ -123,28 +138,28 @@ export function RegionExperiencesSection({
                 
                 {/* Gradient Overlay */}
                 <div 
-                  className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none" 
+                  className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" 
                   aria-hidden="true"
                 />
 
                 {/* Content Block */}
-                <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 flex flex-col justify-end text-white">
+                <div className="absolute inset-x-0 bottom-0 px-6 pb-6 md:px-[30px] md:pb-[30px] flex flex-col justify-end text-white">
                   <div className="transform transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-4">
                     
-                    <h3 className="font-heading text-[24px] leading-tight text-white drop-shadow-sm">
+                    <h3 className="font-heading text-[24px] leading-none font-normal text-white drop-shadow-sm">
                       {exp.title}
                     </h3>
                     
                     {/* Expandable Description Area */}
-                    <div className="grid grid-rows-[0fr] opacity-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:grid-rows-[1fr] group-hover:opacity-100 mt-1 md:mt-2">
+                    <div className="grid grid-rows-[0fr] opacity-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:grid-rows-[1fr] group-hover:opacity-100 mt-[20px]">
                       <div className="overflow-hidden">
-                        <p className="font-sans font-light text-[18px] text-white/90">
+                        <p className="font-sans font-light text-[18px] leading-[24px] text-white">
                           {exp.subtitle}
                         </p>
                         
-                        <div className="h-[0.6px] bg-white/50 w-full my-4" />
+                        <div className="h-[0.6px] bg-white/50 w-full my-[21px]" />
                         
-                        <p className="font-sans font-light text-[14px] leading-relaxed text-white/80">
+                        <p className="font-sans font-light text-[16px] leading-[24px] text-white/70">
                           {exp.description}
                         </p>
                       </div>
@@ -163,7 +178,7 @@ export function RegionExperiencesSection({
         </div>
         
         {/* Navigation Arrows (Desktop) & Pagination Dots (Mobile) */}
-        <div className="mt-8 flex items-center justify-between">
+        <div className="mt-8 flex items-center justify-center">
           <div className="flex gap-[4px] md:hidden">
             {experiences.map((_, i) => (
               <span
@@ -177,24 +192,22 @@ export function RegionExperiencesSection({
           </div>
           
           {/* Desktop Arrows */}
-          <div className="hidden md:flex items-center gap-4 ml-auto">
+          <div className="hidden md:flex items-center gap-[10px] ml-auto">
             <button 
               onClick={scrollPrev}
-              className="w-12 h-12 flex items-center justify-center border border-black/20 rounded-sm hover:border-black transition-colors"
+              disabled={!canScrollLeft}
+              className={arrowClass}
               aria-label="Previous"
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <ChevronLeft className="size-4 stroke-1 text-black" />
             </button>
             <button 
               onClick={scrollNext}
-              className="w-12 h-12 flex items-center justify-center border border-black/20 rounded-sm hover:border-black transition-colors"
+              disabled={!canScrollRight}
+              className={arrowClass}
               aria-label="Next"
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <ChevronRight className="size-4 stroke-1 text-black" />
             </button>
           </div>
         </div>

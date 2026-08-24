@@ -6,7 +6,6 @@ import Link from "next/link";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { Button } from "@/components/common/Button";
-import { useRowRise } from "@/lib/gsap/useRowRise";
 import { cn } from "@/lib/utils";
 
 const FALLBACK_DESTINATIONS = [
@@ -33,7 +32,6 @@ export function RegionDestinationsSection({
 
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef(null);
-  useRowRise({ ref: scrollRef });
 
   const handleScroll = () => {
     if (!scrollRef.current) return;
