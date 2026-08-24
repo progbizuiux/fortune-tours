@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Star } from "lucide-react";
-import { FaGoogle } from "react-icons/fa6";
+import { CarouselArrow } from "@/components/common/CarouselArrow";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { cn } from "@/lib/utils";
@@ -13,9 +12,9 @@ const FALLBACK_STORIES = [
     quote: "“Every detail felt effortless, creating an experience that transcended a simple holiday and left lasting memories in our hearts.”",
     author: "SARAH & JAMES",
     meta: "kenya · safari journey",
-    image: "/destinations/kerala/wildlife.avif",
-    authorImage: "/credentials/image 191.png",
-    rating: 5
+    image: "/countries/africa/africa.png",
+    authorImage: "/countries/africa/sarah.png",
+    rating: 4
   },
   {
     quote: "“The itinerary was impeccably planned. From the majestic wildlife to the luxurious lodges, it was an adventure of a lifetime.”",
@@ -27,6 +26,12 @@ const FALLBACK_STORIES = [
   }
 ];
 
+/* CarouselArrow on a light panel: its own rule is white and it blurs what is
+   behind it, both of which assume the pair sits over a photo. The chevron
+   colour is the caller's — black when there is a story that way, dimmed when
+   the end of the run is reached. */
+const ARROW_CLASS = "size-11 border-black/20 backdrop-blur-none";
+
 export function RegionStoriesSection({
   eyebrow = "Traveller stories",
   title = "Captivating Stories And Adventures From The Road",
@@ -35,16 +40,15 @@ export function RegionStoriesSection({
   className,
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeStory = stories[activeIndex];
 
-  const handleNext = () => {
-    setActiveIndex((prev) => (prev + 1) % stories.length);
-  };
-
-  const handlePrev = () => {
-    setActiveIndex((prev) => (prev - 1 + stories.length) % stories.length);
-  };
-
-  const currentStory = stories[activeIndex];
+  // Bounded rather than wrapping, so each arrow's colour can report whether
+  // there is actually a story that way: black when there is, dimmed when not.
+  const hasPrev = activeIndex > 0;
+  const hasNext = activeIndex < stories.length - 1;
+  const goPrev = () => setActiveIndex((i) => Math.max(0, i - 1));
+  const goNext = () =>
+    setActiveIndex((i) => Math.min(stories.length - 1, i + 1));
 
   return (
     <section className={cn("relative z-10 bg-background py-20 lg:py-32", className)}>
@@ -74,70 +78,92 @@ export function RegionStoriesSection({
             ))}
           </div>
 
-          {/* Quote and Author Block */}
-          <div className="mt-8 md:mt-12 ml-auto w-full max-w-[1374px] flex flex-col">
-            <h3 className="text-right ml-auto max-w-[1050px] font-heading font-normal text-[24px] lg:text-[35px] leading-[110%] tracking-[-0.01em] text-black/80">
-              {currentStory.quote}
-            </h3>
+          {/* Quote, then the attribution row beneath its own rule. */}
+          {/* Figma: Neiko 400, 35px/110%, -1% tracking, right, black at 80%. */}
+          <blockquote className="mt-8 ml-auto max-w-[1374px] text-right font-heading text-[24px] leading-[110%] font-normal tracking-[-0.01em] text-black/80 md:mt-12 lg:text-[35px]">
+            {activeStory.quote}
+          </blockquote>
 
-            <div className="mt-[30px] border-t border-black/15 pt-[40px] flex flex-col sm:flex-row gap-6 justify-between items-start sm:items-center">
-              
-              {/* Author Info */}
+          {/* Figma: 0.5px rule at black/60 above the attribution row. */}
+          {/* From 2xl the rule and the attribution line up with the quote's own
+              left edge — same ml-auto/max-w pair — instead of running the full
+              width of the container beneath it. */}
+          <div className="mt-[30px] flex w-full flex-col items-start gap-6 border-t-[0.5px] border-black/60 pt-[40px] sm:flex-row sm:items-center 2xl:ml-auto 2xl:max-w-[1374px]">
+            {/* Figma rhythm across the row: 14px avatar → name, then 20px to
+                the rule and 20px again to the review badge. */}
+            <div className="flex items-center gap-5">
+              {/* 81px square, per the Figma measure. */}
               <div className="flex items-center gap-[14px]">
-                <div className="relative w-[50px] h-[50px] shrink-0 rounded-[2px] overflow-hidden bg-navy/10">
-                  <Image 
-                    src={currentStory.authorImage} 
-                    alt={currentStory.author}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                
+                <Image
+                  src={activeStory.authorImage}
+                  alt={activeStory.author}
+                  width={81}
+                  height={81}
+                  className="size-[81px] shrink-0 object-cover"
+                />
+
+                {/* text-body carries the Poppins 18px/24px light spec and
+                    steps down on small screens with the rest of the site. */}
                 <div className="flex flex-col">
-                  <span className="font-sans font-light text-[18px] leading-[24px] tracking-[0.3em] uppercase text-black">
-                    {currentStory.author}
+                  <span className="text-body font-light tracking-[0.3em] text-black uppercase">
+                    {activeStory.author}
                   </span>
-                  <span className="font-sans font-light text-[18px] leading-[24px] lowercase text-black/60">
-                    {currentStory.meta}
+                  <span className="text-body font-light text-black/60 lowercase">
+                    {activeStory.meta}
                   </span>
-                </div>
-
-                <div className="w-px h-8 bg-black/15 mx-2 hidden sm:block" />
-
-                <div className="hidden sm:flex flex-col items-center gap-1">
-                  <FaGoogle className="size-4 text-black" />
-                  <div className="flex gap-[1px]">
-                    {[...Array(5)].map((_, i) => (
-                      <Star 
-                        key={i} 
-                        className={cn(
-                          "size-2.5", 
-                          i < currentStory.rating ? "fill-[#FBBC04] text-[#FBBC04]" : "fill-gray-300 text-gray-300"
-                        )} 
-                      />
-                    ))}
-                  </div>
                 </div>
               </div>
 
-              {/* Navigation */}
-              <div className="flex items-center gap-2 max-sm:w-full max-sm:justify-end">
-                <button 
-                  onClick={handlePrev}
-                  className="flex items-center justify-center w-11 h-11 border border-black/20 text-black/60 hover:text-black transition-colors"
-                  aria-label="Previous story"
-                >
-                  <ChevronLeft className="size-4 stroke-1" />
-                </button>
-                <button 
-                  onClick={handleNext}
-                  className="flex items-center justify-center w-11 h-11 border border-black/20 text-black transition-colors"
-                  aria-label="Next story"
-                >
-                  <ChevronRight className="size-4 stroke-1" />
-                </button>
-              </div>
+              {/* Figma: 46px rule, 1px, black at 40%. */}
+              <div className="hidden h-[46px] w-px bg-black/40 sm:block" />
 
+              {/* Google mark over the star row — both are supplied artwork
+                  rather than icon-font glyphs, so they match the review badge
+                  exactly. */}
+              <div className="hidden flex-col items-center gap-1 sm:flex">
+                <Image
+                  src="/countries/africa/google.png"
+                  alt="Google"
+                  width={24}
+                  height={24}
+                  className="size-6 object-contain"
+                />
+                <div className="flex gap-[1px]">
+                  {Array.from({ length: activeStory.rating }).map((_, i) => (
+                    <Image
+                      key={i}
+                      src="/countries/africa/star.png"
+                      alt=""
+                      width={17}
+                      height={18}
+                      className="h-[18px] w-[17px] object-contain"
+                    />
+                  ))}
+                </div>
+                <span className="sr-only">
+                  {activeStory.rating} out of 5 stars on Google
+                </span>
+              </div>
+            </div>
+
+            {/* Same CarouselArrow the other carousels use, re-coloured for a
+                light panel — the component's default rule is white because it
+                normally sits over a photo. */}
+            <div className="flex items-center gap-[10px] max-sm:w-full max-sm:justify-end sm:ml-auto">
+              <CarouselArrow
+                direction="prev"
+                onClick={goPrev}
+                disabled={!hasPrev}
+                className={cn(ARROW_CLASS, hasPrev ? "text-black" : "text-black/30")}
+                aria-label="Previous story"
+              />
+              <CarouselArrow
+                direction="next"
+                onClick={goNext}
+                disabled={!hasNext}
+                className={cn(ARROW_CLASS, hasNext ? "text-black" : "text-black/30")}
+                aria-label="Next story"
+              />
             </div>
           </div>
         </div>

@@ -69,7 +69,7 @@ export function RegionFixedPackagesSection({
           description={description}
         />
 
-        <div className="mt-16 max-w-7xl mx-auto">
+        <div className="mt-16 max-w-7xl mx-auto lg:max-xl:mt-10">
           {/* Grid layout on desktop, horizontal scroll snap up to xl */}
           <div
             ref={scrollRef}
@@ -89,7 +89,7 @@ export function RegionFixedPackagesSection({
                 experiences={pkg.experiences}
                 image={pkg.image}
                 alt={pkg.alt}
-                className="max-xl:w-[85vw] max-md:max-w-[348px] md:max-xl:max-w-[447px] max-xl:shrink-0 max-xl:snap-center"
+                className="max-xl:w-[85vw] max-md:max-w-[348px] md:max-xl:max-w-[447px] lg:max-xl:max-w-[372px] max-xl:shrink-0 max-xl:snap-center"
                 imageAspectClassName="aspect-[348/329] md:aspect-[447/423]"
                 metaClassName="text-[13px] md:text-[12px] leading-tight text-black tracking-wider mb-[10px] lg:mb-[12px]"
                 contentClassName="px-[12px] pt-[15px] pb-[16px] md:px-[33px] md:pb-[35px]"

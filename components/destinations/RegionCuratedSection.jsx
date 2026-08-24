@@ -5,7 +5,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
-import { CarouselArrow } from "@/components/common/CarouselArrow";
 import { cn } from "@/lib/utils";
 
 const FALLBACK_PLACES = [
@@ -30,6 +29,14 @@ const FALLBACK_PLACES = [
     image: "/destination/norway.avif",
   },
 ];
+
+/* The "Travel your way" arrows, verbatim
+   (components/destinations/RegionExperiencesSection.jsx) — same box, rule,
+   blur and disabled fade, so the two carousels on the page read as one
+   control. They sit in a row beneath the track there too: a black rule over a
+   photograph is invisible, which is what an overlay would give here. */
+const ARROW_CLASS =
+  "flex h-[70px] w-[62px] shrink-0 items-center justify-center border-[0.7px] border-white p-[10px] backdrop-blur-[15px] transition-opacity disabled:opacity-30 lg:max-2xl:h-[54px] lg:max-2xl:w-[48px]";
 
 export function RegionCuratedSection({
   eyebrow = "Curated for you",
@@ -96,33 +103,22 @@ export function RegionCuratedSection({
       </Container>
       
       <div className="mt-12 md:mt-20 relative">
-        {/* Navigation Arrows (Desktop) */}
-        <div className="hidden md:block">
-          <CarouselArrow 
-            direction="prev"
-            onClick={scrollPrev}
-            disabled={!canScrollLeft}
-            className="absolute top-1/2 -translate-y-1/2 z-20 left-[20px]"
-            aria-label="Previous"
-          />
-          <CarouselArrow 
-            direction="next"
-            onClick={scrollNext}
-            disabled={!canScrollRight}
-            className="absolute top-1/2 -translate-y-1/2 z-20 right-[20px]"
-            aria-label="Next"
-          />
-        </div>
 
         <ul
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex overflow-x-auto snap-x snap-mandatory gap-[7px] px-[10px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          // scroll-pl matches the track's own left padding, so a slide snapped
+          // to the start sits flush with the edge instead of 10px under it.
+          className="flex snap-x snap-mandatory gap-[7px] overflow-x-auto px-[10px] md:scroll-pl-[10px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {places.map((place, i) => (
             <li 
               key={place.title + i} 
-              className="group relative snap-center shrink-0 w-[85vw] md:w-[calc(50%-3.5px)] max-sm:aspect-[432/273] aspect-[951/696] overflow-hidden bg-navy/5 cursor-pointer"
+              // snap-start from md up: two slides share the viewport there, so
+              // centring one of them parks the track between cards and shows
+              // half of each neighbour. Below md a single 85vw slide is meant
+              // to sit centred with a peek either side, so that keeps center.
+              className="group relative aspect-[951/696] w-[85vw] shrink-0 cursor-pointer snap-center overflow-hidden bg-navy/5 max-sm:aspect-[432/273] md:w-[calc(50%-3.5px)] md:snap-start"
             >
               <Image
                 src={place.image}
@@ -149,6 +145,27 @@ export function RegionCuratedSection({
             </li>
           ))}
         </ul>
+
+        {/* Navigation Arrows (Desktop) — overlaid on the track at the same
+            insets the previous pair used. */}
+        <div className="hidden md:block">
+          <button
+            onClick={scrollPrev}
+            disabled={!canScrollLeft}
+            className={cn(ARROW_CLASS, "absolute top-1/2 left-[20px] z-20 -translate-y-1/2")}
+            aria-label="Previous"
+          >
+            <ChevronLeft className="size-4 stroke-1 text-white" />
+          </button>
+          <button
+            onClick={scrollNext}
+            disabled={!canScrollRight}
+            className={cn(ARROW_CLASS, "absolute top-1/2 right-[20px] z-20 -translate-y-1/2")}
+            aria-label="Next"
+          >
+            <ChevronRight className="size-4 stroke-1 text-white" />
+          </button>
+        </div>
 
         {/* Pagination Dots (Mobile) */}
         <div className="flex justify-center gap-[4px] mt-6 md:hidden">
