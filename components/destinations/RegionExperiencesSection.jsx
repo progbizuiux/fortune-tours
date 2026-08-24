@@ -127,7 +127,10 @@ export function RegionExperiencesSection({
           {experiences.map((exp, i) => (
             <li 
               key={exp.id} 
-              className="group relative snap-center shrink-0 w-[85vw] max-w-[348px] md:max-w-[473px] xl:max-w-none xl:w-[calc(25%-12px)] aspect-[473/586] overflow-hidden bg-navy/5"
+              // md to xl steps the card down from 473px: below xl the row is a
+              // scroller rather than the four-up grid, and a full-size card
+              // fits barely two on screen there.
+              className="group relative snap-center shrink-0 w-[85vw] max-w-[348px] md:max-w-[473px] md:max-xl:max-w-[340px] xl:max-w-none xl:w-[calc(25%-12px)] aspect-[473/586] overflow-hidden bg-navy/5"
             >
               <Image
                 src={exp.image}

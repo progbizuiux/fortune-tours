@@ -49,7 +49,14 @@ export const DestinationsMenu = forwardRef(function DestinationsMenu(
       onNavigate={onNavigate}
       {...panelProps}
     >
-      <div className="flex items-start gap-14 2xl:gap-20">
+      {/* Leaving the two columns clears the region, so the curated cards come
+          back rather than the last-hovered country grid staying up. Scoped to
+          this row, not the panel: the pointer travels between the region list
+          and its grid constantly, and both live inside here. */}
+      <div
+        className="flex items-start gap-14 2xl:gap-20"
+        onMouseLeave={() => setActiveKey(null)}
+      >
         <RegionList
           activeKey={activeKey}
           onActivate={setActiveKey}
@@ -163,7 +170,7 @@ function CuratedDestinations() {
           grid shrinks with the viewport and the aspect ratio keeps their shape.
           Three across below xl: at 1024 the column is ~570px wide and five
           cards there are 95px boxes that cannot hold their captions. */}
-      <ul className="mt-6 grid max-w-[1324px] grid-cols-3 gap-4 xl:grid-cols-5">
+      <ul className="mt-6 grid max-w-[1324px] grid-cols-3 gap-4 xl:grid-cols-5 2xl:max-w-[1460px]">
         {CURATED_DESTINATIONS.map((place, index) => (
           <li
             key={place.key}
@@ -178,7 +185,7 @@ function CuratedDestinations() {
                 src={place.image}
                 alt={place.alt}
                 fill
-                sizes="(min-width: 1536px) 252px, 16vw"
+                sizes="(min-width: 1536px) 280px, (min-width: 1280px) 252px, 30vw"
                 className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
               />
               <div
@@ -186,10 +193,10 @@ function CuratedDestinations() {
                 className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/15"
               />
               <span className="absolute inset-x-0 bottom-0 flex flex-col p-4 text-white">
-                <span className="text-body leading-tight font-medium">
+                <span className="text-body leading-tight font-medium lg:max-2xl:text-[14px] 2xl:text-[15px]">
                   {place.title}
                 </span>
-                <span className="text-small mt-1 leading-none font-light text-white/80">
+                <span className="text-small mt-1 leading-none font-light text-white/80 lg:max-2xl:text-[12px] 2xl:text-[13px]">
                   {place.tagline}
                 </span>
               </span>
