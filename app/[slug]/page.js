@@ -7,6 +7,10 @@ import { RegionExperiencesSection } from "@/components/destinations/RegionExperi
 import { RegionDestinationsSection } from "@/components/destinations/RegionDestinationsSection";
 import { RegionFeaturesSection } from "@/components/destinations/RegionFeaturesSection";
 import { RegionJournalSection } from "@/components/destinations/RegionJournalSection";
+import { PlanMyTripSection } from "@/components/plan-my-trip/PlanMyTripSection";
+import { RegionCuratedSection } from "@/components/destinations/RegionCuratedSection";
+import { RegionStoriesSection } from "@/components/destinations/RegionStoriesSection";
+import { RegionFixedPackagesSection } from "@/components/destinations/RegionFixedPackagesSection";
 import {
   getDestinationPage,
   getDestinationRegion,
@@ -87,12 +91,21 @@ export default async function DestinationRegionPage({ params }) {
             paint on top rather than slide underneath. */}
         <RegionIntroSection {...page.intro} className="relative z-10" />
 
-
-        <RegionDestinationsSection className="!pt-0"/>
+        <RegionDestinationsSection className="!pt-0" />
 
         <RegionFeaturesSection />
         <RegionExperiencesSection />
-        <RegionJournalSection />
+        <RegionJournalSection className="!pt-0"/>
+
+        {/* Africa only for now: the wizard's destination chips are African
+            countries. Generalise the option lists before opening it to the
+            other regions. */}
+       
+            <PlanMyTripSection />
+            <RegionCuratedSection />
+            <RegionStoriesSection />
+            <RegionFixedPackagesSection />
+          
       </div>
     </>
   );

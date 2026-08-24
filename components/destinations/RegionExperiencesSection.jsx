@@ -115,68 +115,70 @@ export function RegionExperiencesSection({
           description={description}
           align="left"
         />
+      </Container>
         
-        {/* Carousel Container */}
-        <div className="mt-12 md:mt-16 relative">
-          <ul
-            ref={scrollRef}
-            onScroll={handleScroll}
-            className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          >
-            {experiences.map((exp, i) => (
-              <li 
-                key={exp.id} 
-                className="group relative snap-center shrink-0 w-[85vw] max-w-[348px] md:max-w-[473px] xl:max-w-none xl:w-[calc(25%-12px)] aspect-[473/586] overflow-hidden bg-navy/5"
-              >
-                <Image
-                  src={exp.image}
-                  alt={exp.title}
-                  fill
-                  sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 85vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-                
-                {/* Gradient Overlay */}
-                <div 
-                  className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" 
-                  aria-hidden="true"
-                />
+      {/* Carousel Container */}
+      <div className="mt-12 md:mt-16 relative">
+        <ul
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {experiences.map((exp, i) => (
+            <li 
+              key={exp.id} 
+              className="group relative snap-center shrink-0 w-[85vw] max-w-[348px] md:max-w-[473px] xl:max-w-none xl:w-[calc(25%-12px)] aspect-[473/586] overflow-hidden bg-navy/5"
+            >
+              <Image
+                src={exp.image}
+                alt={exp.title}
+                fill
+                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 85vw"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+              
+              {/* Gradient Overlay */}
+              <div 
+                className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" 
+                aria-hidden="true"
+              />
 
-                {/* Content Block */}
-                <div className="absolute inset-x-0 bottom-0 px-6 pb-6 md:px-[30px] md:pb-[30px] flex flex-col justify-end text-white">
-                  <div className="transform transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-4">
-                    
-                    <h3 className="font-heading text-[24px] leading-none font-normal text-white drop-shadow-sm">
-                      {exp.title}
-                    </h3>
-                    
-                    {/* Expandable Description Area */}
-                    <div className="grid grid-rows-[0fr] opacity-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:grid-rows-[1fr] group-hover:opacity-100 mt-[20px]">
-                      <div className="overflow-hidden">
-                        <p className="font-sans font-light text-[18px] leading-[24px] text-white">
-                          {exp.subtitle}
-                        </p>
-                        
-                        <div className="h-[0.6px] bg-white/50 w-full my-[21px]" />
-                        
-                        <p className="font-sans font-light text-[16px] leading-[24px] text-white/70">
-                          {exp.description}
-                        </p>
-                      </div>
+              {/* Content Block */}
+              <div className="absolute inset-x-0 bottom-0 px-6 pb-6 md:px-[30px] md:pb-[30px] flex flex-col justify-end text-white">
+                <div className="transform transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-4">
+                  
+                  <h3 className="font-heading text-[24px] leading-none font-normal text-white drop-shadow-sm">
+                    {exp.title}
+                  </h3>
+                  
+                  {/* Expandable Description Area */}
+                  <div className="grid grid-rows-[0fr] opacity-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:grid-rows-[1fr] group-hover:opacity-100 mt-[20px]">
+                    <div className="overflow-hidden">
+                      <p className="font-sans font-light text-[18px] leading-[24px] text-white">
+                        {exp.subtitle}
+                      </p>
+                      
+                      <div className="h-[0.6px] bg-white/50 w-full my-[21px]" />
+                      
+                      <p className="font-sans font-light text-[16px] leading-[24px] text-white/70">
+                        {exp.description}
+                      </p>
                     </div>
-                    
                   </div>
+                  
                 </div>
-                
-                {/* Full card clickable link if needed, or just hover effect wrapper */}
-                <Link href={`/experiences/${exp.id}`} className="absolute inset-0 z-10">
-                  <span className="sr-only">Explore {exp.title}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        
+              </div>
+              
+              {/* Full card clickable link if needed, or just hover effect wrapper */}
+              <Link href={`/experiences/${exp.id}`} className="absolute inset-0 z-10">
+                <span className="sr-only">Explore {exp.title}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+      <Container>
         {/* Navigation Arrows (Desktop) & Pagination Dots (Mobile) */}
         <div className="mt-8 flex items-center justify-center">
           <div className="flex gap-[4px] md:hidden">
@@ -211,7 +213,6 @@ export function RegionExperiencesSection({
             </button>
           </div>
         </div>
-        
       </Container>
     </section>
   );

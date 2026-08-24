@@ -9,7 +9,7 @@ import { HighlightsSection } from "@/components/destinations/kerala/HighlightsSe
 
 import { WhyTravelSection } from "@/components/destinations/kerala/WhyTravelSection";
 import { SeasonsSection } from "@/components/destinations/kerala/SeasonsSection";
-import { RegionFixedPackagesSection } from "@/components/destinations/RegionFixedPackagesSection";
+import { FixedPackagesSection } from "@/components/destinations/kerala/FixedPackagesSection";
 import { getKeralaPage } from "@/lib/strapi/kerala";
 
 /* ISR. The page is built once and served from the cache; this window is only
@@ -64,7 +64,7 @@ console.log(page,"Dataaa")
       <HighlightsSection {...page.highlights} />
       <WhyTravelSection {...page.why} />
       <SeasonsSection />
-      <RegionFixedPackagesSection {...page.packages} />
+      <FixedPackagesSection {...page.packages} />
     </>
   );
 }

@@ -48,7 +48,12 @@ export function RegionIntroSection({
       className={cn("bg-background spacing", className)}
     >
       <Container>
-        <SectionHeading align="center" eyebrow={eyebrow} title={title} />
+        <SectionHeading 
+          align="center" 
+          eyebrow={eyebrow} 
+          title={title} 
+          titleClassName="max-w-[900px] mx-auto"
+        />
 
         {/* The frame puts 60 between the heading block and the picture. */}
         <AnimateIn className="mt-10 md:mt-14 lg:mt-[60px]">
