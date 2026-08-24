@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Container } from "@/components/common/Container";
 import { FullContainer } from "@/components/common/FullContainer";
 import { SectionHeading } from "@/components/common/SectionHeading";
-import { CloudTransition } from "@/components/home/CloudTransition";
+import { CloudTransition } from "@/components/common/CloudTransition";
 import { useRowRise } from "@/lib/gsap/useRowRise";
 
 // Drop matching files into public/destinations/ and the placeholder below is

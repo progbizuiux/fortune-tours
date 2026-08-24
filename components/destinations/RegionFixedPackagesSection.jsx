@@ -34,7 +34,7 @@ const PACKAGES = [
 /* Content comes from lib/strapi/kerala.js via the page; PACKAGES above is the
    fallback. The CMS stores duration and the place list as separate fields —
    the normaliser is what joins them into the card's single meta line. */
-export function FixedPackagesSection({
+export function RegionFixedPackagesSection({
   eyebrow = "Fixed Packages",
   title = "Find the Perfect Escape",
   description = "Small-group journeys with a host. Fixed dates, limited seats.",
@@ -60,7 +60,7 @@ export function FixedPackagesSection({
   };
 
   return (
-    <section className="bg-white spacing pt-0!">
+    <section className="relative z-10 bg-background spacing !pt-0">
       <Container>
         <SectionHeading
           align="center"

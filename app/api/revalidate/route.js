@@ -1,6 +1,7 @@
 import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
+import { DESTINATION_TAGS } from "@/lib/strapi/destination";
 import { HOME_TAGS } from "@/lib/strapi/home";
 import { KERALA_TAGS } from "@/lib/strapi/kerala";
 import { TRAVEL_STYLE_TAGS } from "@/lib/strapi/travel-styles";
@@ -24,6 +25,10 @@ import { TRAVEL_STYLE_TAGS } from "@/lib/strapi/travel-styles";
    apart from what its query actually tagged. */
 const TAGS_BY_MODEL = {
   "kerala-page": KERALA_TAGS,
+  /* The region pages behind /africa and its siblings. They share the
+     "destinations" tag with Kerala, so publishing either drops both — the
+     cheaper mistake, since the two describe the same places. */
+  "destination-page": DESTINATION_TAGS,
   /* Travel styles render inside the destination pages, so publishing one has
      to drop their cache too — TRAVEL_STYLE_TAGS carries "destinations" for
      exactly that reason. */

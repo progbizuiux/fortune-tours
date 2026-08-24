@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { CardCascade } from "@/components/common/CardCascade";
-import { CascadeText } from "@/components/common/CascadeText";
+import { JournalCard } from "@/components/common/JournalCard";
 import { cn } from "@/lib/utils";
 
 /* Journal strip (Figma "final" → Chapter 07 — Journal).
@@ -78,41 +78,15 @@ export function JournalSection({
               data-cascade-card
               className="flex flex-col items-start max-sm:w-[254px] sm:max-md:w-[320px] md:max-lg:w-[280px] lg:max-xl:w-[320px] max-xl:shrink-0 max-xl:snap-center"
             >
-              <div
-                data-cascade-picture
-                className="relative aspect-[431/551] w-full overflow-hidden"
-              >
-                <Image
-                  src={post.image}
-                  alt={post.alt ?? post.title}
-                  fill
-                  sizes="(min-width: 1024px) 23vw, (min-width: 640px) 46vw, 254px"
-                  className="object-cover"
-                />
-              </div>
-
-              <span className="font-top text-small max-sm:text-[12px] mt-5 max-sm:mt-3 leading-none font-light text-navy dark:text-cream">
-                <CascadeText part="title">{post.meta}</CascadeText>
-              </span>
-
-              <p className="mt-4 max-sm:mt-2 max-sm:font-light max-sm:text-[13px] max-sm:leading-[110%] text-black/80 dark:text-cream/80 xl:max-w-[90%]">
-                <CascadeText part="subtitle">{post.title}</CascadeText>
-              </p>
-
-              {/* mt-auto bottom-anchors Read so it sits on the same line in
-                  every card of a row, however many lines the story wraps to;
-                  pt-4 keeps the 16px gap on the tallest card */}
-              <CtaLink
+              <JournalCard
+                meta={post.meta}
+                title={post.title}
                 href={post.href}
-                underline={false}
-                className="font-top text-small max-sm:text-[12px] hover:text-sky mt-auto inline-flex items-center gap-1.5 pt-4 leading-none font-medium text-navy dark:text-cream"
-              >
-                {readLabel}
-                <ArrowUpRight
-                  aria-hidden="true"
-                  className="size-3.5 max-sm:size-3"
-                />
-              </CtaLink>
+                image={post.image}
+                alt={post.alt}
+                readLabel={readLabel}
+                cascade={true}
+              />
             </li>
           ))}
         </CardCascade>
