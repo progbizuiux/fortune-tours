@@ -7,6 +7,7 @@ import { DeparturesSection } from "@/components/home/DeparturesSection";
 import { JournalSection } from "@/components/home/JournalSection";
 import { PolaroidGallery } from "@/components/home/PolaroidGallery";
 import { FeaturedDestinations } from "@/components/home/FeaturedDestinations";
+import { CloudTransition } from "@/components/common/CloudTransition";
 import { getHomePage } from "@/lib/strapi/home";
 import { getTravelStyles } from "@/lib/strapi/travel-styles";
 
@@ -53,6 +54,22 @@ export default async function Home() {
       <DeparturesSection {...homeData.departures} />
       <JournalSection {...homeData.journal} />
       <GlobeSection />
+      {/* Same cloud bank that closes the hero, reused to close the globe. The
+          art is white clouds fading to white, so it only reads when it lies
+          over something — the pull-up sets it across the base of the sphere,
+          the way the hero's sits across the photo. Ahead of the section in
+          paint order, and z-20 to clear its `isolate z-0`.
+
+          The navbar's transparency trigger reads the FIRST
+          [data-navbar-solid-from] in the document, which is still the one
+          inside DestinationsSection, so this second instance is decorative. */}
+      {/* pointer-events-none is load-bearing: this wrapper is painted over the
+          lower half of the globe, so without it the cloud box would swallow
+          every drag that starts there and the globe would only be rotatable
+          from the strip above the clouds. */}
+      <div className="pointer-events-none relative z-20 -mt-[calc(199px+9.6vw)] lg:-mt-[calc(239px+9.6vw)]">
+        <CloudTransition />
+      </div>
       <PolaroidGallery {...homeData.gallery} />
     </>
   );
