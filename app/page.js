@@ -52,7 +52,7 @@ export default async function Home() {
       <FeaturedDestinations {...homeData.featured} />
       <DeparturesSection {...homeData.departures} />
       <JournalSection {...homeData.journal} />
-      {/* <GlobeSection /> */}
+      <GlobeSection />
       <PolaroidGallery {...homeData.gallery} />
     </>
   );

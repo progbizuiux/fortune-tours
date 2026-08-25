@@ -1,185 +1,154 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 
-/* Palette sampled from the Figma globe section */
-const GLOBE_BODY = "#FAF7F2";
+/* The GLB is a continents-only shell — a thin extruded landmass crust with no
+   ocean body and no country labels. The cream sphere it sits on is drawn here
+   as geometry, sized to the shell so no gap shows along the coastlines.
 
-const GLOBE_RADIUS = 4.0;
-const GLOBE_URL = "/models/Globe.glb";
-/* Arctic-facing view: pole tilted toward the camera so Greenland/Iceland sit
-   centre and Mexico→Japan wrap the lower rim, as in the design. */
-const TILT = THREE.MathUtils.degToRad(62);
-const SPIN_SPEED = 0.08; // rad/s — continuous drift, surface moves rightward
-const INITIAL_SPIN = -Math.PI / 3; // start on the Greenland/Atlantic face
+   Both GLBs in public/models ship byte-identical geometry and differ only in
+   material, so only the coloured one is loaded. The spaces in the filename are
+   percent-encoded because useGLTF keys its cache on the raw URL string. */
+const SHELL_URL = "/models/globe%20with%20texture%201.glb";
 
-/* Drag interaction: horizontal drag spins the globe, vertical drag tilts it.
-   Released momentum eases back into the baseline rightward drift. */
-const YAW_PER_PX = 0.005; // rad per pixel dragged horizontally
-const PITCH_PER_PX = 0.004; // rad per pixel dragged vertically
-const MIN_TILT = THREE.MathUtils.degToRad(-80);
-const MAX_TILT = THREE.MathUtils.degToRad(85);
-const MAX_FLING = 3; // rad/s cap on release momentum
-const RETURN_TAU = 0.9; // s — momentum settle time back to the drift
+/* Least-squares sphere fit over the shell's 7512 vertices, measured AFTER the
+   glTF node transform (-90° about X, uniform 0.5162, small translation). That
+   transform already lands the shell's centre on the origin, so only the radius
+   is needed to normalise it. */
+const SHELL_WORLD_RADIUS = 0.4733;
+/* The crust's inner face sits at 0.9992 of the fit radius; the body tucks
+   further in than that. Coincident surfaces z-fight, and a tessellated sphere's
+   chords cut inside its nominal radius, so the two would interleave. */
+const BODY_RADIUS_RATIO = 0.995;
 
-/* Plain globe body — fallback shown only if Globe.glb has no geometry. */
-function ProceduralGlobe() {
+/* Scene-space radius every other measurement here is expressed in. */
+const GLOBE_RADIUS = 4;
+
+/* Framing, read off the Figma frame: the sphere is a shade wider than the
+   section and sits almost entirely below it, so only the arctic cap shows.
+   Both are ratios rather than pixels, so the crop survives every breakpoint. */
+const FOV = 30;
+const SILHOUETTE_WIDTH_RATIO = 1.05; // sphere diameter ÷ canvas width
+const APEX_OFFSET_RATIO = 0.065; // apex below canvas top, ÷ sphere radius
+
+/* Orientation. The tilt brings the arctic latitudes to the centre of frame and
+   the spin turns Greenland to face the camera, matching the design's view. */
+const TILT_DEG = 62;
+const SPIN_DEG = 130;
+const SPIN_SPEED = 0.04; // rad/s — slow continuous drift
+
+/* Palette sampled from the Figma globe frame. The continents keep the tan the
+   model was authored with; this is the cream the oceans read as. */
+const BODY_COLOR = "#FBF4E9";
+
+/* Places the camera and the globe so the silhouette lands on the design's crop
+   whatever the canvas measures. Perspective is accounted for exactly: the
+   silhouette of a sphere subtends asin(R/d), not atan(R/d). */
+function useDesignFraming() {
+  const camera = useThree((state) => state.camera);
+  const size = useThree((state) => state.size);
+
+  useLayoutEffect(() => {
+    const { width, height } = size;
+    if (!width || !height) return undefined;
+
+    const halfFovY = THREE.MathUtils.degToRad(FOV) / 2;
+    const tanHalfFovX = Math.tan(halfFovY) * (width / height);
+
+    /* Distance at which the silhouette is exactly the target fraction wide. */
+    const halfAngle = Math.atan(SILHOUETTE_WIDTH_RATIO * tanHalfFovX);
+    const distance = GLOBE_RADIUS / Math.sin(halfAngle);
+
+    camera.position.set(0, 0, distance);
+    camera.near = Math.max(0.01, distance - GLOBE_RADIUS * 2);
+    camera.far = distance + GLOBE_RADIUS * 2;
+
+    /* With the globe on the camera axis its silhouette is a circle centred in
+       frame, so cropping to the design is a pure pixel translation — which is
+       what offsetting the frustum does. Sliding the globe in world space would
+       not: an off-axis sphere silhouettes as an ellipse whose centre is not
+       the projection of the sphere's centre, so the apex would drift. */
+    const radiusPx = (SILHOUETTE_WIDTH_RATIO * width) / 2;
+    const centrePx = radiusPx * (1 + APEX_OFFSET_RATIO);
+    camera.setViewOffset(width, height, 0, height / 2 - centrePx, width, height);
+    camera.updateProjectionMatrix();
+
+    return () => {
+      camera.clearViewOffset();
+      camera.updateProjectionMatrix();
+    };
+  }, [camera, size]);
+}
+
+function GlobeBody() {
   return (
-    <mesh>
-      <sphereGeometry args={[GLOBE_RADIUS, 96, 96]} />
-      <meshBasicMaterial color={GLOBE_BODY} />
+    <mesh renderOrder={0}>
+      <sphereGeometry args={[GLOBE_RADIUS * BODY_RADIUS_RATIO, 160, 160]} />
+      <meshBasicMaterial color={BODY_COLOR} />
     </mesh>
   );
 }
 
-/* Renders Globe.glb centred and normalised to the scene's radius. The map
-   artwork (country shapes and names) is baked into the model's texture, and
-   the material uses a warm golden tint so continents match the design. */
-function GlobeModel() {
-  const { scene } = useGLTF(GLOBE_URL);
+/* Continents. The lit materials the model ships with are swapped for unlit
+   ones so the globe reads as the flat illustration the design calls for —
+   which also means the scene needs no lights at all. */
+function Continents() {
+  const { scene } = useGLTF(SHELL_URL);
+
   const prepared = useMemo(() => {
-    let hasMesh = false;
-    scene.traverse((object) => {
+    const root = scene.clone(true);
+    root.traverse((object) => {
       if (!object.isMesh) return;
-      hasMesh = true;
-      if (object.material && object.material.map) {
-        const map = object.material.map;
-        map.anisotropy = 16; // Maximize crispness of text at oblique angles
-        map.generateMipmaps = true;
-        map.minFilter = THREE.LinearMipMapLinearFilter;
-        map.magFilter = THREE.LinearFilter;
-        map.colorSpace = THREE.SRGBColorSpace;
-        object.material = new THREE.MeshBasicMaterial({
-          map,
-          color: new THREE.Color("#EAD6B5"),
-        });
-      }
+      const source = object.material;
+      object.material = new THREE.MeshBasicMaterial({
+        color: source?.color?.clone() ?? new THREE.Color("#D9BE9A"),
+        side: THREE.FrontSide,
+      });
+      object.renderOrder = 1;
     });
-    if (!hasMesh) return null;
-    const sphere = new THREE.Box3()
-      .setFromObject(scene)
-      .getBoundingSphere(new THREE.Sphere());
-    return {
-      scale: sphere.radius > 0 ? GLOBE_RADIUS / sphere.radius : 1,
-      offset: sphere.center.clone().negate(),
-    };
+    return root;
   }, [scene]);
 
-  if (!prepared) return <ProceduralGlobe />;
-  return (
-    <group scale={prepared.scale}>
-      <primitive object={scene} position={prepared.offset.toArray()} />
-    </group>
-  );
+  return <primitive object={prepared} scale={GLOBE_RADIUS / SHELL_WORLD_RADIUS} />;
 }
 
-function GlobeScene() {
+function GlobeScene({ tilt, spin, spinSpeed }) {
+  useDesignFraming();
   const spinRef = useRef(null);
-  const tiltRef = useRef(null);
-  const drag = useRef({
-    active: false,
-    lastX: 0,
-    lastY: 0,
-    lastT: 0,
-    velocity: SPIN_SPEED,
-  });
-  const gl = useThree((state) => state.gl);
-
-  useEffect(() => {
-    const el = gl.domElement;
-    const d = drag.current;
-    /* pan-y keeps vertical touch scrolling alive over the section; horizontal
-       touch gestures (and any mouse drag) rotate the globe instead. */
-    el.style.touchAction = "pan-y";
-    el.style.cursor = "grab";
-
-    const onDown = (e) => {
-      if (!e.isPrimary) return;
-      d.active = true;
-      d.lastX = e.clientX;
-      d.lastY = e.clientY;
-      d.lastT = performance.now();
-      el.setPointerCapture(e.pointerId);
-      el.style.cursor = "grabbing";
-    };
-
-    const onMove = (e) => {
-      if (!d.active || !e.isPrimary) return;
-      const dx = e.clientX - d.lastX;
-      const dy = e.clientY - d.lastY;
-      const now = performance.now();
-      const dt = (now - d.lastT) / 1000;
-      d.lastX = e.clientX;
-      d.lastY = e.clientY;
-      d.lastT = now;
-
-      const yaw = dx * YAW_PER_PX;
-      if (spinRef.current) spinRef.current.rotation.y += yaw;
-      if (tiltRef.current) {
-        tiltRef.current.rotation.x = THREE.MathUtils.clamp(
-          tiltRef.current.rotation.x + dy * PITCH_PER_PX,
-          MIN_TILT,
-          MAX_TILT,
-        );
-      }
-      /* Smoothed instantaneous yaw velocity, kept for release momentum. */
-      if (dt > 0) d.velocity = 0.8 * (yaw / dt) + 0.2 * d.velocity;
-    };
-
-    const onUp = () => {
-      if (!d.active) return;
-      d.active = false;
-      d.velocity = THREE.MathUtils.clamp(d.velocity, -MAX_FLING, MAX_FLING);
-      el.style.cursor = "grab";
-    };
-
-    el.addEventListener("pointerdown", onDown);
-    el.addEventListener("pointermove", onMove);
-    el.addEventListener("pointerup", onUp);
-    el.addEventListener("pointercancel", onUp);
-    return () => {
-      el.removeEventListener("pointerdown", onDown);
-      el.removeEventListener("pointermove", onMove);
-      el.removeEventListener("pointerup", onUp);
-      el.removeEventListener("pointercancel", onUp);
-    };
-  }, [gl]);
 
   useFrame((_, delta) => {
-    const d = drag.current;
-    if (d.active || !spinRef.current) return;
-    /* Clamped because the first frame after the canvas resumes from
-       frameloop="never" carries the whole paused interval as its delta, which
-       would snap the globe forward by however long it was off screen. */
-    const dt = Math.min(delta, 1 / 30);
-    /* Ease momentum back to the baseline drift, then keep drifting right. */
-    d.velocity += (SPIN_SPEED - d.velocity) * (1 - Math.exp(-dt / RETURN_TAU));
-    spinRef.current.rotation.y += d.velocity * dt;
+    if (!spinRef.current) return;
+    /* Clamped: the first frame after frameloop resumes carries the whole
+       paused interval as its delta, which would snap the globe forward by
+       however long the section was off screen. */
+    spinRef.current.rotation.y += spinSpeed * Math.min(delta, 1 / 30);
   });
 
   return (
-    <group ref={tiltRef} position={[0, -1.09, 0]} rotation={[TILT, 0, 0]}>
-      <group ref={spinRef} rotation={[0, INITIAL_SPIN, 0]}>
-        <GlobeModel />
+    <group rotation={[THREE.MathUtils.degToRad(tilt), 0, 0]}>
+      <group ref={spinRef} rotation={[0, THREE.MathUtils.degToRad(spin), 0]}>
+        <GlobeBody />
+        <Continents />
       </group>
-      <ambientLight intensity={1.2} />
     </group>
   );
 }
 
-export default function GlobeCanvas() {
+export default function GlobeCanvas({
+  tilt = TILT_DEG,
+  spin = SPIN_DEG,
+  spinSpeed = SPIN_SPEED,
+}) {
   const wrapRef = useRef(null);
   const [onScreen, setOnScreen] = useState(false);
 
-  /* R3F renders every frame by default, so without this the globe keeps doing
-     a full antialiased WebGL draw at up to 2x DPR for the whole life of the
-     page — including the long stretches when it is nowhere near the viewport.
-     That competes for frame budget with everything else on the page, the
-     marquees included. rootMargin resumes it just before it scrolls in, so the
-     globe is already turning by the time it appears. */
+  /* R3F draws every frame by default. Without this gate the globe keeps doing
+     a full antialiased WebGL pass at up to 2x DPR for the whole life of the
+     page, including the long stretches when it is nowhere near the viewport.
+     rootMargin resumes it just before it scrolls into view. */
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
@@ -197,15 +166,15 @@ export default function GlobeCanvas() {
         flat
         frameloop={onScreen ? "always" : "never"}
         dpr={[1, 2]}
-        camera={{ fov: 40, near: 0.1, far: 100, position: [0, 0, 4.2] }}
+        camera={{ fov: FOV }}
         gl={{ antialias: true, alpha: true }}
       >
         <Suspense fallback={null}>
-          <GlobeScene />
+          <GlobeScene tilt={tilt} spin={spin} spinSpeed={spinSpeed} />
         </Suspense>
       </Canvas>
     </div>
   );
 }
 
-useGLTF.preload(GLOBE_URL);
+useGLTF.preload(SHELL_URL);

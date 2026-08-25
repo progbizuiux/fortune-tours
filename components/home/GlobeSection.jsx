@@ -49,10 +49,9 @@ export function GlobeSection() {
         </AnimateIn>
       </Container>
 
-      {/* CSS filter warms the GLB texture and boosts contrast between
-          continents and oceans to match the Figma golden-map look. */}
-      <div className="absolute inset-x-0 bottom-0 top-[200px] sm:top-[250px] lg:top-[300px]"
-      style={{ filter: "sepia(0.2) contrast(1) saturate(1) brightness(1)" }}>
+      {/* Colours are set on the globe's own materials, so no CSS correction
+          layer sits between the canvas and the page. */}
+      <div className="absolute inset-x-0 bottom-0 top-[200px] sm:top-[250px] lg:top-[300px]">
         <GlobeCanvas />
       </div>
       {/* Globe dissolves into the background towards the base (Figma) */}
