@@ -1,6 +1,7 @@
 import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
+import { EXPERIENCES_TAGS } from "@/lib/strapi/experiences";
 import { HOME_TAGS } from "@/lib/strapi/home";
 import { KERALA_TAGS } from "@/lib/strapi/kerala";
 import { TRAVEL_STYLE_TAGS } from "@/lib/strapi/travel-styles";
@@ -33,6 +34,9 @@ const TAGS_BY_MODEL = {
      either way — an unmapped model would silently no-op. */
   homepage: HOME_TAGS,
   "home-page": HOME_TAGS,
+  /* Experience pages were missing here, so publishing one no-opped and the
+     page kept serving its cached copy until the hour ran out. */
+  experience: EXPERIENCES_TAGS,
 };
 
 export async function POST(request) {
