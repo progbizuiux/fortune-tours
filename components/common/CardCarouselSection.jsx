@@ -42,6 +42,10 @@ export function CardCarouselSection({
   // Opt in to the shared scroll-scrubbed card entrance (lib/gsap/useRowRise.js).
   // Off by default so call sites that predate it are left exactly as they were.
   riseOnScroll = false,
+  // Opt in to the standard card scrim over each picture. Off by default: the
+  // destination pages want it, and the package and experience carousels that
+  // share this component are to stay as they are.
+  imageOverlay = false,
 }) {
   const scrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -129,6 +133,18 @@ export function CardCarouselSection({
                   sizes="(min-width: 1536px) 437px, 323px"
                   className="object-cover transition-transform duration-700 hover:scale-105"
                 />
+
+                {/* The site's standard card scrim — the same stack the curated
+                    and destination cards carry. Captions here sit below the
+                    picture rather than on it, so this is doing the tonal work
+                    only: it settles the brighter photographs into the cream
+                    panel instead of letting them glare against it. */}
+                {imageOverlay && (
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"
+                  />
+                )}
               </div>
               <div className="flex max-w-[323px] flex-col gap-[20px]">
                 <h3 className="font-heading text-[24px] leading-[1] font-normal text-black">

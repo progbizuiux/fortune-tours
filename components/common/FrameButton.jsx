@@ -102,6 +102,21 @@ const VARIANT_CLASSES = {
     active: "",
     fill: false,
   },
+  // ── Plan-my-trip wizard (components/plan-my-trip/) ──────────────────────
+  // Answer chip on the dark full-screen form: the `chip` treatment — white
+  // side rules, solid white once chosen — but content-sized, because the
+  // labels run from "Solo" to "I'm open to suggestions". The active state
+  // re-pins hover text to black: FILL_SWEEP's hover:text-white paints behind
+  // the chip's own white fill, which would leave white-on-white on hover.
+  // The footer's Back/Continue reuse this with dimmer rules via className.
+  // Figma: 187×47 chips; longer labels grow past the min-width. The footer's
+  // Back/Continue reuse the variant with `sm:min-w-0` since they size to
+  // their label in the design.
+  option: {
+    base: "text-body min-h-11 whitespace-nowrap border-x border-white px-6 py-2.5 max-sm:px-4 sm:h-[47px] sm:min-w-[187px]",
+    idle: "text-white",
+    active: "bg-white text-black hover:text-black",
+  },
   // ── Mobile drill-down menu (components/layout/navbar/MobileMenu.jsx) ───
   // A row that opens a sub-list. Same size and 44px touch height as the links
   // it sits between, spread so the chevron sits at the far edge. No fill: it

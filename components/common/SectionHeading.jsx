@@ -60,7 +60,11 @@ export function SectionHeading({
       >
         <h2
           className={cn(
-            "max-lg:text-[30px] max-lg:leading-none max-lg:tracking-[-0.01em] text-navy dark:text-cream",
+            // lg-to-xl steps down from the token's 46px: at those widths the
+            // heading shares its row with the description and runs long.
+            // Below lg and from xl up are unchanged.
+            "max-lg:text-[30px] max-lg:leading-none max-lg:tracking-[-0.01em] text-navy lg:max-xl:text-[38px] dark:text-cream",
+            !centered && "max-w-[730px]",
             titleClassName,
           )}
         >
@@ -71,8 +75,11 @@ export function SectionHeading({
             className={cn(
               "max-lg:text-[13px] max-lg:font-light max-lg:leading-[21px]",
               centered
-                ? "max-lg:max-w-[283px] max-w-xl text-black/80 dark:text-cream/80"
-                : "max-w-lg text-navy/70 dark:text-cream/70 md:text-right",
+                ? "max-lg:max-w-[340px] max-w-xl text-black/80 dark:text-cream/80"
+                : // xl and up gets a slightly wider measure — the copy runs to
+                  // four or five cramped lines against the heading otherwise.
+                  // Below xl stays on max-w-xl, unchanged.
+                  "max-w-xl text-navy/70 xl:max-w-2xl dark:text-cream/70 md:text-right",
               descriptionClassName,
             )}
           >

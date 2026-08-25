@@ -79,7 +79,11 @@ export function IntroSection({
             <span className="font-top text-h4 max-md:text-[12px] max-md:leading-none max-md:font-normal max-md:tracking-normal text-black max-md:mb-[19px] md:mb-8">
               {eyebrow}
             </span>
-            <h2 className="font-heading text-h2 max-md:text-[30px] max-md:font-normal max-md:tracking-[-0.01em] max-md:text-[#0C2233] text-black max-md:leading-[45px] leading-[1.1] 2xl:leading-[97.5px] max-w-[1759px]">
+            {/* lg to 2xl: 40px on a 480px measure, so the title sets as two
+                lines instead of one long one. Both bands carry an explicit
+                1.2 leading — the h2 token's own is 1, which stacks the two
+                lines into each other. */}
+            <h2 className="font-heading text-h2 max-md:text-[30px] max-md:font-normal max-md:tracking-[-0.01em] max-md:text-[#0C2233] text-black max-md:leading-[45px] leading-[1.1] lg:max-2xl:text-[40px] lg:max-2xl:leading-[1.2] 2xl:leading-[1.2] max-w-[1400px] lg:max-2xl:max-w-[480px]">
               {title}
             </h2>
           </AnimateIn>

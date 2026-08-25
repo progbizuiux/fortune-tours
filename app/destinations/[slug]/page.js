@@ -7,7 +7,7 @@ import { MustVisitSection } from "@/components/destinations/kerala/MustVisitSect
 import { HighlightsSection } from "@/components/destinations/kerala/HighlightsSection";
 import { WhyTravelSection } from "@/components/destinations/kerala/WhyTravelSection";
 import { SeasonsSection } from "@/components/destinations/kerala/SeasonsSection";
-import { FixedPackagesSection } from "@/components/destinations/kerala/FixedPackagesSection";
+import { RegionFixedPackagesSection } from "@/components/destinations/RegionFixedPackagesSection";
 import { getDestinationPage, getDestinationSlugs } from "@/lib/strapi/kerala";
 
 /* One route for every destination. The design is fixed; the CMS supplies the
@@ -82,7 +82,7 @@ export default async function DestinationPage({ params }) {
       <HighlightsSection {...page.highlights} />
       <WhyTravelSection {...page.why} />
       <SeasonsSection />
-      <FixedPackagesSection {...page.packages} />
+      <RegionFixedPackagesSection {...page.packages} />
     </>
   );
 }

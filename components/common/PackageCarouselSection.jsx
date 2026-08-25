@@ -225,8 +225,16 @@ export function PackageCarouselSection({
                 data-cascade-card={cascade ? "" : undefined}
                 /* 462, not 460: the spec's 460x423 is the picture, and the
                    card's 1px border sits outside it on each side. */
-                className="w-[85vw] max-w-[348px] shrink-0 snap-start md:max-w-[462px] xl:w-[462px] xl:max-w-none"
+                // Stepped down from 462px everywhere below 2xl. From xl the
+                // card sets an explicit w-[462px] and drops its cap with
+                // max-w-none, so a max-w alone cannot shrink it there — the
+                // width itself has to be overridden. 2xl keeps the full size.
+                className="w-[85vw] max-w-[348px] shrink-0 snap-start md:max-w-[462px] md:max-2xl:max-w-[320px] xl:w-[462px] xl:max-w-none xl:max-2xl:w-[320px]"
               >
+                {/* The card's own type and rhythm are drawn for the 462px
+                    frame; in the narrower lg-to-2xl card they crowd it, so the
+                    title, meta and experiences step down and their gaps close
+                    up across that band only. 2xl keeps the full treatment. */}
                 <PackageCard
                   title={item.title}
                   meta={item.meta}
@@ -234,6 +242,13 @@ export function PackageCarouselSection({
                   image={item.image}
                   alt={item.alt}
                   className="h-full"
+                  // A shallower picture across the band too, so the card is not
+                  // mostly photograph once the copy beneath it has shrunk.
+                  imageAspectClassName="aspect-[348/329] md:aspect-[460/423] lg:max-2xl:aspect-[460/330]"
+                  titleClassName="lg:max-2xl:mb-[24px] lg:max-2xl:text-[22px] lg:max-2xl:leading-[28px]"
+                  metaClassName="text-[13px] lg:text-[16px] leading-[1] text-black/80 mb-[10px] lg:mb-[12px] lg:max-2xl:mb-[8px] lg:max-2xl:text-[13px]"
+                  experiencesClassName="lg:max-2xl:text-[13px] lg:max-2xl:leading-[1.4]"
+                  contentClassName="px-[12px] pt-[15px] pb-[16px] md:pb-[35px] lg:max-2xl:px-[14px] lg:max-2xl:pt-[12px] lg:max-2xl:pb-[18px]"
                   cascade={cascade}
                 />
               </li>
