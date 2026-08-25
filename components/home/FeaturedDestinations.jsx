@@ -144,16 +144,21 @@ const EXIT_SCALE = 1.043;
 // second, which leaves this much of the cycle sitting still.
 const AUTOPLAY_REST = 2.7;
 
-/* Heading comes from the `sections.featured-destinations` block via
-   lib/strapi/home.js. Only the heading: the CMS tabs carry no slides yet, and
-   the carousel filters SLIDES by category key, so adopting CMS tabs today
-   would leave every tab empty. */
+/* Content comes from the `sections.featured-destinations` block via
+   lib/strapi/home.js — heading, tabs, slides and the view-all link. The
+   CATEGORIES and SLIDES above are the fallback for a CMS entry whose tabs
+   carry no slides: the carousel filters slides by category key, so taking
+   tabs without their slides would render every tab empty. */
 export function FeaturedDestinations({
   eyebrow = "Chapter 05 — Signature",
   title = "Where will your next journey?",
   description = "Explore curated destinations that match your travel dreams and create lasting memories.",
+  categories = CATEGORIES,
+  slides: slideData = SLIDES,
+  viewAllLabel = "",
+  viewAllHref = "",
 }) {
-  const [category, setCategory] = useState("featured");
+  const [category, setCategory] = useState(categories[0]?.key);
   const [index, setIndex] = useState(0);
 
   // Set for the length of a transition, then cleared. `prev` is the slide being
@@ -184,15 +189,18 @@ export function FeaturedDestinations({
   const splitRef = useRef(null);
   const busyRef = useRef(false);
 
-  const slides = SLIDES.filter((slide) => slide.categories.includes(category));
+  const slides = slideData.filter((slide) =>
+    slide.categories.includes(category),
+  );
   const count = slides.length;
   const active = slides[index % count];
   const canNavigate = count > 1;
 
   // Math.min keeps every entry distinct when a category holds fewer slides than
   // the rail has room for — repeats would collide on the Flip id below.
-  const upcoming = Array.from({ length: Math.min(RAIL_LENGTH, count) }, (_, i) =>
-    slides[(index + 1 + i) % count],
+  const upcoming = Array.from(
+    { length: Math.min(RAIL_LENGTH, count) },
+    (_, i) => slides[(index + 1 + i) % count],
   );
 
   // Forward: the new slide grows out of the leading card, so the backdrop must
@@ -216,7 +224,8 @@ export function FeaturedDestinations({
     // that difference lands straight on the section's height and it snaps taller
     // the instant the text swaps. Recording it here lets the effect grow the box
     // over the transition instead.
-    const copyHeight = copyWrapRef.current?.getBoundingClientRect().height ?? null;
+    const copyHeight =
+      copyWrapRef.current?.getBoundingClientRect().height ?? null;
 
     setAnim({ prev: active, dir: delta, copyHeight });
     setIndex((i) => (i + delta + count) % count);
@@ -262,10 +271,7 @@ export function FeaturedDestinations({
       return;
     }
 
-    const id = window.setTimeout(
-      () => goRef.current(1),
-      AUTOPLAY_REST * 1000,
-    );
+    const id = window.setTimeout(() => goRef.current(1), AUTOPLAY_REST * 1000);
 
     return () => window.clearTimeout(id);
   }, [index, category, anim, paused, inView, canNavigate]);
@@ -317,7 +323,10 @@ export function FeaturedDestinations({
         // backdrop already holds the incoming slide, so the panel just goes.
         if (expander) {
           if (anim.dir > 0) {
-            gsap.set(expander, { clipPath: "inset(0px 0px 0px 0px)", opacity: 1 });
+            gsap.set(expander, {
+              clipPath: "inset(0px 0px 0px 0px)",
+              opacity: 1,
+            });
             if (image) gsap.set(image, { scale: 1, x: 0, y: 0 });
           } else {
             gsap.set(expander, { opacity: 0 });
@@ -649,7 +658,7 @@ export function FeaturedDestinations({
           {/* Category tabs — individually outlined boxes with small gaps;
               the active tab flips to solid white, as in the design. */}
           <div className="relative z-30 flex flex-wrap gap-3 max-lg:flex-nowrap max-lg:overflow-x-auto max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden lg:justify-end">
-            {CATEGORIES.map((tab) => (
+            {categories.map((tab) => (
               <FrameButton
                 key={tab.key}
                 variant="tab"
@@ -800,11 +809,11 @@ export function FeaturedDestinations({
 
                 <div className="text-body flex items-center gap-4 text-white/95">
                   <CtaLink
-                    href="/destinations"
+                    href={viewAllHref || "/destinations"}
                     fill
                     className="border-x border-white/40 px-5 hover:text-white"
                   >
-                    View all destinations
+                    {viewAllLabel || "View all destinations"}
                   </CtaLink>
                 </div>
               </div>
