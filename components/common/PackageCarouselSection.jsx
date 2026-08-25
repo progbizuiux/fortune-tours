@@ -246,7 +246,7 @@ export function PackageCarouselSection({
                   // mostly photograph once the copy beneath it has shrunk.
                   imageAspectClassName="aspect-[348/329] md:aspect-[460/423] lg:max-2xl:aspect-[460/330]"
                   titleClassName="lg:max-2xl:mb-[24px] lg:max-2xl:text-[22px] lg:max-2xl:leading-[28px]"
-                  metaClassName="text-[13px] lg:text-[16px] leading-[1] text-black/80 mb-[10px] lg:mb-[12px] lg:max-2xl:mb-[8px] lg:max-2xl:text-[13px]"
+                  metaClassName="text-[13px] leading-[1.4] lg:text-[16px] lg:leading-[20px] text-black/80 mb-[10px] lg:mb-[12px] lg:max-2xl:mb-[8px] lg:max-2xl:text-[13px] lg:max-2xl:leading-[1.4]"
                   experiencesClassName="lg:max-2xl:text-[13px] lg:max-2xl:leading-[1.4]"
                   contentClassName="px-[12px] pt-[15px] pb-[16px] md:pb-[35px] lg:max-2xl:px-[14px] lg:max-2xl:pt-[12px] lg:max-2xl:pb-[18px]"
                   cascade={cascade}

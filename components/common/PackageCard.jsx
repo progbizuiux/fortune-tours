@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
  *
  * Extracted from Kerala's FixedPackagesSection, which already had it built to
  * these exact redlines — Neiko 400 32/30 title with its 60px drop, the 16px
- * uppercase meta and EXPERIENCES label, the 16/20 list at black/80, and the
+ * meta line and the uppercase EXPERIENCES label, the 16/20 list at black/80, and the
  * 15/33/35 content padding. The honeymoon package section draws the same card,
  * so it now has one home and Kerala renders through here too.
  *
@@ -30,7 +30,8 @@ export function PackageCard({
   alt,
   className,
   imageAspectClassName = "aspect-[348/329] md:aspect-[460/423]",
-  metaClassName = "text-[13px] lg:text-[16px] leading-[1] text-black/80 mb-[10px] lg:mb-[12px]",
+  metaClassName =
+    "text-[13px] leading-[1.4] lg:text-[16px] lg:leading-[20px] text-black/80 mb-[10px] lg:mb-[12px]",
   // 15 from the picture to the title and 12 in from each edge, per the redline.
   contentClassName = "px-[12px] pt-[15px] pb-[16px] md:pb-[35px]",
   // Caller-supplied overrides for the two blocks the props above do not reach.
@@ -74,7 +75,7 @@ export function PackageCard({
         </h3>
 
         <div className="mt-auto">
-          <p className={cn("font-sans font-light uppercase", metaClassName)}>
+          <p className={cn("font-sans font-light", metaClassName)}>
             {cascade ? (
               <CascadeText part="subtitle">{meta}</CascadeText>
             ) : (
