@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
@@ -46,6 +47,13 @@ const SPIN_SPEED = 0.075; // rad/s — idle drift when nobody is dragging
    is a different tan, so it is overridden rather than reused. */
 const BODY_COLOR = "#F3E8D9";
 const CONTINENT_COLOR = "#EAD6B4";
+
+/* Pins sit in the same warm family as the map — the continent tan taken down
+   in lightness rather than a foreign accent hue, so they read as part of the
+   globe while staying legible against both the tan land and the cream ocean. */
+const PIN_COLOR = "#A87C46";
+const PIN_PING = "rgba(168, 124, 70, 0.32)";
+const PIN_HALO = "rgba(168, 124, 70, 0.16)";
 
 /* Places the camera and the globe so the silhouette lands on the design's crop
    whatever the canvas measures. Perspective is accounted for exactly: the
@@ -218,7 +226,7 @@ function useDragRotation(globeRef) {
   return drag;
 }
 
-function GlobeScene({ tilt, spin, spinSpeed, labelNodes }) {
+function GlobeScene({ tilt, spin, spinSpeed, labelNodes, pinNodes, driftPaused }) {
   useDesignFraming();
   const globeRef = useRef(null);
   const drag = useDragRotation(globeRef);
@@ -266,8 +274,13 @@ function GlobeScene({ tilt, spin, spinSpeed, labelNodes }) {
        globe.rotateY, which turns about the globe's own polar axis. The design
        tilts that axis 62° toward the camera and frames the cap around it, so a
        polar spin traces small circles there and reads as vertical drift. About
-       the screen's vertical the surface always travels left to right. */
-    if (spinSpeed) {
+       the screen's vertical the surface always travels left to right.
+
+       Held still while a destination pin is hovered or focused, so the pin
+       does not slide out from under the pointer as you go to click it. Read
+       from a ref rather than state: this runs every frame, and re-rendering
+       the whole canvas tree on hover would be wasteful. */
+    if (spinSpeed && !driftPaused.current) {
       step.setFromAxisAngle(axis.set(0, 1, 0), spinSpeed * dt);
       globe.quaternion.premultiply(step);
     }
@@ -277,7 +290,8 @@ function GlobeScene({ tilt, spin, spinSpeed, labelNodes }) {
     <group ref={globeRef} quaternion={initialQuaternion}>
       <GlobeBody />
       <Continents />
-      <LabelAnchors nodes={labelNodes} />
+      <PinnedAnchors points={LABELS} nodes={labelNodes} />
+      <PinnedAnchors points={DESTINATIONS} nodes={pinNodes} />
     </group>
   );
 }
@@ -288,6 +302,17 @@ function GlobeScene({ tilt, spin, spinSpeed, labelNodes }) {
    pixels and written straight to the node's transform. Keeping the text in the
    DOM means it renders at device resolution in the site's own font, upright
    whatever the globe is doing — which is how the design draws it. */
+/* Destinations pinned on the globe. Slugs match the cards in
+   DestinationsSection, so the globe never links anywhere the rest of the page
+   does not — /destinations/[slug] sets dynamicParams=false and 404s on
+   anything the CMS has no entry for. */
+const DESTINATIONS = [
+  { name: "Japan", href: "/destinations/japan", lat: 36.2, lon: 138.25 },
+  { name: "Switzerland", href: "/destinations/switzerland", lat: 46.8, lon: 8.2 },
+  { name: "India", href: "/destinations/india", lat: 22, lon: 79 },
+  { name: "Norway", href: "/destinations/norway", lat: 62, lon: 9 },
+];
+
 const LABELS = [
   { name: "North America", lat: 46, lon: -100 },
   { name: "South America", lat: -15, lon: -60 },
@@ -318,7 +343,12 @@ function positionFromLatLon(lat, lon, radius) {
 const LABEL_FADE_START = 0.05;
 const LABEL_FADE_END = 0.005;
 
-function LabelAnchors({ nodes }) {
+/* Projects a list of lat/lon points onto their DOM nodes every frame. Used for
+   both the continent labels and the destination pins — they differ only in what
+   is rendered at the projected point. Nodes hidden past the limb are given
+   visibility:hidden as well as opacity:0, which also takes the pins out of
+   hit-testing so the far side of the globe is never clickable. */
+function PinnedAnchors({ points, nodes }) {
   const anchors = useRef([]);
   const camera = useThree((state) => state.camera);
   const size = useThree((state) => state.size);
@@ -364,13 +394,13 @@ function LabelAnchors({ nodes }) {
   });
 
   /* Real scene children, so the globe's tilt and spin carry them along. */
-  return LABELS.map((label, index) => (
+  return points.map((point, index) => (
     <object3D
-      key={label.name}
+      key={point.name}
       ref={(object) => {
         anchors.current[index] = object;
       }}
-      position={positionFromLatLon(label.lat, label.lon, GLOBE_RADIUS)}
+      position={positionFromLatLon(point.lat, point.lon, GLOBE_RADIUS)}
     />
   ));
 }
@@ -382,6 +412,8 @@ export default function GlobeCanvas({
 }) {
   const wrapRef = useRef(null);
   const labelNodes = useRef([]);
+  const pinNodes = useRef([]);
+  const driftPaused = useRef(false);
   const [onScreen, setOnScreen] = useState(false);
 
   /* R3F draws every frame by default. Without this gate the globe keeps doing
@@ -414,6 +446,8 @@ export default function GlobeCanvas({
             spin={spin}
             spinSpeed={spinSpeed}
             labelNodes={labelNodes}
+            pinNodes={pinNodes}
+            driftPaused={driftPaused}
           />
         </Suspense>
       </Canvas>
@@ -446,6 +480,86 @@ export default function GlobeCanvas({
           </span>
         ))}
       </div>
+
+      {/* Destination pins. Real links rather than canvas hit-testing, so they
+          are keyboard reachable and announced, and a click navigates natively.
+          The layer itself stays pointer-events-none and only the dots opt back
+          in — a full-size interactive layer would swallow every drag. The dots
+          are small enough that the globe is still grabbable all around them. */}
+      {/* enter/leave rather than over/out: they fire once for the whole
+          subtree, so moving between a dot's halo and its label — or straight
+          from one pin to another — does not flicker the drift back on. The
+          layer is pointer-events-none, but events from the dots still bubble
+          through it, so one pair of handlers here covers every pin. */}
+      <nav
+        aria-label="Destinations on the globe"
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+        onPointerEnter={() => {
+          driftPaused.current = true;
+        }}
+        onPointerLeave={() => {
+          driftPaused.current = false;
+        }}
+        onFocus={() => {
+          driftPaused.current = true;
+        }}
+        onBlur={() => {
+          driftPaused.current = false;
+        }}
+      >
+        {DESTINATIONS.map((destination, index) => (
+          <span
+            key={destination.href}
+            ref={(node) => {
+              pinNodes.current[index] = node;
+            }}
+            className="absolute left-0 top-0"
+            style={{ visibility: "hidden", willChange: "transform" }}
+          >
+            <Link
+              href={destination.href}
+              className="group pointer-events-auto relative grid h-7 w-7 place-items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2"
+              style={{ outlineColor: PIN_COLOR }}
+            >
+              {/* Radar ping. Runs continuously so the pins read as live rather
+                  than as static map dots, staggered per pin so the four never
+                  pulse in lockstep. Transform/opacity only, so it stays off the
+                  main thread and costs nothing next to the WebGL draw. */}
+              <span
+                aria-hidden="true"
+                className="absolute h-3.5 w-3.5 animate-ping rounded-full"
+                style={{
+                  backgroundColor: PIN_PING,
+                  animationDelay: `${index * 700}ms`,
+                  animationDuration: "2.4s",
+                }}
+              />
+              {/* Soft disc that blooms under the dot on approach. */}
+              <span
+                aria-hidden="true"
+                className="absolute h-7 w-7 scale-0 rounded-full transition-transform duration-300 ease-out group-hover:scale-100 group-focus-visible:scale-100"
+                style={{ backgroundColor: PIN_HALO }}
+              />
+              <span
+                aria-hidden="true"
+                className="relative h-[8px] w-[8px] rounded-full shadow-[0_0_0_2px_rgba(255,255,255,0.9)] transition-transform duration-300 ease-out group-hover:scale-[1.6] group-focus-visible:scale-[1.6]"
+                style={{ backgroundColor: PIN_COLOR }}
+              />
+              {/* Name, rising into place on hover. aria-hidden because the link
+                  already carries it as its accessible name, and pointer-events
+                  stay off so the pill never catches the cursor. */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute bottom-full left-1/2 mb-1.5 -translate-x-1/2 translate-y-1 whitespace-nowrap rounded-full bg-white/85 px-2.5 py-1 font-top text-navy opacity-0 shadow-[0_2px_10px_rgba(31,41,55,0.12)] backdrop-blur-sm transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
+                style={{ fontSize: "clamp(11px, 1.1vw, 16px)", fontWeight: 400 }}
+              >
+                {destination.name}
+              </span>
+              <span className="sr-only">{destination.name}</span>
+            </Link>
+          </span>
+        ))}
+      </nav>
     </div>
   );
 }
