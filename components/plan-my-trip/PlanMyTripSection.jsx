@@ -122,12 +122,37 @@ function Field({ id, label, error, className, children }) {
   );
 }
 
+/* Every string is a prop with the copy this section shipped with behind it,
+   so a region whose planTripSection is unfilled renders exactly what it always
+   rendered. The nested prop objects (questions/options/labels) mirror how
+   lib/strapi/destination.js groups them; each key falls back on its own, so an
+   editor who fills two of six questions gets those two and the shipped copy
+   for the rest.
+
+   The chip lists come in as arrays already — the CMS stores them one per line
+   and the normaliser splits them, because a component per chip would be three
+   levels of nesting to hold one word. */
 export function PlanMyTripSection({
   className,
   eyebrow = "Plan my trip",
   title = "Craft your unique journey.",
   description = "Tell us what you're dreaming about, how you like to travel and what you want to experience. We'll help shape a journey around you.",
+  backgroundImage,
+  stepWordLabel = "Step",
+  stepLabels,
+  questions = {},
+  options = {},
+  labels = {},
+  successTitle,
+  successMessage = "Your journey brief is with our travel designers. Expect personalised recommendations from a real person — usually within a day, always with no obligation.",
 }) {
+  /* The step definitions carry the fields each step validates, which is code,
+     not content — so only the labels are overridable and the rest of PLAN_STEPS
+     is kept as-is. */
+  const steps = PLAN_STEPS.map((planStep, i) => ({
+    ...planStep,
+    label: stepLabels?.[i] || planStep.label,
+  }));
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState("forward");
   const [submittedName, setSubmittedName] = useState(null);
@@ -169,7 +194,7 @@ export function PlanMyTripSection({
     "arriving",
   ]);
 
-  const isLastStep = step === PLAN_STEPS.length - 1;
+  const isLastStep = step === steps.length - 1;
   const submitted = submittedName !== null;
 
   /* ── Draft restore & persistence ────────────────────────────────────── */
@@ -261,7 +286,7 @@ export function PlanMyTripSection({
   // stored draft was tampered with) sends the traveller to that step instead
   // of failing silently behind the current one.
   function handleInvalidSubmit(formErrors) {
-    const failed = PLAN_STEPS.findIndex((planStep) =>
+    const failed = steps.findIndex((planStep) =>
       planStep.fields.some((field) => formErrors[field]),
     );
     if (failed !== -1 && failed !== step) goToStep(failed);
@@ -274,7 +299,7 @@ export function PlanMyTripSection({
       return;
     }
     // Continue validates only this step's slice of the schema.
-    const valid = await trigger(PLAN_STEPS[step].fields, { shouldFocus: true });
+    const valid = await trigger(steps[step].fields, { shouldFocus: true });
     if (valid) goToStep(step + 1);
   }
 
@@ -294,7 +319,7 @@ export function PlanMyTripSection({
           any image. First child, so everything after paints above it. */}
       <div aria-hidden="true" className="absolute inset-0">
         <Image
-          src={BACKGROUND_IMAGE}
+          src={backgroundImage ?? BACKGROUND_IMAGE}
           alt=""
           fill
           sizes="100vw"
@@ -338,12 +363,12 @@ export function PlanMyTripSection({
         {submitted ? (
           <div className="flex flex-col items-start py-16 motion-safe:animate-menu-drop md:py-24">
             <h3 className="max-lg:text-[18px] max-lg:leading-[1.2] lg:max-2xl:text-[20px]">
-              Thank you, {submittedName}.
+              {successTitle
+                ? successTitle.replace("{name}", submittedName)
+                : `Thank you, ${submittedName}.`}
             </h3>
             <p className="mt-6 max-w-[560px] text-white/80">
-              Your journey brief is with our travel designers. Expect
-              personalised recommendations from a real person — usually within a
-              day, always with no obligation.
+              {successMessage}
             </p>
           </div>
         ) : (
@@ -357,7 +382,7 @@ export function PlanMyTripSection({
                   aria-label="Steps"
                   className="flex shrink-0 items-baseline gap-5 md:gap-[50px]"
                 >
-                  {PLAN_STEPS.map((planStep, index) => (
+                  {steps.map((planStep, index) => (
                     <button
                       key={planStep.id}
                       type="button"
@@ -380,10 +405,10 @@ export function PlanMyTripSection({
                 {/* Figma: 50px between "Step 01" and the step name. */}
                 <p className="flex min-w-0 items-baseline gap-5 md:gap-[50px]">
                   <span className="shrink-0 text-white/90">
-                    Step {stepNumber}
+                    {stepWordLabel} {stepNumber}
                   </span>
                   <span className="min-w-0 text-right text-white">
-                    {PLAN_STEPS[step].label}
+                    {steps[step].label}
                   </span>
                 </p>
               </div>
@@ -392,7 +417,7 @@ export function PlanMyTripSection({
                 <div
                   className="h-[0.5px] bg-white transition-all duration-500"
                   style={{
-                    width: `${((step + 1) / PLAN_STEPS.length) * 100}%`,
+                    width: `${((step + 1) / steps.length) * 100}%`,
                   }}
                 />
               </div>
@@ -418,11 +443,11 @@ export function PlanMyTripSection({
               {step === 0 && (
                 <QuestionGroup
                   id="question-destination"
-                  title="Where would you like to go?"
+                  title={questions.destination ?? "Where would you like to go?"}
                   error={errors.destination?.message}
                 >
                   <OptionChips
-                    options={DESTINATION_OPTIONS}
+                    options={options.destination ?? DESTINATION_OPTIONS}
                     isActive={(option) => destination === option}
                     onToggle={(option) => selectSingle("destination", option)}
                   />
@@ -433,12 +458,12 @@ export function PlanMyTripSection({
                 <>
                   <QuestionGroup
                     id="question-dates"
-                    title="When are you planning to travel?"
+                    title={questions.dates ?? "When are you planning to travel?"}
                   >
                     <div className="grid gap-10 md:grid-cols-2 md:gap-16 xl:gap-24">
                       <Field
                         id="arriving"
-                        label="Arriving"
+                        label={labels.arriving ?? "Arriving"}
                         error={errors.arriving?.message}
                       >
                         <input
@@ -455,7 +480,7 @@ export function PlanMyTripSection({
                       </Field>
                       <Field
                         id="returning"
-                        label="Returning"
+                        label={labels.returning ?? "Returning"}
                         error={errors.returning?.message}
                       >
                         <input
@@ -475,12 +500,12 @@ export function PlanMyTripSection({
 
                   <QuestionGroup
                     id="question-duration"
-                    title="How long would you like to travel?"
+                    title={questions.duration ?? "How long would you like to travel?"}
                     error={errors.duration?.message}
                     className="mt-10 md:mt-12 lg:mt-20"
                   >
                     <OptionChips
-                      options={DURATION_OPTIONS}
+                      options={options.duration ?? DURATION_OPTIONS}
                       isActive={(option) => duration === option}
                       onToggle={(option) => selectSingle("duration", option)}
                     />
@@ -492,11 +517,11 @@ export function PlanMyTripSection({
                 <>
                   <QuestionGroup
                     id="question-travellers"
-                    title="Who are you travelling with?"
+                    title={questions.travellers ?? "Who are you travelling with?"}
                     error={errors.travellingWith?.message}
                   >
                     <OptionChips
-                      options={TRAVELLER_OPTIONS}
+                      options={options.travellers ?? TRAVELLER_OPTIONS}
                       isActive={(option) => travellingWith === option}
                       onToggle={(option) =>
                         selectSingle("travellingWith", option)
@@ -506,12 +531,12 @@ export function PlanMyTripSection({
 
                   <QuestionGroup
                     id="question-interests"
-                    title="What inspires you?"
+                    title={questions.interests ?? "What inspires you?"}
                     error={errors.interests?.message}
                     className="mt-10 md:mt-12 lg:mt-20"
                   >
                     <OptionChips
-                      options={INTEREST_OPTIONS}
+                      options={options.interests ?? INTEREST_OPTIONS}
                       isActive={(option) => interests.includes(option)}
                       onToggle={toggleInterest}
                     />
@@ -523,17 +548,20 @@ export function PlanMyTripSection({
                 <>
                   <QuestionGroup
                     id="question-note"
-                    title="What would make this journey special for you?"
+                    title={questions.special ?? "What would make this journey special for you?"}
                   >
                     <Field
                       id="message"
-                      label="Message"
+                      label={labels.message ?? "Message"}
                       error={errors.message?.message}
                     >
                       <textarea
                         id="message"
                         rows={2}
-                        placeholder="An anniversary in the Mara, a first safari with the children, a slow week by the ocean…"
+                        placeholder={
+                          labels.messagePlaceholder ??
+                          "An anniversary in the Mara, a first safari with the children, a slow week by the ocean…"
+                        }
                         aria-invalid={errors.message ? true : undefined}
                         aria-describedby={
                           errors.message ? "message-error" : undefined
@@ -545,12 +573,16 @@ export function PlanMyTripSection({
                   </QuestionGroup>
 
                   <div className="mt-14 grid gap-10 md:mt-20 md:grid-cols-3 md:gap-12 xl:gap-16">
-                    <Field id="name" label="Name" error={errors.name?.message}>
+                    <Field
+                      id="name"
+                      label={labels.name ?? "Name"}
+                      error={errors.name?.message}
+                    >
                       <input
                         id="name"
                         type="text"
                         autoComplete="name"
-                        placeholder="Your name"
+                        placeholder={labels.namePlaceholder ?? "Your name"}
                         aria-invalid={errors.name ? true : undefined}
                         aria-describedby={
                           errors.name ? "name-error" : undefined
@@ -561,7 +593,7 @@ export function PlanMyTripSection({
                     </Field>
                     <Field
                       id="email"
-                      label="Email"
+                      label={labels.email ?? "Email"}
                       error={errors.email?.message}
                     >
                       <input
@@ -569,7 +601,7 @@ export function PlanMyTripSection({
                         type="email"
                         autoComplete="email"
                         inputMode="email"
-                        placeholder="you@example.com"
+                        placeholder={labels.emailPlaceholder ?? "you@example.com"}
                         aria-invalid={errors.email ? true : undefined}
                         aria-describedby={
                           errors.email ? "email-error" : undefined
@@ -580,7 +612,7 @@ export function PlanMyTripSection({
                     </Field>
                     <Field
                       id="phone"
-                      label="Phone / WhatsApp"
+                      label={labels.phone ?? "Phone / WhatsApp"}
                       error={errors.phone?.message}
                     >
                       <input
@@ -588,7 +620,7 @@ export function PlanMyTripSection({
                         type="tel"
                         autoComplete="tel"
                         inputMode="tel"
-                        placeholder="+91 98765 43210"
+                        placeholder={labels.phonePlaceholder ?? "+91 98765 43210"}
                         aria-invalid={errors.phone ? true : undefined}
                         aria-describedby={
                           errors.phone ? "phone-error" : undefined
@@ -609,7 +641,7 @@ export function PlanMyTripSection({
                   variant="option"
                   onClick={() => goToStep(step - 1)}
                 >
-                  Back
+                  {labels.back ?? "Back"}
                 </FrameButton>
               )}
               <p
@@ -625,7 +657,9 @@ export function PlanMyTripSection({
                 type="submit"
                 className="ml-auto"
               >
-                {isLastStep ? "Build My Journey" : "Continue"}
+                {isLastStep
+                  ? (labels.submit ?? "Build My Journey")
+                  : (labels.continue ?? "Continue")}
               </FrameButton>
             </div>
           </>

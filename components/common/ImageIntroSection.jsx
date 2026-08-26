@@ -69,7 +69,10 @@ export function ImageIntroSection({
               lands on, which is the same trade the hero makes. */}
           <div className="relative flex flex-col justify-end max-md:aspect-[3/4] max-md:max-h-[550px] md:max-xl:aspect-[16/9] xl:aspect-[1755/635] max-md:w-[calc(100%+2rem)] max-md:-ml-4 max-md:rounded-none md:w-full overflow-hidden md:rounded-sm">
             <Image
-              src='/destinations/africa.png'
+              /* The prop, not a literal: this section renders all thirteen
+                 regions, and the file below was Africa's. lib/strapi/destination.js
+                 supplies the CMS upload or the stand-in. */
+              src={image}
               alt={imageAlt}
               fill
               /* The picture is the Container's content box: full-bleed minus

@@ -29,6 +29,7 @@ const FALLBACK_JOURNALS = [
 
 export function RegionJournalSection({
   className,
+  eyebrow,
   title = "Go beyond the destination.",
   description = "Discover the stories and culture that make each place unique. Travel beyond sights to find its authentic character.",
   items = FALLBACK_JOURNALS,
@@ -39,6 +40,7 @@ export function RegionJournalSection({
       <Container>
         <SectionHeading
           align="center"
+          eyebrow={eyebrow}
           title={title}
           description={description}
           titleClassName="max-w-[800px]"
