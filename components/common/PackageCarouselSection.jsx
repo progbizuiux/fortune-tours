@@ -250,6 +250,10 @@ export function PackageCarouselSection({
                   experiencesClassName="lg:max-2xl:text-[13px] lg:max-2xl:leading-[1.4]"
                   contentClassName="px-[12px] pt-[15px] pb-[16px] md:pb-[35px] lg:max-2xl:px-[14px] lg:max-2xl:pt-[12px] lg:max-2xl:pb-[18px]"
                   cascade={cascade}
+                  /* Every card in this row holds the same measure for its
+                     title, meta and EXPERIENCES list, so the three text blocks
+                     line up across the row however long the CMS copy is. */
+                  uniform
                 />
               </li>
             ))}
