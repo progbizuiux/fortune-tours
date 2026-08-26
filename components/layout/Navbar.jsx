@@ -24,7 +24,7 @@ const NAV_LINKS = [
     menu: MENU_KEYS.DESTINATIONS,
   },
   { label: "Experiences", href: "/experiences", menu: MENU_KEYS.EXPERIENCES },
-  { label: "About", href: "/about" },
+  { label: "About", href: "/about-us" },
   { label: "Journal", href: "/journal" },
 ];
 

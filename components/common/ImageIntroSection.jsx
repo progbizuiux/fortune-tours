@@ -27,7 +27,7 @@ import { cn } from "@/lib/utils";
  * Shape-only — every string comes from the page, so all thirteen regions render
  * through this one file. Content comes from lib/strapi/destination.js.
  */
-export function RegionIntroSection({
+export function ImageIntroSection({
   eyebrow,
   title,
   description,

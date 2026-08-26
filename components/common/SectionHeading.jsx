@@ -58,6 +58,12 @@ export function SectionHeading({
             : "md:flex-row md:items-center md:justify-between md:gap-8 lg:gap-6 2xl:gap-8",
         )}
       >
+        {/* Guarded: a heading block whose frame draws only an eyebrow over a
+            paragraph — /about-us "Behind The Journey" — would otherwise render
+            an empty h2, which is both a stray gap and a heading with no text
+            in the outline. Every existing caller passes a title, so nothing
+            they render changes. */}
+        {title && (
         <h2
           className={cn(
             // lg-to-xl steps down from the token's 46px: at those widths the
@@ -70,6 +76,7 @@ export function SectionHeading({
         >
           {title}
         </h2>
+        )}
         {description && (
           <p
             className={cn(

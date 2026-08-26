@@ -50,18 +50,23 @@ export function RegionFeaturesSection({
 
       {/* Features Grid */}
       <div className="w-full px-4 md:px-8 lg:px-[80px] mt-[95px]">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-y-12 max-w-[1920px] mx-auto">
+        <div className={cn(
+          "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-12 max-w-[1920px] mx-auto",
+          features.length === 4 ? "xl:grid-cols-4" : "xl:grid-cols-6"
+        )}>
           {features.map((feature, i) => {
-            // We hide the last 2 items on mobile/tablet (max-lg).
-            const hideOnSmall = i >= features.length - 2;
-            const visibleOnSmallCount = Math.max(0, features.length - 2);
+            // If we have > 4 items (e.g. 6), we hide the last 2 on mobile/tablet.
+            const hideOnSmall = features.length > 4 && i >= features.length - 2;
+            const visibleOnSmallCount = features.length > 4 ? features.length - 2 : features.length;
 
             // Determine if the item is in the last row for each breakpoint
             const isLastRowMobile = i === visibleOnSmallCount - 1; // 1 col (max-md)
             const isLastRowTablet = i >= visibleOnSmallCount - 2 && i < visibleOnSmallCount; // 2 cols (md:max-lg)
-            const isLastRowLg = i >= features.length - 3; // 3 cols (lg:max-xl) - all 6 items visible here
-            // xl is 6 cols, so all items are in the first/last row and shouldn't have a bottom border.
-
+            
+            // On lg (3 cols), if there are 6 items, last row is last 3. If 4 items, last row is just the last 1.
+            const itemsInLastLgRow = visibleOnSmallCount % 3 || 3;
+            const isLastRowLg = i >= visibleOnSmallCount - itemsInLastLgRow;
+            
             return (
               <div
                 key={i}

@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 
 import { HeroSection } from "@/components/destinations/kerala/HeroSection";
-import { IntroSection } from "@/components/destinations/kerala/IntroSection";
+import { IntroSection } from "@/components/common/IntroSection";
 import { JourneysSection } from "@/components/destinations/kerala/JourneysSection";
 import { MustVisitSection } from "@/components/destinations/kerala/MustVisitSection";
 import { HighlightsSection } from "@/components/destinations/kerala/HighlightsSection";
-import { WhyTravelSection } from "@/components/destinations/kerala/WhyTravelSection";
+import { WhyTravelSection } from "@/components/common/WhyTravelSection";
 import { SeasonsSection } from "@/components/destinations/kerala/SeasonsSection";
 import { FaqSection } from "@/components/destinations/kerala/FaqSection";
 import { RegionFixedPackagesSection } from "@/components/destinations/RegionFixedPackagesSection";

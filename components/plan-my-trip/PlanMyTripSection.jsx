@@ -354,7 +354,7 @@ export function PlanMyTripSection({
             {/* The 706px intro is a shrink-0 sibling, so between lg and xl it
                 eats the row and leaves the h2 ~144px — enough for one word a
                 line. Capped here until the column is wide enough to seat both. */}
-            <p className="max-w-[706px] text-white/80 lg:max-2xl:max-w-[360px] lg:shrink-0 lg:text-right">
+            <p className="max-w-[706px] text-white/80 lg:max-2xl:max-w-[360px] lg:shrink-0 lg:text-right whitespace-pre-line">
               {description}
             </p>
           </div>
