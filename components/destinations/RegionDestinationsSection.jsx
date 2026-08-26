@@ -20,6 +20,7 @@ const FALLBACK_DESTINATIONS = [
 ];
 
 export function RegionDestinationsSection({
+  viewMoreLabel = "View More Destinations",
   eyebrow = "Where will you go next?",
   title = "Choose your next story.",
   description = "Explore extraordinary places, from ancient cities to wild landscapes. Find the destination that feels right for your next journey.",
@@ -68,7 +69,10 @@ export function RegionDestinationsSection({
         >
           {visibleDestinations.map((dest, i) => (
             <li key={dest.name} className="max-md:snap-center max-md:shrink-0 max-md:w-[85vw]">
-              <Link href={`/destinations/${dest.name.toLowerCase()}`} className="group block">
+              <Link
+                href={dest.href ?? `/destinations/${dest.name.toLowerCase()}`}
+                className="group block"
+              >
                 {/* 474x342 aspect ratio from Figma */}
                 <div className="relative w-full aspect-[474/342] overflow-hidden bg-navy/5">
                   <Image
@@ -105,7 +109,7 @@ export function RegionDestinationsSection({
         {hasMore && (
           <div className="mt-12 flex justify-center">
             <Button variant="outline" onClick={() => setShowAll(true)}>
-              View More Destinations
+              {viewMoreLabel}
             </Button>
           </div>
         )}
