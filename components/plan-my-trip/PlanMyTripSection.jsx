@@ -122,7 +122,12 @@ function Field({ id, label, error, className, children }) {
   );
 }
 
-export function PlanMyTripSection({className}) {
+export function PlanMyTripSection({
+  className,
+  eyebrow = "Plan my trip",
+  title = "Craft your unique journey.",
+  description = "Tell us what you're dreaming about, how you like to travel and what you want to experience. We'll help shape a journey around you.",
+}) {
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState("forward");
   const [submittedName, setSubmittedName] = useState(null);
@@ -312,22 +317,20 @@ export function PlanMyTripSection({className}) {
       >
         <header>
           {/* Figma: Spartan 20px/100% — exactly the h4 element default. */}
-          <h4 className="text-white max-lg:text-[14px]">Plan my trip</h4>
+          <h4 className="text-white max-lg:text-[14px]">{eyebrow}</h4>
           <div className="mt-4 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
             {/* Below lg this section runs its own, smaller step of the type
                 scale: the site h2 lands at 36px on a phone, which crowds the
                 descenders against the line box at leading-1. lg and up keep
                 the global token. */}
             <h2 className="max-lg:text-[24px] max-lg:leading-[1.2] lg:max-2xl:text-[32px] lg:max-2xl:leading-[1.1]">
-              Craft your unique journey.
+              {title}
             </h2>
             {/* The 706px intro is a shrink-0 sibling, so between lg and xl it
                 eats the row and leaves the h2 ~144px — enough for one word a
                 line. Capped here until the column is wide enough to seat both. */}
-            <p className="max-w-[706px] text-white/80 lg:max-2xl:max-w-[360px] lg:shrink-0 lg:text-right">
-              Tell us what you're dreaming about, how you like to travel and
-              what you want to experience. We'll help shape a journey around
-              you.
+            <p className="max-w-[706px] text-white/80 lg:max-2xl:max-w-[360px] lg:shrink-0 lg:text-right whitespace-pre-line">
+              {description}
             </p>
           </div>
         </header>

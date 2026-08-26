@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 
 import { CloudTransition } from "@/components/common/CloudTransition";
 import { PageHero } from "@/components/common/PageHero";
-import { RegionIntroSection } from "@/components/destinations/RegionIntroSection";
+import { ImageIntroSection } from "@/components/common/ImageIntroSection";
 import { RegionExperiencesSection } from "@/components/destinations/RegionExperiencesSection";
 import { RegionDestinationsSection } from "@/components/destinations/RegionDestinationsSection";
 import { RegionFeaturesSection } from "@/components/destinations/RegionFeaturesSection";
@@ -89,7 +89,7 @@ export default async function DestinationRegionPage({ params }) {
         {/* z-10 for the same reason every block after the home hero carries it:
             the hero is z-0 and pinned, so anything that scrolls over it has to
             paint on top rather than slide underneath. */}
-        <RegionIntroSection {...page.intro} className="relative z-10" />
+        <ImageIntroSection {...page.intro} className="relative z-10" />
 
         <RegionDestinationsSection className="!pt-0" />
 

@@ -2,9 +2,9 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { TravelStylesSection } from "@/components/home/TravelStylesSection";
 import { GlobeSection } from "@/components/home/GlobeSection";
 import { DestinationsSection } from "@/components/home/DestinationsSection";
-import { CredentialsSection } from "@/components/home/CredentialsSection";
+import { CredentialsSection } from "@/components/common/CredentialsSection";
 import { DeparturesSection } from "@/components/home/DeparturesSection";
-import { JournalSection } from "@/components/home/JournalSection";
+import { JournalSection } from "@/components/common/JournalSection";
 import { PolaroidGallery } from "@/components/home/PolaroidGallery";
 import { FeaturedDestinations } from "@/components/home/FeaturedDestinations";
 import { CloudTransition } from "@/components/common/CloudTransition";
@@ -67,7 +67,18 @@ export default async function Home() {
           lower half of the globe, so without it the cloud box would swallow
           every drag that starts there and the globe would only be rotatable
           from the strip above the clouds. */}
-      <div className="pointer-events-none relative z-20 -mt-[calc(199px+9.6vw)] lg:-mt-[calc(239px+9.6vw)]">
+      {/* The cloud art is a fixed 1580x440 strip whatever the viewport is, so
+          below lg it is nearly as tall as the whole globe section. Every way of
+          fitting it there traded one fault for another: cropping cut the bank
+          mid-cloud, and pulling it up far enough to close the gap to the
+          gallery dragged the clouds over the sphere.
+
+          Below lg the design does not draw clouds at all — the sphere simply
+          dissolves into the page ground, which GlobeSection's own bottom fade
+          already does. So the bank is dropped there outright: display:none
+          takes it out of layout, which also removes the empty tail that sat
+          between the globe and the gallery. lg and up is untouched. */}
+      <div className="pointer-events-none relative z-20 max-lg:hidden -mt-[calc(239px+9.6vw)]">
         <CloudTransition />
       </div>
       <PolaroidGallery {...homeData.gallery} />

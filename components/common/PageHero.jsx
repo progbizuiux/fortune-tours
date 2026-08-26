@@ -39,6 +39,12 @@ export function PageHero({
      that is genuinely the LCP element should pass `priority` — see the
      destination pages, which do. */
   priority = false,
+  /* The scrim over the background. Left unset, the hero draws the three-layer
+     scrim below, which is what the home and destination frames specify. A page
+     whose frame states a different one passes it as a single class — /about-us
+     draws a flat #000000 at 20%, straight off its Figma panel — and that one
+     layer replaces the trio rather than stacking on top of it. */
+  overlayClassName,
   className,
 }) {
   const containerRef = useRef(null);
@@ -120,11 +126,17 @@ export function PageHero({
             />
           )
         )}
-        {/* Scrim tuned so white/90 copy clears WCAG AA over the brightest
-            areas of the photo, including the sky band on tall viewports. */}
-        <div className="absolute inset-0 bg-black/35" />
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent" />
-        <div className="absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-black/20 to-transparent" />
+        {overlayClassName ? (
+          <div aria-hidden="true" className={cn("absolute inset-0", overlayClassName)} />
+        ) : (
+          <>
+            {/* Scrim tuned so white/90 copy clears WCAG AA over the brightest
+                areas of the photo, including the sky band on tall viewports. */}
+            <div className="absolute inset-0 bg-black/35" />
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent" />
+            <div className="absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-black/20 to-transparent" />
+          </>
+        )}
       </div>
 
       <Container className="relative flex flex-col items-center max-md:gap-4 gap-6 pt-20 text-center">

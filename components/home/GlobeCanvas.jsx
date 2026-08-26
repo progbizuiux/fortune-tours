@@ -97,7 +97,9 @@ function useDesignFraming() {
 function GlobeBody() {
   return (
     <mesh renderOrder={0}>
-      <sphereGeometry args={[GLOBE_RADIUS * BODY_RADIUS_RATIO, 160, 160]} />
+      {/* 160x160 is 25,600 quads for a smooth-shaded sphere whose silhouette is
+          a circle; 64x64 holds the same profile at a sixth of the vertices. */}
+      <sphereGeometry args={[GLOBE_RADIUS * BODY_RADIUS_RATIO, 64, 64]} />
       <meshBasicMaterial color={BODY_COLOR} />
     </mesh>
   );
@@ -436,9 +438,23 @@ export default function GlobeCanvas({
       <Canvas
         flat
         frameloop={onScreen ? "always" : "never"}
-        dpr={[1, 2]}
+        /* 2x DPR quadruples the pixels shaded for a globe that is mostly flat
+           colour, and it is the single biggest cost on a retina laptop. 1.5 is
+           the point past which the coastlines stop looking crisper. */
+        dpr={[1, 1.5]}
         camera={{ fov: FOV }}
-        gl={{ antialias: true, alpha: true }}
+        /* No depth buffer, stencil or preserved drawing buffer: the scene is a
+           sphere and a shell, and nothing reads the canvas back. `default`
+           power preference lets a laptop stay on its integrated GPU rather
+           than waking the discrete one for a decorative background. */
+        gl={{
+          antialias: true,
+          alpha: true,
+          depth: false,
+          stencil: false,
+          powerPreference: "default",
+          preserveDrawingBuffer: false,
+        }}
       >
         <Suspense fallback={null}>
           <GlobeScene
@@ -470,7 +486,7 @@ export default function GlobeCanvas({
                  because the globe itself is sized as a fraction of the canvas
                  width — a fixed size would read huge on a phone and small on a
                  wide desktop. The bounds keep it legible at both ends. */
-              fontSize: "clamp(11px, 1.3vw, 20px)",
+              fontSize: "clamp(14px, 1.6vw, 28px)",
               /* Between light and regular; variable faces honour it exactly and
                  static ones round to the nearer weight they ship. */
               fontWeight: 350,
@@ -518,7 +534,7 @@ export default function GlobeCanvas({
           >
             <Link
               href={destination.href}
-              className="group pointer-events-auto relative grid h-7 w-7 place-items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2"
+              className="group pointer-events-auto relative grid h-9 w-9 place-items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2"
               style={{ outlineColor: PIN_COLOR }}
             >
               {/* Radar ping. Runs continuously so the pins read as live rather
@@ -527,7 +543,7 @@ export default function GlobeCanvas({
                   main thread and costs nothing next to the WebGL draw. */}
               <span
                 aria-hidden="true"
-                className="absolute h-3.5 w-3.5 animate-ping rounded-full"
+                className="absolute h-[18px] w-[18px] animate-ping rounded-full"
                 style={{
                   backgroundColor: PIN_PING,
                   animationDelay: `${index * 700}ms`,
@@ -537,12 +553,12 @@ export default function GlobeCanvas({
               {/* Soft disc that blooms under the dot on approach. */}
               <span
                 aria-hidden="true"
-                className="absolute h-7 w-7 scale-0 rounded-full transition-transform duration-300 ease-out group-hover:scale-100 group-focus-visible:scale-100"
+                className="absolute h-9 w-9 scale-0 rounded-full transition-transform duration-300 ease-out group-hover:scale-100 group-focus-visible:scale-100"
                 style={{ backgroundColor: PIN_HALO }}
               />
               <span
                 aria-hidden="true"
-                className="relative h-[8px] w-[8px] rounded-full shadow-[0_0_0_2px_rgba(255,255,255,0.9)] transition-transform duration-300 ease-out group-hover:scale-[1.6] group-focus-visible:scale-[1.6]"
+                className="relative h-[11px] w-[11px] rounded-full shadow-[0_0_0_2px_rgba(255,255,255,0.9)] transition-transform duration-300 ease-out group-hover:scale-[1.6] group-focus-visible:scale-[1.6]"
                 style={{ backgroundColor: PIN_COLOR }}
               />
               {/* Name, rising into place on hover. aria-hidden because the link
@@ -551,7 +567,7 @@ export default function GlobeCanvas({
               <span
                 aria-hidden="true"
                 className="pointer-events-none absolute bottom-full left-1/2 mb-1.5 -translate-x-1/2 translate-y-1 whitespace-nowrap rounded-full bg-white/85 px-2.5 py-1 font-top text-navy opacity-0 shadow-[0_2px_10px_rgba(31,41,55,0.12)] backdrop-blur-sm transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
-                style={{ fontSize: "clamp(11px, 1.1vw, 16px)", fontWeight: 400 }}
+                style={{ fontSize: "clamp(13px, 1.3vw, 19px)", fontWeight: 400 }}
               >
                 {destination.name}
               </span>
