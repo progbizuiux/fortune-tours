@@ -12,6 +12,8 @@ const REVIEWERS = [
   { key: "r5", src: "/credentials/user-profile/Ellipse 6.svg" },
 ];
 
+
+
 const HAS_REVIEWER_PHOTOS = true;
 
 export function AnimatedAvatars() {
