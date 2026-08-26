@@ -4,7 +4,7 @@ import { CardCarouselSection } from "@/components/common/CardCarouselSection";
 import { FeatureRows } from "@/components/common/FeatureRows";
 import { PackageCarouselSection } from "@/components/common/PackageCarouselSection";
 import { TabbedCardsSection } from "@/components/common/TabbedCardsSection";
-import { JournalSection } from "@/components/home/JournalSection";
+import { JournalSection } from "@/components/common/JournalSection";
 import { ExperienceHero } from "@/components/experiences/ExperienceHero";
 import {
   getExperience,

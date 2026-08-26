@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { HeroSection } from "@/components/destinations/kerala/HeroSection";
-import { IntroSection } from "@/components/destinations/kerala/IntroSection";
+import { IntroSection } from "@/components/common/IntroSection";
 import { JourneysSection } from "@/components/destinations/kerala/JourneysSection";
 import { MustVisitSection } from "@/components/destinations/kerala/MustVisitSection";
 import { HighlightsSection } from "@/components/destinations/kerala/HighlightsSection";
