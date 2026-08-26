@@ -54,8 +54,8 @@ export async function generateMetadata({ params }) {
      tabs. Bare, because the root layout carries a
      `template: "%s | Fortune Travels"`. */
   return {
-    title: region.label,
-    description: page?.hero?.description,
+    title: page?.meta?.title ?? region.label,
+    description: page?.meta?.description ?? page?.hero?.description,
   };
 }
 
@@ -91,21 +91,28 @@ export default async function DestinationRegionPage({ params }) {
             paint on top rather than slide underneath. */}
         <RegionIntroSection {...page.intro} className="relative z-10" />
 
-        <RegionDestinationsSection className="!pt-0" />
+        <RegionDestinationsSection {...page.countries} className="!pt-0" />
 
-        <RegionFeaturesSection />
-        <RegionExperiencesSection />
-        <RegionJournalSection className="!pt-0"/>
+        <RegionFeaturesSection {...page.whyUs} />
+        <RegionExperiencesSection {...page.experiences} />
+        <RegionJournalSection {...page.journal} className="!pt-0" />
 
-        {/* Africa only for now: the wizard's destination chips are African
-            countries. Generalise the option lists before opening it to the
-            other regions. */}
-       
-            <PlanMyTripSection />
-            <RegionCuratedSection />
-            <RegionStoriesSection />
-            <RegionFixedPackagesSection />
-          
+        <PlanMyTripSection {...page.planTrip} />
+        <RegionCuratedSection {...page.highlights} />
+        <RegionStoriesSection {...page.stories} />
+
+        {/* Packages only when this region has its own.
+
+            Every other section falls back to the copy it shipped with, which
+            is generic enough to stand in for any region — a heading about
+            travel, a row of reasons to book with Fortune. This one's fallback
+            is three Kerala itineraries, and Kozhikode under a heading about
+            Africa is worse than no section at all. So the fallback is skipped
+            here rather than rendered: fill packagesSection on the entry and the
+            section appears. */}
+        {page.packages?.items?.length ? (
+          <RegionFixedPackagesSection {...page.packages} />
+        ) : null}
       </div>
     </>
   );

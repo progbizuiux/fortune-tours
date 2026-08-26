@@ -45,15 +45,31 @@ const SEASONS_DATA = {
   ],
 };
 
-export function SeasonsSection() {
+/* Every value is a prop with the shipped copy behind it, so an entry whose
+   timing section the CMS has not filled in yet renders exactly what this
+   section always rendered.
+
+   tabs and cardsData travel together: taking one from the CMS and the other
+   from the constants below would key the cards off tabs that no longer exist
+   and draw an empty grid. normaliseTiming in lib/strapi/kerala.js returns both
+   or neither for the same reason. */
+export function SeasonsSection({
+  eyebrow = "Plan Your Journey",
+  title = "Kerala in Every Season",
+  description = "Small-group journeys with a host. Fixed dates, limited seats.",
+  tabs,
+  cardsData,
+}) {
+  const hasCmsTabs = Boolean(tabs?.length && cardsData);
+
   return (
     <TabbedCardsSection
-      eyebrow="Plan Your Journey"
-      title="Kerala in Every Season"
-      description="Small-group journeys with a host. Fixed dates, limited seats."
-      tabs={SEASONS_TABS}
-      cardsData={SEASONS_DATA}
-      sectionAriaLabel="Kerala seasons and departures"
+      eyebrow={eyebrow}
+      title={title}
+      description={description}
+      tabs={hasCmsTabs ? tabs : SEASONS_TABS}
+      cardsData={hasCmsTabs ? cardsData : SEASONS_DATA}
+      sectionAriaLabel={`Seasons and departures — ${title}`}
     />
   );
 }

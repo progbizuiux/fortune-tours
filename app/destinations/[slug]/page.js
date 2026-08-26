@@ -7,6 +7,7 @@ import { MustVisitSection } from "@/components/destinations/kerala/MustVisitSect
 import { HighlightsSection } from "@/components/destinations/kerala/HighlightsSection";
 import { WhyTravelSection } from "@/components/destinations/kerala/WhyTravelSection";
 import { SeasonsSection } from "@/components/destinations/kerala/SeasonsSection";
+import { FaqSection } from "@/components/destinations/kerala/FaqSection";
 import { RegionFixedPackagesSection } from "@/components/destinations/RegionFixedPackagesSection";
 import { getDestinationPage, getDestinationSlugs } from "@/lib/strapi/kerala";
 
@@ -75,14 +76,17 @@ export default async function DestinationPage({ params }) {
         <HeroSection {...page.hero} />
         <IntroSection {...page.intro} />
       </div>
-      {/* Journeys fetches travel styles from /api/travel-styles endpoint.
-          Same eight styles on every destination by design. */}
-      <JourneysSection />
+      {/* The heading comes from the entry's traveller-types section; the cards
+          are the travel styles, fetched client-side from /api/travel-styles —
+          their own collection type, shared by every destination — unless the
+          entry names its own set. */}
+      <JourneysSection {...page.journeys} />
       <MustVisitSection {...page.mustVisit} />
       <HighlightsSection {...page.highlights} />
       <WhyTravelSection {...page.why} />
-      <SeasonsSection />
+      <SeasonsSection {...page.seasons} />
       <RegionFixedPackagesSection {...page.packages} />
+      <FaqSection {...page.faq} />
     </>
   );
 }
