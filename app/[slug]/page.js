@@ -5,7 +5,7 @@ import { PageHero } from "@/components/common/PageHero";
 import { ImageIntroSection } from "@/components/common/ImageIntroSection";
 import { RegionExperiencesSection } from "@/components/destinations/RegionExperiencesSection";
 import { RegionDestinationsSection } from "@/components/destinations/RegionDestinationsSection";
-import { RegionFeaturesSection } from "@/components/common/RegionFeaturesSection";
+import { RegionFeaturesSection } from "@/components/destinations/RegionFeaturesSection";
 import { RegionJournalSection } from "@/components/destinations/RegionJournalSection";
 import { PlanMyTripSection } from "@/components/plan-my-trip/PlanMyTripSection";
 import { RegionCuratedSection } from "@/components/destinations/RegionCuratedSection";

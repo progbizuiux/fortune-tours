@@ -158,7 +158,7 @@ export default async function CountryPage({ params }) {
     <CountryRegionsSection />
         <AtAGlanceSection {...page.glance} />
 
-        <div className="bg-background relative z-10 pt-16 md:pt-24 lg:pt-[120px]">
+        <div className="bg-background relative z-10 pt-16 md:pt-24 lg:pt-[120px] pb-16 md:pb-24 lg:pb-[120px]">
           <Container>
             <SectionHeading 
               align="left"

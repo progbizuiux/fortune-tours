@@ -31,7 +31,7 @@ export function SectionHeading({
     <AnimateIn
       stagger={0.12}
       className={cn(
-        "flex flex-col gap-5 md:gap-7 lg:gap-6 2xl:gap-[35px]",
+        "flex flex-col gap-5 md:gap-7 lg:gap-5",
         centered && "items-center text-center",
         className,
       )}
