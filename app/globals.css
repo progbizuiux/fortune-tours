@@ -1,3 +1,4 @@
+/* Force CSS Rebuild comment v2 */
 @import "tailwindcss";
 @import "./design-system.css";
 /* Required by Lenis (see providers/LenisProvider.jsx): unpins html/body height,
@@ -144,16 +145,29 @@
   }
 }
 
-/* Specific text size reduction for laptop screens (1024px to 1535px) */
-@media (min-width: 1024px) and (max-width: 1535px) {
+/* Specific text size reduction for laptop screens - lg to xl (1024px to 1279px) */
+@media (min-width: 1024px) and (max-width: 1279px) {
   :root {
-    --text-h1: 60px;
-    --text-h2: 46px;
-    --text-h3: 26px;
-    --text-h4: 17px;
-    --text-body: 16px;
-    --text-nav: 15px;
-    --text-small: 14px;
+    --text-h1: 52px;
+    --text-h2: 38px;
+    --text-h3: 22px;
+    --text-h4: 15px;
+    --text-body: 14px;
+    --text-nav: 14px;
+    --text-small: 13px;
+  }
+}
+
+/* Specific text size reduction for laptop screens - xl to 2xl (1280px to 1535px) */
+@media (min-width: 1280px) and (max-width: 1535px) {
+  :root {
+    --text-h1: 58px;
+    --text-h2: 42px;
+    --text-h3: 25px;
+    --text-h4: 16.5px;
+    --text-body: 15px;
+    --text-nav: 14.5px;
+    --text-small: 13.5px;
   }
 }
 

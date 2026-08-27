@@ -85,7 +85,7 @@ export function TabbedCardsSection({
 
         <div
           ref={tabsRef}
-          className="mt-8 sm:mt-12 lg:mt-20 flex max-xl:flex-nowrap max-xl:overflow-x-auto max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden flex-wrap items-center justify-center gap-2 sm:gap-4 lg:gap-6 xl:gap-8"
+          className="mt-8 sm:mt-12 lg:max-xl:mt-10 xl:max-2xl:mt-14 2xl:mt-20 flex max-xl:flex-nowrap max-xl:overflow-x-auto max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden flex-wrap items-center justify-center gap-2 sm:gap-4 lg:gap-6 xl:gap-8"
         >
           {tabs.map((tab) => (
             <button
@@ -97,8 +97,9 @@ export function TabbedCardsSection({
                 "whitespace-nowrap border-x transition-colors cursor-pointer",
                 "text-[12px] px-3 py-1.5",
                 "sm:text-[14px] sm:px-4 sm:py-2",
-                "lg:text-[16px] lg:px-5 lg:py-2.5",
-                "xl:text-[18px] xl:px-7 xl:py-3",
+                "lg:max-xl:text-[14.5px] lg:px-5 lg:py-2.5",
+                "xl:max-2xl:text-[16px] xl:px-7 xl:py-3",
+                "2xl:text-[18px] 2xl:px-7 2xl:py-3",
                 activeKey === tab.key
                   ? "border-transparent bg-black text-white"
                   : "border-black/20 text-black/80 hover:text-black dark:border-cream/20 dark:text-cream/80 dark:hover:text-cream",
@@ -112,7 +113,7 @@ export function TabbedCardsSection({
 
       <ul
         ref={cardsRef}
-        className="mt-8 sm:mt-12 lg:mt-20 grid gap-1.5 px-1.5 md:max-xl:px-12 lg:max-xl:px-24 md:grid-cols-2"
+        className="mt-8 sm:mt-12 lg:max-xl:mt-10 xl:max-2xl:mt-14 2xl:mt-20 grid gap-1.5 px-1.5 md:max-xl:px-12 lg:max-xl:px-24 md:grid-cols-2"
       >
         {cardsData[activeKey]?.map((card) => (
           <li
@@ -132,8 +133,8 @@ export function TabbedCardsSection({
                 aria-hidden="true"
               />
 
-              <div className="absolute inset-0 flex flex-col justify-between p-5 sm:p-8 md:pt-11 md:pb-16">
-                <span className="text-body max-sm:text-[12px] max-sm:font-light text-white/80 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:translate-x-3 group-hover:text-white">
+              <div className="absolute inset-0 flex flex-col justify-between p-5 sm:p-8 lg:max-xl:p-6 lg:max-xl:pt-8 lg:max-xl:pb-10 xl:max-2xl:p-7 xl:max-2xl:pt-9 xl:max-2xl:pb-12 2xl:p-8 2xl:pt-11 2xl:pb-16">
+                <span className="text-body lg:max-xl:text-[13px] xl:max-2xl:text-[14.5px] 2xl:text-body max-sm:text-[12px] max-sm:font-light text-white/80 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:translate-x-3 group-hover:text-white">
                   {/* The experience pages give every card its own month, since a
                     tab there spans several (JAN – MAR shows a January card and
                     a February one). Call sites with one month per tab — the
@@ -142,10 +143,10 @@ export function TabbedCardsSection({
                   {card.month || (activeTab?.name ? `${activeTab.name}.` : "")}
                 </span>
                 <div className="transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-3">
-                  <h3 className="text-white max-sm:text-[18px] max-sm:leading-none max-sm:tracking-[-0.01em]">
+                  <h3 className="text-white text-[24px] lg:max-xl:text-[18px] xl:max-2xl:text-[21px] 2xl:text-[24px] max-sm:text-[18px] max-sm:leading-none max-sm:tracking-[-0.01em]">
                     {card.title}
                   </h3>
-                  <p className="mt-3 max-sm:mt-1 max-sm:text-[12px] max-sm:leading-6 max-sm:font-normal text-white/80 transition-colors duration-500 group-hover:text-white">
+                  <p className="mt-3 lg:max-xl:mt-2 lg:max-xl:text-[12.5px] lg:max-xl:leading-5 xl:max-2xl:mt-2.5 xl:max-2xl:text-[14px] xl:max-2xl:leading-6 2xl:text-[16px] 2xl:leading-6 max-sm:mt-1 max-sm:text-[12px] max-sm:leading-6 max-sm:font-normal text-white/80 transition-colors duration-500 group-hover:text-white">
                     {card.meta}
                   </p>
                 </div>

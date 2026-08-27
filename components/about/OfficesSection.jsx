@@ -41,7 +41,7 @@ const OFFICES = [
 
 export function OfficesSection() {
   return (
-    <section className="bg-[#12110C] py-20 md:py-24 xl:py-[130px] text-[#F9F7F2] overflow-hidden">
+    <section className="bg-[#12110C] py-20 md:py-24 lg:max-xl:py-[90px] xl:max-2xl:py-[110px] 2xl:py-[130px] text-[#F9F7F2] overflow-hidden">
       <Container className="!px-8 md:!px-16 lg:!px-[120px] xl:!px-[180px] 2xl:!px-[240px]">
         <SectionHeading
           align="center"

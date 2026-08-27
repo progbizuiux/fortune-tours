@@ -76,7 +76,7 @@ export function RegionExperiencesSection({
     }
 
     const childWidth = children[0].offsetWidth;
-    const gap = 16; // md:gap-4 is 16px
+    const gap = children[1] ? children[1].offsetLeft - children[0].offsetLeft - children[0].offsetWidth : 16;
     const index = Math.round(scrollLeft / (childWidth + gap));
     setActiveIndex(index);
   };
@@ -91,7 +91,7 @@ export function RegionExperiencesSection({
     if (!scrollRef.current) return;
     const { children } = scrollRef.current;
     const childWidth = children[0].offsetWidth;
-    const gap = 16;
+    const gap = children[1] ? children[1].offsetLeft - children[0].offsetLeft - children[0].offsetWidth : 16;
     scrollRef.current.scrollBy({ left: -(childWidth + gap), behavior: "smooth" });
   };
 
@@ -99,7 +99,7 @@ export function RegionExperiencesSection({
     if (!scrollRef.current) return;
     const { children } = scrollRef.current;
     const childWidth = children[0].offsetWidth;
-    const gap = 16;
+    const gap = children[1] ? children[1].offsetLeft - children[0].offsetLeft - children[0].offsetWidth : 16;
     scrollRef.current.scrollBy({ left: childWidth + gap, behavior: "smooth" });
   };
 
@@ -107,7 +107,7 @@ export function RegionExperiencesSection({
     "flex h-[70px] w-[62px] shrink-0 items-center justify-center border-[0.7px] border-black/50 p-[10px] backdrop-blur-[15px] transition-opacity disabled:opacity-30 lg:max-xl:h-[54px] lg:max-xl:w-[48px]";
 
   return (
-    <section className={cn("relative z-10 bg-background py-20 lg:py-32", className)}>
+    <section className={cn("relative z-10 bg-background py-20 lg:max-xl:py-24 xl:max-2xl:py-28 2xl:py-32", className)}>
       <Container>
         <SectionHeading
           eyebrow={eyebrow}
@@ -122,7 +122,7 @@ export function RegionExperiencesSection({
         <ul
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex overflow-x-auto snap-x snap-mandatory gap-4 lg:max-xl:gap-3 xl:max-2xl:gap-3 2xl:gap-4 pb-6 px-4 scroll-pl-4 md:px-8 md:scroll-pl-8 lg:max-xl:px-14 lg:max-xl:scroll-pl-14 xl:max-2xl:px-16 xl:max-2xl:scroll-pl-16 2xl:px-20 2xl:scroll-pl-20 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {experiences.map((exp, i) => (
             <li 
@@ -130,7 +130,7 @@ export function RegionExperiencesSection({
               // md to xl steps the card down from 473px: below xl the row is a
               // scroller rather than the four-up grid, and a full-size card
               // fits barely two on screen there.
-              className="group relative snap-center shrink-0 w-[85vw] max-w-[348px] md:max-w-[473px] md:max-xl:max-w-[340px] xl:max-w-none xl:w-[calc(25%-12px)] aspect-[473/586] overflow-hidden bg-navy/5"
+              className="group relative snap-center shrink-0 w-[85vw] max-w-[348px] md:max-w-[473px] md:max-xl:max-w-[280px] lg:max-xl:w-[280px] xl:max-w-none xl:max-2xl:w-[calc(25%-9px)] 2xl:w-[calc(25%-12px)] aspect-[473/586] overflow-hidden bg-navy/5"
             >
               <Image
                 src={exp.image}
@@ -150,20 +150,20 @@ export function RegionExperiencesSection({
               <div className="absolute inset-x-0 bottom-0 px-6 pb-6 md:px-[30px] md:pb-[30px] flex flex-col justify-end text-white">
                 <div className="transform transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-4">
                   
-                  <h3 className="font-heading text-[24px] leading-none font-normal text-white drop-shadow-sm">
+                  <h3 className="font-heading text-[24px] max-lg:text-[18px] lg:max-xl:text-[17px] xl:max-2xl:text-[19px] 2xl:text-[24px] leading-none font-normal text-white drop-shadow-sm">
                     {exp.title}
                   </h3>
                   
                   {/* Expandable Description Area */}
                   <div className="grid grid-rows-[0fr] opacity-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:grid-rows-[1fr] group-hover:opacity-100 mt-[20px]">
                     <div className="overflow-hidden">
-                      <p className="font-sans font-light text-[18px] leading-[24px] text-white">
+                      <p className="font-sans font-light text-[18px] max-lg:text-[12px] lg:max-xl:text-[13.5px] lg:max-xl:leading-[18px] xl:max-2xl:text-[14.5px] xl:max-2xl:leading-[20px] 2xl:text-[18px] 2xl:leading-[24px] text-white">
                         {exp.subtitle}
                       </p>
                       
-                      <div className="h-[0.6px] bg-white/50 w-full my-[21px]" />
+                      <div className="h-[0.6px] bg-white/50 w-full lg:max-xl:my-[12px] xl:max-2xl:my-[16px] 2xl:my-[21px]" />
                       
-                      <p className="font-sans font-light text-[16px] leading-[24px] text-white/70">
+                      <p className="font-sans font-light text-[16px] max-lg:text-[11px] lg:max-xl:text-[12.5px] lg:max-xl:leading-[16px] xl:max-2xl:text-[13px] xl:max-2xl:leading-[18px] 2xl:text-[16px] 2xl:leading-[24px] text-white/70">
                         {exp.description}
                       </p>
                     </div>

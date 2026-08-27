@@ -24,8 +24,8 @@ export function AnimatedAvatars() {
       {REVIEWERS.slice(0, -1).map((reviewer, index) => (
         <div
           key={reviewer.key}
-          className={`ring-cream bg-navy/15 relative size-10 overflow-hidden rounded-full ring-2 cursor-pointer ${
-            index > 0 ? "-ml-3" : ""
+          className={`ring-cream bg-navy/15 relative size-10 lg:max-xl:size-7 xl:max-2xl:size-8 2xl:size-10 overflow-hidden rounded-full ring-2 cursor-pointer ${
+            index > 0 ? "-ml-3 lg:max-xl:-ml-2 xl:max-2xl:-ml-2.5 2xl:-ml-3" : ""
           }`}
         >
           {HAS_REVIEWER_PHOTOS && (
@@ -33,7 +33,7 @@ export function AnimatedAvatars() {
               src={reviewer.src}
               alt=""
               fill
-              sizes="40px"
+              sizes="(min-width: 1280px) 32px, (min-width: 1024px) 28px, 40px"
               className="object-cover"
             />
           )}
@@ -41,18 +41,18 @@ export function AnimatedAvatars() {
       ))}
 
       {/* Last avatar: profile image is the background, 13k+ overlaid on top */}
-      <div className="ring-cream bg-navy/15 relative -ml-3 size-14 overflow-hidden rounded-full ring-2 cursor-pointer">
+      <div className="ring-cream bg-navy/15 relative -ml-3 lg:max-xl:-ml-2 xl:max-2xl:-ml-2.5 2xl:-ml-3 size-14 lg:max-xl:size-10 xl:max-2xl:size-12 2xl:size-14 overflow-hidden rounded-full ring-2 cursor-pointer">
         {HAS_REVIEWER_PHOTOS && (
           <Image
             src={REVIEWERS[REVIEWERS.length - 1].src}
             alt=""
             fill
-            sizes="56px"
+            sizes="(min-width: 1280px) 48px, (min-width: 1024px) 40px, 56px"
             className="object-cover"
           />
         )}
         <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/45">
-          <span className="text-small font-semibold text-white">
+          <span className="text-small lg:max-xl:text-[10px] xl:max-2xl:text-[12px] 2xl:text-small font-semibold text-white">
             13k+
           </span>
         </div>

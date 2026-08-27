@@ -49,7 +49,7 @@ export function PartnerLogos({ className = "" }) {
         {TRACK.map((partner, index) => (
           <li
             key={`${partner.name}-${index}`}
-            className="mr-10 flex shrink-0 justify-center lg:mr-24"
+            className="mr-10 lg:max-xl:mr-12 xl:max-2xl:mr-16 2xl:mr-24 flex shrink-0 justify-center"
             aria-hidden={index >= PARTNERS.length || undefined}
           >
             {HAS_PARTNER_LOGOS ? (
@@ -58,8 +58,8 @@ export function PartnerLogos({ className = "" }) {
                 alt={index < PARTNERS.length ? partner.name : ""}
                 width={162}
                 height={117}
-                sizes="(min-width: 1024px) 157px, 71px"
-                className="h-[35px] w-[71px] object-contain lg:h-[112.08px] lg:w-[156.713px] lg:max-2xl:h-[84px] lg:max-2xl:w-[117px] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.15] hover:drop-shadow-2xl cursor-pointer"
+                sizes="(min-width: 1536px) 157px, (min-width: 1280px) 106px, (min-width: 1024px) 84px, 71px"
+                className="h-[35px] w-[71px] object-contain lg:max-xl:h-[60px] lg:max-xl:w-[84px] xl:max-2xl:h-[76px] xl:max-2xl:w-[106px] 2xl:h-[112.08px] 2xl:w-[156.713px] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.15] hover:drop-shadow-2xl cursor-pointer"
               />
             ) : (
               <span className="text-small text-navy/40 flex h-20 items-center text-center font-semibold">

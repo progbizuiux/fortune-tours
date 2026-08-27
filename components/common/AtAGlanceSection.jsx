@@ -10,7 +10,7 @@ export function AtAGlanceSection({
   className,
 }) {
   return (
-    <section className={cn("bg-cream py-16 md:py-24 lg:py-[100px] relative z-10", className)}>
+    <section className={cn("bg-cream py-16 md:py-24 lg:max-xl:py-[75px] xl:max-2xl:py-[85px] 2xl:py-[100px] relative z-10", className)}>
       <Container>
         <SectionHeading
           align="center"
@@ -28,10 +28,10 @@ export function AtAGlanceSection({
                 key={stat.label}
                 className="flex flex-col items-center text-center px-6 lg:px-10 xl:px-4 shrink-0 w-[200px] xl:w-auto"
               >
-                <h4 className="font-sans text-[15px] xl:text-[16px] font-medium text-black mb-3">
+                <h4 className="font-sans text-[15px] lg:max-xl:text-[14px] xl:max-2xl:text-[15px] 2xl:text-[16px] font-medium text-black mb-3">
                   {stat.label}
                 </h4>
-                <p className="font-sans text-[13px] xl:text-[14px] font-light text-black/70 leading-[1.6] whitespace-pre-line">
+                <p className="font-sans text-[13px] lg:max-xl:text-[12px] xl:max-2xl:text-[13px] 2xl:text-[14px] font-light text-black/70 leading-[1.6] whitespace-pre-line">
                   {stat.value}
                 </p>
               </li>

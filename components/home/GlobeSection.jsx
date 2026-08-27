@@ -55,7 +55,7 @@ export function GlobeSection() {
             <span className="font-top max-lg:text-[12px] max-lg:leading-none text-h4 text-navy/70">
               Chapter 08 — Wanderlust
             </span>
-            <h2 className="max-lg:text-[30px] max-lg:leading-none max-lg:tracking-[-0.01em] text-navy lg:max-xl:text-[38px]">
+            <h2 className="max-lg:text-[30px] max-lg:leading-none max-lg:tracking-[-0.01em] text-navy lg:max-xl:text-[34px]">
               Destinations without limits
             </h2>
           </div>
