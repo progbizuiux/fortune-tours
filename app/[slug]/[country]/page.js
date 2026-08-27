@@ -8,7 +8,7 @@ import { ImageIntroSection } from "@/components/common/ImageIntroSection";
 import { PageHero } from "@/components/common/PageHero";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { CountryRegionsSection } from "@/components/destinations/CountryRegionsSection";
-import { RegionFeaturesSection } from "@/components/destinations/RegionFeaturesSection";
+import { RegionFeaturesSection } from "@/components/common/RegionFeaturesSection";
 import { PlanMyTripSection } from "@/components/plan-my-trip/PlanMyTripSection";
 import { getCountryPage, getCountryParams } from "@/lib/strapi/country";
 

@@ -17,12 +17,12 @@ export async function GET() {
       {
         status: 200,
         headers: {
-          /* NOT `s-maxage`: that parks the JSON in Vercel's edge CDN, which
-             revalidateTag() cannot purge — only the TTL or a redeploy clears
-             it, which is what kept published Strapi content off the live
-             site. The Strapi read underneath is still Data-Cached and tagged,
-             so this costs no extra round trip. */
-          "Cache-Control": "no-store, must-revalidate",
+          /* No CDN cache here on purpose. s-maxage would park this response on
+             Vercel's edge, where revalidateTag() cannot reach it, so a Strapi
+             publish would not show up until that window expired. The Strapi
+             call inside is already tagged and cached by the Data Cache
+             (lib/strapi/client.js), so this stays fast and stays invalidatable. */
+          "Cache-Control": "no-store",
         },
       }
     );

@@ -58,17 +58,10 @@ const TAGS_BY_MODEL = {
   experience: EXPERIENCES_TAGS,
 };
 
-/* Every tag the app applies anywhere, for when we cannot tell what changed. */
-const ALL_TAGS = [
-  ...new Set([
-    ...KERALA_TAGS,
-    ...DESTINATION_TAGS,
-    ...COUNTRY_TAGS,
-    ...TRAVEL_STYLE_TAGS,
-    ...HOME_TAGS,
-    ...EXPERIENCES_TAGS,
-  ]),
-];
+/* Every tag the app uses, derived from the mapping so the two cannot drift
+   apart — a content type added above is covered here for free. The fallback
+   for a payload whose model we cannot place. */
+const ALL_TAGS = [...new Set(Object.values(TAGS_BY_MODEL).flat())];
 
 /**
  * The content type a webhook payload refers to.
