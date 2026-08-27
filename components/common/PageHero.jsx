@@ -163,7 +163,7 @@ export function PageHero({
         <div className="hero-cta mt-4 flex flex-nowrap items-center justify-center max-md:gap-4 gap-x-6 gap-y-3 max-md:text-[13px] max-md:leading-6 text-body text-white/90 opacity-0">
           {ctas.map((link) => (
             <CtaLink
-              key={link.href}
+              key={link.label}
               href={link.href}
               fill
               className={`${HERO_CTA} border-white/40`}

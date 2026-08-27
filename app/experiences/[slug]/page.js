@@ -15,6 +15,11 @@ import {
    and all the content comes from Strapi, so adding an experience is
    a CMS entry rather than a code change. */
 
+/* ISR on the same terms as the rest of the app: cached until POST
+   /api/revalidate fires on publish, with this window as the backstop. Must be
+   a literal — Next reads it statically at build time. */
+export const revalidate = 3600;
+
 export async function generateStaticParams() {
   const slugs = await getExperienceSlugs();
   return (slugs || []).map((slug) => ({ slug }));

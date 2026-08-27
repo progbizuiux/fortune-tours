@@ -172,8 +172,10 @@ export function RegionExperiencesSection({
                 </div>
               </div>
               
-              {/* Full card clickable link if needed, or just hover effect wrapper */}
-              <Link href={`/experiences/${exp.id}`} className="absolute inset-0 z-10">
+              {/* Full card clickable link if needed, or just hover effect wrapper.
+                  The CMS `link` field wins when an editor fills it; the slug
+                  built from the title is the fallback. */}
+              <Link href={exp.href ?? `/experiences/${exp.id}`} className="absolute inset-0 z-10">
                 <span className="sr-only">Explore {exp.title}</span>
               </Link>
             </li>
