@@ -7,15 +7,6 @@
       "runtimeArgs": ["node_modules/next/dist/bin/next", "dev"],
       "port": 3000,
       "autoPort": true
-    },
-    {
-      "name": "fortune-dev-hosted-cms",
-      "runtimeExecutable": "node",
-      "runtimeArgs": [
-        "C:/Users/mnhh4/AppData/Local/Temp/claude/C--Users-mnhh4-OneDrive-Desktop-fortune/bf1e6a31-258c-4858-856c-f64350b11124/scratchpad/dev-hosted.js"
-      ],
-      "port": 3000,
-      "autoPort": true
     }
   ]
 }
