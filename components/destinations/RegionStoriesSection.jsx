@@ -59,6 +59,10 @@ export function RegionStoriesSection({
           description={description}
           align="left"
           descriptionClassName="max-w-xl"
+          // The description runs short beside a two-line title; centering it
+          // against the title's full height left it stranded near the top on
+          // its own. Top-aligning both keeps it visually attached.
+          rowAlign="start"
         />
 
         <div className="mt-12 md:mt-16 lg:mt-20 flex flex-col">
@@ -84,11 +88,14 @@ export function RegionStoriesSection({
             {activeStory.quote}
           </blockquote>
 
-          {/* Figma: 0.5px rule at black/60 above the attribution row. */}
+          {/* Figma: 0.5px rule at black/60 above the attribution row. Margin
+              and padding tightened from the original 30/40 split — the two
+              gaps stacked into 70px of dead air between the quote and the
+              byline, which read as disconnected rather than composed. */}
           {/* From 2xl the rule and the attribution line up with the quote's own
               left edge — same ml-auto/max-w pair — instead of running the full
               width of the container beneath it. */}
-          <div className="mt-[30px] flex w-full flex-col items-start gap-6 border-t-[0.5px] border-black/60 pt-[40px] sm:flex-row sm:items-center 2xl:ml-auto 2xl:max-w-[1374px]">
+          <div className="mt-6 flex w-full flex-col items-start gap-6 border-t-[0.5px] border-black/60 pt-8 sm:flex-row sm:items-center 2xl:ml-auto 2xl:max-w-[1374px]">
             {/* Figma rhythm across the row: 14px avatar → name, then 20px to
                 the rule and 20px again to the review badge. */}
             <div className="flex items-center gap-5">
