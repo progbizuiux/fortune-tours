@@ -100,7 +100,7 @@ function ReviewCard({ review, index, isExpanded, onToggle }) {
       <div className="flex-1 flex flex-col items-start mt-8">
         <p 
           ref={textRef}
-          className={`overflow-hidden transition-[max-height] duration-500 ease-in-out max-sm:font-light max-sm:text-[12px] max-sm:leading-120 max-sm:tracking-[-0.3px] text-small lg:font-sans lg:font-light lg:text-[18px] lg:leading-120 lg:tracking-[-1.4px] text-navy lg:text-charcoal group-hover:text-black`}
+          className={`overflow-hidden transition-[max-height] duration-500 ease-in-out max-sm:font-light max-sm:text-[12px] max-sm:leading-120 max-sm:tracking-[-0.3px] text-small lg:font-sans lg:font-light lg:max-xl:text-[15.5px] xl:max-2xl:text-[17px] 2xl:text-[18px] lg:leading-120 lg:tracking-[-1.4px] text-navy lg:text-charcoal group-hover:text-black`}
           style={{ maxHeight: isExpanded ? "500px" : `${CLAMP_EM}em` }}
         >
           {review.quote}
@@ -140,7 +140,7 @@ function ReviewCard({ review, index, isExpanded, onToggle }) {
         <div className="absolute inset-0 border border-white/40 pointer-events-none" aria-hidden="true" />
 
         <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 p-4 transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-2">
-          <span className="max-md:font-sans max-md:text-[11px] max-md:font-normal max-md:leading-[120%] max-md:tracking-[-0.84px] md:text-small md:font-medium truncate text-white/90 transition-colors duration-700 group-hover:text-white">
+          <span className="max-md:font-sans max-md:text-[11px] max-md:font-normal max-md:leading-[120%] max-md:tracking-[-0.84px] md:text-small lg:max-xl:text-[11px] xl:max-2xl:text-[13px] 2xl:text-small md:font-medium truncate text-white/90 transition-colors duration-700 group-hover:text-white">
             {review.name}
           </span>
 
@@ -148,7 +148,7 @@ function ReviewCard({ review, index, isExpanded, onToggle }) {
             <FaGoogle className="max-md:h-[14.43px] max-md:w-[14.43px] md:size-4" aria-hidden="true" />
             <span className="h-4 w-px bg-white/40" aria-hidden="true" />
             <Star className="max-md:h-[10.82px] max-md:w-[10.22px] md:size-4 fill-white" aria-hidden="true" />
-            <span className="max-md:font-sans max-md:text-[10.82px] max-md:font-light max-md:leading-[120%] max-md:tracking-[-0.84px] md:text-caption">{review.rating}</span>
+            <span className="max-md:font-sans max-md:text-[10.82px] max-md:font-light max-md:leading-[120%] max-md:tracking-[-0.84px] md:text-caption lg:max-xl:text-[10px] xl:max-2xl:text-[11px] 2xl:text-caption">{review.rating}</span>
             <span className="sr-only">out of 5 on Google</span>
           </span>
         </div>
@@ -183,11 +183,11 @@ export function CredentialsSection({
       <Container className="pt-16 pb-10 lg:pt-22 lg:pb-[90px] min-[1900px]:pb-[40px]">
         <div ref={headerRef} className="flex flex-row sm:flex-col lg:flex-row items-end sm:items-start justify-between gap-2 sm:gap-4 lg:items-start lg:gap-10">
           <div>
-            <p className="font-top max-sm:text-[12px] max-sm:leading-none text-h4 lg:text-[20px] lg:leading-none text-navy">
+            <p className="font-top max-sm:text-[12px] max-sm:leading-none text-h4 lg:max-xl:text-[13.5px] xl:max-2xl:text-[15px] 2xl:text-[20px] lg:leading-none text-navy">
               {eyebrow}
             </p>
 
-            <h2 className="font-heading max-sm:text-[30px] max-sm:leading-none max-sm:tracking-[-0.01em] text-h3 lg:text-[46px] 2xl:text-[65px] lg:leading-none lg:tracking-[-0.01em] text-navy max-lg:mt-[20px] lg:mt-6 2xl:mt-[40px] max-w-[240px] sm:max-w-md lg:max-w-3xl">
+            <h2 className="font-heading max-sm:text-[30px] max-sm:leading-none max-sm:tracking-[-0.01em] text-h3 lg:max-xl:text-[34px] xl:max-2xl:text-[38px] 2xl:text-[65px] lg:leading-none lg:tracking-[-0.01em] text-navy max-lg:mt-[20px] lg:mt-6 2xl:mt-[40px] max-w-[240px] sm:max-w-md lg:max-w-3xl">
               {title}
             </h2>
           </div>
@@ -195,7 +195,7 @@ export function CredentialsSection({
           <div className="flex shrink-0 flex-col items-center max-lg:mt-auto gap-2 max-lg:mb-1 lg:items-end lg:gap-3 lg:mt-0 lg:self-center 2xl:mt-[60px] 2xl:self-start min-[1900px]:gap-[20px]">
             <AnimatedAvatars />
 
-            <p className="max-sm:font-light max-sm:text-[9px] max-sm:leading-[12px] sm:text-[10px] sm:leading-[14px] text-center lg:text-right text-caption lg:font-light lg:text-[18px] lg:leading-6 text-navy/70 lg:text-black/80 max-sm:w-[160px] sm:w-full lg:w-auto lg:max-w-none">
+            <p className="max-sm:font-light max-sm:text-[9px] max-sm:leading-[12px] sm:text-[10px] sm:leading-[14px] text-center lg:text-right text-caption lg:font-light lg:max-xl:text-[15px] xl:max-2xl:text-[16.5px] 2xl:text-[18px] lg:leading-6 text-navy/70 lg:text-black/80 max-sm:w-[160px] sm:w-full lg:w-auto lg:max-w-none">
               4.8 Rating from 13K+<br className="lg:hidden" /> Google Reviews
             </p>
           </div>

@@ -171,9 +171,10 @@ export function Navbar() {
     const trigger = document.querySelector("[data-navbar-solid-from]");
 
     function handleScroll() {
+      const height = headerRef.current ? headerRef.current.offsetHeight : 80;
       setIsScrolled(
         trigger
-          ? trigger.getBoundingClientRect().top <= NAVBAR_HEIGHT
+          ? trigger.getBoundingClientRect().top <= height
           : window.scrollY > 20,
       );
     }
@@ -278,7 +279,7 @@ export function Navbar() {
       // period, the same as leaving the header altogether.
       onBlur={openMenu ? handleHeaderBlur : undefined}
     >
-      <Container className="flex h-20 items-center justify-between">
+      <Container className="flex h-20 lg:max-xl:h-14 xl:max-2xl:h-16 2xl:h-20 items-center justify-between">
         <Link
           href="/"
           aria-label="Fortune Tours & Travels — Home"
@@ -308,7 +309,7 @@ export function Navbar() {
               // can no longer guarantee the aspect ratio. Pairing w-[140px]
               // with h-auto puts both under CSS and silences it; the width and
               // height props stay as the ratio hint that reserves the space.
-              "h-auto w-[140px] object-contain transition-opacity duration-300",
+              "h-auto w-[140px] lg:max-xl:w-[90px] xl:max-2xl:w-[110px] 2xl:w-[140px] object-contain transition-opacity duration-300",
               isSolid ? "absolute opacity-0" : "opacity-100",
             )}
             priority
@@ -328,8 +329,8 @@ export function Navbar() {
               // width attribute-driven — Next flags that mismatch in dev and
               // can no longer guarantee the aspect ratio. Pairing w-[140px]
               // with h-auto puts both under CSS and silences it; the width and
-              // height props stay as the ratio hint that reserves the space.
-              "h-auto w-[140px] object-contain transition-opacity duration-300",
+              // height props stay as the space hint that reserves the space.
+              "h-auto w-[140px] lg:max-xl:w-[90px] xl:max-2xl:w-[110px] 2xl:w-[140px] object-contain transition-opacity duration-300",
               isSolid ? "opacity-100" : "absolute opacity-0",
             )}
             priority

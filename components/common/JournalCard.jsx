@@ -32,13 +32,13 @@ export function JournalCard({
         />
       </div>
 
-      <span className="font-top text-small max-sm:text-[12px] mt-5 max-sm:mt-3 leading-none font-light text-navy dark:text-cream">
+      <span className="font-top text-small max-sm:text-[12px] mt-5 lg:max-xl:mt-3 xl:max-2xl:mt-4 2xl:mt-5 max-sm:mt-3 leading-none font-light text-navy dark:text-cream">
         {cascade ? <CascadeText part="title">{meta}</CascadeText> : meta}
       </span>
 
       <p
         className={cn(
-          "mt-4 max-sm:mt-2 max-sm:font-light max-sm:text-[13px] max-sm:leading-[110%] text-black/80 dark:text-cream/80 xl:max-w-[90%]",
+          "mt-4 lg:max-xl:mt-2 xl:max-2xl:mt-3 2xl:mt-4 max-sm:mt-2 max-sm:font-light max-sm:text-[13px] max-sm:leading-[110%] text-black/80 dark:text-cream/80 xl:max-w-[90%]",
           titleClassName
         )}
       >
@@ -46,7 +46,7 @@ export function JournalCard({
       </p>
 
       {description && (
-        <p className="mt-2 text-black/80 font-sans font-light text-[14px] xl:text-[16px] leading-[1.5]">
+        <p className="mt-2 text-black/80 font-sans font-light text-[14px] lg:max-xl:text-[13px] xl:max-2xl:text-[14.5px] 2xl:text-[16px] leading-[1.5]">
           {description}
         </p>
       )}

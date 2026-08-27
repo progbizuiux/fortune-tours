@@ -29,6 +29,19 @@ const FALLBACK_FEATURES = [
   },
 ];
 
+/* Desktop column count follows the item count, so the row fills its track
+   instead of leaving a dead column and reading as off-centre. Written out
+   rather than interpolated because Tailwind only sees whole class names.
+   Beyond six, wrap onto a second row of six. */
+const XL_WIDTHS = {
+  1: "xl:w-full",
+  2: "xl:w-1/2",
+  3: "xl:w-1/3",
+  4: "xl:w-1/4",
+  5: "xl:w-1/5",
+  6: "xl:w-1/6",
+};
+
 export function RegionFeaturesSection({
   eyebrow = "Why Fortune tours",
   title = "Africa rewards travellers who plan well.",
@@ -51,8 +64,7 @@ export function RegionFeaturesSection({
       {/* Features Grid */}
       <div className="w-full px-4 md:px-8 lg:px-[80px] mt-[95px]">
         <div className={cn(
-          "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-12 max-w-[1920px] mx-auto",
-          features.length === 4 ? "xl:grid-cols-4" : "xl:grid-cols-6"
+          "flex flex-wrap justify-center gap-y-12 max-w-[1920px] mx-auto"
         )}>
           {features.map((feature, i) => {
             // If we have > 4 items (e.g. 6), we hide the last 2 on mobile/tablet.
@@ -61,7 +73,9 @@ export function RegionFeaturesSection({
 
             // Determine if the item is in the last row for each breakpoint
             const isLastRowMobile = i === visibleOnSmallCount - 1; // 1 col (max-md)
-            const isLastRowTablet = i >= visibleOnSmallCount - 2 && i < visibleOnSmallCount; // 2 cols (md:max-lg)
+            // On md (2 cols), if there are 3 items, last row is just the last 1.
+            const itemsInLastTabletRow = visibleOnSmallCount % 2 || 2;
+            const isLastRowTablet = i >= visibleOnSmallCount - itemsInLastTabletRow && i < visibleOnSmallCount;
             
             // On lg (3 cols), if there are 6 items, last row is last 3. If 4 items, last row is just the last 1.
             const itemsInLastLgRow = visibleOnSmallCount % 3 || 3;
@@ -71,6 +85,8 @@ export function RegionFeaturesSection({
               <div
                 key={i}
                 className={cn(
+                  "w-full md:w-1/2 lg:w-1/3",
+                  XL_WIDTHS[features.length] ?? "xl:w-1/6",
                   "flex flex-col items-center justify-start xl:justify-between text-center px-[22px] h-full pt-2",
                   hideOnSmall && "max-lg:hidden",
                   // Vertical borders
@@ -90,10 +106,10 @@ export function RegionFeaturesSection({
                   title bottom-aligned inside it: titles run to one or two
                   lines, and without a common floor each description starts at
                   a different baseline across the row. xl is 2 x 33px leading. */}
-              <h3 className="flex items-end justify-center font-heading max-xl:text-[20px] xl:text-[24px] font-normal max-xl:leading-[1.2] xl:leading-[33px] text-black max-xl:min-h-[48px] xl:min-h-[66px]">
+              <h3 className="flex items-end justify-center font-heading max-lg:text-[20px] lg:max-xl:text-[18px] xl:max-2xl:text-[21px] 2xl:text-[24px] font-normal max-xl:leading-[1.2] xl:leading-[33px] text-black max-xl:min-h-[48px] xl:min-h-[66px]">
                 {feature.title}
               </h3>
-              <p className="mt-[10px] font-sans max-xl:text-[14px] xl:text-[16px] font-light max-xl:leading-[21px] xl:leading-[24px] text-black/80 max-xl:flex-1">
+              <p className="mt-[10px] font-sans max-lg:text-[14px] lg:max-xl:text-[13px] xl:max-2xl:text-[14.5px] 2xl:text-[16px] font-light max-xl:leading-[21px] xl:leading-[24px] text-black/80 max-xl:flex-1">
                 {feature.body}
               </p>
             </div>

@@ -56,7 +56,7 @@ export function JournalSection({
     <section
       aria-label="Journal — stories from the field"
       className={cn(
-        "spacing -mt-[40px] lg:-mt-[100px] 2xl:mt-0 relative z-10",
+        "spacing -mt-[40px] lg:max-xl:mt-0 xl:max-2xl:mt-0 2xl:mt-0 lg:-mt-[100px] relative z-10",
         className,
       )}
     >

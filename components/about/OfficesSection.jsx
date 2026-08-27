@@ -41,8 +41,8 @@ const OFFICES = [
 
 export function OfficesSection() {
   return (
-    <section className="bg-[#12110C] py-20 md:py-24 xl:py-[130px] text-[#F9F7F2] overflow-hidden">
-      <Container>
+    <section className="bg-[#12110C] py-20 md:py-24 lg:max-xl:py-[90px] xl:max-2xl:py-[110px] 2xl:py-[130px] text-[#F9F7F2] overflow-hidden">
+      <Container className="!px-8 md:!px-16 lg:!px-[120px] xl:!px-[180px] 2xl:!px-[240px]">
         <SectionHeading
           align="center"
           eyebrow="Branches"
@@ -53,14 +53,14 @@ export function OfficesSection() {
           descriptionClassName="text-[#F9F7F2]/70"
         />
 
-        <div className="mt-16 md:mt-24 xl:mt-[100px] border-t border-[#8C6A3F]/40 pt-12 md:pt-16 lg:pt-0">
+        <div className="mt-12 md:mt-16 lg:mt-[60px] border-t border-[#8C6A3F]/40 pt-12 md:pt-16 lg:pt-0">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-y-12 md:gap-y-16 lg:gap-y-0 lg:gap-x-4 xl:gap-x-5 2xl:gap-x-6">
             {OFFICES.map((office, i) => (
               <div
                 key={office.city}
-                className="flex flex-col relative z-10 pt-0 lg:pt-6 xl:pt-7 2xl:pt-[32px] pb-0 lg:pb-6 xl:pb-7 2xl:pb-[33px] lg:border-r lg:border-[#8C6A3F]/40 lg:last:border-r-0 lg:pr-4 xl:pr-5 2xl:pr-[24px]"
+                className="flex flex-col items-center text-center relative z-10 pt-0 lg:pt-6 xl:pt-7 2xl:pt-[32px] pb-0 lg:pb-6 xl:pb-7 2xl:pb-[33px] lg:border-r lg:border-[#8C6A3F]/40 lg:last:border-r-0 lg:px-2 xl:px-3 2xl:px-4"
               >
-                <div className="mb-2 lg:mb-3 xl:mb-4 2xl:mb-[16px] flex items-center lg:pr-4 self-start">
+                <div className="mb-2 lg:mb-3 xl:mb-4 2xl:mb-[16px] flex items-center">
                   {office.role ? (
                     <span className="font-top text-[10px] 2xl:text-[11px] 2xl:leading-[15px] tracking-[0.16em] uppercase text-[#FFD58E]">
                       {office.role}
