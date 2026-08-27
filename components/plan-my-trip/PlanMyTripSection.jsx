@@ -48,7 +48,7 @@ function QuestionGroup({ id, title, error, className, children }) {
           pinned from 2xl up while smaller screens keep the site scale. */}
       <h3
         id={id}
-        className="max-lg:text-[18px] max-lg:leading-[1.2] lg:max-2xl:text-[20px] 2xl:text-[35px]"
+        className="max-lg:text-[18px] max-lg:leading-[1.2] lg:max-xl:text-[17px] xl:max-2xl:text-[18.5px] 2xl:text-[35px]"
       >
         {title}
       </h3>
@@ -351,7 +351,7 @@ export function PlanMyTripSection({
                 scale: the site h2 lands at 36px on a phone, which crowds the
                 descenders against the line box at leading-1. lg and up keep
                 the global token. */}
-            <h2 className="max-lg:text-[24px] max-lg:leading-[1.2] lg:max-2xl:text-[32px] lg:max-2xl:leading-[1.1]">
+            <h2 className="max-lg:text-[24px] max-lg:leading-[1.2] lg:max-xl:text-[26px] lg:max-xl:leading-[1.1] xl:max-2xl:text-[29px] xl:max-2xl:leading-[1.1] 2xl:text-[32px] 2xl:leading-[1.1]">
               {title}
             </h2>
             {/* The 706px intro is a shrink-0 sibling, so between lg and xl it
@@ -365,7 +365,7 @@ export function PlanMyTripSection({
 
         {submitted ? (
           <div className="flex flex-col items-start py-16 motion-safe:animate-menu-drop md:py-24">
-            <h3 className="max-lg:text-[18px] max-lg:leading-[1.2] lg:max-2xl:text-[20px]">
+            <h3 className="max-lg:text-[18px] max-lg:leading-[1.2] lg:max-xl:text-[17px] xl:max-2xl:text-[18.5px] 2xl:text-[20px]">
               {successTitle
                 ? successTitle.replace("{name}", submittedName)
                 : `Thank you, ${submittedName}.`}

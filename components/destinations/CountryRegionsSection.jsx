@@ -63,7 +63,7 @@ export function CountryRegionsSection({
   };
 
   return (
-    <section className={cn("bg-background py-16 md:py-24 relative z-10", className)}>
+    <section className={cn("bg-background py-16 md:py-24 lg:max-xl:py-20 xl:max-2xl:py-22 2xl:py-24 relative z-10", className)}>
       <Container>
         <SectionHeading
           eyebrow={eyebrow}
@@ -99,16 +99,16 @@ export function CountryRegionsSection({
 
                 {/* Text Content */}
                 <div className="absolute inset-x-0 bottom-0 p-4 md:p-5 lg:p-6 xl:p-7 2xl:p-[30px] flex flex-col justify-end text-white">
-                  <h3 className="font-heading text-[18px] md:text-[20px] lg:text-[22px] xl:text-[24px] 2xl:text-[28px] leading-none text-white">
+                  <h3 className="font-heading text-[18px] md:text-[20px] lg:max-xl:text-[18px] xl:max-2xl:text-[20px] 2xl:text-[28px] leading-none text-white">
                     {region.title}
                   </h3>
-                  <p className="font-sans font-light text-[12px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] text-white/90 mt-0.5 md:mt-1 2xl:mt-[5px] mb-2 md:mb-3 lg:mb-4 xl:mb-5 2xl:mb-[21px]">
+                  <p className="font-sans font-light text-[12px] md:text-[13px] lg:max-xl:text-[12px] xl:max-2xl:text-[13px] 2xl:text-[16px] text-white/90 mt-0.5 md:mt-1 2xl:mt-[5px] mb-2 md:mb-3 lg:mb-4 xl:mb-5 2xl:mb-[21px]">
                     {region.subtitle}
                   </p>
                   
                   <div className="w-full border-t border-white/50" aria-hidden="true" />
                   
-                  <p className="font-sans font-light text-[12px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] 2xl:leading-[24px] text-white/70 mt-2 md:mt-3 lg:mt-4 xl:mt-5 2xl:mt-[21px]">
+                  <p className="font-sans font-light text-[12px] md:text-[13px] lg:max-xl:text-[12px] xl:max-2xl:text-[13px] 2xl:text-[16px] 2xl:leading-[24px] text-white/70 mt-2 md:mt-3 lg:mt-4 xl:mt-5 2xl:mt-[21px]">
                     {region.description}
                   </p>
                 </div>

@@ -47,7 +47,7 @@ export function MustVisitSection({
       eyebrow={eyebrow}
       title={title}
       description={description}
-      eyebrowClassName="lg:text-[20px]"
+      eyebrowClassName="lg:max-xl:text-[17px] xl:max-2xl:text-[18.5px] 2xl:text-[20px]"
       descriptionClassName="max-lg:max-w-[560px] max-w-[828px] lg:leading-[29px]"
       items={items}
       riseOnScroll={true}

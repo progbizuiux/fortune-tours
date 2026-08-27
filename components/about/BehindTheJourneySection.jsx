@@ -146,11 +146,11 @@ export function BehindTheJourneySection({ className }) {
 
                     tracking-normal because the token carries the heading
                     scale's -1%, where this panel states 0. */}
-                <dd className="font-heading text-h2 max-lg:text-[30px] max-lg:leading-none lg:max-xl:text-[38px] lg:max-xl:leading-none xl:max-2xl:text-[48px] xl:max-2xl:leading-none tracking-normal text-[#16150F]">
+                <dd className="font-heading text-3xl lg:text-5xl leading-none tracking-normal text-[#16150F]">
                   {stat.value}
                 </dd>
 
-                <dt className="font-heading text-[11px] lg:text-[12px] 2xl:text-[14px] uppercase leading-[1.375] tracking-[0.165em] text-black/60">
+                <dt className="font-heading text-[11px] lg:text-xs uppercase leading-[1.375] tracking-[0.165em] text-black/60">
                   {stat.label}
                 </dt>
 
@@ -158,7 +158,7 @@ export function BehindTheJourneySection({ className }) {
                     and colour are stated. 14px is the frame's; 16 from 2xl is
                     the text-small token's own value, which is where the rest of
                     the site's small copy lands at that width. */}
-                <p className="max-w-[216px] text-[13px] lg:text-[14px] 2xl:text-[16px] font-normal leading-[1.5] text-black/80">
+                <p className="max-w-[216px] text-[13px] lg:text-sm font-normal leading-[1.5] text-black/80">
                   {stat.note}
                 </p>
               </div>

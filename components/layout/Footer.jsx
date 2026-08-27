@@ -54,7 +54,7 @@ export function Footer() {
 
   return (
     <footer className="relative z-10 bg-black text-white">
-      <Container className="py-16 lg:py-20">
+      <Container className="py-16 lg:max-xl:py-16 xl:max-2xl:py-18 2xl:py-20">
         <div className="flex flex-col gap-12 max-sm:gap-8 lg:flex-row lg:items-start lg:justify-between">
           <div className="flex max-sm:flex-row max-sm:items-start max-sm:justify-between flex-col gap-6">
             <Link

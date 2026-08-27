@@ -137,11 +137,11 @@ export function DestinationsSection({
                 </div>
 
                 {/* Desktop Text (Outside image) */}
-                <div className="mt-3 max-lg:hidden">
-                  <h3 className="font-heading text-[24px] leading-none text-navy transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-sky group-hover:translate-x-2">
+                <div className="mt-3 lg:max-xl:mt-[6px] xl:max-2xl:mt-[8px] 2xl:mt-3 max-lg:hidden">
+                  <h3 className="font-heading text-[24px] lg:max-xl:text-[17px] xl:max-2xl:text-[19px] 2xl:text-[24px] leading-none text-navy transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-sky group-hover:translate-x-2">
                     {destination.name}
                   </h3>
-                  <p className="font-light text-[16px] leading-6 text-black/80 mt-1 transition-all duration-700 delay-75 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:opacity-75 group-hover:translate-x-4">
+                  <p className="font-light text-[16px] lg:max-xl:text-[13.5px] xl:max-2xl:text-[13.5px] xl:max-2xl:leading-5 2xl:text-[16px] 2xl:leading-6 text-black/80 mt-1 lg:max-xl:mt-[1px] xl:max-2xl:mt-[2px] 2xl:mt-1 transition-all duration-700 delay-75 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:opacity-75 group-hover:translate-x-4">
                     {destination.caption}
                   </p>
                 </div>
