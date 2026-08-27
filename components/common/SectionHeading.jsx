@@ -24,6 +24,12 @@ export function SectionHeading({
   // in globals.css only reaches bare tags. Left unset, nothing changes.
   titleClassName,
   descriptionClassName,
+  // "center" (default): the description centres against the full height of a
+  // wrapping title, which reads fine when the two run close in length. "start"
+  // flushes both to the same top line instead — for a short description beside
+  // a long title, centering leaves it stranded in the middle of empty space;
+  // top-aligning anchors it to the title it belongs to.
+  rowAlign = "center",
 }) {
   const centered = align === "center";
 
@@ -55,7 +61,10 @@ export function SectionHeading({
           "flex flex-col gap-4",
           centered
             ? "items-center lg:gap-5 2xl:gap-[30px]"
-            : "md:flex-row md:items-center md:justify-between md:gap-8 lg:gap-6 2xl:gap-8",
+            : cn(
+                "md:flex-row md:justify-between md:gap-8 lg:gap-6 2xl:gap-8",
+                rowAlign === "start" ? "md:items-start" : "md:items-center",
+              ),
         )}
       >
         {/* Guarded: a heading block whose frame draws only an eyebrow over a

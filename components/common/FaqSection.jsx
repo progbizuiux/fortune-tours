@@ -14,6 +14,10 @@ export function FaqSection({
 }) {
   const [openIndex, setOpenIndex] = useState(0);
 
+  // No FAQs in the CMS means nothing to show — an empty accordion under a
+  // heading reads as a broken section, not an answered one.
+  if (!faqs.length) return null;
+
   return (
     <section className={cn("bg-white py-16 md:py-24 lg:py-[120px] relative z-10", className)}>
       <Container>
