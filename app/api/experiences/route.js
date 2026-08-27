@@ -19,7 +19,12 @@ export async function GET() {
       {
         status: 200,
         headers: {
-          "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+          /* NOT `s-maxage`: that parks the JSON in Vercel's edge CDN, which
+             revalidateTag() cannot purge — only the TTL or a redeploy clears
+             it, which is what kept published Strapi content off the live
+             site. The Strapi read underneath is still Data-Cached and tagged,
+             so this costs no extra round trip. */
+          "Cache-Control": "no-store, must-revalidate",
         },
       }
     );

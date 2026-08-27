@@ -28,12 +28,13 @@ import { getDestinationPage, getDestinationSlugs } from "@/lib/strapi/kerala";
    the DEFAULT_REVALIDATE constant from lib/strapi/client.js. */
 export const revalidate = 3600;
 
-/* Only the slugs the CMS actually holds get rendered; anything else 404s
-   rather than being built on demand. That matters here because the site links
-   to destinations that have no entry yet — the home page's cards point at
-   /destinations/japan, /switzerland and /norway — and a 404 is the honest
-   answer for those until someone writes the content. */
-export const dynamicParams = false;
+/* Deliberately NOT `dynamicParams = false`. Locking the route to the slugs
+   known at build time is what made a newly published destination
+   unreachable until someone redeployed: generateStaticParams runs once, at
+   build, so an entry published afterwards was never in the allowlist — and
+   no amount of tag revalidation can add a param to a closed list. The
+   honest 404 still happens one level down, where getDestinationPage()
+   returns null and the page calls notFound(). */
 
 export async function generateStaticParams() {
   const slugs = await getDestinationSlugs();
