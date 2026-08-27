@@ -143,6 +143,9 @@ export function PlanMyTripSection({
   questions = {},
   options = {},
   labels = {},
+  /* The line under the buttons. A prop rather than markup because it is copy,
+     and every other word in this wizard is already editable in the CMS. */
+  reassuranceText = "Personalised recommendations · Expert guidance · No obligation",
   successTitle,
   successMessage = "Your journey brief is with our travel designers. Expect personalised recommendations from a real person — usually within a day, always with no obligation.",
 }) {
@@ -650,7 +653,7 @@ export function PlanMyTripSection({
                   step === 0 ? "md:text-left" : "md:text-center",
                 )}
               >
-                Personalised recommendations · Expert guidance · No obligation
+                {reassuranceText}
               </p>
               <FrameButton
                 variant="option"
