@@ -44,6 +44,10 @@ const TAGS_BY_MODEL = {
   experience: EXPERIENCES_TAGS,
 };
 
+/* Every tag the app uses, derived from the mapping so it cannot drift out of
+   sync with it. The fallback for unmapped models. */
+const ALL_TAGS = [...new Set(Object.values(TAGS_BY_MODEL).flat())];
+
 export async function POST(request) {
   const secret = process.env.STRAPI_REVALIDATE_SECRET;
 
@@ -69,21 +73,28 @@ export async function POST(request) {
 
   const payload = await request.json().catch(() => null);
   const model = payload?.model;
-  const tags = model ? TAGS_BY_MODEL[model] : undefined;
+  const mapped = model ? TAGS_BY_MODEL[model] : undefined;
 
-  /* An unmapped model is not an error — Strapi fires webhooks for every
-     content type, and answering 200 keeps unrelated publishes from showing up
-     as failures in the webhook log. */
-  if (!tags) {
-    return NextResponse.json({ revalidated: false, ignored: model ?? null });
-  }
+  /* An unmapped model drops EVERY tag rather than doing nothing.
+   *
+   * The mapping above is hand-maintained, so it drifts: add a content type in
+   * Strapi, forget to add it here, and that content silently serves stale for
+   * the whole revalidate window with no error anywhere to notice. That already
+   * happened once with experiences. Guessing wrong in this direction costs one
+   * extra background regeneration on the next visit; guessing wrong in the
+   * other direction costs an hour of stale content and a support question.
+   *
+   * `fellThrough` in the response is the signal to add the model above — the
+   * site is correct either way, this just keeps invalidation targeted. */
+  const tags = mapped ?? ALL_TAGS;
 
   for (const tag of tags) revalidateTag(tag);
 
   return NextResponse.json({
     revalidated: true,
-    model,
+    model: model ?? null,
     tags,
+    fellThrough: !mapped,
     event: payload?.event ?? null,
   });
 }
