@@ -6,7 +6,7 @@ import { AtAGlanceSection } from "@/components/common/AtAGlanceSection";
 import { FeatureRows } from "@/components/common/FeatureRows";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { Container } from "@/components/common/Container";
-import { RegionFeaturesSection } from "@/components/destinations/RegionFeaturesSection";
+import { RegionFeaturesSection } from "@/components/common/RegionFeaturesSection";
 import { PlanMyTripSection } from "@/components/plan-my-trip/PlanMyTripSection";
 import { FaqSection } from "@/components/common/FaqSection";
 // Temporary static mockup until CMS integration

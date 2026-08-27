@@ -2,7 +2,7 @@ import { BehindTheJourneySection } from "@/components/about/BehindTheJourneySect
 import { ServicesSection } from "@/components/about/ServicesSection";
 import { TeamSection } from "@/components/about/TeamSection";
 import { PageHero } from "@/components/common/PageHero";
-import { WhyTravelSection } from "@/components/common/WhyTravelSection";
+import { RegionFeaturesSection } from "@/components/common/RegionFeaturesSection";
 import { FeatureRows } from "@/components/common/FeatureRows";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { CredentialsSection } from "@/components/common/CredentialsSection";
@@ -113,11 +113,11 @@ export default function AboutUsPage() {
         <BehindTheJourneySection />
       </div>
 
-      <WhyTravelSection
+      <RegionFeaturesSection
         eyebrow="More Than A Booking"
         title="What We Bring Together"
         description="A great journey is made up of many details. We bring them together so every part works naturally with the next."
-        items={BRING_TOGETHER_ITEMS}
+        features={BRING_TOGETHER_ITEMS}
       />
 
       <section className="bg-white pt-24 md:pt-32 xl:pt-[150px]">
