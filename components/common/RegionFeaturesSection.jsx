@@ -48,6 +48,10 @@ export function RegionFeaturesSection({
   description = "Visa rules, health precautions, park permits and long distances between destinations all need careful handling. Our experience helps take that complexity away.",
   features = FALLBACK_FEATURES,
 }) {
+  const activeFeatures = (features || []).filter(
+    (feature) => feature && feature.title && feature.title.trim() !== ""
+  );
+
   return (
     <section className="relative z-10 bg-[#FAF7F2] spacing">
       <Container>
@@ -62,14 +66,14 @@ export function RegionFeaturesSection({
       </Container>
 
       {/* Features Grid */}
-      <div className="w-full px-4 md:px-8 lg:px-[80px] mt-[95px]">
+      <div className="w-full px-4 md:px-8 lg:px-[80px] mt-[95px] lg:max-xl:mt-[50px] xl:max-2xl:mt-[70px] 2xl:mt-[95px]">
         <div className={cn(
           "flex flex-wrap justify-center gap-y-12 max-w-[1920px] mx-auto"
         )}>
-          {features.map((feature, i) => {
+          {activeFeatures.map((feature, i) => {
             // If we have > 4 items (e.g. 6), we hide the last 2 on mobile/tablet.
-            const hideOnSmall = features.length > 4 && i >= features.length - 2;
-            const visibleOnSmallCount = features.length > 4 ? features.length - 2 : features.length;
+            const hideOnSmall = activeFeatures.length > 4 && i >= activeFeatures.length - 2;
+            const visibleOnSmallCount = activeFeatures.length > 4 ? activeFeatures.length - 2 : activeFeatures.length;
 
             // Determine if the item is in the last row for each breakpoint
             const isLastRowMobile = i === visibleOnSmallCount - 1; // 1 col (max-md)
@@ -86,7 +90,7 @@ export function RegionFeaturesSection({
                 key={i}
                 className={cn(
                   "w-full md:w-1/2 lg:w-1/3",
-                  XL_WIDTHS[features.length] ?? "xl:w-1/6",
+                  XL_WIDTHS[activeFeatures.length] ?? "xl:w-1/6",
                   "flex flex-col items-center justify-start xl:justify-between text-center px-[22px] h-full pt-2",
                   hideOnSmall && "max-lg:hidden",
                   // Vertical borders

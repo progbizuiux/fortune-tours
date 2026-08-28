@@ -19,7 +19,7 @@ export function CarouselArrow({ direction = "next", className, ...props }) {
       )}
       {...props}
     >
-      <Chevron className="size-[18px]" strokeWidth={1.5} aria-hidden="true" />
+      <Chevron className="size-[18px] lg:max-xl:size-[14px] xl:max-2xl:size-[16px] 2xl:size-[18px]" strokeWidth={1.5} aria-hidden="true" />
     </FrameButton>
   );
 }

@@ -43,7 +43,7 @@ export function FaqSection({
   if (!items?.length) return null;
 
   return (
-    <section aria-label={title || "Frequently asked questions"} className="spacing">
+    <section aria-label={title || "Frequently asked questions"} className="spacing lg:max-xl:pt-[20px] xl:max-2xl:pt-[30px]">
       <Container>
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-20">
           {/* 40% against the accordion's 60%, the split the rest of this page

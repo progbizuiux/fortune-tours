@@ -146,11 +146,11 @@ export function CardCarouselSection({
                   />
                 )}
               </div>
-              <div className="flex max-w-[323px] flex-col gap-[20px]">
-                <h3 className="font-heading text-[24px] leading-[1] font-normal text-black">
+              <div className="flex max-w-[323px] flex-col gap-[20px] lg:max-xl:gap-[12px] xl:max-2xl:gap-[15px] 2xl:gap-[20px] lg:max-xl:flex-1 xl:max-2xl:flex-1 2xl:flex-initial">
+                <h3 className="font-heading text-[24px] leading-[1] font-normal text-black lg:max-xl:text-[19px] lg:max-xl:leading-[24px] xl:max-2xl:text-[21px] xl:max-2xl:leading-[26px] 2xl:text-[24px] 2xl:leading-[1]">
                   {item.title}
                 </h3>
-                <p className="font-sans text-[16px] leading-[1.5] font-light text-black/80">
+                <p className="font-sans text-[16px] leading-[1.5] font-light text-black/80 lg:max-xl:text-[13.5px] lg:max-xl:leading-[19px] xl:max-2xl:text-[14.5px] xl:max-2xl:leading-[21px] 2xl:text-[16px] 2xl:leading-[1.5] lg:max-xl:mt-auto xl:max-2xl:mt-auto 2xl:mt-0">
                   {item.description}
                 </p>
               </div>

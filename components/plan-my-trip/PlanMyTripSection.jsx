@@ -36,7 +36,7 @@ const BACKGROUND_IMAGE = "/destinations/africa.png";
    white-on-dark set — without it Chrome draws a near-black calendar icon on
    the black panel. */
 const INPUT_CLASSES =
-  "mt-4 w-full border-b border-white/40 bg-transparent pb-3 text-body font-light text-white transition-colors placeholder:text-white/40 focus:border-white focus:outline-none [color-scheme:dark]";
+  "mt-4 w-full border-b border-white/40 bg-transparent pb-3 text-body lg:max-xl:text-[13px] xl:max-2xl:text-[14.5px] 2xl:text-body font-light text-white transition-colors placeholder:text-white/40 focus:border-white focus:outline-none [color-scheme:dark]";
 
 /* A question heading with its answers beneath it. The group is labelled by
    the visible heading, and a group-level error (unanswered chips) is read
@@ -104,7 +104,7 @@ function Field({ id, label, error, className, children }) {
     <div className={className}>
       <label
         htmlFor={id}
-        className="font-top text-small font-light tracking-[0.35em] text-white/85 uppercase"
+        className="font-top text-small font-light tracking-[0.35em] text-white/85 uppercase lg:max-xl:text-[11px] xl:max-2xl:text-[12.5px] 2xl:text-small"
       >
         {label}
       </label>
@@ -370,7 +370,7 @@ export function PlanMyTripSection({
                 ? successTitle.replace("{name}", submittedName)
                 : `Thank you, ${submittedName}.`}
             </h3>
-            <p className="mt-6 max-w-[560px] text-white/80">
+            <p className="mt-6 max-w-[560px] text-white/80 lg:max-xl:text-[13px] xl:max-2xl:text-[14.5px] 2xl:text-body">
               {successMessage}
             </p>
           </div>
@@ -394,7 +394,7 @@ export function PlanMyTripSection({
                       aria-current={index === step ? "step" : undefined}
                       aria-label={`Step ${index + 1}: ${planStep.label}`}
                       className={cn(
-                        "text-body transition-colors",
+                        "text-body lg:max-xl:text-[13px] xl:max-2xl:text-[14.5px] 2xl:text-body transition-colors",
                         index === step && "text-white",
                         index < step &&
                           "cursor-pointer text-white/70 hover:text-white",
@@ -406,7 +406,7 @@ export function PlanMyTripSection({
                   ))}
                 </div>
                 {/* Figma: 50px between "Step 01" and the step name. */}
-                <p className="flex min-w-0 items-baseline gap-5 md:gap-[50px]">
+                <p className="flex min-w-0 items-baseline gap-5 md:gap-[50px] lg:max-xl:text-[13px] xl:max-2xl:text-[14.5px] 2xl:text-body">
                   <span className="shrink-0 text-white/90">
                     {stepWordLabel} {stepNumber}
                   </span>
@@ -505,7 +505,7 @@ export function PlanMyTripSection({
                     id="question-duration"
                     title={questions.duration ?? "How long would you like to travel?"}
                     error={errors.duration?.message}
-                    className="mt-10 md:mt-12 lg:mt-20"
+                    className="mt-10 md:mt-12 lg:mt-20 lg:max-xl:mt-10 xl:max-2xl:mt-14 2xl:mt-20"
                   >
                     <OptionChips
                       options={options.duration ?? DURATION_OPTIONS}
@@ -536,7 +536,7 @@ export function PlanMyTripSection({
                     id="question-interests"
                     title={questions.interests ?? "What inspires you?"}
                     error={errors.interests?.message}
-                    className="mt-10 md:mt-12 lg:mt-20"
+                    className="mt-10 md:mt-12 lg:mt-20 lg:max-xl:mt-10 xl:max-2xl:mt-14 2xl:mt-20"
                   >
                     <OptionChips
                       options={options.interests ?? INTEREST_OPTIONS}
@@ -575,7 +575,7 @@ export function PlanMyTripSection({
                     </Field>
                   </QuestionGroup>
 
-                  <div className="mt-14 grid gap-10 md:mt-20 md:grid-cols-3 md:gap-12 xl:gap-16">
+                  <div className="mt-14 grid gap-10 md:mt-20 lg:max-xl:mt-10 xl:max-2xl:mt-14 2xl:mt-20 md:grid-cols-3 md:gap-12 lg:max-xl:gap-8 xl:max-2xl:gap-10 2xl:gap-16">
                     <Field
                       id="name"
                       label={labels.name ?? "Name"}
@@ -649,7 +649,7 @@ export function PlanMyTripSection({
               )}
               <p
                 className={cn(
-                  "order-last w-full text-center text-white/80 md:order-none md:w-auto md:flex-1",
+                  "order-last w-full text-center text-white/80 md:order-none md:w-auto md:flex-1 lg:max-xl:text-[13px] xl:max-2xl:text-[14.5px] 2xl:text-body",
                   step === 0 ? "md:text-left" : "md:text-center",
                 )}
               >
