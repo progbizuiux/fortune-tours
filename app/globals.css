@@ -153,8 +153,12 @@
     --text-h3: 22px;
     --text-h4: 15px;
     --text-body: 14px;
-    --text-nav: 14px;
+    --text-nav: 12.5px;
     --text-small: 13px;
+  }
+  header {
+    --text-body: 12.5px;
+    --text-small: 11.5px;
   }
 }
 
@@ -166,8 +170,12 @@
     --text-h3: 25px;
     --text-h4: 16.5px;
     --text-body: 15px;
-    --text-nav: 14.5px;
+    --text-nav: 13.5px;
     --text-small: 13.5px;
+  }
+  header {
+    --text-body: 13.5px;
+    --text-small: 12.5px;
   }
 }
 

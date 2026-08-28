@@ -71,11 +71,14 @@ export function PackageCard({
       className={cn(
         "group flex flex-col overflow-hidden border border-black/10 bg-white",
         className,
+        "lg:max-xl:max-w-[320px] lg:max-xl:mx-auto lg:max-xl:w-full",
+        "xl:max-2xl:max-w-[330px] xl:max-2xl:mx-auto xl:max-2xl:w-full",
+        "2xl:max-w-none",
       )}
     >
       <div
         data-cascade-picture={cascade ? "" : undefined}
-        className={cn("relative w-full overflow-hidden", imageAspectClassName)}
+        className={cn("relative w-full overflow-hidden", imageAspectClassName, "lg:max-2xl:aspect-[460/320]")}
       >
         <Image
           src={image}
@@ -86,7 +89,7 @@ export function PackageCard({
         />
       </div>
 
-      <div className={cn("flex flex-1 flex-col", contentClassName)}>
+      <div className={cn("flex flex-1 flex-col", contentClassName, "lg:max-2xl:px-[16px] lg:max-2xl:pt-[12px] lg:max-2xl:pb-[24px] 2xl:px-[33px] 2xl:pb-[35px]")}>
         <h3
           className={cn(
             "font-heading mb-[20px] text-[18px] leading-[30px] font-normal text-black lg:mb-[60px] lg:max-xl:text-[27px] xl:max-2xl:text-[30px] 2xl:text-[32px]",

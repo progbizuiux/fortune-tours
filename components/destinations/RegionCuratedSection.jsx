@@ -137,7 +137,7 @@ export function RegionCuratedSection({
                   <h3 className="text-white max-sm:text-[24px] md:text-[28px] lg:max-xl:text-[27px] xl:max-2xl:text-[30px] 2xl:text-[32px] leading-none tracking-[-0.01em]">
                     {place.title}
                   </h3>
-                  <p className="mt-3 max-sm:mt-1 max-sm:text-[14px] text-[16px] lg:max-xl:text-[14px] xl:max-2xl:text-[15px] 2xl:text-[16px] leading-6 font-normal text-white/80 transition-colors duration-500 group-hover:text-white max-w-[80%]">
+                  <p className="mt-3 max-sm:mt-1 max-sm:text-[14px] text-[16px] lg:max-xl:text-[14px] xl:max-2xl:text-[15px] 2xl:text-[16px] leading-6 font-normal text-white/80 transition-colors duration-500 group-hover:text-white max-w-[80%] xl:max-2xl:hidden 2xl:block">
                     {place.description}
                   </p>
                 </div>

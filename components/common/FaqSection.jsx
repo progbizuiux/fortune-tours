@@ -19,7 +19,7 @@ export function FaqSection({
   if (!faqs.length) return null;
 
   return (
-    <section className={cn("bg-white py-16 md:py-24 lg:max-xl:py-[90px] xl:max-2xl:py-[105px] 2xl:py-[120px] relative z-10", className)}>
+    <section className={cn("bg-white pt-16 pb-16 md:pt-24 md:pb-24 lg:max-xl:pt-[45px] lg:max-xl:pb-[90px] xl:max-2xl:pt-[55px] xl:max-2xl:pb-[105px] 2xl:pt-[120px] 2xl:pb-[120px] relative z-10", className)}>
       <Container>
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 xl:gap-[120px]">
           {/* Left Column */}

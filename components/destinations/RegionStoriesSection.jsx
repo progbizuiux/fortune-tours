@@ -30,7 +30,7 @@ const FALLBACK_STORIES = [
    behind it, both of which assume the pair sits over a photo. The chevron
    colour is the caller's — black when there is a story that way, dimmed when
    the end of the run is reached. */
-const ARROW_CLASS = "size-11 border-black/20 backdrop-blur-none";
+const ARROW_CLASS = "size-11 lg:max-xl:size-9 xl:max-2xl:size-10 2xl:size-11 border-black/20 backdrop-blur-none";
 
 export function RegionStoriesSection({
   eyebrow = "Traveller stories",
@@ -98,7 +98,7 @@ export function RegionStoriesSection({
           <div className="mt-6 flex w-full flex-col items-start gap-6 border-t-[0.5px] border-black/60 pt-8 sm:flex-row sm:items-center 2xl:ml-auto 2xl:max-w-[1374px]">
             {/* Figma rhythm across the row: 14px avatar → name, then 20px to
                 the rule and 20px again to the review badge. */}
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-5 lg:max-xl:gap-3 xl:max-2xl:gap-4">
               {/* 81px square, per the Figma measure. */}
               <div className="flex items-center gap-[14px]">
                 <Image
@@ -106,23 +106,23 @@ export function RegionStoriesSection({
                   alt={activeStory.author}
                   width={81}
                   height={81}
-                  className="size-[81px] shrink-0 object-cover"
+                  className="size-[81px] lg:max-xl:size-[60px] xl:max-2xl:size-[70px] 2xl:size-[81px] shrink-0 object-cover"
                 />
 
                 {/* text-body carries the Poppins 18px/24px light spec and
                     steps down on small screens with the rest of the site. */}
                 <div className="flex flex-col">
-                  <span className="text-body font-light tracking-[0.3em] text-black uppercase">
+                  <span className="text-body lg:max-xl:text-[13px] xl:max-2xl:text-[14.5px] 2xl:text-body font-light tracking-[0.3em] text-black uppercase">
                     {activeStory.author}
                   </span>
-                  <span className="text-body font-light text-black/60 lowercase">
+                  <span className="text-body lg:max-xl:text-[13px] xl:max-2xl:text-[14.5px] 2xl:text-body font-light text-black/60 lowercase">
                     {activeStory.meta}
                   </span>
                 </div>
               </div>
 
               {/* Figma: 46px rule, 1px, black at 40%. */}
-              <div className="hidden h-[46px] w-px bg-black/40 sm:block" />
+              <div className="hidden h-[46px] lg:max-xl:h-[32px] xl:max-2xl:h-[38px] 2xl:h-[46px] w-px bg-black/40 sm:block" />
 
               {/* Google mark over the star row — both are supplied artwork
                   rather than icon-font glyphs, so they match the review badge
@@ -133,7 +133,7 @@ export function RegionStoriesSection({
                   alt="Google"
                   width={24}
                   height={24}
-                  className="size-6 object-contain"
+                  className="size-6 lg:max-xl:size-4.5 xl:max-2xl:size-5 2xl:size-6 object-contain"
                 />
                 <div className="flex gap-[1px]">
                   {Array.from({ length: activeStory.rating }).map((_, i) => (
@@ -143,7 +143,7 @@ export function RegionStoriesSection({
                       alt=""
                       width={17}
                       height={18}
-                      className="h-[18px] w-[17px] object-contain"
+                      className="h-[18px] w-[17px] lg:max-xl:h-[13px] lg:max-xl:w-[12px] xl:max-2xl:h-[15px] xl:max-2xl:w-[14px] 2xl:h-[18px] 2xl:w-[17px] object-contain"
                     />
                   ))}
                 </div>

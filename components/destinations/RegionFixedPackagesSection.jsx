@@ -60,7 +60,7 @@ export function RegionFixedPackagesSection({
   };
 
   return (
-    <section className="relative z-10 bg-background spacing !pt-0">
+    <section className="relative z-10 bg-background spacing !pt-0 lg:max-xl:pb-[20px] xl:max-2xl:pb-[30px]">
       <Container>
         <SectionHeading
           align="center"
