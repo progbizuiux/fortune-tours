@@ -106,7 +106,7 @@ export function GalleryGridSection({
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 className="object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-105"
               />
-              
+
               {/* Subtle hover overlay for rich visual feedback */}
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 pointer-events-none" />
             </div>
