@@ -33,6 +33,7 @@ export function HeroSection({
       title={title}
       description={description}
       ctas={ctas?.length ? ctas : CTA_LINKS}
+      overlayClassName="bg-black/20"
     />
   );
 }
