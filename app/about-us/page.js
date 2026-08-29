@@ -139,7 +139,7 @@ export default function AboutUsPage() {
       <ServicesSection />
       <TeamSection />
       <CredentialsSection />
-      <OfficesSection />
+      <OfficesSection title="Five offices across Kerala." />
       
       {/* Journal Section relies on negative top margins by default to overlap the home page cloud bank.
           On the About Us page, we override it with 'mt-0!' so it sits naturally below the Offices section,

@@ -39,15 +39,20 @@ const OFFICES = [
   },
 ];
 
-export function OfficesSection() {
+export function OfficesSection({
+  eyebrow = "Branches",
+  title = "Where are we?",
+  description = "Walk in, or call the office nearest you. Someone will be there.",
+  className,
+}) {
   return (
-    <section className="bg-[#12110C] py-20 md:py-24 lg:max-xl:py-[45px] xl:max-2xl:py-[60px] 2xl:py-[130px] text-[#F9F7F2] overflow-hidden">
+    <section className={`bg-[#12110C] py-20 md:py-24 lg:max-xl:py-[45px] xl:max-2xl:py-[60px] 2xl:py-[130px] text-[#F9F7F2] overflow-hidden ${className || ""}`}>
       <Container className="!px-8 md:!px-16 lg:!px-[120px] xl:!px-[180px] 2xl:!px-[240px]">
         <SectionHeading
           align="center"
-          eyebrow="Branches"
-          title="Five offices across Kerala."
-          description="Walk in, or call the office nearest you. Someone will be there."
+          eyebrow={eyebrow}
+          title={title}
+          description={description}
           eyebrowClassName="text-[#F9F7F2]/60"
           titleClassName="text-[#F9F7F2]"
           descriptionClassName="text-[#F9F7F2]/70"
