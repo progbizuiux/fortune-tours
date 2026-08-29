@@ -82,8 +82,8 @@ export function SectionHeading({
             !centered && "max-w-[730px]",
             titleClassName,
           )}
-        >
-          {title}
+          
+        >{title}
         </h2>
         )}
         {description && (
