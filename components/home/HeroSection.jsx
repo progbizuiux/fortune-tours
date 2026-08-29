@@ -18,7 +18,7 @@ const DEFAULT_EYEBROW = "Fortune Tours & Travels — Est. 1998";
 const DEFAULT_TITLE = "The journey begins before you leave home.";
 const DEFAULT_DESCRIPTION =
   "Travel isn't measured by miles. It's measured by moments that stay with you forever.";
-const HERO_VIDEO = "/home-banner-asset/hero-bg.mp4";
+const HERO_VIDEO = "/home-banner-asset/hero-bg.mov"
 
 export function HeroSection({
   eyebrow = DEFAULT_EYEBROW,
