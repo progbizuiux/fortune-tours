@@ -32,9 +32,24 @@ export function ImageIntroSection({
   title,
   description,
   places = [],
+  /* The same row of copy over the picture's bottom edge, but as label/value
+     pairs instead of the region pages' plain place names — DURATION / "4 Days,
+     3 Nights" and its five siblings on the package detail frame.
+     `places` and `stats` are alternatives, not additions: they occupy the same
+     strip, so a caller passing both would stack two rows over one gradient.
+     `stats` wins if both arrive. Region pages pass neither key and are
+     untouched. */
+  stats = [],
   image,
   imageAlt = "",
   ariaLabel,
+  /* The picture box's own classes, merged over the frame's. The region pages
+     take the ratio below verbatim — it is measured off their 1920 frame — while
+     the package detail frame draws a taller crop over the same width, because
+     its stats row needs more room under the story than a single line of place
+     names does. Overriding here keeps that a caller's decision instead of a
+     second copy of this section. */
+  imageClassName,
   className,
 }) {
   return (
@@ -44,8 +59,16 @@ export function ImageIntroSection({
          so a transparent section scrolls over it and lets the hero show
          straight through this one's copy. The home page's DestinationsSection
          carries the same ground for the same reason. The token, not bg-white,
-         so the page ground stays defined in one place. */
-      className={cn("bg-background spacing !pb-0", className)}
+         so the page ground stays defined in one place.
+
+         `relative z-10` is what makes that ground actually paint. The hero is
+         `sticky z-0` — a POSITIONED box, so it paints in the positioned layer,
+         above the block backgrounds of every static sibling. A white background
+         alone therefore loses to it and the hero shows through this section's
+         gutters, which is precisely the bug this comment used to describe
+         without preventing. Every caller was passing `relative z-10` by hand to
+         work around it; it belongs here, where the next one cannot forget it. */
+      className={cn("bg-background relative z-10 spacing !pb-0", className)}
     >
       <Container>
         <SectionHeading 
@@ -67,7 +90,12 @@ export function ImageIntroSection({
               strip, so the box takes a min-height and grows with the text —
               object-cover re-crops the photograph to whatever height that
               lands on, which is the same trade the hero makes. */}
-          <div className="relative flex flex-col justify-end max-md:aspect-[3/4] max-md:max-h-[550px] md:max-xl:aspect-[16/9] xl:aspect-[1755/635] max-md:w-[calc(100%+2rem)] max-md:-ml-4 max-md:rounded-none md:w-full overflow-hidden md:rounded-sm">
+          <div
+            className={cn(
+              "relative flex flex-col justify-end max-md:aspect-[3/4] max-md:max-h-[550px] md:max-xl:aspect-[16/9] xl:aspect-[1755/635] max-md:w-[calc(100%+2rem)] max-md:-ml-4 max-md:rounded-none md:w-full overflow-hidden md:rounded-sm",
+              imageClassName,
+            )}
+          >
             <Image
               /* The prop, not a literal: this section renders all thirteen
                  regions, and the file below was Africa's. lib/strapi/destination.js
@@ -100,12 +128,45 @@ export function ImageIntroSection({
                   exactly at 1920, so only colour, measure and alignment are
                   stated here. */}
               {description && (
-                <p className="mx-auto max-w-[1236px] text-center text-white xl:text-body max-xl:text-[14px] max-md:text-[13px] max-xl:leading-[1.5] lg:max-xl:text-[13.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[14.5px] xl:max-2xl:leading-[1.4] 2xl:text-[18px] 2xl:leading-[24px] font-light">
+                /* whitespace-pre-line so a description written as two
+                   paragraphs keeps its break — the package frame's does. The
+                   region entries are single paragraphs, so this is inert for
+                   them. Same treatment AtAGlanceSection and FaqSection give
+                   their CMS copy. */
+                <p className="whitespace-pre-line mx-auto max-w-[1236px] text-center text-white xl:text-body max-xl:text-[14px] max-md:text-[13px] max-xl:leading-[1.5] lg:max-xl:text-[13.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[14.5px] xl:max-2xl:leading-[1.4] 2xl:text-[18px] 2xl:leading-[24px] font-light">
                   {description}
                 </p>
               )}
 
-              {places.length > 0 && (
+              {stats.length > 0 && (
+                /* Scrolls sideways below xl rather than wrapping: six pairs
+                   divided by rules read as one band, and a wrapped half-row
+                   under it does not. Same trade AtAGlanceSection makes. */
+                <div
+                  className={cn(
+                    "overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+                    description && "mt-7 lg:mt-[27px]",
+                  )}
+                >
+                  <ul className="flex min-w-max xl:min-w-0 xl:justify-center divide-x divide-white/25 text-white">
+                    {stats.map((stat) => (
+                      <li
+                        key={stat.label}
+                        className="shrink-0 px-5 lg:px-8 xl:px-10 first:pl-0 last:pr-0"
+                      >
+                        <p className="font-top text-[10px] lg:text-[11px] 2xl:text-[12px] uppercase tracking-[0.08em] text-white/60 leading-none">
+                          {stat.label}
+                        </p>
+                        <p className="mt-2 lg:mt-2.5 font-sans font-light whitespace-nowrap text-[14px] lg:text-[16px] xl:text-[18px] 2xl:text-[20px] leading-[1.3]">
+                          {stat.value}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {stats.length === 0 && places.length > 0 && (
                 <ul
                   className={cn(
                     "flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center text-white",
