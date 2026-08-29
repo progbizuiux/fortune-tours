@@ -38,8 +38,8 @@ export function FaqSection({
             )}
           </div>
 
-          {/* Right Column: Accordion */}
-          <div className="w-full lg:flex-1 mt-4 lg:mt-0">
+          {/* Right Column: Accordion - Vertically aligned with the heading */}
+          <div className={cn("w-full lg:flex-1 mt-4 lg:mt-0", eyebrow && "lg:mt-[42px] xl:mt-[50px] 2xl:mt-[52px]")}>
             <div className="flex flex-col">
               {faqs.map((faq, index) => {
                 const isOpen = openIndex === index;
