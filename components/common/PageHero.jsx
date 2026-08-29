@@ -31,6 +31,11 @@ export function PageHero({
   eyebrow,
   title,
   description,
+  /* A second, emphasised line under the description — the package detail
+     frame's "From INR 44,900 per person" sitting under its inclusions line.
+     Optional and unset everywhere else, so the home and destination heroes
+     render exactly as before. */
+  note,
   ctas = [],
   video,
   image,
@@ -149,7 +154,10 @@ export function PageHero({
           // the h2 token instead of HERO_HEADING's 52px step — the next size
           // down that already exists in the scale, so nothing new is invented
           // for this band. Below lg and from 2xl up are untouched.
-          className={`hero-heading ${HERO_HEADING} max-md:max-w-[400px] max-w-4xl lg:max-2xl:max-w-[620px] lg:max-2xl:text-h2 text-white opacity-0`}
+          /* whitespace-pre-line honours a deliberate break in the title — the
+             package frame sets its two lines explicitly — and still wraps on
+             overflow, so the single-line home and region titles are unaffected. */
+          className={`hero-heading ${HERO_HEADING} whitespace-pre-line max-md:max-w-[400px] max-w-4xl lg:max-2xl:max-w-[620px] lg:max-2xl:text-h2 text-white opacity-0`}
         >
           {title}
         </h1>
@@ -159,6 +167,16 @@ export function PageHero({
         >
           {description}
         </p>
+
+        {note && (
+          /* Shares the description's entrance class so the two lines arrive
+             together rather than as two separate beats. */
+          <p
+            className={`hero-description ${HERO_BODY} max-md:max-w-[313px] max-w-lg font-medium text-white opacity-0 max-md:px-4 -mt-4 max-md:-mt-2`}
+          >
+            {note}
+          </p>
+        )}
 
         <div className="hero-cta mt-4 flex flex-nowrap items-center justify-center max-md:gap-4 gap-x-6 gap-y-3 max-md:text-[13px] max-md:leading-6 text-body text-white/90 opacity-0">
           {ctas.map((link) => (

@@ -185,6 +185,26 @@ body {
   font-family: var(--font-sans);
 }
 
+/* ── Navbar ink ───────────────────────────────────────────────────────── */
+/* A page that opens on a light ground can ask for the bar's links in black
+   rather than the navy the solid bar normally carries. Opt-in through a marker
+   element — the same way [data-navbar-solid-from] tells the bar WHEN to turn
+   solid — so the shared components/layout/Navbar.jsx needs no per-page branch
+   and every other page is untouched. See app/journal/page.js.
+
+   Scoped to the main bar by its aria-label, not by class: the dropdown sheets
+   that hang off the header carry their own links and are not this rule's
+   business. The hover rule is stated too, because this selector outranks the
+   utility class the navbar sets its hover colour with. */
+body:has([data-navbar-ink="black"]) nav[aria-label="Main"] a {
+  color: #000;
+}
+
+body:has([data-navbar-ink="black"]) nav[aria-label="Main"] a:hover {
+  color: #000;
+  opacity: 0.6;
+}
+
 /* ── Cloud marquee ────────────────────────────────────────────────── */
 @keyframes marquee {
   0%   { transform: translateX(0); }
