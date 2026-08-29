@@ -45,7 +45,7 @@ export function ImageIntroSection({
          straight through this one's copy. The home page's DestinationsSection
          carries the same ground for the same reason. The token, not bg-white,
          so the page ground stays defined in one place. */
-      className={cn("bg-background spacing", className)}
+      className={cn("bg-background spacing !pb-0", className)}
     >
       <Container>
         <SectionHeading 
@@ -100,7 +100,7 @@ export function ImageIntroSection({
                   exactly at 1920, so only colour, measure and alignment are
                   stated here. */}
               {description && (
-                <p className="mx-auto max-w-[1236px] text-center text-white xl:text-body max-xl:text-[14px] max-md:text-[13px] max-xl:leading-[1.5] font-light">
+                <p className="mx-auto max-w-[1236px] text-center text-white xl:text-body max-xl:text-[14px] max-md:text-[13px] max-xl:leading-[1.5] lg:max-xl:text-[13.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[14.5px] xl:max-2xl:leading-[1.4] 2xl:text-[18px] 2xl:leading-[24px] font-light">
                   {description}
                 </p>
               )}
@@ -118,7 +118,7 @@ export function ImageIntroSection({
                       {/* Between items, never before the first — the frame
                           draws four marks across five places. */}
                       {i > 0 && <PlaceMark />}
-                      <span className="xl:text-body max-xl:text-[14px] max-md:text-[13px] max-xl:leading-[1.5] font-light">
+                      <span className="xl:text-body max-xl:text-[14px] max-md:text-[13px] max-xl:leading-[1.5] lg:max-xl:text-[13.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[14.5px] xl:max-2xl:leading-[1.4] 2xl:text-[18px] 2xl:leading-[24px] font-light">
                         {place}
                       </span>
                     </li>

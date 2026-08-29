@@ -10,7 +10,7 @@ export function AtAGlanceSection({
   className,
 }) {
   return (
-    <section className={cn("bg-cream py-16 md:py-24 lg:max-xl:py-[75px] xl:max-2xl:py-[85px] 2xl:py-[100px] relative z-10", className)}>
+    <section className={cn("bg-cream spacing relative z-10", className)}>
       <Container>
         <SectionHeading
           align="center"
@@ -22,7 +22,15 @@ export function AtAGlanceSection({
         />
 
         <div className="mt-16 md:mt-20 lg:mt-[95px] w-full max-w-[1920px] mx-auto overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-4">
-          <ul className="flex min-w-max xl:min-w-0 xl:grid xl:grid-cols-6 divide-x divide-black/10">
+          <ul className={cn(
+            "flex min-w-max xl:min-w-0 xl:grid divide-x divide-black/10",
+            stats.length === 1 && "xl:grid-cols-1 xl:max-w-[400px] xl:mx-auto",
+            stats.length === 2 && "xl:grid-cols-2 xl:max-w-[800px] xl:mx-auto",
+            stats.length === 3 && "xl:grid-cols-3 xl:max-w-[1200px] xl:mx-auto",
+            stats.length === 4 && "xl:grid-cols-4 xl:max-w-[1500px] xl:mx-auto",
+            stats.length === 5 && "xl:grid-cols-5 xl:max-w-[1700px] xl:mx-auto",
+            (stats.length >= 6 || stats.length === 0) && "xl:grid-cols-6"
+          )}>
             {stats.map((stat, i) => (
               <li
                 key={stat.label}

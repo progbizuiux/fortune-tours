@@ -27,9 +27,7 @@ export function RegionDestinationsSection({
   destinations = FALLBACK_DESTINATIONS,
   className,
 }) {
-  const [showAll, setShowAll] = useState(false);
-  const visibleDestinations = showAll ? destinations : destinations.slice(0, 8);
-  const hasMore = destinations.length > 8 && !showAll;
+  const visibleDestinations = destinations;
 
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef(null);
@@ -105,14 +103,7 @@ export function RegionDestinationsSection({
           ))}
         </div>
 
-        {/* View More Button */}
-        {hasMore && (
-          <div className="mt-12 flex justify-center">
-            <Button variant="outline" onClick={() => setShowAll(true)}>
-              {viewMoreLabel}
-            </Button>
-          </div>
-        )}
+
       </div>
     </section>
   );
