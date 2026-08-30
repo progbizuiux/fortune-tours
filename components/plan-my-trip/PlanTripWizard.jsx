@@ -81,6 +81,7 @@ function OptionBox({ label, active, onToggle, className }) {
         )}
       />
       {label}
+      
     </button>
   );
 }
