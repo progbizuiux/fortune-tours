@@ -7,6 +7,7 @@ import { ItinerarySection } from "@/components/packages/ItinerarySection";
 import { InclusionsSection } from "@/components/packages/InclusionsSection";
 import { DocumentsSection } from "@/components/packages/DocumentsSection";
 import { CancellationSection } from "@/components/packages/CancellationSection";
+import { BookingCtaSection } from "@/components/packages/BookingCtaSection";
 import { getPackage, getPackageParams } from "@/lib/packages";
 
 /* One route for every package — /destinations/kerala/lakshadweep-agatti-kalpitti
@@ -82,20 +83,12 @@ export default async function PackagePage({ params }) {
       <InclusionsSection {...entry.inclusions} />
       <DocumentsSection {...entry.documents} />
       <CancellationSection {...entry.cancellation} />
+      {/* The closing "hold your seat" band, between the cancellation table and
+          the FAQ. Its own short photo strip rather than a second PageHero —
+          see the note in the component for why the opening frame is wrong
+          halfway down a page. Copy comes from the CMS `ctaSection`. */}
+      <BookingCtaSection {...entry.cta} />
       <FaqSection {...entry.faq} />
-      {/* The closing booking banner. The same frame as the opening hero, drawn
-          at the foot of the page. Rendered only when the CMS carries it: it has
-          no copy in lib/packages.js to fall back to, and PageHero requires a
-          title.
-
-          `relative z-10` overrides the frame's own `sticky top-0 z-0`, which is
-          what an opening hero needs and exactly wrong for a closing one: pinned
-          at the top of the viewport it sits UNDER every section above it — all
-          of which are z-10 and paint over it — so it never comes into view. At
-          the foot it has to scroll with the page like any other section. */}
-      {entry.cta?.title && (
-        <PageHero {...entry.cta} className="relative z-10" />
-      )}
     </>
   );
 }
