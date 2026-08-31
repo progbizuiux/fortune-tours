@@ -30,14 +30,18 @@ export function PackageCard({
   alt,
   className,
   imageAspectClassName = "aspect-[348/329] md:aspect-[460/423]",
-  metaClassName =
-    "text-[13px] leading-[1.4] lg:max-xl:text-[14.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[15px] xl:max-2xl:leading-[1.4] 2xl:text-[16px] 2xl:leading-[20px] text-black/80 mb-[10px] lg:mb-[12px]",
+  metaClassName = "text-[13px] leading-[1.4] lg:max-xl:text-[14.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[15px] xl:max-2xl:leading-[1.4] 2xl:text-[16px] 2xl:leading-[20px] text-black/80 mb-[10px] lg:mb-[12px]",
   // 15 from the picture to the title and 12 in from each edge, per the redline.
   contentClassName = "px-[12px] pt-[15px] pb-[16px] md:pb-[35px]",
   // Caller-supplied overrides for the two blocks the props above do not reach.
   // Left unset, both render exactly as they always have.
   titleClassName,
   experiencesClassName,
+  /* The label above the list. A prop because the CMS carries it as a field
+     (`experiencesLabel` on the packages section) and an editor writing
+     "HIGHLIGHTS" should get it — the design's own line is the default, so
+     every call site that does not pass one is unchanged. */
+  experiencesLabel = "EXPERIENCES:",
   sizes = "(min-width: 1280px) 460px, 85vw",
   /* Opt in to the scroll-in cascade (lib/gsap/useCardCascade.js), which needs the
      hooks below to find the three parts that move. Off by default, so Kerala's
@@ -78,7 +82,11 @@ export function PackageCard({
     >
       <div
         data-cascade-picture={cascade ? "" : undefined}
-        className={cn("relative w-full overflow-hidden", imageAspectClassName, "lg:max-2xl:aspect-[460/320]")}
+        className={cn(
+          "relative w-full overflow-hidden",
+          imageAspectClassName,
+          "lg:max-2xl:aspect-[460/320]",
+        )}
       >
         <Image
           src={image}
@@ -89,7 +97,13 @@ export function PackageCard({
         />
       </div>
 
-      <div className={cn("flex flex-1 flex-col", contentClassName, "lg:max-2xl:px-[16px] lg:max-2xl:pt-[12px] lg:max-2xl:pb-[24px] 2xl:px-[33px] 2xl:pb-[35px]")}>
+      <div
+        className={cn(
+          "flex flex-1 flex-col",
+          contentClassName,
+          "lg:max-2xl:px-[16px] lg:max-2xl:pt-[12px] lg:max-2xl:pb-[24px] 2xl:px-[33px] 2xl:pb-[35px]",
+        )}
+      >
         <h3
           className={cn(
             "font-heading mb-[20px] text-[18px] leading-[30px] font-normal text-black lg:mb-[60px] lg:max-xl:text-[27px] xl:max-2xl:text-[30px] 2xl:text-[32px]",
@@ -102,11 +116,7 @@ export function PackageCard({
 
         <div className="mt-auto">
           <p className={cn("font-sans font-light", clamp2, metaClassName)}>
-            {cascade ? (
-              <CascadeText part="subtitle">{meta}</CascadeText>
-            ) : (
-              meta
-            )}
+            {cascade ? <CascadeText part="subtitle">{meta}</CascadeText> : meta}
           </p>
 
           <p
@@ -115,7 +125,7 @@ export function PackageCard({
               experiencesClassName,
             )}
           >
-            EXPERIENCES:
+            {experiencesLabel}
           </p>
           <p
             className={cn(
