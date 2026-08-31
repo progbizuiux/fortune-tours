@@ -37,8 +37,32 @@ const PACKAGES = [
 /* Content comes from lib/strapi/kerala.js via the page; PACKAGES above is the
    fallback. The CMS stores duration and the place list as separate fields —
    the normaliser is what joins them into the card's single meta line. */
-/* The single-departure card: picture left, copy right, centred at the width
-   of two grid cards.
+/* The section's call to action, drawn in one place because it now has two
+   homes: inside the solo card, and under a row of them.
+
+   A link when the entry names one, the inert framed button when it does not —
+   Kerala's entry fills the label only, and turning that into an <a href="#">
+   would put a dead link on the page. */
+function PackageCta({ label, href }) {
+  if (!label) return null;
+
+  return href ? (
+    <CtaLink
+      href={href}
+      fill
+      className="text-body border-navy/20 text-black max-md:text-[13px] max-md:min-h-11 border-x px-5"
+    >
+      {label}
+    </CtaLink>
+  ) : (
+    <FrameButton variant="rail" className="max-md:text-[13px]">
+      {label}
+    </FrameButton>
+  );
+}
+
+/* The single-departure card: picture left, copy right, an even split from md,
+   centred at the width of two grid cards.
  *
  * Not a PackageCard variant. That card is a vertical box shared with the
  * honeymoon section, and its whole layout — the picture on top, the mt-auto
@@ -49,7 +73,8 @@ const PACKAGES = [
  * the two read as the same card at two sizes.
  *
  * The copy runs from the top rather than bottom-pinned: there is no sibling
- * card for its baselines to agree with. */
+ * card for its baselines to agree with. Only the CTA is bottom-pinned, and to
+ * this card's own picture rather than to a neighbour. */
 function SoloPackageCard({
   title,
   meta,
@@ -57,23 +82,29 @@ function SoloPackageCard({
   experiencesLabel = "EXPERIENCES:",
   image,
   alt,
+  ctaLabel,
+  ctaHref,
 }) {
   return (
     <article className="mx-auto flex max-w-[560px] flex-col border border-black/10 bg-white md:max-w-[720px] md:flex-row lg:max-xl:max-w-[680px] xl:max-w-[760px] 2xl:max-w-[880px]">
-      {/* Stacked below md — a 45% column on a phone leaves the copy in a
-          20-character measure. From md the picture self-stretches to the
-          card's full height, however tall the copy beside it runs. */}
-      <div className="relative aspect-[348/260] w-full shrink-0 sm:aspect-[348/300] md:aspect-auto md:w-[45%] md:min-h-[280px] md:self-stretch xl:min-h-[310px]">
+      {/* Stacked below md — a half-width column on a phone leaves the copy in a
+          20-character measure. From md the card splits evenly, picture and copy
+          on half each, and the picture self-stretches to the card's full
+          height, however tall the copy beside it runs. */}
+      <div className="relative aspect-[348/260] w-full shrink-0 sm:aspect-[348/300] md:aspect-auto md:w-1/2 md:min-h-[280px] md:self-stretch xl:min-h-[310px]">
         <Image
           src={image}
           alt={alt ?? title}
           fill
-          sizes="(min-width: 1536px) 396px, (min-width: 768px) 45vw, 100vw"
+          sizes="(min-width: 1536px) 440px, (min-width: 768px) 50vw, 100vw"
           className="object-cover"
         />
       </div>
 
-      <div className="flex flex-1 flex-col px-[16px] py-[20px] md:px-[24px] md:py-[26px] xl:px-[30px] xl:py-[34px]">
+      {/* w-1/2 rather than flex-1: the copy is the other half exactly, and a
+          long unbroken word cannot push the split off 50/50. min-w-0 keeps it
+          shrinkable inside the flex row. */}
+      <div className="flex w-full min-w-0 flex-col px-[16px] py-[20px] md:w-1/2 md:px-[24px] md:py-[26px] xl:px-[30px] xl:py-[34px]">
         <h3 className="font-heading text-[20px] leading-[1.25] font-normal text-black md:text-[24px] lg:max-xl:text-[27px] xl:max-2xl:text-[30px] 2xl:text-[32px]">
           {title}
         </h3>
@@ -88,6 +119,18 @@ function SoloPackageCard({
         <p className="font-sans text-[13px] leading-[1.5] font-light text-black/80 lg:text-[16px] lg:leading-[22px]">
           {experiences}
         </p>
+
+        {/* The CTA belongs to this card rather than to the section: with one
+            departure there is nothing else for it to act on, and a button
+            floating under a lone card reads as unattached. mt-auto pins it to
+            the bottom of the copy column so it lines up with the foot of the
+            picture however short the copy runs, with a floor under it for the
+            case where the copy is long enough to close the gap itself. */}
+        {ctaLabel && (
+          <div className="mt-auto flex items-center pt-[20px] md:pt-[26px]">
+            <PackageCta label={ctaLabel} href={ctaHref} />
+          </div>
+        )}
       </div>
     </article>
   );
@@ -185,6 +228,8 @@ export function RegionFixedPackagesSection({
             <SoloPackageCard
               {...items[0]}
               experiencesLabel={experiencesLabel || undefined}
+              ctaLabel={ctaLabel}
+              ctaHref={ctaHref}
             />
           ) : (
             /* Grid layout on desktop, horizontal scroll snap up to xl */
@@ -242,24 +287,13 @@ export function RegionFixedPackagesSection({
             </div>
           )}
 
-          {/* A link when the entry names one, the inert framed button when it
-              does not — Kerala's entry fills the label only, and turning that
-              into an <a href="#"> would put a dead link on the page. */}
-          {ctaLabel && (
+          {/* Under a ROW of cards only. The solo card draws its own CTA inside
+              itself — see SoloPackageCard — because with one departure the
+              button acts on that card alone and belongs to it. With several,
+              it is the section's "see them all" and sits beneath the lot. */}
+          {!isSolo && ctaLabel && (
             <div className="mt-8 sm:mt-10 md:mt-12 xl:mt-16 flex items-center justify-center">
-              {ctaHref ? (
-                <CtaLink
-                  href={ctaHref}
-                  fill
-                  className="text-body border-navy/20 text-black max-md:text-[13px] max-md:min-h-11 border-x px-5"
-                >
-                  {ctaLabel}
-                </CtaLink>
-              ) : (
-                <FrameButton variant="rail" className="max-md:text-[13px]">
-                  {ctaLabel}
-                </FrameButton>
-              )}
+              <PackageCta label={ctaLabel} href={ctaHref} />
             </div>
           )}
         </div>
