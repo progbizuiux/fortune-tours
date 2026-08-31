@@ -3,6 +3,7 @@ import Image from "next/image";
 import { AnimateIn } from "@/components/common/AnimateIn";
 import { Container } from "@/components/common/Container";
 import { CtaLink } from "@/components/common/CtaLink";
+import { BookingCtaButton } from "@/components/packages/BookingCtaButton";
 import { HERO_BODY, HERO_CTA } from "@/lib/typography";
 import { cn } from "@/lib/utils";
 
@@ -32,6 +33,14 @@ export function BookingCtaSection({
   ctas = [],
   image,
   imageAlt = "",
+  /* The enquiry dialog's own copy and picture. All optional: unset, the dialog
+     falls back to its own heading and to this band's photograph, so a package
+     that says nothing about the form still opens a complete one. */
+  formTitle,
+  formDescription,
+  formImage,
+  formImageAlt,
+  packageName,
   className,
 }) {
   if (!title) return null;
@@ -94,7 +103,9 @@ export function BookingCtaSection({
           </h2>
 
           {description && (
-            <p className={`${HERO_BODY} max-w-[560px] text-white/90 max-md:text-white/80`}>
+            <p
+              className={`${HERO_BODY} max-w-[560px] text-white/90 max-md:text-white/80`}
+            >
               {description}
             </p>
           )}
@@ -108,11 +119,32 @@ export function BookingCtaSection({
                the side rules sit against the text the way the frame draws
                them rather than stranded out at a common edge. */
             <div className="mt-4 flex flex-col items-center justify-center gap-3 max-md:mt-2 sm:flex-row sm:flex-nowrap sm:gap-x-6 sm:gap-y-3">
-              {ctas.map((link, index) => (
-                <CtaLink
-                  key={link.label}
-                  href={link.href}
-                  /* The shared control, exactly as the hero one screenful up
+              {ctas.map((link, index) =>
+                /* A CTA marked `opensForm` in lib/packages.js opens the
+                   enquiry dialog instead of navigating — "Book Your Seat"
+                   asks for five details, which is a form, not a page. It
+                   renders through a client leaf so this section stays a
+                   server component; everything else in the row is a plain
+                   link (the second is a tel:). */
+                link.opensForm ? (
+                  <BookingCtaButton
+                    key={link.label}
+                    href={link.href}
+                    label={link.label}
+                    withLeftDivider={index > 0}
+                    dividerClassName="h-6 w-px bg-white/40 max-sm:hidden"
+                    className={`${HERO_CTA} border-white/40 text-white inline-flex items-center justify-center whitespace-nowrap`}
+                    modalTitle={formTitle}
+                    modalDescription={formDescription}
+                    image={formImage ?? image}
+                    imageAlt={formImageAlt ?? imageAlt}
+                    packageName={packageName}
+                  />
+                ) : (
+                  <CtaLink
+                    key={link.label}
+                    href={link.href}
+                    /* The shared control, exactly as the hero one screenful up
                      draws it: CtaLink with `fill`, so the sky panel wipes in
                      from the left rule on hover (FILL_SWEEP) instead of this
                      band inventing its own hover. HERO_CTA brings the border
@@ -120,16 +152,17 @@ export function BookingCtaSection({
                      carries none either, so without text-white the labels
                      inherit the page body's black and all but disappear
                      against the photo. */
-                  fill
-                  withLeftDivider={index > 0}
-                  /* The rule separates two items on a row; stacked, it would
+                    fill
+                    withLeftDivider={index > 0}
+                    /* The rule separates two items on a row; stacked, it would
                      sit above the second one as a stray bar. */
-                  dividerClassName="h-6 w-px bg-white/40 max-sm:hidden"
-                  className={`${HERO_CTA} border-white/40 text-white inline-flex items-center justify-center whitespace-nowrap`}
-                >
-                  {link.label}
-                </CtaLink>
-              ))}
+                    dividerClassName="h-6 w-px bg-white/40 max-sm:hidden"
+                    className={`${HERO_CTA} border-white/40 text-white inline-flex items-center justify-center whitespace-nowrap`}
+                  >
+                    {link.label}
+                  </CtaLink>
+                ),
+              )}
             </div>
           )}
         </AnimateIn>
