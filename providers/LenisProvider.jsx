@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { setLenis } from "@/lib/lenis";
 
 export function LenisProvider({ children }) {
   useEffect(() => {
@@ -25,6 +26,10 @@ export function LenisProvider({ children }) {
       autoRaf: false,
     });
 
+    // Published for overlays that have to freeze the page under them — see
+    // lib/lenis.js.
+    setLenis(lenis);
+
     // Stops ScrollTrigger refreshing when mobile browsers show/hide the URL bar,
     // which otherwise reads as a stutter mid-scroll.
     ScrollTrigger.config({ ignoreMobileResize: true });
@@ -46,6 +51,7 @@ export function LenisProvider({ children }) {
     return () => {
       ScrollTrigger.removeEventListener("refresh", onRefresh);
       gsap.ticker.remove(update);
+      setLenis(null);
       lenis.destroy();
     };
   }, []);
