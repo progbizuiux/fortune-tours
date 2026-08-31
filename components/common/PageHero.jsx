@@ -178,13 +178,18 @@ export function PageHero({
           </p>
         )}
 
-        <div className="hero-cta mt-4 flex flex-nowrap items-center justify-center max-md:gap-4 gap-x-6 gap-y-3 max-md:text-[13px] max-md:leading-6 text-body text-white/90 opacity-0">
+        {/* Wraps rather than nowrap. Held on one line, a narrow phone
+            squeezed each control until its own label broke over two lines —
+            "Book Your Seat" over 64px of button — which stops reading as a
+            button at all. Wrapping only engages when the row genuinely does not
+            fit, so the single-CTA and short-label heroes are unchanged. */}
+        <div className="hero-cta mt-4 flex flex-wrap items-center justify-center max-md:gap-4 gap-x-6 gap-y-3 max-md:text-[13px] max-md:leading-6 text-body text-white/90 opacity-0">
           {ctas.map((link) => (
             <CtaLink
               key={link.label}
               href={link.href}
               fill
-              className={`${HERO_CTA} border-white/40`}
+              className={`${HERO_CTA} border-white/40 whitespace-nowrap`}
             >
               {link.label}
             </CtaLink>

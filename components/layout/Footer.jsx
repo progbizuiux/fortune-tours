@@ -159,12 +159,31 @@ export function Footer() {
       </Container>
 
       <div className="border-t border-white/15">
-        <Container className="flex max-sm:flex-row max-sm:items-center max-sm:justify-between flex-col gap-2 py-6 sm:flex-row sm:items-center sm:justify-between">
+        {/* Three-up from sm: copyright, credit, est. line. Below sm the row is
+            copyright + socials and the credit wraps to its own centred line
+            beneath them — three columns in 343px would leave each a ~110px
+            measure. flex-wrap plus the w-full on the credit is what makes that
+            second line; the orders keep the socials beside the copyright. */}
+        <Container className="flex flex-wrap items-center justify-between gap-y-3 py-6 sm:flex-nowrap sm:gap-2">
           {/* A ratio, not a flat 24px: the size drops to 10px here, so a fixed
               24px leading gave the two wrapped lines a 2.4 line-height on a
               320px screen. */}
-          <p className="text-small text-white/60 max-sm:text-[10px] max-sm:leading-[1.4] max-sm:font-light">
+          <p className="text-small text-white/60 max-sm:order-1 max-sm:text-[10px] max-sm:leading-[1.4] max-sm:font-light">
             © {year} Fortune Tours &amp; Travels. All journeys reserved.
+          </p>
+          {/* Only the name is the link, not the whole line: "Designed by" is
+              not part of the destination. Same target/rel and hover-to-white as
+              the other outbound links in this footer. */}
+          <p className="text-small text-white/50 max-sm:order-3 max-sm:w-full max-sm:text-center max-sm:text-[10px] max-sm:leading-[1.4] max-sm:font-light">
+            Designed by{" "}
+            <a
+              href="https://progbiz.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline-offset-4 transition-colors hover:text-white hover:underline"
+            >
+              Progbiz
+            </a>
           </p>
           <p className="text-small text-white/60 max-sm:hidden">
             Est. 1998 — India · Worldwide
@@ -174,7 +193,7 @@ export function Footer() {
               targets, and below sm this is the only social row on the site.
               size-11 less -m-1.5 nets to a 32px outer box, which with gap-0
               spaces the glyphs exactly as the old 16px + gap-4 did. */}
-          <ul className="flex items-center gap-0 sm:hidden">
+          <ul className="flex items-center gap-0 max-sm:order-2 sm:hidden">
             {SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
               <li key={label}>
                 <a

@@ -9,6 +9,7 @@ import { PageHero } from "@/components/common/PageHero";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { CountryRegionsSection } from "@/components/destinations/CountryRegionsSection";
 import { RegionFeaturesSection } from "@/components/common/RegionFeaturesSection";
+import { RegionFixedPackagesSection } from "@/components/destinations/RegionFixedPackagesSection";
 import { PlanMyTripSection } from "@/components/plan-my-trip/PlanMyTripSection";
 import { getCountryPage, getCountryParams } from "@/lib/strapi/country";
 
@@ -97,6 +98,19 @@ export default async function CountryPage({ params }) {
       <RegionFeaturesSection {...page.about} />
 
       <PlanMyTripSection {...page.planTrip} className="!mt-0" />
+
+      {/* Fixed departures, only when this country sells one. Guarded rather
+          than fallen back on for the same reason the region pages guard it:
+          this section's design copy is three Kerala itineraries, and Kozhikode
+          under a South Africa heading is worse than no section at all. Fill
+          packagesSection on the entry and the carousel appears. */}
+      {page.packages?.items?.length ? (
+        /* withTopSpacing because the section above it is the dark plan-my-trip
+           panel, which ends flush at its own edge — without it the eyebrow
+           starts immediately under the black. The region pages, where the
+           preceding section closes with its own gap, leave it off. */
+        <RegionFixedPackagesSection {...page.packages} withTopSpacing />
+      ) : null}
 
       <FaqSection {...page.faq} />
     </div>
