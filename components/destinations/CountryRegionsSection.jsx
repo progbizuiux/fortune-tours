@@ -37,10 +37,17 @@ const FALLBACK_REGIONS = [
   },
 ];
 
+/* The heading has no defaults on purpose. This component was drawn for
+   Botswana and its design copy names that country outright, so falling back to
+   it on an unfilled field printed "Discover Botswana's unique landscapes…"
+   under Congo's own heading. A country-specific line can never be right for
+   another country, so an empty field renders nothing instead — SectionHeading
+   already guards each of the three. The card list keeps its fallback: those
+   are art placeholders, and an empty grid would collapse the section. */
 export function CountryRegionsSection({
-  eyebrow = "Four Regions",
-  title = "Delta, River, and Salt Pan",
-  description = "Discover Botswana's unique landscapes, wildlife, and experiences from waterways to wilderness.",
+  eyebrow,
+  title,
+  description,
   regions = FALLBACK_REGIONS,
   className,
 }) {
