@@ -7,6 +7,7 @@ import { ItinerarySection } from "@/components/packages/ItinerarySection";
 import { InclusionsSection } from "@/components/packages/InclusionsSection";
 import { DocumentsSection } from "@/components/packages/DocumentsSection";
 import { CancellationSection } from "@/components/packages/CancellationSection";
+import { BookingCtaSection } from "@/components/packages/BookingCtaSection";
 import { getPackage, getPackageParams } from "@/lib/packages";
 
 /* One route for every package — /destinations/kerala/lakshadweep-agatti-kalpitti
@@ -82,6 +83,7 @@ export default async function PackagePage({ params }) {
       <InclusionsSection {...entry.inclusions} />
       <DocumentsSection {...entry.documents} />
       <CancellationSection {...entry.cancellation} />
+      <BookingCtaSection {...entry.bookingCta} />
       <FaqSection {...entry.faq} />
     </>
   );
