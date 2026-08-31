@@ -85,6 +85,19 @@ export default async function PackagePage({ params }) {
       <CancellationSection {...entry.cancellation} />
       <BookingCtaSection {...entry.bookingCta} />
       <FaqSection {...entry.faq} />
+      {/* The closing booking banner. The same frame as the opening hero, drawn
+          at the foot of the page. Rendered only when the CMS carries it: it has
+          no copy in lib/packages.js to fall back to, and PageHero requires a
+          title.
+
+          `relative z-10` overrides the frame's own `sticky top-0 z-0`, which is
+          what an opening hero needs and exactly wrong for a closing one: pinned
+          at the top of the viewport it sits UNDER every section above it — all
+          of which are z-10 and paint over it — so it never comes into view. At
+          the foot it has to scroll with the page like any other section. */}
+      {entry.cta?.title && (
+        <PageHero {...entry.cta} className="relative z-10" />
+      )}
     </>
   );
 }
