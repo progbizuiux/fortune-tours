@@ -45,37 +45,42 @@
      pair is solved so the middle term equals the floor at 768 and the Figma
      px at 1280. The --line-height/--font-weight companions bake the Figma
      values into each text-* utility, so one class sets all three. */
-  --text-h1: clamp(
-    2.75rem,
-    8.0078125vw - 1.09375rem,
-    5.3125rem
-  ); /* 44px → 85px */
-  --text-h1--line-height: 1; /* 100% */
+  --text-h1: clamp(2.75rem,
+      8.0078125vw - 1.09375rem,
+      5.3125rem);
+  /* 44px → 85px */
+  --text-h1--line-height: 1;
+  /* 100% */
   --text-h1--font-weight: 400;
-  --text-h2: clamp(
-    2.25rem,
-    5.6640625vw - 0.46875rem,
-    4.0625rem
-  ); /* 36px → 65px */
+  --text-h2: clamp(2.25rem,
+      5.6640625vw - 0.46875rem,
+      4.0625rem);
+  /* 36px → 65px */
   --text-h2--line-height: 1;
   --text-h2--font-weight: 400;
-  --text-h2--letter-spacing: -0.01em; /* -1% */
-  --text-h3: clamp(1.5rem, 1.5625vw + 0.75rem, 2rem); /* 24px → 32px */
+  --text-h2--letter-spacing: -0.01em;
+  /* -1% */
+  --text-h3: clamp(1.5rem, 1.5625vw + 0.75rem, 2rem);
+  /* 24px → 32px */
   --text-h3--line-height: 1;
   --text-h3--font-weight: 400;
-  --text-h3--letter-spacing: -0.01em; /* -1% */
-  --text-h4: clamp(
-    1rem,
-    0.78125vw + 0.625rem,
-    1.25rem
-  ); /* 16px → 20px — eyebrow */
+  --text-h3--letter-spacing: -0.01em;
+  /* -1% */
+  --text-h4: clamp(1rem,
+      0.78125vw + 0.625rem,
+      1.25rem);
+  /* 16px → 20px — eyebrow */
   --text-h4--line-height: 1;
   --text-h4--font-weight: 400;
-  --text-body: clamp(1rem, 0.390625vw + 0.8125rem, 1.125rem); /* 16px → 18px */
-  --text-body--line-height: 1.5rem; /* 24px */
+  --text-body: clamp(1rem, 0.390625vw + 0.8125rem, 1.125rem);
+  /* 16px → 18px */
+  --text-body--line-height: 1.5rem;
+  /* 24px */
   --text-body--font-weight: 300;
-  --text-small: 1rem; /* 16px — small text */
-  --text-nav: 1.0625rem; /* 17px — navbar links (desktop nav only) */
+  --text-small: 1rem;
+  /* 16px — small text */
+  --text-nav: 1.0625rem;
+  /* 17px — navbar links (desktop nav only) */
   --text-nav--line-height: 1;
   --text-nav--font-weight: 300;
 
@@ -93,11 +98,13 @@
   /* A panel opening under the bar — the mobile menu on the hamburger and every
      desktop sheet (MobileMenu, MegaMenuPanel). */
   --animate-menu-drop: menu-drop 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+
   @keyframes menu-drop {
     from {
       opacity: 0;
       transform: translateY(-10px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -106,13 +113,14 @@
 
   /* Its rows, cards and tiles following, each delayed by the --row-delay the
      item sets inline (lib/motion.js menuRowDelay staggers them by index). */
-  --animate-menu-row: menu-row 260ms cubic-bezier(0.22, 1, 0.36, 1) var(--row-delay, 0ms)
-    both;
+  --animate-menu-row: menu-row 260ms cubic-bezier(0.22, 1, 0.36, 1) var(--row-delay, 0ms) both;
+
   @keyframes menu-row {
     from {
       opacity: 0;
       transform: translateY(8px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -123,21 +131,25 @@
      back slides the top level in from the left. */
   --animate-menu-slide-in: menu-slide-in 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-menu-slide-back: menu-slide-back 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+
   @keyframes menu-slide-in {
     from {
       opacity: 0;
       transform: translateX(28px);
     }
+
     to {
       opacity: 1;
       transform: translateX(0);
     }
   }
+
   @keyframes menu-slide-back {
     from {
       opacity: 0;
       transform: translateX(-28px);
     }
+
     to {
       opacity: 1;
       transform: translateX(0);
@@ -156,14 +168,15 @@
     --text-nav: 12.5px;
     --text-small: 13px;
   }
+
   header {
     --text-body: 12.5px;
     --text-small: 11.5px;
   }
 }
 
-/* Specific text size reduction for laptop screens - xl to 2xl (1280px to 1535px) */
-@media (min-width: 1280px) and (max-width: 1535px) {
+/* Specific text size reduction for laptop screens - xl to 2xl (1280px to 1800px) */
+@media (min-width: 1280px) and (max-width: 1700px) {
   :root {
     --text-h1: 58px;
     --text-h2: 42px;
@@ -173,6 +186,7 @@
     --text-nav: 13.5px;
     --text-small: 13.5px;
   }
+
   header {
     --text-body: 13.5px;
     --text-small: 12.5px;
@@ -207,8 +221,13 @@ body:has([data-navbar-ink="black"]) nav[aria-label="Main"] a:hover {
 
 /* ── Cloud marquee ────────────────────────────────────────────────── */
 @keyframes marquee {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* will-change promotes the track to its own compositor layer so each frame is a

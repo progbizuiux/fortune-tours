@@ -56,7 +56,13 @@ export function FaqSection({
           >
             <div className="flex flex-col">
               {faqs.map((faq, index) => {
-                const isOpen = openIndex === index;
+                const hasAnswer = Boolean(
+                  faq.answer &&
+                    (typeof faq.answer === "string"
+                      ? faq.answer.trim()
+                      : true),
+                );
+                const isOpen = hasAnswer && openIndex === index;
 
                 return (
                   <div
@@ -66,43 +72,53 @@ export function FaqSection({
                       index === faqs.length - 1 && "border-b",
                     )}
                   >
-                    <button
-                      onClick={() => setOpenIndex(isOpen ? null : index)}
-                      className="w-full flex items-center justify-between py-3.5 md:py-4 lg:py-[17px] xl:py-[18px] 2xl:py-[19px] text-left transition-colors hover:text-black/70"
-                      aria-expanded={isOpen}
-                    >
-                      <span className="font-heading font-normal text-[#1C1C1A] text-[20px] md:text-[22px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] leading-[1.3] 2xl:leading-[42px] pr-8">
-                        {faq.question}
-                      </span>
-                      <span className="shrink-0 text-black flex items-center justify-center w-[14px] h-[30px]">
-                        {isOpen ? (
-                          <Minus
-                            className="w-[14px] h-[14px]"
-                            strokeWidth={1.5}
-                          />
-                        ) : (
-                          <Plus
-                            className="w-[14px] h-[14px]"
-                            strokeWidth={1.5}
-                          />
-                        )}
-                      </span>
-                    </button>
+                    {hasAnswer ? (
+                      <>
+                        <button
+                          onClick={() => setOpenIndex(isOpen ? null : index)}
+                          className="w-full flex items-center justify-between py-3.5 md:py-4 lg:py-[17px] xl:py-[18px] 2xl:py-[19px] text-left transition-colors hover:text-black/70"
+                          aria-expanded={isOpen}
+                        >
+                          <span className="font-heading font-normal text-[#1C1C1A] text-[20px] md:text-[22px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] leading-[1.3] 2xl:leading-[42px] pr-8">
+                            {faq.question}
+                          </span>
+                          <span className="shrink-0 text-black flex items-center justify-center w-[14px] h-[30px]">
+                            {isOpen ? (
+                              <Minus
+                                className="w-[14px] h-[14px]"
+                                strokeWidth={1.5}
+                              />
+                            ) : (
+                              <Plus
+                                className="w-[14px] h-[14px]"
+                                strokeWidth={1.5}
+                              />
+                            )}
+                          </span>
+                        </button>
 
-                    <div
-                      className={cn(
-                        "grid transition-all duration-300 ease-in-out",
-                        isOpen
-                          ? "grid-rows-[1fr] opacity-100"
-                          : "grid-rows-[0fr] opacity-0",
-                      )}
-                    >
-                      <div className="overflow-hidden">
-                        <p className="font-sans font-light text-black/80 text-[14px] md:text-[15px] lg:text-[16px] xl:text-[17px] 2xl:text-[18px] leading-[1.6] 2xl:leading-[29px] whitespace-pre-line pr-4 md:pr-8 max-w-[828px] pt-1 md:pt-[5px] lg:pt-[6px] xl:pt-[6px] 2xl:pt-[7px] pb-5 md:pb-6 lg:pb-[22px] xl:pb-[24px] 2xl:pb-[26px]">
-                          {faq.answer}
-                        </p>
+                        <div
+                          className={cn(
+                            "grid transition-all duration-300 ease-in-out",
+                            isOpen
+                              ? "grid-rows-[1fr] opacity-100"
+                              : "grid-rows-[0fr] opacity-0",
+                          )}
+                        >
+                          <div className="overflow-hidden">
+                            <p className="font-sans font-light text-black/80 text-[14px] md:text-[15px] lg:text-[16px] xl:text-[17px] 2xl:text-[18px] leading-[1.6] 2xl:leading-[29px] whitespace-pre-line pr-4 md:pr-8 max-w-[828px] pt-1 md:pt-[5px] lg:pt-[6px] xl:pt-[6px] 2xl:pt-[7px] pb-5 md:pb-6 lg:pb-[22px] xl:pb-[24px] 2xl:pb-[26px]">
+                              {faq.answer}
+                            </p>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="w-full flex items-center justify-between py-3.5 md:py-4 lg:py-[17px] xl:py-[18px] 2xl:py-[19px] text-left">
+                        <span className="font-heading font-normal text-[#1C1C1A] text-[20px] md:text-[22px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] leading-[1.3] 2xl:leading-[42px]">
+                          {faq.question}
+                        </span>
                       </div>
-                    </div>
+                    )}
                   </div>
                 );
               })}
