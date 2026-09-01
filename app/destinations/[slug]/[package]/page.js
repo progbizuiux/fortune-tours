@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { PageHero } from "@/components/common/PageHero";
 import { ImageIntroSection } from "@/components/common/ImageIntroSection";
 import { FaqSection } from "@/components/common/FaqSection";
+import { RegionFeaturesSection } from "@/components/common/RegionFeaturesSection";
 import { ItinerarySection } from "@/components/packages/ItinerarySection";
 import { InclusionsSection } from "@/components/packages/InclusionsSection";
 import { DocumentsSection } from "@/components/packages/DocumentsSection";
@@ -82,6 +83,7 @@ export default async function PackagePage({ params }) {
       <ItinerarySection {...entry.itinerary} />
       <InclusionsSection {...entry.inclusions} />
       <DocumentsSection {...entry.documents} />
+      {entry.whyUs && <RegionFeaturesSection {...entry.whyUs} />}
       <CancellationSection {...entry.cancellation} />
       {/* The closing "hold your seat" band, between the cancellation table and
           the FAQ. Its own short photo strip rather than a second PageHero —
