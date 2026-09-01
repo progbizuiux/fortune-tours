@@ -17,6 +17,8 @@
 }
 
 @theme inline {
+  --breakpoint-2xl: 1700px;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
@@ -175,7 +177,7 @@
   }
 }
 
-/* Specific text size reduction for laptop screens - xl to 2xl (1280px to 1800px) */
+/* Specific text size reduction for laptop screens - xl to 2xl (1280px to 1700px) */
 @media (min-width: 1280px) and (max-width: 1700px) {
   :root {
     --text-h1: 58px;
