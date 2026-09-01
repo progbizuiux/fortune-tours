@@ -59,7 +59,7 @@ export default async function PackagePage({ params }) {
   const entry = await getPackage(slug, packageSlug);
 
   if (!entry) notFound();
-
+console.log(entry,"entryyy")
   return (
     <>
       {/* Pin scope for the sticky hero: sticky positioning is bounded by the
