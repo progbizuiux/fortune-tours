@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { COUNTRY_TAGS } from "@/lib/strapi/country";
 import { DESTINATION_TAGS } from "@/lib/strapi/destination";
 import { EXPERIENCES_TAGS } from "@/lib/strapi/experiences";
+import { GALLERY_TAGS } from "@/lib/strapi/gallery";
 import { HOME_TAGS } from "@/lib/strapi/home";
 import { KERALA_TAGS } from "@/lib/strapi/kerala";
 import { TRAVEL_STYLE_TAGS } from "@/lib/strapi/travel-styles";
@@ -56,6 +57,9 @@ const TAGS_BY_MODEL = {
   homepage: HOME_TAGS,
   "home-page": HOME_TAGS,
   experience: EXPERIENCES_TAGS,
+  /* The gallery stands alone — it shares no tag with the destination pages,
+     so publishing a photograph drops only /gallery. */
+  "gallery-page": GALLERY_TAGS,
 };
 
 /* Every tag the app uses, derived from the mapping so the two cannot drift
