@@ -83,7 +83,7 @@ export default async function PackagePage({ params }) {
       <ItinerarySection {...entry.itinerary} />
       <InclusionsSection {...entry.inclusions} />
       <DocumentsSection {...entry.documents} />
-      {entry.health && <RegionFeaturesSection {...entry.health} />}
+      {entry.whyUs && <RegionFeaturesSection {...entry.whyUs} />}
       <CancellationSection {...entry.cancellation} />
       {/* The closing "hold your seat" band, between the cancellation table and
           the FAQ. Its own short photo strip rather than a second PageHero —
