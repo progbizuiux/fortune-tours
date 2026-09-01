@@ -19,9 +19,9 @@ import { getPackage, getPackageParams } from "@/lib/packages";
    middle sections are specific to a package, and they live under
    components/packages/.
 
-   Content comes from lib/packages.js rather than Strapi: there is no package
-   content type on the panel yet. That module is the only seam — see its header
-   for what changes when the collection lands. */
+   Content comes from lib/packages.js, which reads the hero from Strapi and
+   keeps the design's copy for the sections the content type does not carry
+   yet. That module is the only seam — see its header. */
 
 /* ISR on the same terms as the rest of the app. Must be a literal: Next reads
    this statically at build time, so it cannot be DEFAULT_REVALIDATE from
@@ -39,7 +39,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { slug, package: packageSlug } = await params;
-  const entry = getPackage(slug, packageSlug);
+  const entry = await getPackage(slug, packageSlug);
 
   if (!entry) return {};
 
@@ -55,7 +55,7 @@ export async function generateMetadata({ params }) {
 
 export default async function PackagePage({ params }) {
   const { slug, package: packageSlug } = await params;
-  const entry = getPackage(slug, packageSlug);
+  const entry = await getPackage(slug, packageSlug);
 
   if (!entry) notFound();
 
@@ -83,7 +83,11 @@ export default async function PackagePage({ params }) {
       <InclusionsSection {...entry.inclusions} />
       <DocumentsSection {...entry.documents} />
       <CancellationSection {...entry.cancellation} />
-      <BookingCtaSection {...entry.bookingCta} />
+      {/* The closing "hold your seat" band, between the cancellation table and
+          the FAQ. Its own short photo strip rather than a second PageHero —
+          see the note in the component for why the opening frame is wrong
+          halfway down a page. Copy comes from the CMS `ctaSection`. */}
+      <BookingCtaSection {...entry.cta} />
       <FaqSection {...entry.faq} />
     </>
   );
