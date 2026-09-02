@@ -91,7 +91,7 @@ export default async function DestinationRegionPage({ params }) {
             paint on top rather than slide underneath. */}
         <ImageIntroSection {...page.intro} className="relative z-10" />
 
-        <RegionDestinationsSection {...page.countries} className="!pt-0" />
+        <RegionDestinationsSection {...page.countries} className="spacing xl:max-2xl:py-[45px]!" />
 
         <RegionFeaturesSection {...page.whyUs} />
         <RegionExperiencesSection {...page.experiences} />

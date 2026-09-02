@@ -141,10 +141,11 @@ export function FaqSection({
                   <div
                     id={`faq-answer-${item.key}`}
                     role="region"
-                    hidden={!isOpen}
                     className={cn(
-                      "grid transition-[grid-template-rows] duration-300 ease-out",
-                      isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+                      "grid transition-all duration-300 ease-in-out",
+                      isOpen
+                        ? "grid-rows-[1fr] opacity-100"
+                        : "grid-rows-[0fr] opacity-0",
                     )}
                   >
                     <div className="overflow-hidden">

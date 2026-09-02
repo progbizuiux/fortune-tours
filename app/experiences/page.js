@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { getExperiences } from "@/lib/strapi/experiences";
@@ -15,6 +16,11 @@ export const metadata = {
 };
 
 export default async function ExperiencesPage() {
+  /* Hidden: there is no /experiences index in the design. The listing below
+     is kept in code but never rendered; the route answers 404. Remove this
+     line to bring the page back. */
+  notFound();
+
   const experiences = await getExperiences();
 
   return (

@@ -100,7 +100,7 @@ export function CountryRegionsSection({
                 
                 {/* Gradient Overlay: #000000 at 0% (transparent) to #000000 at 100% (black) */}
                 <div
-                  className="absolute inset-0 bg-gradient-to-b from-transparent to-black"
+                  className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-b from-transparent to-black"
                   aria-hidden="true"
                 />
 

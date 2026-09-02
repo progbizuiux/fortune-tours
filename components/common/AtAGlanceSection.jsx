@@ -18,7 +18,7 @@ export function AtAGlanceSection({
           title={title}
           description={description}
           titleClassName="max-w-[800px] mx-auto"
-          descriptionClassName="max-w-[700px] mx-auto"
+          descriptionClassName="max-w-[1100px] mx-auto"
         />
 
         <div className="mt-16 md:mt-20 lg:mt-[95px] w-full max-w-[1920px] mx-auto overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-4">

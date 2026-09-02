@@ -120,7 +120,7 @@ export default function AboutUsPage() {
         features={BRING_TOGETHER_ITEMS}
       />
 
-      <section className="bg-white pt-24 md:pt-32 xl:pt-[150px]">
+      <section className="bg-white pt-24 md:pt-32 xl:pt-[150px] xl:max-2xl:pt-[100px]">
         <div className="mx-auto max-w-[1160px] px-4 md:px-8 xl:px-0">
           <SectionHeading
             eyebrow="Our Process"
@@ -131,7 +131,7 @@ export default function AboutUsPage() {
         </div>
         <FeatureRows
           items={PROCESS_ITEMS}
-          className="mt-12 md:mt-16 xl:mt-[60px]"
+          className="mt-12 md:mt-16 xl:mt-[60px] xl:max-2xl:mt-[40px] xl:max-2xl:gap-[80px]"
           stacked
         />
       </section>

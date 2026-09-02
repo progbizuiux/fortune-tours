@@ -20,15 +20,24 @@ const DEFAULT_TITLE = "Everyone Sees Kerala. Few Actually Feel It.";
 const DEFAULT_IMAGE = "/destinations/kerala/kerala.avif";
 const DEFAULT_IMAGE_ALT = "Kerala backwaters with palm trees and a boat";
 
+/* Background videos for specific destinations, keyed by route slug. A slug
+   without an entry keeps the CMS image. */
+const HERO_VIDEOS = {
+  kerala: "/destinations/kerala-destination.mov",
+  india: "/destinations/India-destination.mov",
+};
+
 export function HeroSection({
   eyebrow = DEFAULT_EYEBROW,
   title = DEFAULT_TITLE,
   image = '',
   imageAlt = DEFAULT_IMAGE_ALT,
   ctas,
+  slug,
 }) {
   const containerRef = useRef(null);
   const ctaLinks = ctas?.length ? ctas : CTA_LINKS;
+  const video = HERO_VIDEOS[slug];
 
   useGSAP(
     () => {
@@ -103,13 +112,27 @@ export function HeroSection({
       </noscript>
 
       <div className="hero-image absolute inset-0">
-        <Image
-          className="absolute inset-0 h-full w-full object-cover max-md:object-[25%] md:object-center"
-          src={image}
-          alt={imageAlt}
-          fill
-          priority
-        />
+        {video ? (
+          <video
+            className="absolute inset-0 h-full w-full object-cover max-md:object-[25%] md:object-center"
+            src={video}
+            poster={image || undefined}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-hidden="true"
+          />
+        ) : (
+          <Image
+            className="absolute inset-0 h-full w-full object-cover max-md:object-[25%] md:object-center"
+            src={image}
+            alt={imageAlt}
+            fill
+            priority
+          />
+        )}
 
         {/* Figma → kerala landing, the overlay layer above the hero photo:
             fill #000000 at 40%, layer opacity 48%. Written as the two separate
