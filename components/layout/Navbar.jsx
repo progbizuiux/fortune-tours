@@ -235,10 +235,12 @@ export function Navbar() {
   }
 
   function handleTriggerClick(event, key) {
+    // /destinations and /experiences have no index page, so a trigger never
+    // navigates — it only opens its sheet (hover on desktop, tap on touch).
+    event.preventDefault();
     const { pointerType, wasOpen } = lastTap.current;
     const type = event.nativeEvent.pointerType ?? pointerType;
     if (type !== "touch" || wasOpen) return;
-    event.preventDefault();
     showMenu(key);
   }
 

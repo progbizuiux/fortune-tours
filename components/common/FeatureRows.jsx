@@ -176,7 +176,7 @@ export function FeatureRows({ items, className, ariaLabel, stacked = false }) {
                    md-to-xl band and restored with the two-column layout at xl.
                    Below md the container is narrower than 492 anyway, so the cap
                    never bound there. */
-                descriptionClassName="md:mt-[25px] max-w-[492px] md:max-w-none xl:max-w-[492px]"
+                descriptionClassName="md:mt-[25px] max-w-[620px] md:max-w-none xl:max-w-[620px]"
                 ctaLabel={item.ctaLabel}
                 ctaHref={item.ctaHref}
                 ctaClassName="md:mt-[49px]"

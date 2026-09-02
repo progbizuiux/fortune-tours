@@ -84,7 +84,7 @@ export function ImageCarouselSection({
                   the button — hovering anywhere on the card sweeps the panel in.
                   Scoped here rather than added to FILL_SWEEP so other `group`
                   wrappers in the app don't start filling their buttons too. */}
-              <FrameButton className="group-hover:text-white group-hover:before:scale-x-100">
+              <FrameButton className="group-hover:text-white group-hover:before:scale-x-100 xl:max-2xl:text-[17px]">
                 {item.label}
               </FrameButton>
             </span>

@@ -654,7 +654,7 @@ export function FeaturedDestinations({
             block it pushed the section 338px past the fold on a 900px screen.
             Height now comes from the content, which the card sizing below caps
             against the viewport — so the whole section fits on one screen. */}
-        <Container className="relative flex flex-col pt-10 pb-10 max-lg:min-h-0 lg:pt-[min(2.5rem,4vh)] lg:pb-[min(2rem,3.5vh)] xl:max-2xl:pt-[min(3.25rem,5.5vh)] xl:max-2xl:pb-[min(2.75rem,5vh)] 2xl:pt-14 2xl:pb-11">
+        <Container className="relative flex flex-col pt-10 pb-10 max-lg:min-h-0 lg:pt-[min(2.5rem,4vh)] lg:pb-[min(2rem,3.5vh)] xl:max-2xl:pt-[min(3.25rem,5.5vh)] xl:max-2xl:pb-[min(2.75rem,5vh)] xl:max-2xl:min-h-[92vh] 2xl:pt-14 2xl:pb-11">
           {/* Category tabs — individually outlined boxes with small gaps;
               the active tab flips to solid white, as in the design. */}
           <div className="relative z-30 flex flex-wrap gap-3 max-lg:flex-nowrap max-lg:overflow-x-auto max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden lg:justify-end">
@@ -755,8 +755,8 @@ export function FeaturedDestinations({
                       // other. Let them drift and the promotion stops being a
                       // uniform scale and starts squashing the photo.
                       i === 0
-                        ? "aspect-424/545 w-full max-w-[300px] max-sm:aspect-[300/384] sm:w-[340px] lg:w-[min(384px,30vh)] lg:max-w-none 2xl:w-[min(384px,46vh)]"
-                        : "aspect-352/454 w-[230px] max-lg:hidden sm:w-[280px] lg:w-[min(318px,24.8vh)] 2xl:w-[min(318px,38vh)]",
+                        ? "aspect-424/545 w-full max-w-[300px] max-sm:aspect-[300/384] sm:w-[340px] lg:w-[min(384px,30vh)] lg:max-w-none xl:max-2xl:w-[min(384px,34vh)] 2xl:w-[min(384px,46vh)]"
+                        : "aspect-352/454 w-[230px] max-lg:hidden sm:w-[280px] lg:w-[min(318px,24.8vh)] xl:max-2xl:w-[min(318px,28vh)] 2xl:w-[min(318px,38vh)]",
                     )}
                   >
                     <Image
@@ -765,6 +765,10 @@ export function FeaturedDestinations({
                       fill
                       sizes="(min-width: 1024px) 424px, 340px"
                       className="object-cover"
+                    />
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"
                     />
                     {/* Hide the inner text block on mobile since the location is already shown in the copy block */}
                     <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent p-6 max-lg:hidden">
