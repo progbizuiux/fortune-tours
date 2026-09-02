@@ -33,37 +33,30 @@
     font-weight: 400;
     line-height: 1;
   }
-
   h2 {
     font-family: var(--font-heading);
     font-size: var(--text-h2);
     font-weight: 400;
-    letter-spacing: -0.01em;
-    /* -1% */
+    letter-spacing: -0.01em; /* -1% */
     line-height: 1;
   }
-
   h3 {
     font-family: var(--font-heading);
     font-size: var(--text-h3);
     font-weight: 400;
-    letter-spacing: -0.01em;
-    /* -1% */
+    letter-spacing: -0.01em; /* -1% */
     line-height: 1;
   }
-
   h4 {
     font-family: var(--font-top);
     font-size: var(--text-h4);
     font-weight: 400;
     line-height: 1;
   }
-
   p {
     font-size: var(--text-body);
     font-weight: 300;
-    line-height: 1.5rem;
-    /* 24px */
+    line-height: 1.5rem; /* 24px */
   }
 }
 
@@ -114,14 +107,14 @@
   }
 }
 
-@media (min-width: 1280px) and (max-width: 1700px) {
+@media (min-width: 1280px) and (max-width: 1535px) {
   .spacing {
     padding-top: 60px;
     padding-bottom: 60px;
   }
 }
 
-@media (min-width: 1701px) {
+@media (min-width: 1536px) {
   .spacing {
     padding-top: 100px;
     padding-bottom: 100px;
