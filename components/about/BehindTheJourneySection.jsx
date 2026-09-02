@@ -95,7 +95,7 @@ export function BehindTheJourneySection({ className }) {
             "font-heading font-normal text-[#16150F]",
             "max-lg:text-[20px] max-lg:leading-[1.45] max-lg:font-normal",
             "lg:max-xl:text-[28px] lg:max-xl:leading-[1.45]",
-            "xl:max-2xl:text-[30px] xl:max-2xl:leading-[1.45]",
+            "xl:max-2xl:text-[33px] xl:max-2xl:leading-[1.45]",
             "2xl:text-[36px] 2xl:leading-[54px]",
             "max-lg:max-w-none max-w-[1160px] lg:max-w-[1160px]",
           )}

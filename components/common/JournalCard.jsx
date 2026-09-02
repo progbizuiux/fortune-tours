@@ -46,7 +46,7 @@ export function JournalCard({
       </p>
 
       {description && (
-        <p className="mt-2 text-black/80 font-sans font-light text-[14px] lg:max-xl:text-[12px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[13.5px] xl:max-2xl:leading-[1.4] 2xl:text-[16px] 2xl:leading-[1.5]">
+        <p className="mt-2 text-black/80 font-sans font-light text-[14px] lg:max-xl:text-[12px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[15px] xl:max-2xl:leading-[1.4] 2xl:text-[16px] 2xl:leading-[1.5]">
           {description}
         </p>
       )}
@@ -54,7 +54,7 @@ export function JournalCard({
       <CtaLink
         href={href}
         underline={false}
-        className="font-top text-small max-sm:text-[12px] lg:max-xl:text-[11px] xl:max-2xl:text-[12.5px] 2xl:text-small hover:text-sky mt-auto inline-flex items-center gap-1.5 pt-4 leading-none font-medium text-navy dark:text-cream"
+        className="font-top text-small max-sm:text-[12px] lg:max-xl:text-[11px] xl:max-2xl:text-[14px] 2xl:text-small hover:text-sky mt-auto inline-flex items-center gap-1.5 pt-4 leading-none font-medium text-navy dark:text-cream"
       >
         {readLabel}
         <ArrowUpRight aria-hidden="true" className="size-3.5 max-sm:size-3 lg:max-xl:size-3 xl:max-2xl:size-[13px] 2xl:size-3.5" />

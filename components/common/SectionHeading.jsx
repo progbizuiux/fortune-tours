@@ -45,7 +45,7 @@ export function SectionHeading({
       {eyebrow && (
         <span
           className={cn(
-            "font-top max-lg:text-[12px] max-lg:leading-none lg:max-xl:text-[13.5px] xl:max-2xl:text-[15px] 2xl:text-h4",
+            "font-top max-lg:text-[12px] max-lg:leading-none lg:max-xl:text-[13.5px] xl:max-2xl:text-[16.5px] 2xl:text-h4",
             centered
               ? "text-black dark:text-cream"
               : "text-navy/70 dark:text-cream/70",
@@ -78,7 +78,7 @@ export function SectionHeading({
             // lg-to-xl steps down from the token's 46px: at those widths the
             // heading shares its row with the description and runs long.
             // Below lg and from xl up are unchanged.
-            "max-lg:text-[30px] max-lg:leading-none max-lg:tracking-[-0.01em] text-navy lg:max-xl:text-[34px] xl:max-2xl:text-[38px] dark:text-cream",
+            "max-lg:text-[30px] max-lg:leading-none max-lg:tracking-[-0.01em] text-navy lg:max-xl:text-[34px] xl:max-2xl:text-[42px] dark:text-cream",
             !centered && "max-w-[730px]",
             titleClassName,
           )}
@@ -89,7 +89,7 @@ export function SectionHeading({
         {description && (
           <p
             className={cn(
-              "max-lg:text-[13px] max-lg:font-light max-lg:leading-[21px] lg:max-xl:text-[13.5px] xl:max-2xl:text-[14.5px] 2xl:text-body",
+              "max-lg:text-[13px] max-lg:font-light max-lg:leading-[21px] lg:max-xl:text-[13.5px] xl:max-2xl:text-[16px] 2xl:text-body",
               centered
                 ? "max-lg:max-w-[340px] max-w-xl text-black/80 dark:text-cream/80"
                 : // xl and up gets a slightly wider measure — the copy runs to

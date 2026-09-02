@@ -84,7 +84,7 @@ export function RegionStoriesSection({
 
           {/* Quote, then the attribution row beneath its own rule. */}
           {/* Figma: Neiko 400, 35px/110%, -1% tracking, right, black at 80%. */}
-          <blockquote className="mt-8 ml-auto max-w-[1374px] text-right font-heading text-[24px] leading-[110%] font-normal tracking-[-0.01em] text-black/80 md:mt-12 lg:max-xl:text-[28px] xl:max-2xl:text-[31px] 2xl:text-[35px]">
+          <blockquote className="mt-8 ml-auto max-w-[1374px] text-right font-heading text-[24px] leading-[110%] font-normal tracking-[-0.01em] text-black/80 md:mt-12 lg:max-xl:text-[28px] xl:max-2xl:text-[34px] 2xl:text-[35px]">
             {activeStory.quote}
           </blockquote>
 
@@ -112,10 +112,10 @@ export function RegionStoriesSection({
                 {/* text-body carries the Poppins 18px/24px light spec and
                     steps down on small screens with the rest of the site. */}
                 <div className="flex flex-col">
-                  <span className="text-body lg:max-xl:text-[13px] xl:max-2xl:text-[14.5px] 2xl:text-body font-light tracking-[0.3em] text-black uppercase">
+                  <span className="text-body lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-body font-light tracking-[0.3em] text-black uppercase">
                     {activeStory.author}
                   </span>
-                  <span className="text-body lg:max-xl:text-[13px] xl:max-2xl:text-[14.5px] 2xl:text-body font-light text-black/60 lowercase">
+                  <span className="text-body lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-body font-light text-black/60 lowercase">
                     {activeStory.meta}
                   </span>
                 </div>

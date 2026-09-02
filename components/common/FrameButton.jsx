@@ -9,12 +9,12 @@ import { FILL_SWEEP } from "@/lib/motion";
 // frame of their own, where a full-bleed panel has nothing to sit inside.
 const VARIANT_CLASSES = {
   chip: {
-    base: "max-sm:h-[32px] sm:h-[43px] lg:max-xl:h-[32px] lg:max-xl:w-[84px] lg:max-xl:text-[13px] xl:max-2xl:h-[36px] xl:max-2xl:w-[94px] xl:max-2xl:text-[15px] 2xl:h-[38px] 2xl:w-[100px] 2xl:text-[18px] max-sm:w-[77px] sm:w-[125px] border-x border-white font-heading max-sm:text-[14px] sm:text-[22px] leading-none tracking-[-0.01em]",
+    base: "max-sm:h-[32px] sm:h-[43px] lg:max-xl:h-[32px] lg:max-xl:w-[84px] lg:max-xl:text-[13px] xl:max-2xl:h-[36px] xl:max-2xl:w-[94px] xl:max-2xl:text-[16.5px] 2xl:h-[38px] 2xl:w-[100px] 2xl:text-[18px] max-sm:w-[77px] sm:w-[125px] border-x border-white font-heading max-sm:text-[14px] sm:text-[22px] leading-none tracking-[-0.01em]",
     idle: "bg-transparent text-white border-transparent",
     active: "bg-white text-navy border-transparent",
   },
   rail: {
-    base: "text-body lg:max-xl:text-[13px] lg:max-xl:px-4 lg:max-xl:py-1.5 xl:max-2xl:text-[14.5px] xl:max-2xl:px-4.5 xl:max-2xl:py-2 2xl:text-body 2xl:px-5 2xl:py-2 border-x px-5 py-2",
+    base: "text-body lg:max-xl:text-[13px] lg:max-xl:px-4 lg:max-xl:py-1.5 xl:max-2xl:text-[16px] xl:max-2xl:px-4.5 xl:max-2xl:py-2 2xl:text-body 2xl:px-5 2xl:py-2 border-x px-5 py-2",
     idle: "border-black/20 text-black hover:border-transparent dark:border-cream/20 dark:text-cream",
     active:
       "border-transparent bg-black text-white dark:bg-cream dark:text-navy",
@@ -22,14 +22,14 @@ const VARIANT_CLASSES = {
   // Departures month selector. Steps up in size at every breakpoint, so the
   // sizing lives in the variant rather than being passed in per call site.
   month: {
-    base: "whitespace-nowrap border-x text-[12px] px-3 py-1.5 sm:text-[14px] sm:px-4 sm:py-2 lg:max-xl:text-[13px] lg:max-xl:px-4 lg:max-xl:py-2 xl:max-2xl:text-[14.5px] xl:max-2xl:px-5 xl:max-2xl:py-2.5 2xl:text-[18px] 2xl:px-7 2xl:py-3",
+    base: "whitespace-nowrap border-x text-[12px] px-3 py-1.5 sm:text-[14px] sm:px-4 sm:py-2 lg:max-xl:text-[13px] lg:max-xl:px-4 lg:max-xl:py-2 xl:max-2xl:text-[16px] xl:max-2xl:px-5 xl:max-2xl:py-2.5 2xl:text-[18px] 2xl:px-7 2xl:py-3",
     idle: "border-black/20 text-black/80 dark:border-cream/20 dark:text-cream/80",
     active: "border-transparent bg-black text-white",
   },
   // Category tabs on the dark FeaturedDestinations panel — outlined boxes that
   // flip to solid white when selected.
   tab: {
-    base: "text-nav lg:max-xl:text-[13px] lg:max-xl:px-4 lg:max-xl:py-2.5 xl:max-2xl:text-[14.5px] xl:max-2xl:px-4.5 xl:max-2xl:py-3 2xl:text-nav 2xl:px-5 2xl:py-3.5 max-sm:text-[11px] max-sm:px-3 max-sm:py-2 whitespace-nowrap border px-5 py-3.5",
+    base: "text-nav lg:max-xl:text-[13px] lg:max-xl:px-4 lg:max-xl:py-2.5 xl:max-2xl:text-[16px] xl:max-2xl:px-4.5 xl:max-2xl:py-3 2xl:text-nav 2xl:px-5 2xl:py-3.5 max-sm:text-[11px] max-sm:px-3 max-sm:py-2 whitespace-nowrap border px-5 py-3.5",
     idle: "border-white/25 border-y-transparent text-white/90",
     active: "border-white bg-white text-navy",
   },
@@ -113,7 +113,7 @@ const VARIANT_CLASSES = {
   // Back/Continue reuse the variant with `sm:min-w-0` since they size to
   // their label in the design.
   option: {
-    base: "text-body lg:max-xl:text-[13px] lg:max-xl:px-4 lg:max-xl:py-2 lg:max-xl:min-w-[140px] lg:max-xl:h-[38px] xl:max-2xl:text-[14.5px] xl:max-2xl:px-5 xl:max-2xl:py-2.5 xl:max-2xl:min-w-[160px] xl:max-2xl:h-[42px] 2xl:text-body 2xl:px-6 2xl:py-2.5 2xl:min-w-[187px] 2xl:h-[47px] min-h-11 whitespace-nowrap border-x border-white px-6 py-2.5 max-sm:px-4 sm:h-[47px] sm:min-w-[187px]",
+    base: "text-body lg:max-xl:text-[13px] lg:max-xl:px-4 lg:max-xl:py-2 lg:max-xl:min-w-[140px] lg:max-xl:h-[38px] xl:max-2xl:text-[16px] xl:max-2xl:px-5 xl:max-2xl:py-2.5 xl:max-2xl:min-w-[160px] xl:max-2xl:h-[42px] 2xl:text-body 2xl:px-6 2xl:py-2.5 2xl:min-w-[187px] 2xl:h-[47px] min-h-11 whitespace-nowrap border-x border-white px-6 py-2.5 max-sm:px-4 sm:h-[47px] sm:min-w-[187px]",
     idle: "text-white",
     active: "bg-white text-black hover:text-black",
   },
