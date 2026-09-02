@@ -133,7 +133,7 @@ export function ImageIntroSection({
                    region entries are single paragraphs, so this is inert for
                    them. Same treatment AtAGlanceSection and FaqSection give
                    their CMS copy. */
-                <p className="whitespace-pre-line mx-auto max-w-[1236px] text-center text-white xl:text-body max-xl:text-[14px] max-md:text-[13px] max-xl:leading-[1.5] lg:max-xl:text-[13.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[14.5px] xl:max-2xl:leading-[1.4] 2xl:text-[18px] 2xl:leading-[24px] font-light">
+                <p className="whitespace-pre-line mx-auto max-w-[1236px] text-center text-white xl:text-body max-xl:text-[14px] max-md:text-[13px] max-xl:leading-[1.5] lg:max-xl:text-[13.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[16px] xl:max-2xl:leading-[1.4] 2xl:text-[18px] 2xl:leading-[24px] font-light">
                   {description}
                 </p>
               )}
@@ -179,7 +179,7 @@ export function ImageIntroSection({
                       {/* Between items, never before the first — the frame
                           draws four marks across five places. */}
                       {i > 0 && <PlaceMark />}
-                      <span className="xl:text-body max-xl:text-[14px] max-md:text-[13px] max-xl:leading-[1.5] lg:max-xl:text-[13.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[14.5px] xl:max-2xl:leading-[1.4] 2xl:text-[18px] 2xl:leading-[24px] font-light">
+                      <span className="xl:text-body max-xl:text-[14px] max-md:text-[13px] max-xl:leading-[1.5] lg:max-xl:text-[13.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[16px] xl:max-2xl:leading-[1.4] 2xl:text-[18px] 2xl:leading-[24px] font-light">
                         {place}
                       </span>
                     </li>

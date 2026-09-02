@@ -105,7 +105,7 @@ function SoloPackageCard({
           long unbroken word cannot push the split off 50/50. min-w-0 keeps it
           shrinkable inside the flex row. */}
       <div className="flex w-full min-w-0 flex-col px-[16px] py-[20px] md:w-1/2 md:px-[24px] md:py-[26px] xl:px-[30px] xl:py-[34px]">
-        <h3 className="font-heading text-[20px] leading-[1.25] font-normal text-black md:text-[24px] lg:max-xl:text-[27px] xl:max-2xl:text-[30px] 2xl:text-[32px]">
+        <h3 className="font-heading text-[20px] leading-[1.25] font-normal text-black md:text-[24px] lg:max-xl:text-[27px] xl:max-2xl:text-[32px] 2xl:text-[32px]">
           {title}
         </h3>
 

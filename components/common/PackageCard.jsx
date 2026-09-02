@@ -30,7 +30,7 @@ export function PackageCard({
   alt,
   className,
   imageAspectClassName = "aspect-[348/329] md:aspect-[460/423]",
-  metaClassName = "text-[13px] leading-[1.4] lg:max-xl:text-[14.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[15px] xl:max-2xl:leading-[1.4] 2xl:text-[16px] 2xl:leading-[20px] text-black/80 mb-[10px] lg:mb-[12px]",
+  metaClassName = "text-[13px] leading-[1.4] lg:max-xl:text-[14.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[16px] xl:max-2xl:leading-[1.4] 2xl:text-[16px] 2xl:leading-[20px] text-black/80 mb-[10px] lg:mb-[12px]",
   // 15 from the picture to the title and 12 in from each edge, per the redline.
   contentClassName = "px-[12px] pt-[15px] pb-[16px] md:pb-[35px]",
   // Caller-supplied overrides for the two blocks the props above do not reach.
@@ -106,7 +106,7 @@ export function PackageCard({
       >
         <h3
           className={cn(
-            "font-heading mb-[20px] text-[18px] leading-[30px] font-normal text-black lg:mb-[60px] lg:max-xl:text-[27px] xl:max-2xl:text-[30px] 2xl:text-[32px]",
+            "font-heading mb-[20px] text-[18px] leading-[30px] font-normal text-black lg:mb-[60px] lg:max-xl:text-[27px] xl:max-2xl:text-[32px] 2xl:text-[32px]",
             clamp2,
             titleClassName,
           )}

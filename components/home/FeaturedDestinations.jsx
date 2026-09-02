@@ -654,7 +654,7 @@ export function FeaturedDestinations({
             block it pushed the section 338px past the fold on a 900px screen.
             Height now comes from the content, which the card sizing below caps
             against the viewport — so the whole section fits on one screen. */}
-        <Container className="relative flex flex-col pt-10 pb-10 max-lg:min-h-0 lg:pt-[min(2.5rem,4vh)] lg:pb-[min(2rem,3.5vh)] 2xl:pt-14 2xl:pb-11">
+        <Container className="relative flex flex-col pt-10 pb-10 max-lg:min-h-0 lg:pt-[min(2.5rem,4vh)] lg:pb-[min(2rem,3.5vh)] xl:max-2xl:pt-[min(3.25rem,5.5vh)] xl:max-2xl:pb-[min(2.75rem,5vh)] 2xl:pt-14 2xl:pb-11">
           {/* Category tabs — individually outlined boxes with small gaps;
               the active tab flips to solid white, as in the design. */}
           <div className="relative z-30 flex flex-wrap gap-3 max-lg:flex-nowrap max-lg:overflow-x-auto max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden lg:justify-end">
@@ -768,7 +768,7 @@ export function FeaturedDestinations({
                     />
                     {/* Hide the inner text block on mobile since the location is already shown in the copy block */}
                     <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent p-6 max-lg:hidden">
-                      <span className="font-top text-h4 lg:max-xl:text-[14px] xl:max-2xl:text-[16px] 2xl:text-h4 text-white">
+                      <span className="font-top text-h4 lg:max-xl:text-[14px] xl:max-2xl:text-[18.5px] 2xl:text-h4 text-white">
                         {slide.location}
                       </span>
                     </figcaption>
@@ -872,15 +872,15 @@ export function FeaturedDestinations({
 function SlideCopy({ slide }) {
   return (
     <>
-      <p className="fd-eyebrow font-top text-h4 lg:max-xl:text-[14px] xl:max-2xl:text-[16px] 2xl:text-h4 text-white/95 max-sm:text-[12px] max-sm:leading-none">
+      <p className="fd-eyebrow font-top text-h4 lg:max-xl:text-[14px] xl:max-2xl:text-[18.5px] 2xl:text-h4 text-white/95 max-sm:text-[12px] max-sm:leading-none">
         {slide.location}
       </p>
 
-      <h2 className="fd-title font-heading text-h3 mt-8 leading-none text-white max-sm:mt-4 max-sm:text-[25px] max-sm:tracking-[-0.01em] lg:max-xl:text-[26px] xl:max-2xl:text-[31px] 2xl:text-[2.5rem]">
+      <h2 className="fd-title font-heading text-h3 mt-8 leading-none text-white max-sm:mt-4 max-sm:text-[25px] max-sm:tracking-[-0.01em] lg:max-xl:text-[26px] xl:max-2xl:text-[36px] 2xl:text-[2.5rem]">
         {slide.title}
       </h2>
 
-      <p className="fd-desc text-body lg:max-xl:text-[13px] lg:max-xl:leading-5 xl:max-2xl:text-[14.5px] xl:max-2xl:leading-6 2xl:text-body mt-5 text-white/80 max-sm:text-[12px] max-sm:leading-[120%] max-sm:font-light">
+      <p className="fd-desc text-body lg:max-xl:text-[13px] lg:max-xl:leading-5 xl:max-2xl:text-[17px] xl:max-2xl:leading-[26px] 2xl:text-body mt-5 text-white/80 max-sm:text-[12px] max-sm:leading-[120%] max-sm:font-light">
         {slide.description}
       </p>
 

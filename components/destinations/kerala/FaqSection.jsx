@@ -111,7 +111,7 @@ export function FaqSection({
                   >
                     <span
                       className={cn(
-                        "font-sans text-[15px] leading-[1.4] font-light transition-colors lg:max-xl:text-[16px] xl:max-2xl:text-[17px] 2xl:text-[18px]",
+                        "font-sans text-[15px] leading-[1.4] font-light transition-colors lg:max-xl:text-[16px] xl:max-2xl:text-[18px] 2xl:text-[18px]",
                         isOpen
                           ? "text-navy dark:text-cream"
                           : "text-black/80 dark:text-cream/80",
@@ -152,7 +152,7 @@ export function FaqSection({
                         {item.answer.map((paragraph, i) => (
                           <p
                             key={i}
-                            className="font-sans text-[13px] leading-[1.6] font-light text-black/70 lg:max-xl:text-[14.5px] xl:max-2xl:text-[15px] 2xl:text-[16px] dark:text-cream/70"
+                            className="font-sans text-[13px] leading-[1.6] font-light text-black/70 lg:max-xl:text-[14.5px] xl:max-2xl:text-[16px] 2xl:text-[16px] dark:text-cream/70"
                           >
                             {paragraph}
                           </p>

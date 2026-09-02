@@ -82,7 +82,7 @@ export function RegionDestinationsSection({
                   />
                 </div>
                 {/* 16px gap from image to text as per screenshot */}
-                <h3 className="mt-[16px] lg:max-xl:mt-[8px] xl:max-2xl:mt-[12px] 2xl:mt-[16px] text-black max-lg:text-[18px] lg:max-xl:text-[17px] xl:max-2xl:text-[19px]">
+                <h3 className="mt-[16px] lg:max-xl:mt-[8px] xl:max-2xl:mt-[12px] 2xl:mt-[16px] text-black max-lg:text-[18px] lg:max-xl:text-[17px] xl:max-2xl:text-[21px]">
                   {dest.name}
                 </h3>
               </Link>
