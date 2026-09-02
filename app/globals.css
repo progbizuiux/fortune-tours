@@ -17,6 +17,19 @@
 }
 
 @theme inline {
+  /* Move 2xl off Tailwind's 1536px default. Every component here is written in
+     the `xl:max-2xl:` / `2xl:` pair, so shifting the one breakpoint makes
+     1280–1699 fall in the xl→2xl band and starts the 2xl styling at 1700 —
+     screens ≥1700px render exactly as they did before. The raw @media
+     boundaries below and in design-system.css are kept in sync by hand.
+
+     Stated in rem (106.25rem = 1700px), NOT px: Tailwind sorts the breakpoint
+     media blocks by value, and it cannot compare px against the rem the other
+     breakpoints use — a px value here sorts ahead of sm/md/lg/xl instead of
+     after them, so at ≥1700px those lower breakpoints would win on source
+     order and the laptop values would leak onto wide screens. */
+  --breakpoint-2xl: 106.25rem;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
@@ -162,8 +175,8 @@
   }
 }
 
-/* Specific text size reduction for laptop screens - xl to 2xl (1280px to 1535px) */
-@media (min-width: 1280px) and (max-width: 1535px) {
+/* Specific text size reduction for laptop screens - xl to 2xl (1280px to 1699px) */
+@media (min-width: 1280px) and (max-width: 1699px) {
   :root {
     --text-h1: 58px;
     --text-h2: 42px;
