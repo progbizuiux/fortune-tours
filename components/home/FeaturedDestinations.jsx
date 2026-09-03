@@ -156,7 +156,7 @@ export function FeaturedDestinations({
   categories = CATEGORIES,
   slides: slideData = SLIDES,
   viewAllLabel = "",
-  viewAllHref = "",
+  viewAllHref = "/destinations/a-z",
 }) {
   const [category, setCategory] = useState(categories[0]?.key);
   const [index, setIndex] = useState(0);
@@ -813,7 +813,7 @@ export function FeaturedDestinations({
 
                 <div className="text-body flex items-center gap-4 text-white/95">
                   <CtaLink
-                    href={viewAllHref || "/destinations"}
+                    href={viewAllHref || "/destinations/a-z"}
                     fill
                     className="border-x border-white/40 px-5 hover:text-white"
                   >
@@ -869,7 +869,7 @@ export function FeaturedDestinations({
 
 // Split out so the outgoing and incoming blocks are guaranteed to render the
 // same markup — they overlap during a transition and any difference between
-// them would show up as the two crossing.
+// them would show up as  the two crossing.
 //
 // The fd-* classes are what the entrance timeline hangs off: each part comes in
 // on its own beat, and fd-title is additionally cut into lines and masked.

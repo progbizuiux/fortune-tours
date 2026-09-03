@@ -77,7 +77,11 @@ export function GlobeSection() {
               <FrameButton variant="rail" active className={GLOBE_BUTTON}>
                 Map of regions
               </FrameButton>
-              <FrameButton variant="rail" className={GLOBE_BUTTON}>
+              <FrameButton
+                href="/destinations/a-z"
+                variant="rail"
+                className={GLOBE_BUTTON}
+              >
                 A-Z of countries
               </FrameButton>
             </div>

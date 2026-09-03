@@ -11,8 +11,7 @@ import { HERO_HEADING } from "@/lib/typography";
    matching CMS field is empty, so an unfilled entry renders the design rather
    than a hole. Content comes from lib/strapi/kerala.js via the page. */
 const CTA_LINKS = [
-  { label: "Explore Packages", href: "#packages" },
-  { label: "Design your itinerary", href: "/itinerary" },
+  { label: "Design Your Trip", href: "/plan-my-trip" },
 ];
 
 const DEFAULT_EYEBROW = "Fortune Tours & Travels — Est. 1998";
@@ -36,7 +35,14 @@ export function HeroSection({
   slug,
 }) {
   const containerRef = useRef(null);
-  const ctaLinks = ctas?.length ? ctas : CTA_LINKS;
+  const rawLinks = ctas?.length ? ctas : CTA_LINKS;
+  const ctaLinks = rawLinks
+    .filter((link) => !link.label?.toLowerCase().includes("start planning"))
+    .map((link) =>
+      link.label?.toLowerCase().includes("design")
+        ? { ...link, href: "/plan-my-trip" }
+        : link
+    );
   const video = HERO_VIDEOS[slug];
 
   useGSAP(
@@ -144,17 +150,17 @@ export function HeroSection({
       </div>
 
       <Container className="hero-copy relative flex flex-col items-center text-center md:items-end md:text-right md:pt-[30vh]">
-        <span className="hero-eyebrow font-top max-md:text-[13px] text-h4 text-white/90 opacity-0 mb-8 md:mb-11 lg:mb-0">
+        <span className="hero-eyebrow font-top max-md:text-[13px] text-h4 text-white/90 opacity-0 mb-5 md:mb-7 lg:mb-0">
           {eyebrow}
         </span>
 
         {/* Narrower measure from lg to 2xl: at 889px this title sets on one
             long line there, and the design holds it to two. */}
-        <h1 className={`hero-heading ${HERO_HEADING} lg:mt-[70px] lg:max-2xl:mt-8 max-md:max-w-[400px] max-w-[889px] lg:max-2xl:max-w-[620px] text-white opacity-0`}>
+        <h1 className={`hero-heading ${HERO_HEADING} lg:mt-9 lg:max-2xl:mt-5 max-md:max-w-[400px] max-w-[889px] lg:max-2xl:max-w-[620px] text-white opacity-0`}>
           {title}
         </h1>
 
-        <div className="hero-cta mt-11 md:mt-16 lg:max-2xl:mt-8 flex flex-wrap items-center justify-center md:justify-end max-md:gap-4 gap-x-6 gap-y-3 max-md:text-[13px] max-md:leading-6 text-body text-white/90 opacity-0">
+        <div className="hero-cta mt-7 md:mt-10 lg:max-2xl:mt-6 flex flex-wrap items-center justify-center md:justify-end max-md:gap-4 gap-x-6 gap-y-3 max-md:text-[13px] max-md:leading-6 text-body text-white/90 opacity-0">
           {ctaLinks.map((link) => (
             <CtaLink
               key={link.href}

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { FILL_SWEEP } from "@/lib/motion";
 
@@ -170,22 +171,32 @@ export function FrameButton({
   // Per-call override of the variant's FILL_SWEEP opt-in/out. Undefined
   // defers to the variant.
   fill,
+  href,
   ...props
 }) {
   const styles = VARIANT_CLASSES[variant];
   const sweeps = fill ?? styles.fill !== false;
+  const classes = cn(
+    "inline-flex cursor-pointer items-center justify-center transition-colors duration-300",
+    "focus-visible:outline-sky focus-visible:outline-2 focus-visible:outline-offset-2",
+    sweeps && FILL_SWEEP,
+    styles.base,
+    active ? styles.active : styles.idle,
+    className,
+  );
+
+  if (href) {
+    return (
+      <Link href={href} className={classes} {...props}>
+        {children}
+      </Link>
+    );
+  }
 
   return (
     <button
       type={type}
-      className={cn(
-        "inline-flex cursor-pointer items-center justify-center transition-colors duration-300",
-        "focus-visible:outline-sky focus-visible:outline-2 focus-visible:outline-offset-2",
-        sweeps && FILL_SWEEP,
-        styles.base,
-        active ? styles.active : styles.idle,
-        className,
-      )}
+      className={classes}
       {...props}
     >
       {children}
