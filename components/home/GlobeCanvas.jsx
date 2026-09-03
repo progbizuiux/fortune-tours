@@ -334,30 +334,32 @@ function GlobeScene({
    pixels and written straight to the node's transform. Keeping the text in the
    DOM means it renders at device resolution in the site's own font, upright
    whatever the globe is doing — which is how the design draws it. */
-/* Destinations pinned on the globe. Slugs match the cards in
-   DestinationsSection, so the globe never links anywhere the rest of the page
-   does not — /destinations/[slug] sets dynamicParams=false and 404s on
-   anything the CMS has no entry for. */
+/* Continents pinned on the globe. Each links to its region page from
+   lib/navigation.js (app/[slug]), so the globe never links anywhere the
+   destinations menu does not. Antarctica has no region page, so it carries a
+   label but no pin. Coordinates use the same shell frame as LABELS (see the
+   note there), and each pin sits 6° south of its label so the dot never
+   covers the text. */
 const DESTINATIONS = [
   { name: "Japan", href: "/destinations/japan", lat: 36.2, lon: 138.25 },
-  {
-    name: "Switzerland",
-    href: "/destinations/switzerland",
-    lat: 46.8,
-    lon: 8.2,
-  },
+  { name: "Switzerland", href: "/destinations/switzerland", lat: 46.8, lon: 8.2 },
   { name: "India", href: "/destinations/india", lat: 22, lon: 79 },
   { name: "Norway", href: "/destinations/norway", lat: 62, lon: 9 },
 ];
 
+/* Longitudes are in the shell's own frame, not geographic: measured against
+   the GLB's coastlines, the model runs mirrored and rotated relative to
+   positionFromLatLon, with model lon = -(geographic lon) - 85. Each point
+   below was ray-tested against the crust so the label sits inside its
+   landmass, not off the coast. */
 const LABELS = [
-  { name: "North America", lat: 46, lon: -100 },
-  { name: "South America", lat: -15, lon: -60 },
-  { name: "Europe", lat: 52, lon: 15 },
-  { name: "Africa", lat: 2, lon: 20 },
-  { name: "Asia", lat: 45, lon: 90 },
-  { name: "Australia", lat: -25, lon: 134 },
-  { name: "Antarctica", lat: -82, lon: 0 },
+  { name: "North America", lat: 46, lon: 15 },
+  { name: "South America", lat: -12, lon: -27 },
+  { name: "Europe", lat: 50, lon: -105 },
+  { name: "Africa", lat: 5, lon: -105 },
+  { name: "Asia", lat: 45, lon: -175 },
+  { name: "Australia", lat: -25, lon: 141 },
+  { name: "Antarctica", lat: -82, lon: -85 },
 ];
 
 /* Longitude runs anticlockwise about +Y in this model's baked frame, so the

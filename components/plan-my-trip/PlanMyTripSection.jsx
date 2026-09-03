@@ -87,6 +87,9 @@ function OptionChips({ options, isActive, onToggle }) {
           // seven equal-width chips overflow the column and wrap to a second
           // row, and the design keeps this answer row on one line.
           className="max-lg:text-[14px] sm:min-w-0"
+          // No sky sweep on the answer chips — only the footer's Back /
+          // Continue keep the hover fill.
+          fill={false}
           active={isActive(option)}
           aria-pressed={isActive(option)}
           onClick={() => onToggle(option)}
