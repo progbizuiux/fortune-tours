@@ -100,7 +100,7 @@ export function IntroSection({
                 ))}
               </div>
 
-              <div className="mt-9 md:mt-32 lg:mt-16 xl:mt-24 2xl:mt-32 flex items-center">
+              <div className="mt-6 md:mt-8 lg:mt-10 flex items-center">
                 <FrameButton variant="rail" className="max-md:text-[13px]">
                   {ctaLabel}
                 </FrameButton>

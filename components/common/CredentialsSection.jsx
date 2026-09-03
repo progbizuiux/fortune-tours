@@ -192,13 +192,18 @@ export function CredentialsSection({
             </h2>
           </div>
 
-          <div className="flex shrink-0 flex-col items-center max-lg:mt-auto gap-2 max-lg:mb-1 lg:items-end lg:gap-3 lg:mt-0 lg:self-center 2xl:mt-[60px] 2xl:self-start min-[1900px]:gap-[20px]">
+          <a
+            href="https://share.google/Lix6EWHT7FpV5iwR8"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex shrink-0 flex-col items-center max-lg:mt-auto gap-2 max-lg:mb-1 lg:items-end lg:gap-3 lg:mt-0 lg:self-center 2xl:mt-[60px] 2xl:self-start min-[1900px]:gap-[20px] transition-opacity hover:opacity-80"
+          >
             <AnimatedAvatars />
 
             <p className="max-sm:font-light max-sm:text-[9px] max-sm:leading-[12px] sm:text-[10px] sm:leading-[14px] text-center lg:text-right text-caption lg:font-light lg:max-xl:text-[15px] xl:max-2xl:text-[18px] 2xl:text-[18px] lg:leading-6 text-navy/70 lg:text-black/80 max-sm:w-[160px] sm:w-full lg:w-auto lg:max-w-none">
               4.8 Rating from 13K+<br className="lg:hidden" /> Google Reviews
             </p>
-          </div>
+          </a>
         </div>
 
         <PartnerLogos className="mt-20 lg:mt-20 2xl:mt-28" />
@@ -223,7 +228,13 @@ export function CredentialsSection({
         </ul>
 
         <div className="max-md:mt-[26.82px] md:mt-16 flex items-center justify-center gap-6">
-          <CtaLink href="#" fill className={`${HERO_CTA} border-navy/20 text-navy`}>
+          <CtaLink
+            href="https://share.google/Lix6EWHT7FpV5iwR8"
+            target="_blank"
+            rel="noopener noreferrer"
+            fill
+            className={`${HERO_CTA} border-navy/20 text-navy`}
+          >
             View more
           </CtaLink>
         </div>

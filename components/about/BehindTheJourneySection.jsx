@@ -59,7 +59,7 @@ const STATS = [
     note: "Our specialists have travelled extensively",
   },
   {
-    value: "28",
+    value: "21",
     label: "Years of continuous service",
     note: "Our specialists have travelled extensively",
   },
