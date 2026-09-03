@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { CascadeText } from "@/components/common/CascadeText";
+import { CtaLink } from "@/components/common/CtaLink";
 import { cn } from "@/lib/utils";
 
 /* Bordered package card: picture, then the title, the nights/destinations line
@@ -18,9 +19,13 @@ import { cn } from "@/lib/utils";
  * width. Defaults are the honeymoon values; Kerala passes its own so it stays
  * pixel-identical.
  *
- * mt-auto on the lower block is what makes a row of these line up: titles wrap
- * to different line counts, and without it the meta and list would sit at a
- * different height in every card.
+ * The copy runs on from the title — meta and list directly under it — and it
+ * is the optional CTA at the foot that is bottom-pinned (mt-auto), so a row of
+ * cards shares a baseline for its buttons while the text never opens a gap
+ * under a short title. (An earlier cut bottom-pinned the meta block instead,
+ * which left a two-line title followed by a hole the height of the missing
+ * lines.) `uniform` still clamps and reserves two lines per block for the rows
+ * that need every part level.
  */
 export function PackageCard({
   title,
@@ -42,6 +47,11 @@ export function PackageCard({
      "HIGHLIGHTS" should get it — the design's own line is the default, so
      every call site that does not pass one is unchanged. */
   experiencesLabel = "EXPERIENCES:",
+  /* A button at the foot of the card — "View Itinerary" on the fixed-package
+     rows. Drawn only when a label is given, so the honeymoon carousel, which
+     passes none, is unchanged. */
+  ctaLabel,
+  ctaHref,
   sizes = "(min-width: 1280px) 460px, 85vw",
   /* Opt in to the scroll-in cascade (lib/gsap/useCardCascade.js), which needs the
      hooks below to find the three parts that move. Off by default, so Kerala's
@@ -106,7 +116,7 @@ export function PackageCard({
       >
         <h3
           className={cn(
-            "font-heading mb-[20px] text-[18px] leading-[30px] font-normal text-black lg:mb-[60px] lg:max-xl:text-[27px] xl:max-2xl:text-[32px] 2xl:text-[32px]",
+            "font-heading mb-[12px] text-[18px] leading-[30px] font-normal text-black lg:mb-[16px] lg:max-xl:text-[27px] xl:max-2xl:text-[32px] 2xl:text-[32px]",
             clamp2,
             titleClassName,
           )}
@@ -114,7 +124,7 @@ export function PackageCard({
           {cascade ? <CascadeText part="title">{title}</CascadeText> : title}
         </h3>
 
-        <div className="mt-auto">
+        <div>
           <p className={cn("font-sans font-light", clamp2, metaClassName)}>
             {cascade ? <CascadeText part="subtitle">{meta}</CascadeText> : meta}
           </p>
@@ -137,6 +147,18 @@ export function PackageCard({
             {experiences}
           </p>
         </div>
+
+        {ctaLabel && ctaHref && (
+          <div className="mt-auto pt-[18px] md:pt-[24px]">
+            <CtaLink
+              href={ctaHref}
+              fill
+              className="text-body border-navy/20 text-black max-md:text-[13px] max-md:min-h-11 border-x px-5"
+            >
+              {ctaLabel}
+            </CtaLink>
+          </div>
+        )}
       </div>
     </div>
   );

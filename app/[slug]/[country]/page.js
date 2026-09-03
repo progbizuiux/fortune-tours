@@ -15,11 +15,15 @@ import { getCountryPage, getCountryParams } from "@/lib/strapi/country";
 
 /* Country pages: /africa/botswana and its siblings — one file for all of them.
  *
- * Both segments are load-bearing. `slug` is the region and `country` the
- * country, and the entry has to name both, so /africa/botswana resolves while
- * /asia/botswana does not — see lib/strapi/country.js. Static segments win
- * over a dynamic one in Next's route matching, so /destinations/*, /search and
- * /experiences/* are untouched by this route.
+ * Both segments are load-bearing. `country` names the Strapi entry and `slug`
+ * must be a region that lists that country in lib/navigation.js — so
+ * /africa/mauritius, /asia/mauritius and /indian-ocean/mauritius all render
+ * Mauritius (a reader browsing the Indian Ocean stays in the Indian Ocean),
+ * while /europe/mauritius 404s. The entry's own region is the canonical URL;
+ * every alias carries a <link rel="canonical"> to it — see
+ * lib/strapi/country.js. Static segments win over a dynamic one in Next's
+ * route matching, so /destinations/*, /search and /experiences/* are untouched
+ * by this route.
  *
  * Every word on the page comes from the CMS. The sections are shape-only and
  * take their copy as props; a field an editor has not filled falls through to
@@ -50,6 +54,13 @@ export async function generateMetadata({ params }) {
   return {
     title: page.meta?.title ?? page.hero?.title ?? page.name,
     description: page.meta?.description ?? page.hero?.description,
+    /* One page, several URLs: the canonical points every alias at the region
+       the entry names, so the copies are not indexed as duplicates. Resolved
+       against metadataBase in the root layout. */
+    alternates: page.canonicalPath ? { canonical: page.canonicalPath } : {},
+    /* The root layout's openGraph.url is the site root; without this every
+       country page would share it, contradicting the canonical above. */
+    openGraph: page.canonicalPath ? { url: page.canonicalPath } : undefined,
   };
 }
 
