@@ -40,7 +40,7 @@ export function ResultsGrid({ journeys }) {
     >
       {journeys.map((journey) => (
         <li key={journey.slug}>
-          <Link href={`/destinations/${journey.slug}`} className="group block">
+          <Link href={journey.href} className="group block">
             <div className="bg-navy/5 relative aspect-[433/412] w-full overflow-hidden">
               <Image
                 src={journey.image}

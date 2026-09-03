@@ -64,7 +64,12 @@ export function MobileMenu({ links, pathname, onNavigate }) {
   const openedFrom = useRef(null);
 
   const submenu = level ? SUBMENUS[level] : null;
-  const topLevelHrefs = new Set(links.map((link) => link.href));
+  /* Only the rows that ARE links. A row that opens a sub-list carries an href
+     for the desktop bar but is a button here, so its target — the A to Z
+     under Destinations — must stay in the list it opens. */
+  const topLevelHrefs = new Set(
+    links.filter((link) => !link.menu).map((link) => link.href),
+  );
 
   useEffect(() => {
     if (level) backRef.current?.focus();
