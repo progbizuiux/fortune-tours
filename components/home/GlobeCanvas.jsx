@@ -1,6 +1,13 @@
 "use client";
 
-import { Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import {
+  Suspense,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Link from "next/link";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
@@ -84,7 +91,14 @@ function useDesignFraming() {
        the projection of the sphere's centre, so the apex would drift. */
     const radiusPx = (SILHOUETTE_WIDTH_RATIO * width) / 2;
     const centrePx = radiusPx * (1 + APEX_OFFSET_RATIO);
-    camera.setViewOffset(width, height, 0, height / 2 - centrePx, width, height);
+    camera.setViewOffset(
+      width,
+      height,
+      0,
+      height / 2 - centrePx,
+      width,
+      height,
+    );
     camera.updateProjectionMatrix();
 
     return () => {
@@ -124,7 +138,9 @@ function Continents() {
     return root;
   }, [scene]);
 
-  return <primitive object={prepared} scale={GLOBE_RADIUS / SHELL_WORLD_RADIUS} />;
+  return (
+    <primitive object={prepared} scale={GLOBE_RADIUS / SHELL_WORLD_RADIUS} />
+  );
 }
 
 /* Drag interaction. The globe carries a single orientation quaternion instead
@@ -185,7 +201,10 @@ function useDragRotation(globeRef) {
          already turned: drag right rotates about the screen's vertical axis,
          drag down about its horizontal one. */
       const up = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 1);
-      const right = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0);
+      const right = new THREE.Vector3().setFromMatrixColumn(
+        camera.matrixWorld,
+        0,
+      );
 
       axis
         .copy(up)
@@ -228,7 +247,15 @@ function useDragRotation(globeRef) {
   return drag;
 }
 
-function GlobeScene({ tilt, spin, spinSpeed, labelNodes, pinNodes, driftPaused }) {
+function GlobeScene({
+  tilt,
+  spin,
+  spinSpeed,
+  labels,
+  labelNodes,
+  pinNodes,
+  driftPaused,
+}) {
   useDesignFraming();
   const globeRef = useRef(null);
   const drag = useDragRotation(globeRef);
@@ -238,7 +265,10 @@ function GlobeScene({ tilt, spin, spinSpeed, labelNodes, pinNodes, driftPaused }
   const initialQuaternion = useMemo(
     () =>
       new THREE.Quaternion()
-        .setFromAxisAngle(new THREE.Vector3(1, 0, 0), THREE.MathUtils.degToRad(tilt))
+        .setFromAxisAngle(
+          new THREE.Vector3(1, 0, 0),
+          THREE.MathUtils.degToRad(tilt),
+        )
         .multiply(
           new THREE.Quaternion().setFromAxisAngle(
             new THREE.Vector3(0, 1, 0),
@@ -292,7 +322,7 @@ function GlobeScene({ tilt, spin, spinSpeed, labelNodes, pinNodes, driftPaused }
     <group ref={globeRef} quaternion={initialQuaternion}>
       <GlobeBody />
       <Continents />
-      <PinnedAnchors points={LABELS} nodes={labelNodes} />
+      {labels && <PinnedAnchors points={LABELS} nodes={labelNodes} />}
       <PinnedAnchors points={DESTINATIONS} nodes={pinNodes} />
     </group>
   );
@@ -311,12 +341,10 @@ function GlobeScene({ tilt, spin, spinSpeed, labelNodes, pinNodes, driftPaused }
    note there), and each pin sits 6° south of its label so the dot never
    covers the text. */
 const DESTINATIONS = [
-  { name: "North America", href: "/north-america", lat: 40, lon: 15 },
-  { name: "South America", href: "/latin-america", lat: -18, lon: -27 },
-  { name: "Europe", href: "/europe", lat: 44, lon: -105 },
-  { name: "Africa", href: "/africa", lat: -1, lon: -105 },
-  { name: "Asia", href: "/asia", lat: 39, lon: -175 },
-  { name: "Australia", href: "/australasia-oceania", lat: -31, lon: 141 },
+  { name: "Japan", href: "/destinations/japan", lat: 36.2, lon: 138.25 },
+  { name: "Switzerland", href: "/destinations/switzerland", lat: 46.8, lon: 8.2 },
+  { name: "India", href: "/destinations/india", lat: 22, lon: 79 },
+  { name: "Norway", href: "/destinations/norway", lat: 62, lon: 9 },
 ];
 
 /* Longitudes are in the shell's own frame, not geographic: measured against
@@ -420,6 +448,13 @@ export default function GlobeCanvas({
   tilt = TILT_DEG,
   spin = SPIN_DEG,
   spinSpeed = SPIN_SPEED,
+  /* The seven continent names pinned to the sphere. On by default, because the
+     home page's globe is the one this was drawn for and the names are part of
+     that frame. Turned off where the globe sits above a list that already
+     names every region in type — see components/destinations/az/RegionGlobe —
+     since the same words twice, once floating and once as a heading, reads as
+     a mistake rather than as a map. */
+  labels = true,
 }) {
   const wrapRef = useRef(null);
   const labelNodes = useRef([]);
@@ -470,6 +505,7 @@ export default function GlobeCanvas({
             tilt={tilt}
             spin={spin}
             spinSpeed={spinSpeed}
+            labels={labels}
             labelNodes={labelNodes}
             pinNodes={pinNodes}
             driftPaused={driftPaused}
@@ -480,30 +516,34 @@ export default function GlobeCanvas({
       {/* Label layer. aria-hidden because the globe is decorative — the same
           places are reachable as real links elsewhere in the section — and
           pointer-events stay off so labels never break a drag. */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        {LABELS.map((label, index) => (
-          <span
-            key={label.name}
-            ref={(node) => {
-              labelNodes.current[index] = node;
-            }}
-            className="absolute left-0 top-0 whitespace-nowrap font-top text-black"
-            style={{
-              visibility: "hidden",
-              willChange: "transform",
-              /* Scales with the section rather than stepping at breakpoints,
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
+        {labels &&
+          LABELS.map((label, index) => (
+            <span
+              key={label.name}
+              ref={(node) => {
+                labelNodes.current[index] = node;
+              }}
+              className="absolute left-0 top-0 whitespace-nowrap font-top text-black"
+              style={{
+                visibility: "hidden",
+                willChange: "transform",
+                /* Scales with the section rather than stepping at breakpoints,
                  because the globe itself is sized as a fraction of the canvas
                  width — a fixed size would read huge on a phone and small on a
                  wide desktop. The bounds keep it legible at both ends. */
-              fontSize: "clamp(14px, 1.6vw, 28px)",
-              /* Between light and regular; variable faces honour it exactly and
+                fontSize: "clamp(14px, 1.6vw, 28px)",
+                /* Between light and regular; variable faces honour it exactly and
                  static ones round to the nearer weight they ship. */
-              fontWeight: 350,
-            }}
-          >
-            {label.name}
-          </span>
-        ))}
+                fontWeight: 350,
+              }}
+            >
+              {label.name}
+            </span>
+          ))}
       </div>
 
       {/* Destination pins. Real links rather than canvas hit-testing, so they
@@ -576,7 +616,10 @@ export default function GlobeCanvas({
               <span
                 aria-hidden="true"
                 className="pointer-events-none absolute bottom-full left-1/2 mb-1.5 -translate-x-1/2 translate-y-1 whitespace-nowrap rounded-full bg-white/85 px-2.5 py-1 font-top text-navy opacity-0 shadow-[0_2px_10px_rgba(31,41,55,0.12)] backdrop-blur-sm transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
-                style={{ fontSize: "clamp(13px, 1.3vw, 19px)", fontWeight: 400 }}
+                style={{
+                  fontSize: "clamp(13px, 1.3vw, 19px)",
+                  fontWeight: 400,
+                }}
               >
                 {destination.name}
               </span>
