@@ -193,10 +193,10 @@ function CuratedDestinations() {
                 className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/15"
               />
               <span className="absolute inset-x-0 bottom-0 flex flex-col p-4 text-white">
-                <span className="text-body leading-tight font-medium lg:max-xl:text-[11.5px] xl:max-2xl:text-[12.5px] 2xl:text-[15px]">
+                <span className="text-body leading-tight font-medium lg:max-xl:text-[11.5px] xl:max-2xl:text-[14px] 2xl:text-[15px]">
                   {place.title}
                 </span>
-                <span className="text-small mt-1 leading-none font-light text-white/80 lg:max-xl:text-[10px] xl:max-2xl:text-[10.5px] 2xl:text-[13px]">
+                <span className="text-small mt-1 leading-none font-light text-white/80 lg:max-xl:text-[10px] xl:max-2xl:text-[11.5px] xl:max-2xl:hidden 2xl:text-[13px]">
                   {place.tagline}
                 </span>
               </span>

@@ -83,7 +83,7 @@ export function IntroSection({
                 lines instead of one long one. Both bands carry an explicit
                 1.2 leading — the h2 token's own is 1, which stacks the two
                 lines into each other. */}
-            <h2 className="font-heading text-h2 max-md:text-[30px] max-md:font-normal max-md:tracking-[-0.01em] max-md:text-[#0C2233] text-black max-md:leading-[45px] leading-[1.1] lg:max-xl:text-[34px] lg:max-xl:leading-[1.2] xl:max-2xl:text-[38px] xl:max-2xl:leading-[1.2] 2xl:text-[40px] 2xl:leading-[1.2] max-w-[1400px] lg:max-2xl:max-w-[480px]">
+            <h2 className="font-heading text-h2 max-md:text-[30px] max-md:font-normal max-md:tracking-[-0.01em] max-md:text-[#0C2233] text-black max-md:leading-[45px] leading-[1.1] lg:max-xl:text-[34px] lg:max-xl:leading-[1.2] xl:max-2xl:text-[40px] xl:max-2xl:leading-[1.2] 2xl:text-[40px] 2xl:leading-[1.2] max-w-[1400px] lg:max-2xl:max-w-[480px]">
               {title}
             </h2>
           </AnimateIn>
@@ -91,10 +91,10 @@ export function IntroSection({
           {/* Bottom Right: Description and CTA */}
           <AnimateIn stagger={0.1} delay={0.2} className="flex md:justify-end max-md:mt-[30px] md:mt-16">
             <div className="flex flex-col w-full max-w-[728px]">
-              <h3 className="font-heading text-h4 max-md:text-[18px] max-md:leading-[28.9px] max-md:tracking-normal max-md:font-normal text-black max-md:mb-5 md:mb-3">
+              <h3 className="font-heading text-h4 max-md:text-[18px] max-md:leading-[28.9px] max-md:tracking-normal max-md:font-normal text-black max-md:mb-5 md:mb-3 min-[1500px]:max-2xl:text-[22px]">
                 {lead}
               </h3>
-              <div className="font-sans text-body font-light text-black/80 flex flex-col gap-4 md:gap-6 [&_p]:font-light [&_p]:max-md:text-[13px] [&_p]:max-md:leading-[22px] [&_p]:max-md:tracking-normal [&_p]:md:leading-[27px]">
+              <div className="font-sans text-body font-light text-black/80 flex flex-col gap-4 md:gap-6 [&_p]:font-light [&_p]:max-md:text-[13px] [&_p]:max-md:leading-[22px] [&_p]:max-md:tracking-normal [&_p]:md:leading-[27px] [&_p]:min-[1500px]:max-2xl:text-[17px]">
                 {paragraphs.map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
                 ))}

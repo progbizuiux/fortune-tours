@@ -74,7 +74,7 @@ export default async function DestinationPage({ params }) {
           bottom, it pushes the hero away with it instead of leaving it pinned
           for the rest of the page. */}
       <div>
-        <HeroSection {...page.hero} />
+        <HeroSection {...page.hero} slug={slug} />
         <IntroSection {...page.intro} />
       </div>
       {/* The heading comes from the entry's traveller-types section; the cards

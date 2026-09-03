@@ -39,7 +39,7 @@ export const SiteMenu = forwardRef(function SiteMenu(
                   rather than seven <h4> elements — this is a list of links. */}
               <Link
                 href={item.href}
-                className="font-heading text-[32px] leading-none font-normal text-[#1D232A] lg:max-xl:text-[17px] xl:max-2xl:text-[18.5px] hover:text-sky inline-flex min-h-11 items-center transition-colors"
+                className="font-heading text-[32px] leading-none font-normal text-[#1D232A] lg:max-xl:text-[17px] xl:max-2xl:text-[20.5px] hover:text-sky inline-flex min-h-11 items-center transition-colors"
               >
                 {item.label}
               </Link>
@@ -57,7 +57,7 @@ export const SiteMenu = forwardRef(function SiteMenu(
             >
               <Link
                 href={item.href}
-                className="text-[18px] leading-none font-light text-[#454E56] lg:max-xl:text-[12px] xl:max-2xl:text-[13px] hover:text-sky flex min-h-9 items-center transition-colors"
+                className="text-[18px] leading-none font-light text-[#454E56] lg:max-xl:text-[12px] xl:max-2xl:text-[14.5px] hover:text-sky flex min-h-9 items-center transition-colors"
               >
                 {item.label}
               </Link>
@@ -82,7 +82,7 @@ function FeaturedPanel() {
   return (
     <div className="relative ml-auto hidden aspect-[1103/758] w-full max-w-[1103px] lg:max-2xl:max-w-[620px] min-w-0 flex-1 overflow-hidden bg-navy/5 lg:block">
       <Image
-        src="/featured_image.png"
+        src="/home/featured_Image.png"
         alt=""
         fill
         sizes="(min-width: 1536px) 1103px, 50vw"

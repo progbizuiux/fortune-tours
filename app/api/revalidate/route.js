@@ -7,6 +7,7 @@ import { EXPERIENCES_TAGS } from "@/lib/strapi/experiences";
 import { GALLERY_TAGS } from "@/lib/strapi/gallery";
 import { HOME_TAGS } from "@/lib/strapi/home";
 import { KERALA_TAGS } from "@/lib/strapi/kerala";
+import { PACKAGE_TAGS } from "@/lib/strapi/packages";
 import { TRAVEL_STYLE_TAGS } from "@/lib/strapi/travel-styles";
 
 /* On-demand ISR. Strapi calls this on publish so an edit appears immediately
@@ -60,6 +61,8 @@ const TAGS_BY_MODEL = {
   /* The gallery stands alone — it shares no tag with the destination pages,
      so publishing a photograph drops only /gallery. */
   "gallery-page": GALLERY_TAGS,
+  package: PACKAGE_TAGS,
+  packages: PACKAGE_TAGS,
 };
 
 /* Every tag the app uses, derived from the mapping so the two cannot drift

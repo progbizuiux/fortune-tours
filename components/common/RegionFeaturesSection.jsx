@@ -43,23 +43,34 @@ const XL_WIDTHS = {
 };
 
 export function RegionFeaturesSection({
-  eyebrow = "Why Fortune tours",
-  title = "Africa rewards travellers who plan well.",
-  description = "Visa rules, health precautions, park permits and long distances between destinations all need careful handling. Our experience helps take that complexity away.",
-  features = FALLBACK_FEATURES,
+  eyebrow,
+  title,
+  description,
+  features,
+  className,
 }) {
-  const activeFeatures = (features || []).filter(
-    (feature) => feature && feature.title && feature.title.trim() !== ""
+  const finalEyebrow = eyebrow !== undefined ? eyebrow : (title ? undefined : "Why Fortune tours");
+  const finalTitle = title !== undefined ? title : "Africa rewards travellers who plan well.";
+  const finalDescription = description !== undefined ? description : (title ? undefined : "Visa rules, health precautions, park permits and long distances between destinations all need careful handling. Our experience helps take that complexity away.");
+  const rawFeatures = features ?? (title ? [] : FALLBACK_FEATURES);
+
+  const activeFeatures = (rawFeatures || []).map((feature) => {
+    if (typeof feature === "string") return { title: feature };
+    return feature;
+  }).filter(
+    (feature) => feature && ((feature.title && feature.title.trim() !== "") || (feature.body && feature.body.trim() !== "") || (feature.description && feature.description.trim() !== ""))
   );
 
+  if (!activeFeatures.length && !finalTitle) return null;
+
   return (
-    <section className="relative z-10 bg-[#FAF7F2] spacing">
+    <section className={cn("relative z-10 bg-[#FAF7F2] spacing", className)}>
       <Container>
         <SectionHeading
           align="center"
-          eyebrow={eyebrow}
-          title={title}
-          description={description}
+          eyebrow={finalEyebrow}
+          title={finalTitle}
+          description={finalDescription}
           titleClassName="max-w-[1050px]"
           descriptionClassName="max-w-[828px]"
         />
@@ -110,12 +121,14 @@ export function RegionFeaturesSection({
                   title bottom-aligned inside it: titles run to one or two
                   lines, and without a common floor each description starts at
                   a different baseline across the row. xl is 2 x 33px leading. */}
-              <h3 className="flex items-end justify-center font-heading max-lg:text-[20px] lg:max-xl:text-[18px] xl:max-2xl:text-[21px] 2xl:text-[24px] font-normal max-xl:leading-[1.2] xl:leading-[33px] text-black max-xl:min-h-[48px] xl:min-h-[66px]">
+              <h3 className="flex items-end justify-center font-heading max-lg:text-[20px] lg:max-xl:text-[18px] xl:max-2xl:text-[23px] 2xl:text-[24px] font-normal max-xl:leading-[1.2] xl:leading-[33px] text-black max-xl:min-h-[48px] xl:min-h-[66px]">
                 {feature.title}
               </h3>
-              <p className="mt-[10px] font-sans max-lg:text-[14px] lg:max-xl:text-[13px] xl:max-2xl:text-[14.5px] 2xl:text-[16px] font-light max-xl:leading-[21px] xl:leading-[24px] text-black/80 max-xl:flex-1">
-                {feature.body}
-              </p>
+              {(feature.body || feature.description) && (
+                <p className="mt-[10px] font-sans max-lg:text-[14px] lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-[16px] font-light max-xl:leading-[21px] xl:leading-[24px] text-black/80 max-xl:flex-1">
+                  {feature.body || feature.description}
+                </p>
+              )}
             </div>
             );
           })}

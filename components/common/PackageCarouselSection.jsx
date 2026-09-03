@@ -245,9 +245,9 @@ export function PackageCarouselSection({
                   // A shallower picture across the band too, so the card is not
                   // mostly photograph once the copy beneath it has shrunk.
                   imageAspectClassName="aspect-[348/329] md:aspect-[460/423] lg:max-2xl:aspect-[460/330]"
-                  titleClassName="lg:max-2xl:mb-[24px] lg:max-xl:text-[19px] lg:max-xl:leading-[24px] xl:max-2xl:text-[20.5px] xl:max-2xl:leading-[26px] 2xl:text-[22px] 2xl:leading-[28px]"
-                  metaClassName="text-[13px] leading-[1.4] text-black/80 mb-[10px] lg:mb-[12px] lg:max-2xl:mb-[8px] lg:max-xl:text-[11.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[12.5px] xl:max-2xl:leading-[1.4] 2xl:text-[13px] 2xl:leading-[1.4]"
-                  experiencesClassName="lg:max-xl:text-[11.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[12.5px] xl:max-2xl:leading-[1.4] 2xl:text-[16px] 2xl:leading-[20px]"
+                  titleClassName="lg:max-2xl:mb-[24px] lg:max-xl:text-[19px] lg:max-xl:leading-[24px] xl:max-2xl:text-[22px] xl:max-2xl:leading-[28.5px] 2xl:text-[22px] 2xl:leading-[28px]"
+                  metaClassName="text-[13px] leading-[1.4] text-black/80 mb-[10px] lg:mb-[12px] lg:max-2xl:mb-[8px] lg:max-xl:text-[11.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[13px] xl:max-2xl:leading-[1.4] 2xl:text-[13px] 2xl:leading-[1.4]"
+                  experiencesClassName="lg:max-xl:text-[11.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[14px] xl:max-2xl:leading-[1.4] 2xl:text-[16px] 2xl:leading-[20px]"
                   contentClassName="px-[12px] pt-[15px] pb-[16px] md:pb-[35px] lg:max-2xl:px-[14px] lg:max-2xl:pt-[12px] lg:max-2xl:pb-[18px]"
                   cascade={cascade}
                   /* Every card in this row holds the same measure for its

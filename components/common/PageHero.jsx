@@ -163,7 +163,7 @@ export function PageHero({
         </h1>
 
         <p
-          className={`hero-description ${HERO_BODY} max-md:max-w-[313px] max-w-lg max-md:text-white/80 text-white/90 opacity-0 max-md:px-4`}
+          className={`hero-description ${HERO_BODY} max-md:max-w-[400px] max-w-3xl max-md:text-white/80 text-white/90 opacity-0 max-md:px-4`}
         >
           {description}
         </p>

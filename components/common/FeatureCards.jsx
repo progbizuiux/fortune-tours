@@ -65,11 +65,11 @@ export function FeatureCards({ items, className, cardClassName }) {
             />
           )}
 
-          <h3 className="font-heading text-[20px] md:text-[22px] font-normal leading-[1.3] md:leading-[33px] lg:leading-[28px] xl:max-2xl:text-[19px] xl:max-2xl:leading-[26px] 2xl:text-[22px] 2xl:leading-[33px] tracking-normal text-black mt-4">
+          <h3 className="font-heading text-[20px] md:text-[22px] font-normal leading-[1.3] md:leading-[33px] lg:leading-[28px] xl:max-2xl:text-[21px] xl:max-2xl:leading-[28.5px] 2xl:text-[22px] 2xl:leading-[33px] tracking-normal text-black mt-4">
             {item.title}
           </h3>
 
-          <p className="font-sans text-[13px] md:text-[14px] font-normal max-md:leading-[145%] md:leading-[21px] xl:max-2xl:text-[12.5px] xl:max-2xl:leading-[18px] 2xl:text-[14px] 2xl:leading-[21px] text-black/80 max-md:mt-7 md:mt-4">
+          <p className="font-sans text-[13px] md:text-[14px] font-normal max-md:leading-[145%] md:leading-[21px] xl:max-2xl:text-[14px] xl:max-2xl:leading-[20px] 2xl:text-[14px] 2xl:leading-[21px] text-black/80 max-md:mt-7 md:mt-4">
             {item.lead}
           </p>
 
@@ -78,7 +78,7 @@ export function FeatureCards({ items, className, cardClassName }) {
             className="block h-px w-full bg-black/20 mt-5 md:mt-6"
           />
 
-          <p className="font-sans text-[13px] font-light leading-[21px] xl:max-2xl:text-[12px] xl:max-2xl:leading-[18px] 2xl:text-[13px] 2xl:leading-[21px] text-black/80 mt-5 md:mt-6">
+          <p className="font-sans text-[13px] font-light leading-[21px] xl:max-2xl:text-[13px] xl:max-2xl:leading-[20px] 2xl:text-[13px] 2xl:leading-[21px] text-black/80 mt-5 md:mt-6">
             {item.body}
           </p>
         </li>

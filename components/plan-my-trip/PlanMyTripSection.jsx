@@ -36,7 +36,7 @@ const BACKGROUND_IMAGE = "/destinations/africa.png";
    white-on-dark set — without it Chrome draws a near-black calendar icon on
    the black panel. */
 const INPUT_CLASSES =
-  "mt-4 w-full border-b border-white/40 bg-transparent pb-3 text-body lg:max-xl:text-[13px] xl:max-2xl:text-[14.5px] 2xl:text-body font-light text-white transition-colors placeholder:text-white/40 focus:border-white focus:outline-none [color-scheme:dark]";
+  "mt-4 w-full border-b border-white/40 bg-transparent pb-3 text-body lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-body font-light text-white transition-colors placeholder:text-white/40 focus:border-white focus:outline-none [color-scheme:dark]";
 
 /* A question heading with its answers beneath it. The group is labelled by
    the visible heading, and a group-level error (unanswered chips) is read
@@ -48,7 +48,7 @@ function QuestionGroup({ id, title, error, className, children }) {
           pinned from 2xl up while smaller screens keep the site scale. */}
       <h3
         id={id}
-        className="max-lg:text-[18px] max-lg:leading-[1.2] lg:max-xl:text-[17px] xl:max-2xl:text-[18.5px] 2xl:text-[35px]"
+        className="max-lg:text-[18px] max-lg:leading-[1.2] lg:max-xl:text-[17px] xl:max-2xl:text-[20.5px] 2xl:text-[35px]"
       >
         {title}
       </h3>
@@ -104,7 +104,7 @@ function Field({ id, label, error, className, children }) {
     <div className={className}>
       <label
         htmlFor={id}
-        className="font-top text-small font-light tracking-[0.35em] text-white/85 uppercase lg:max-xl:text-[11px] xl:max-2xl:text-[12.5px] 2xl:text-small"
+        className="font-top text-small font-light tracking-[0.35em] text-white/85 uppercase lg:max-xl:text-[11px] xl:max-2xl:text-[14px] 2xl:text-small"
       >
         {label}
       </label>
@@ -351,7 +351,7 @@ export function PlanMyTripSection({
                 scale: the site h2 lands at 36px on a phone, which crowds the
                 descenders against the line box at leading-1. lg and up keep
                 the global token. */}
-            <h2 className="max-lg:text-[24px] max-lg:leading-[1.2] lg:max-xl:text-[26px] lg:max-xl:leading-[1.1] xl:max-2xl:text-[29px] xl:max-2xl:leading-[1.1] 2xl:text-[32px] 2xl:leading-[1.1]">
+            <h2 className="max-lg:text-[24px] max-lg:leading-[1.2] lg:max-xl:text-[26px] lg:max-xl:leading-[1.1] xl:max-2xl:text-[32px] xl:max-2xl:leading-[1.1] 2xl:text-[32px] 2xl:leading-[1.1]">
               {title}
             </h2>
             {/* The 706px intro is a shrink-0 sibling, so between lg and xl it
@@ -365,12 +365,12 @@ export function PlanMyTripSection({
 
         {submitted ? (
           <div className="flex flex-col items-start py-16 motion-safe:animate-menu-drop md:py-24">
-            <h3 className="max-lg:text-[18px] max-lg:leading-[1.2] lg:max-xl:text-[17px] xl:max-2xl:text-[18.5px] 2xl:text-[20px]">
+            <h3 className="max-lg:text-[18px] max-lg:leading-[1.2] lg:max-xl:text-[17px] xl:max-2xl:text-[20px] 2xl:text-[20px]">
               {successTitle
                 ? successTitle.replace("{name}", submittedName)
                 : `Thank you, ${submittedName}.`}
             </h3>
-            <p className="mt-6 max-w-[560px] text-white/80 lg:max-xl:text-[13px] xl:max-2xl:text-[14.5px] 2xl:text-body">
+            <p className="mt-6 max-w-[560px] text-white/80 lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-body">
               {successMessage}
             </p>
           </div>
@@ -394,7 +394,7 @@ export function PlanMyTripSection({
                       aria-current={index === step ? "step" : undefined}
                       aria-label={`Step ${index + 1}: ${planStep.label}`}
                       className={cn(
-                        "text-body lg:max-xl:text-[13px] xl:max-2xl:text-[14.5px] 2xl:text-body transition-colors",
+                        "text-body lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-body transition-colors",
                         index === step && "text-white",
                         index < step &&
                           "cursor-pointer text-white/70 hover:text-white",
@@ -406,7 +406,7 @@ export function PlanMyTripSection({
                   ))}
                 </div>
                 {/* Figma: 50px between "Step 01" and the step name. */}
-                <p className="flex min-w-0 items-baseline gap-5 md:gap-[50px] lg:max-xl:text-[13px] xl:max-2xl:text-[14.5px] 2xl:text-body">
+                <p className="flex min-w-0 items-baseline gap-5 md:gap-[50px] lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-body">
                   <span className="shrink-0 text-white/90">
                     {stepWordLabel} {stepNumber}
                   </span>
@@ -649,7 +649,7 @@ export function PlanMyTripSection({
               )}
               <p
                 className={cn(
-                  "order-last w-full text-center text-white/80 md:order-none md:w-auto md:flex-1 lg:max-xl:text-[13px] xl:max-2xl:text-[14.5px] 2xl:text-body",
+                  "order-last w-full text-center text-white/80 md:order-none md:w-auto md:flex-1 lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-body",
                   step === 0 ? "md:text-left" : "md:text-center",
                 )}
               >

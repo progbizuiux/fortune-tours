@@ -61,7 +61,7 @@ export function RegionJournalSection({
                 image={post.image}
                 alt={post.title}
                 readLabel={readLabel}
-                titleClassName="text-black dark:text-cream font-heading text-[20px] lg:max-xl:text-[18px] xl:max-2xl:text-[22px] 2xl:text-[24px] font-normal leading-[1.2] mt-4"
+                titleClassName="text-black dark:text-cream font-heading text-[20px] lg:max-xl:text-[18px] xl:max-2xl:text-[24px] 2xl:text-[24px] font-normal leading-[1.2] mt-4"
                 imageClassName="aspect-[577/586]"
               />
             </div>

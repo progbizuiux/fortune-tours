@@ -150,20 +150,20 @@ export function RegionExperiencesSection({
               <div className="absolute inset-x-0 bottom-0 px-6 pb-6 md:px-[30px] md:pb-[30px] flex flex-col justify-end text-white">
                 <div className="transform transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-4">
                   
-                  <h3 className="font-heading text-[24px] max-lg:text-[18px] lg:max-xl:text-[17px] xl:max-2xl:text-[19px] 2xl:text-[24px] leading-none font-normal text-white drop-shadow-sm">
+                  <h3 className="font-heading text-[24px] max-lg:text-[18px] lg:max-xl:text-[17px] xl:max-2xl:text-[21px] 2xl:text-[24px] leading-none font-normal text-white drop-shadow-sm">
                     {exp.title}
                   </h3>
                   
                   {/* Expandable Description Area */}
                   <div className="grid grid-rows-[0fr] opacity-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:grid-rows-[1fr] group-hover:opacity-100 mt-[20px]">
                     <div className="overflow-hidden">
-                      <p className="font-sans font-light text-[18px] max-lg:text-[12px] lg:max-xl:text-[13.5px] lg:max-xl:leading-[18px] xl:max-2xl:text-[14.5px] xl:max-2xl:leading-[20px] 2xl:text-[18px] 2xl:leading-[24px] text-white">
+                      <p className="font-sans font-light text-[18px] max-lg:text-[12px] lg:max-xl:text-[13.5px] lg:max-xl:leading-[18px] xl:max-2xl:text-[16px] xl:max-2xl:leading-[22px] 2xl:text-[18px] 2xl:leading-[24px] text-white">
                         {exp.subtitle}
                       </p>
                       
                       <div className="h-[0.6px] bg-white/50 w-full lg:max-xl:my-[12px] xl:max-2xl:my-[16px] 2xl:my-[21px]" />
                       
-                      <p className="font-sans font-light text-[16px] max-lg:text-[11px] lg:max-xl:text-[12.5px] lg:max-xl:leading-[16px] xl:max-2xl:text-[13px] xl:max-2xl:leading-[18px] 2xl:text-[16px] 2xl:leading-[24px] text-white/70">
+                      <p className="font-sans font-light text-[16px] max-lg:text-[11px] lg:max-xl:text-[12.5px] lg:max-xl:leading-[16px] xl:max-2xl:text-[14.5px] xl:max-2xl:leading-[20px] 2xl:text-[16px] 2xl:leading-[24px] text-white/70">
                         {exp.description}
                       </p>
                     </div>
