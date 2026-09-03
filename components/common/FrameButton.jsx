@@ -145,9 +145,13 @@ export function FrameButton({
   active = false,
   className,
   type = "button",
+  // Per-call override of the variant's FILL_SWEEP opt-in/out. Undefined
+  // defers to the variant.
+  fill,
   ...props
 }) {
   const styles = VARIANT_CLASSES[variant];
+  const sweeps = fill ?? styles.fill !== false;
 
   return (
     <button
@@ -155,7 +159,7 @@ export function FrameButton({
       className={cn(
         "inline-flex cursor-pointer items-center justify-center transition-colors duration-300",
         "focus-visible:outline-sky focus-visible:outline-2 focus-visible:outline-offset-2",
-        styles.fill !== false && FILL_SWEEP,
+        sweeps && FILL_SWEEP,
         styles.base,
         active ? styles.active : styles.idle,
         className,
