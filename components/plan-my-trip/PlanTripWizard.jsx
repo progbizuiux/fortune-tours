@@ -12,6 +12,8 @@ import {
   DURATION_OPTIONS,
   EMPTY_PLAN,
   FLEXIBILITY_OPTIONS,
+  GROUP_SIZE_OPTIONS,
+  GROUP_TRAVELLERS,
   INTEREST_OPTIONS,
   OPEN_TO_SUGGESTIONS,
   PLAN_STEPS,
@@ -590,6 +592,34 @@ export function PlanTripWizard({
                         ))}
                       </div>
                     </Group>
+
+                    {/* Headcount, only once a group chip is chosen — the
+                        schema requires it for exactly those chips. */}
+                    {GROUP_TRAVELLERS.includes(travellingWith) && (
+                      <Field
+                        id="groupSize"
+                        label="Number of persons"
+                        error={errors.groupSize?.message}
+                        className="mt-6 sm:mt-8 sm:max-w-sm"
+                      >
+                        <select
+                          id="groupSize"
+                          aria-invalid={errors.groupSize ? true : undefined}
+                          aria-describedby={
+                            errors.groupSize ? "groupSize-error" : undefined
+                          }
+                          {...register("groupSize")}
+                          className={cn(INPUT_CLASSES, "cursor-pointer")}
+                        >
+                          <option value="">Select</option>
+                          {GROUP_SIZE_OPTIONS.map((size) => (
+                            <option key={size} value={size}>
+                              {size}
+                            </option>
+                          ))}
+                        </select>
+                      </Field>
+                    )}
 
                     <Group
                       id="group-interests"

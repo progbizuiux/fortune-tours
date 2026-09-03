@@ -148,6 +148,7 @@ export function RegionCuratedSection({
 
         {/* Navigation Arrows (Desktop) — overlaid on the track at the same
             insets the previous pair used. */}
+        {(canScrollLeft || canScrollRight) && (
         <div className="hidden md:block">
           <button
             onClick={scrollPrev}
@@ -166,6 +167,7 @@ export function RegionCuratedSection({
             <ChevronRight className="size-4 stroke-1 text-white" />
           </button>
         </div>
+        )}
 
         {/* Pagination Dots (Mobile) */}
         <div className="flex justify-center gap-[4px] mt-6 md:hidden">

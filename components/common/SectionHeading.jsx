@@ -91,7 +91,7 @@ export function SectionHeading({
             className={cn(
               "max-lg:text-[13px] max-lg:font-light max-lg:leading-[21px] lg:max-xl:text-[13.5px] xl:max-2xl:text-[16px] 2xl:text-body",
               centered
-                ? "max-lg:max-w-[340px] max-w-xl text-black/80 dark:text-cream/80"
+                ? "max-w-xl text-black/80 dark:text-cream/80"
                 : // xl and up gets a slightly wider measure — the copy runs to
                   // four or five cramped lines against the heading otherwise.
                   // Below xl stays on max-w-xl, unchanged.

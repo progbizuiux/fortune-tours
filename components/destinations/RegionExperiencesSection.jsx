@@ -198,7 +198,9 @@ export function RegionExperiencesSection({
             ))}
           </div>
           
-          {/* Desktop Arrows */}
+          {/* Desktop Arrows. Hidden altogether when the track fits without
+              scrolling — there is nothing for either arrow to do. */}
+          {(canScrollLeft || canScrollRight) && (
           <div className="hidden md:flex items-center gap-[10px] ml-auto">
             <button 
               onClick={scrollPrev}
@@ -217,6 +219,7 @@ export function RegionExperiencesSection({
               <ChevronRight className="size-4 stroke-1 text-black" />
             </button>
           </div>
+          )}
         </div>
       </Container>
     </section>
