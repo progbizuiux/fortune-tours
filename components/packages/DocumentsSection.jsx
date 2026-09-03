@@ -73,19 +73,36 @@ export function DocumentsSection({
 
         {/* The frame leaves the picture's middle band clear between the heading
             and the numbered items — that gap is the photograph, not padding. */}
-        <ul className="mt-16 md:mt-24 lg:mt-[180px] xl:mt-[210px] grid gap-10 md:gap-12 lg:gap-16 md:grid-cols-2">
+        {/* Two layouts by count. A PAIR is the frame's spread: two columns
+            with the second mirrored to the outer edge, so the two read as one
+            line across the picture. Three or four documents are one row of
+            equal columns from lg (two per row on a tablet), every item left-
+            aligned on its own rule — mirroring only makes sense when there is
+            an outer edge for the second of two to hang from, and four mirrored
+            items stacked as two pairs read as a table with its middle
+            missing. More than four wrap onto a second row of four. */}
+        <ul
+          className={cn(
+            "mt-16 md:mt-24 lg:mt-[180px] xl:mt-[210px] grid gap-10 md:gap-12",
+            items.length <= 2
+              ? "md:grid-cols-2 lg:gap-16"
+              : items.length === 3
+                ? "md:grid-cols-2 lg:grid-cols-3 lg:gap-10"
+                : "md:grid-cols-2 lg:grid-cols-4 lg:gap-8 xl:gap-10",
+          )}
+        >
           {items.map((item, index) => {
             /* The pair reads as one spread across the frame rather than two
                stacked columns, so every second item mirrors the one beside it:
-               rule and text pushed to the outer edge of its column. Keying it
-               off the index rather than the count keeps a third and fourth
-               document alternating the same way.
+               rule and text pushed to the outer edge of its column. Pairs
+               only — three or more sit in one row of equal columns, all
+               left-aligned; see the note on the list.
 
                Only from md, where the grid is two columns and there is an outer
                edge to hang from. In the single column below it a right-aligned
                block has nothing to mirror and reads as a mistake, so every item
                keeps the left treatment there. */
-            const mirrored = index % 2 === 1;
+            const mirrored = items.length <= 2 && index % 2 === 1;
 
             return (
               <AnimateIn

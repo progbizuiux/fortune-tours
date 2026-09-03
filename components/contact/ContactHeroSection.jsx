@@ -4,7 +4,7 @@ import { Suspense, useCallback, useState } from "react";
 import { UrlParamEffect } from "@/components/common/UrlParamEffect";
 import Image from "next/image";
 import { ChevronDown, Loader2 } from "lucide-react";
-import { FaFacebookF, FaXTwitter, FaLinkedinIn } from "react-icons/fa6";
+import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa6";
 import { toast } from "sonner";
 import { Container } from "@/components/common/Container";
 import { cn } from "@/lib/utils";
@@ -33,24 +33,28 @@ const INTEREST_OPTIONS = [
   "Other",
 ];
 
+/* Fortune Tours' own profiles — the same three the footer links. The X and
+   LinkedIn icons that used to sit here pointed at the networks' home pages
+   because there is no Fortune Tours account on either; an icon with no page
+   behind it is removed rather than left as a dead link. */
 const SOCIAL_LINKS = [
+  {
+    name: "Instagram",
+    icon: FaInstagram,
+    href: "https://instagram.com/fortunetours",
+    label: "Instagram",
+  },
   {
     name: "Facebook",
     icon: FaFacebookF,
-    href: "https://facebook.com",
+    href: "https://facebook.com/Fortunetours",
     label: "Facebook",
   },
   {
-    name: "X",
-    icon: FaXTwitter,
-    href: "https://twitter.com",
-    label: "X (Twitter)",
-  },
-  {
-    name: "LinkedIn",
-    icon: FaLinkedinIn,
-    href: "https://linkedin.com",
-    label: "LinkedIn",
+    name: "YouTube",
+    icon: FaYoutube,
+    href: "https://www.youtube.com/@fortunetoursindia",
+    label: "YouTube",
   },
 ];
 
