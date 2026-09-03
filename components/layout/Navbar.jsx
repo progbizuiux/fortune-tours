@@ -24,8 +24,12 @@ const NAV_LINKS = [
     menu: MENU_KEYS.DESTINATIONS,
   },
   { label: "Experiences", href: "/experiences", menu: MENU_KEYS.EXPERIENCES },
+  /* No /cruises route exists yet, so this lands on the search filtered to
+     cruises — the same fallback lib/navigation.js uses for any destination
+     without a page of its own, and it returns real journeys today rather than
+     an empty state. Point it at /cruises the moment that page is built. */
+  { label: "Cruises", href: "/search?term=Cruises" },
   { label: "About", href: "/about-us" },
-  { label: "Journal", href: "/journal" },
 ];
 
 // The bar's last control is a menu button rather than a link: it opens the

@@ -50,6 +50,28 @@ const VARIANT_CLASSES = {
     active: "",
     fill: false,
   },
+  // The two-view switch on the destinations index (/destinations/a-z): the
+  // same list ordered by letter or by region. `rail`'s treatment on a cream
+  // ground — outlined at rest, solid ink when chosen — but seated on a
+  // hairline, so each tab carries only its right rule and the row closes
+  // itself off after the last one as well as between the two.
+  //
+  // Ink is navy rather than the black `rail` and `month` use. Those sit on
+  // white; this page's ground is cream and every other mark on it — the
+  // heading, all 259 names, the letter marks — is navy, so black here would be
+  // the only place on the site where the two near-blacks meet. The pairing
+  // already exists in this file as `rail`'s dark counterpart.
+  //
+  // Opted out of the fill for the reason the filter variants below state: the
+  // sweep is the treatment for the one primary action in a view, and a sky
+  // panel wiping across each half of a segmented control reads as the page
+  // flashing rather than as a choice being offered.
+  segment: {
+    base: "font-top max-lg:text-[12px] lg:max-xl:text-[13.5px] lg:max-xl:px-7 lg:max-xl:py-3.5 xl:max-2xl:text-[15px] xl:max-2xl:px-8 xl:max-2xl:py-[15px] 2xl:text-h4 2xl:px-[34px] 2xl:py-[15px] min-h-11 border-r border-black/10 px-6 py-3 tracking-[0.06em] uppercase whitespace-nowrap",
+    idle: "text-navy/55 hover:text-navy dark:text-cream/55 dark:hover:text-cream",
+    active: "bg-navy text-cream dark:bg-cream dark:text-navy",
+    fill: false,
+  },
   // ── Filter bar (/search) ────────────────────────────────────────────────
   // The four below all opt out of FILL_SWEEP. It is the treatment for the one
   // primary action in a view; a toolbar is a row of equal, repeated controls,
