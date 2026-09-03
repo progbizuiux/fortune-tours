@@ -1,12 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useCallback, useState } from "react";
+import { UrlParamEffect } from "@/components/common/UrlParamEffect";
 import Image from "next/image";
 import { ChevronDown, Loader2 } from "lucide-react";
 import { FaFacebookF, FaXTwitter, FaLinkedinIn } from "react-icons/fa6";
 import { toast } from "sonner";
 import { Container } from "@/components/common/Container";
 import { cn } from "@/lib/utils";
+
+/* The services the site menu offers (lib/navigation.js SITE_MENU.secondary),
+   keyed by the `service` query their rows carry — /contact?service=visa-
+   assistance — so an enquiry that started from one arrives already labelled.
+   Listed here as interest options too, below the holiday types. */
+const SERVICE_INTERESTS = {
+  "visa-assistance": "Visa assistance",
+  "hotel-bookings": "Hotel bookings",
+  "flight-booking": "Flight booking",
+  "travel-insurance": "Travel insurance",
+  "passport-assistance": "Passport assistance",
+};
 
 const INTEREST_OPTIONS = [
   "Family trip",
@@ -16,6 +29,7 @@ const INTEREST_OPTIONS = [
   "Spiritual & Heritage",
   "Tailor-made Journey",
   "Corporate / Group Retreat",
+  ...Object.values(SERVICE_INTERESTS),
   "Other",
 ];
 
@@ -65,6 +79,13 @@ export function ContactHeroSection({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  /* A ?service= the site menu sent preselects the matching interest. Only
+     ever sets a known option, so an unrecognised value leaves the default. */
+  const applyServiceFromUrl = useCallback((service) => {
+    const interest = SERVICE_INTERESTS[service];
+    if (interest) setFormData((prev) => ({ ...prev, interest }));
+  }, []);
+
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -94,6 +115,11 @@ export function ContactHeroSection({
         className
       )}
     >
+      {/* Reads ?service= for the interest select; only this leaf renders on
+          the client for it, the section stays in the server HTML. */}
+      <Suspense fallback={null}>
+        <UrlParamEffect name="service" onChange={applyServiceFromUrl} />
+      </Suspense>
       {/* Background Image & Scrim (clipped strictly to hero section) */}
       <div aria-hidden="true" className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <Image

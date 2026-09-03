@@ -2,6 +2,7 @@ import { spartan, poppins } from "@/lib/fonts";
 import { Providers } from "@/providers/Providers";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { getCountryParams } from "@/lib/strapi/country";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
@@ -24,7 +25,14 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  /* Which country pages exist, for the navbar's Destinations sheet: a row
+     links to its own page only where Strapi has one, and to its region
+     otherwise — see resolveCountryHref() in lib/navigation.js. One tagged,
+     cached request shared with /destinations/a-z, and never a reason for the
+     shell to fail: an unreachable Strapi degrades every row to its region. */
+  const publishedCountries = await getCountryParams().catch(() => []);
+
   return (
     <html
       lang="en"
@@ -42,7 +50,7 @@ export default function RootLayout({ children }) {
         suppressHydrationWarning
       >
         <Providers>
-          <Navbar />
+          <Navbar publishedCountries={publishedCountries} />
           <main className="flex-1">{children}</main>
           <Footer />
         </Providers>

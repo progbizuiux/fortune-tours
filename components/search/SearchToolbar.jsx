@@ -4,7 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronDown, RotateCw, Search, X } from "lucide-react";
 import { FrameButton } from "@/components/common/FrameButton";
-import { FILTER_GROUPS } from "@/lib/searchCatalog";
+import {
+  labelFor,
+  optionLabel,
+  optionValue,
+  withPackageOptions,
+} from "@/lib/searchCatalog";
 import { cn } from "@/lib/utils";
 
 /* Filter rail + free-text search for /search.
@@ -17,7 +22,13 @@ import { cn } from "@/lib/utils";
  * The text input is the one exception: it holds local state while typing and
  * commits on submit, because pushing a route per keystroke would re-render the
  * results grid on every letter. */
-export function SearchToolbar({ className }) {
+export function SearchToolbar({ className, packageOptions }) {
+  // Destinations and Experiences are static; Popular Packages arrives from
+  // the server, since only it can read the CMS.
+  const groups = withPackageOptions(packageOptions);
+  // Only the visible cells are drawn; chips below still cover every group,
+  // so a hidden filter arriving in the URL can be seen and removed.
+  const railGroups = groups.filter((group) => !group.hidden);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -81,7 +92,7 @@ export function SearchToolbar({ className }) {
   // The term leads, then one chip per filter group that holds a value.
   const activeChips = [
     { key: "term", value: searchParams.get("term") },
-    ...FILTER_GROUPS.map((group) => ({
+    ...groups.map((group) => ({
       key: group.key,
       value: searchParams.get(group.key),
     })),
@@ -112,9 +123,10 @@ export function SearchToolbar({ className }) {
             to this row instead and spans its full width; from lg there is room
             to hang it under its own cell. */}
         <div className="relative flex flex-wrap max-lg:gap-3 lg:static">
-          {FILTER_GROUPS.map((group, index) => {
+          {railGroups.map((group, index) => {
             const value = searchParams.get(group.key);
             const isOpen = openKey === group.key;
+            const options = group.options;
 
             return (
               <div key={group.key} className="lg:relative">
@@ -128,11 +140,11 @@ export function SearchToolbar({ className }) {
                   // row, so it stays hard against the final label when the
                   // cells wrap instead of stranding itself at the right edge.
                   className={cn(
-                    index === FILTER_GROUPS.length - 1 &&
+                    index === railGroups.length - 1 &&
                       "lg:border-navy/20 lg:border-r",
                   )}
                 >
-                  {value ?? group.label}
+                  {value ? labelFor(groups, group.key, value) : group.label}
                   <ChevronDown
                     aria-hidden="true"
                     className={cn(
@@ -146,7 +158,7 @@ export function SearchToolbar({ className }) {
                   <ul
                     role="listbox"
                     aria-label={group.label}
-                    className="border-navy/15 absolute top-full right-0 left-0 z-30 mt-px border bg-white py-2 shadow-lg lg:right-auto lg:min-w-[220px]"
+                    className="border-navy/15 absolute top-full right-0 left-0 z-30 mt-px max-h-[60vh] overflow-y-auto border bg-white py-2 shadow-lg lg:right-auto lg:min-w-[220px]"
                   >
                     <li role="option" aria-selected={!value}>
                       <FrameButton
@@ -157,21 +169,24 @@ export function SearchToolbar({ className }) {
                         {group.allLabel}
                       </FrameButton>
                     </li>
-                    {group.options.map((option) => (
-                      <li
-                        key={option}
-                        role="option"
-                        aria-selected={option === value}
-                      >
-                        <FrameButton
-                          variant="filterOption"
-                          active={option === value}
-                          onClick={() => selectOption(group.key, option)}
+                    {options.map((option) => {
+                      const optValue = optionValue(option);
+                      return (
+                        <li
+                          key={optValue}
+                          role="option"
+                          aria-selected={optValue === value}
                         >
-                          {option}
-                        </FrameButton>
-                      </li>
-                    ))}
+                          <FrameButton
+                            variant="filterOption"
+                            active={optValue === value}
+                            onClick={() => selectOption(group.key, optValue)}
+                          >
+                            {optionLabel(option)}
+                          </FrameButton>
+                        </li>
+                      );
+                    })}
                   </ul>
                 )}
               </div>
@@ -235,7 +250,9 @@ export function SearchToolbar({ className }) {
                   arbitrarily long unbroken token. Truncating keeps the chip on
                   one line instead of letting a pasted string blow the row past
                   the viewport at 320px; the full value stays in aria-label. */}
-              <span className="max-w-[22ch] truncate">{chip.value}</span>
+              <span className="max-w-[22ch] truncate">
+                {labelFor(groups, chip.key, chip.value)}
+              </span>
               <X aria-hidden="true" className="size-3.5 shrink-0" />
             </FrameButton>
           ))}

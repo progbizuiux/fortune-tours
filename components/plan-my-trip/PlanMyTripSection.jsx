@@ -159,6 +159,12 @@ export function PlanMyTripSection({
     ...planStep,
     label: stepLabels?.[i] || planStep.label,
   }));
+  /* The page decides the destination chips (its region's countries, or the
+     editor's list — see normalisePlanTrip in lib/strapi/destination.js and
+     lib/strapi/country.js); the design's list is only for a page that sends
+     nothing. Named once because the draft restore below has to check a saved
+     answer against the same list the chips show. */
+  const destinationOptions = options.destination ?? DESTINATION_OPTIONS;
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState("forward");
   const [submittedName, setSubmittedName] = useState(null);
@@ -209,11 +215,14 @@ export function PlanMyTripSection({
   // render and hydration agree on the empty form first.
   useEffect(() => {
     setToday(format(new Date(), "yyyy-MM-dd"));
-    const draft = loadPlanDraft();
+    const draft = loadPlanDraft(destinationOptions);
     if (draft) {
       reset({ ...EMPTY_PLAN, ...draft.values });
       setStep(draft.step);
     }
+    // Runs once on mount by design; the chip list does not change while the
+    // section is on screen.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reset]);
 
   // Answers save as they change, debounced so typing the message field is not
@@ -453,7 +462,7 @@ export function PlanMyTripSection({
                   error={errors.destination?.message}
                 >
                   <OptionChips
-                    options={options.destination ?? DESTINATION_OPTIONS}
+                    options={destinationOptions}
                     isActive={(option) => destination === option}
                     onToggle={(option) => selectSingle("destination", option)}
                   />

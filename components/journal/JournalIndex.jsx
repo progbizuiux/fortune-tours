@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useCallback, useMemo, useState } from "react";
+import { UrlParamEffect } from "@/components/common/UrlParamEffect";
 import { AnimateIn } from "@/components/common/AnimateIn";
 import { Container } from "@/components/common/Container";
 import { JournalCard } from "@/components/common/JournalCard";
@@ -34,6 +35,23 @@ export function JournalIndex({
 }) {
   const [category, setCategory] = useState("all");
   const [page, setPage] = useState(1);
+
+  /* /journal?category=travel-tips opens on that filter — the navbar's Travel
+     tips and Travel guides rows link here that way — and the filter follows
+     the URL on every later navigation too, back to All when the param goes
+     (the Blog row links to a bare /journal). Same-segment navigations do not
+     remount this component, so a mount-time read would miss them; the
+     UrlParamEffect rendered below watches the param instead. An unknown
+     value reads as All. */
+  const applyCategoryFromUrl = useCallback(
+    (wanted) => {
+      const next =
+        wanted && categories.some((c) => c.key === wanted) ? wanted : "all";
+      setCategory(next);
+      setPage(1);
+    },
+    [categories],
+  );
 
   const matching = useMemo(
     () =>
@@ -69,6 +87,11 @@ export function JournalIndex({
 
   return (
     <div className={cn("bg-background relative z-10", className)}>
+      {/* Only this leaf renders on the client for the query read; the archive
+          around it stays in the server HTML. See UrlParamEffect. */}
+      <Suspense fallback={null}>
+        <UrlParamEffect name="category" onChange={applyCategoryFromUrl} />
+      </Suspense>
       <Container className="pt-28 pb-16 md:pt-36 md:pb-24 lg:pt-[190px] lg:pb-[100px]">
         <AnimateIn>
           {/* The shared stacks from lib/typography.js, the same pair every hero
