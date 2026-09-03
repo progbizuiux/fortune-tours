@@ -92,7 +92,7 @@ export function ImageIntroSection({
               lands on, which is the same trade the hero makes. */}
           <div
             className={cn(
-              "relative flex flex-col justify-end max-md:aspect-[3/4] max-md:max-h-[550px] md:max-xl:aspect-[16/9] xl:aspect-[1755/635] max-md:w-[calc(100%+2rem)] max-md:-ml-4 max-md:rounded-none md:w-full overflow-hidden md:rounded-sm",
+              "relative flex flex-col justify-end min-h-[480px] md:min-h-[520px] lg:min-h-[560px] max-md:aspect-[3/4] md:max-xl:aspect-[16/9] xl:aspect-[1755/635] max-md:w-[calc(100%+2rem)] max-md:-ml-4 max-md:rounded-none md:w-full overflow-hidden md:rounded-sm",
               imageClassName,
             )}
           >
@@ -144,7 +144,7 @@ export function ImageIntroSection({
                    under it does not. Same trade AtAGlanceSection makes. */
                 <div
                   className={cn(
-                    "overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+                    "overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-3",
                     description && "mt-7 lg:mt-[27px]",
                   )}
                 >
