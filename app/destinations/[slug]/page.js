@@ -97,7 +97,13 @@ export default async function DestinationPage({ params }) {
       <MustVisitSection {...page.mustVisit} />
       <HighlightsSection {...page.highlights} />
       <WhyTravelSection {...page.why} />
-      <SeasonsSection {...page.seasons} />
+      {/* Only when the entry's timing section actually produced tabs. A page
+          whose seasons the CMS has not filled in (Kerala today: three months
+          ranges, no titles or cards) would otherwise fall back to the demo
+          content the section shipped with — "Kerala in Every Season", Wayanad,
+          Varkala — which is placeholder copy, not this destination's. India,
+          whose seasons carry real cards, keeps the section. */}
+      {page.seasons?.tabs?.length ? <SeasonsSection {...page.seasons} /> : null}
       {/* <RegionFixedPackagesSection {...page.packages} /> */}
 
       {/* The enquiry form, then the FAQ — the order the country pages use.
