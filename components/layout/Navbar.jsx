@@ -20,15 +20,30 @@ import { cn } from "@/lib/utils";
 const NAV_LINKS = [
   {
     label: "Destinations",
-    href: "/destinations",
+    /* There is no /destinations index — that path falls into app/[slug] and
+       404s — so the bar's link lands on the A to Z, the page that lists
+       every destination. The dropdown is still the hover target. */
+    href: "/destinations/a-z",
+    activePath: "/destinations",
     menu: MENU_KEYS.DESTINATIONS,
   },
-  { label: "Experiences", href: "/experiences", menu: MENU_KEYS.EXPERIENCES },
-  /* No /cruises route exists yet, so this lands on the search filtered to
-     cruises — the same fallback lib/navigation.js uses for any destination
-     without a page of its own, and it returns real journeys today rather than
-     an empty state. Point it at /cruises the moment that page is built. */
-  { label: "Cruises", href: "/search?term=Cruises" },
+  {
+    label: "Experiences",
+    /* app/experiences/page.js deliberately answers 404 — the design has no
+       experiences index — so the label lands on /search, whose Experiences
+       filter is the one place every style can be browsed. The individual
+       experience pages are reached from the dropdown tiles. Point this back
+       at /experiences if that index is ever un-hidden. */
+    href: "/search",
+    /* Current on the experience pages, not on /search: that URL is also
+       where Cruises lands, and the bar must not underline both. */
+    activePath: "/experiences",
+    menu: MENU_KEYS.EXPERIENCES,
+  },
+  /* No /cruises route exists yet, so this opens /search themed to the Cruise
+     travel style — the band at the top and the results underneath both follow
+     it. Point it at /cruises the moment that page is built. */
+  { label: "Cruises", href: "/search?style=cruise" },
   { label: "About", href: "/about-us" },
 ];
 
@@ -78,7 +93,10 @@ const NAV_TRIGGER = "text-nav transition-colors duration-300 ease-out";
    the open state would read as a hover effect. */
 const NAV_TRIGGER_MARKER = "font-medium";
 
-export function Navbar() {
+/* `publishedCountries` is getCountryParams()'s list from the root layout —
+   which country pages exist — and only the Destinations sheet reads it, to
+   point each country row at a page that renders. */
+export function Navbar({ publishedCountries }) {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -239,12 +257,14 @@ export function Navbar() {
   }
 
   function handleTriggerClick(event, key) {
-    // /destinations and /experiences have no index page, so a trigger never
-    // navigates — it only opens its sheet (hover on desktop, tap on touch).
-    event.preventDefault();
+    // Both triggers now have a real page behind them (the A to Z and /search),
+    // so a mouse or keyboard activation follows the link like any other. Only
+    // a first touch tap is held back, to open the sheet instead — the second
+    // tap on the open trigger falls through and navigates.
     const { pointerType, wasOpen } = lastTap.current;
     const type = event.nativeEvent.pointerType ?? pointerType;
     if (type !== "touch" || wasOpen) return;
+    event.preventDefault();
     showMenu(key);
   }
 
@@ -345,7 +365,17 @@ export function Navbar() {
 
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Main">
           {NAV_LINKS.map((link) => {
-            const isActive = pathname === link.href;
+            /* A link with `activePath` is current for every page under that
+               prefix — Experiences on /experiences/luxury, Destinations on
+               /destinations/india — rather than for one exact URL. Without
+               it the raw href decides, and usePathname() never carries a
+               query string, so a query-bearing href such as Cruises' is
+               never current, while a bare "/search" href would be current on
+               EVERY search page, Cruises included. */
+            const isActive = link.activePath
+              ? pathname === link.activePath ||
+                pathname.startsWith(`${link.activePath}/`)
+              : pathname === link.href;
             const isOpen = Boolean(link.menu) && openMenu === link.menu;
             // Underline only — the filled block is reserved for the menu
             // button below, so it reads as the one solid control in the bar.
@@ -477,6 +507,9 @@ export function Navbar() {
           onNavigate={closeAll}
           onMouseEnter={clearTimers}
           onMouseLeave={scheduleHide}
+          /* Only the Destinations sheet takes it; the other panels spread
+             unknown props onto a DOM element, where this would be a warning. */
+          {...(openMenu === MENU_KEYS.DESTINATIONS ? { publishedCountries } : {})}
         />
       )}
 

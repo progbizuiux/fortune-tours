@@ -5,7 +5,7 @@ import { ResultsGrid } from "@/components/search/ResultsGrid";
 import { SearchToolbar } from "@/components/search/SearchToolbar";
 import { getInspiration } from "@/lib/inspirationData";
 import { getTravelStyle, toInspiration } from "@/lib/strapi/travel-styles";
-import { filterJourneys } from "@/lib/searchCatalog";
+import { getPackageOptions, getSearchResults } from "@/lib/strapi/search";
 
 // The band's caret points at the results, so the link needs a target to reach
 // and the results need to clear the fixed navbar when it lands.
@@ -35,12 +35,18 @@ export default async function SearchPage({ searchParams }) {
   const params = await searchParams;
   const experience = first(params.experience);
 
-  const journeys = filterJourneys({
-    term: first(params.term),
-    destination: first(params.destination),
-    experience,
-    pkg: first(params.package),
-  });
+  // Real continents and countries from lib/navigation.js, with pictures and
+  // links resolved against Strapi — see lib/strapi/search.js.
+  const [journeys, packageOptions] = await Promise.all([
+    getSearchResults({
+      term: first(params.term),
+      continent: first(params.continent),
+      country: first(params.country),
+      style: first(params.style),
+      pkg: first(params.package),
+    }),
+    getPackageOptions(),
+  ]);
 
   /* The band follows whichever theme the URL names. `?style=` comes from the
      travel-style cards on the destination pages and is answered from the CMS;
@@ -85,7 +91,10 @@ export default async function SearchPage({ searchParams }) {
             </p>
           </AnimateIn>
 
-          <SearchToolbar className="mt-10 lg:mt-12" />
+          <SearchToolbar
+            className="mt-10 lg:mt-12"
+            packageOptions={packageOptions}
+          />
 
           <ResultsGrid journeys={journeys} />
         </Container>

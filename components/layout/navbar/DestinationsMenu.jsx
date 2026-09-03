@@ -1,6 +1,13 @@
 "use client";
 
-import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, Phone } from "lucide-react";
@@ -10,6 +17,9 @@ import {
   CONCIERGE_PROMO,
   CURATED_DESTINATIONS,
   DESTINATION_REGIONS,
+  publishedCountrySet,
+  resolveCountryHref,
+  resolveCuratedHref,
 } from "@/lib/navigation";
 import { MENU_ROW_ENTER, menuRowDelay } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -25,12 +35,19 @@ import { cn } from "@/lib/utils";
  *
  * All content comes from lib/navigation.js; nothing here is hardcoded. */
 export const DestinationsMenu = forwardRef(function DestinationsMenu(
-  { id, onNavigate, ...panelProps },
+  { id, onNavigate, publishedCountries, ...panelProps },
   ref,
 ) {
   const [activeKey, setActiveKey] = useState(null);
   const activeRegion = DESTINATION_REGIONS.find((r) => r.key === activeKey);
   const columnRef = useRef(null);
+  /* Which country pages exist, so every row links to a page that renders —
+     see resolveCountryHref() in lib/navigation.js. Rebuilt only when the
+     layout hands over a new list, which is once per page load. */
+  const published = useMemo(
+    () => publishedCountrySet(publishedCountries),
+    [publishedCountries],
+  );
 
   // Keyboard route into the right-hand column: ArrowRight on a region row
   // shows that region and moves focus to its first country. Tab alone must
@@ -64,9 +81,9 @@ export const DestinationsMenu = forwardRef(function DestinationsMenu(
         />
         <div ref={columnRef} className="min-w-0 flex-1">
           {activeRegion ? (
-            <RegionCountries region={activeRegion} />
+            <RegionCountries region={activeRegion} published={published} />
           ) : (
-            <CuratedDestinations />
+            <CuratedDestinations published={published} />
           )}
         </div>
       </div>
@@ -159,7 +176,7 @@ function RegionList({ activeKey, onActivate, onEnter }) {
 
 /* ── Right column: default ────────────────────────────────────────────────── */
 
-function CuratedDestinations() {
+function CuratedDestinations({ published }) {
   return (
     <section aria-labelledby="navbar-curated-heading">
       <h4 id="navbar-curated-heading" className="text-navy">
@@ -178,7 +195,7 @@ function CuratedDestinations() {
             style={menuRowDelay(index, { step: 40 })}
           >
             <Link
-              href={place.href}
+              href={resolveCuratedHref(place, published)}
               className="group relative block aspect-[252/244] overflow-hidden bg-navy/5"
             >
               <Image
@@ -219,7 +236,7 @@ function countryColumns(count) {
   return count > 18 ? 4 : 3;
 }
 
-function RegionCountries({ region }) {
+function RegionCountries({ region, published }) {
   const columns = countryColumns(region.countries.length);
   const rows = Math.ceil(region.countries.length / columns);
   const headingId = `navbar-region-${region.key}-heading`;
@@ -249,7 +266,10 @@ function RegionCountries({ region }) {
               // stagger ripples down each column rather than across rows.
               style={menuRowDelay(index, { step: 16 })}
             >
-              <Link href={place.href} className="group block">
+              <Link
+                href={resolveCountryHref(place, region, published)}
+                className="group block"
+              >
                 <span className="text-body text-navy group-hover:text-sky block leading-tight font-normal transition-colors">
                   {place.name}
                 </span>
