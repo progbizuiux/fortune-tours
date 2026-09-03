@@ -18,6 +18,7 @@ import {
   PLAN_STEPS,
   TRAVELLER_OPTIONS,
   clearPlanDraft,
+  limitDestinationOptions,
   loadPlanDraft,
   planSchema,
   savePlanDraft,
@@ -166,7 +167,9 @@ export function PlanMyTripSection({
      lib/strapi/country.js); the design's list is only for a page that sends
      nothing. Named once because the draft restore below has to check a saved
      answer against the same list the chips show. */
-  const destinationOptions = options.destination ?? DESTINATION_OPTIONS;
+  const destinationOptions = limitDestinationOptions(
+    options.destination ?? DESTINATION_OPTIONS,
+  );
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState("forward");
   const [submittedName, setSubmittedName] = useState(null);

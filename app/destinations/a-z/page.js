@@ -1,4 +1,5 @@
 import { DestinationIndex } from "@/components/destinations/az/DestinationIndex";
+import { publishedCountrySet } from "@/lib/navigation";
 import { getCountryParams } from "@/lib/strapi/country";
 
 /* /destinations/a-z — the A to Z of destinations.
@@ -42,10 +43,7 @@ export default async function DestinationsAZPage() {
      getCountryParams() returns [] rather than throwing when the collection is
      missing, so a build against an unreachable Strapi still renders the page
      with every name pointing at its region. */
-  const params = await getCountryParams();
-  const published = new Set(
-    params.map((entry) => `${entry.slug}/${entry.country}`),
-  );
+  const published = publishedCountrySet(await getCountryParams());
 
   return (
     <>

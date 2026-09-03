@@ -37,6 +37,16 @@ const PACKAGES = [
 /* Content comes from lib/strapi/kerala.js via the page; PACKAGES above is the
    fallback. The CMS stores duration and the place list as separate fields —
    the normaliser is what joins them into the card's single meta line. */
+
+/* Every card carries its own button. The label is fixed — it names the
+   action, not the page — and the link is the package's own `link` field,
+   then the section's ctaLink, then the trip planner, so no card ever draws a
+   dead button. (/itinerary, which editors type for both fields, redirects to
+   the planner in next.config.mjs.) */
+const CARD_CTA_LABEL = "View Itinerary";
+const PLANNER_HREF = "/plan-my-trip";
+const cardCtaHref = (pkg, sectionHref) =>
+  pkg.href || sectionHref || PLANNER_HREF;
 /* The section's call to action, drawn in one place because it now has two
    homes: inside the solo card, and under a row of them.
 
@@ -155,6 +165,9 @@ export function RegionFixedPackagesSection({
   title = "Find the Perfect Escape",
   description = "Small-group journeys with a host. Fixed dates, limited seats.",
   items = PACKAGES,
+  /* Accepted for the CMS shape but no longer drawn — see the note under the
+     grid. */
+  // eslint-disable-next-line no-unused-vars
   ctaLabel,
   ctaHref,
   experiencesLabel,
@@ -228,8 +241,8 @@ export function RegionFixedPackagesSection({
             <SoloPackageCard
               {...items[0]}
               experiencesLabel={experiencesLabel || undefined}
-              ctaLabel={ctaLabel}
-              ctaHref={ctaHref}
+              ctaLabel={CARD_CTA_LABEL}
+              ctaHref={cardCtaHref(items[0], ctaHref)}
             />
           ) : (
             /* Grid layout on desktop, horizontal scroll snap up to xl */
@@ -261,6 +274,8 @@ export function RegionFixedPackagesSection({
                   experiencesLabel={experiencesLabel || undefined}
                   image={pkg.image}
                   alt={pkg.alt}
+                  ctaLabel={CARD_CTA_LABEL}
+                  ctaHref={cardCtaHref(pkg, ctaHref)}
                   className="max-xl:w-[85vw] max-md:max-w-[348px] md:max-xl:max-w-[447px] lg:max-xl:max-w-[372px] max-xl:shrink-0 max-xl:snap-center"
                   imageAspectClassName="aspect-[348/329] md:aspect-[447/423]"
                   metaClassName="text-[13px] md:text-[12px] leading-tight text-black tracking-wider mb-[10px] lg:mb-[12px]"
@@ -287,15 +302,11 @@ export function RegionFixedPackagesSection({
             </div>
           )}
 
-          {/* Under a ROW of cards only. The solo card draws its own CTA inside
-              itself — see SoloPackageCard — because with one departure the
-              button acts on that card alone and belongs to it. With several,
-              it is the section's "see them all" and sits beneath the lot. */}
-          {!isSolo && ctaLabel && (
-            <div className="mt-8 sm:mt-10 md:mt-12 xl:mt-16 flex items-center justify-center">
-              <PackageCta label={ctaLabel} href={ctaHref} />
-            </div>
-          )}
+          {/* No button under the row any more: every card carries its own
+              "View Itinerary", so a second, section-wide button ("Open the
+              Plan" in the CMS) was one action drawn twice. The section's
+              ctaLink survives as the cards' fallback link; its ctaLabel is
+              read and ignored. */}
         </div>
       </Container>
     </section>
