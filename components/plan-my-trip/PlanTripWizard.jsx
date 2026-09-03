@@ -334,7 +334,14 @@ export function PlanTripWizard({
           noValidate
           // scroll-mt clears the fixed navbar when a step change scrolls the
           // form back to its own top edge.
-          className="scroll-mt-24 lg:pr-10 xl:pr-14 2xl:pr-20"
+          //
+          // At least a screen tall from lg. The rail beside this is sticky,
+          // and sticky is bounded by its grid row — which is as tall as this
+          // form. The first step fits under the fold, so without a floor the
+          // rail had a few dozen pixels to pin against and appeared not to be
+          // sticky at all. With it the rail stays put while the section is in
+          // view on every step, and gives way only as the footer arrives.
+          className="scroll-mt-24 lg:min-h-[calc(100svh-5rem)] lg:pr-10 xl:pr-14 2xl:pr-20"
         >
           <header>
             <h4 className="max-sm:text-[14px]">{eyebrow}</h4>
@@ -730,8 +737,18 @@ export function PlanTripWizard({
           className="border-t border-black/15 pt-8 sm:pt-10 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10 xl:pl-14 2xl:pl-20"
         >
           {/* Sticky only from lg, where the rail is a column of its own. The
-              offset clears the tallest state of the fixed navbar (h-20). */}
-          <div className="lg:sticky lg:top-28">
+              offset clears the fixed navbar (h-20 at its tallest).
+
+              Sticky can only pin an element that fits under that offset: one
+              taller than the viewport has nowhere to pin and just rides along
+              with the row, which is what happened at the contact step, where
+              five answers plus the photograph ran past the fold. So the rail
+              is capped at the viewport height and scrolls inside itself as a
+              last resort (its own overflow is fine — it is an ANCESTOR's
+              overflow that breaks sticky), the photo shrinks from lg, and on
+              a short laptop screen the photo goes altogether. The scrollbar
+              is hidden because it would sit against the column rule. */}
+          <div className="lg:sticky lg:top-24 lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden">
             <p className={LABEL_CLASSES}>{railTitle}</p>
             <dl
               aria-live="polite"
@@ -757,8 +774,8 @@ export function PlanTripWizard({
 
             {/* Capped below lg: stacked under the form, a full-bleed 4:3 image
                 on a tablet is taller than the step it belongs to. */}
-            <figure className="mt-8 max-w-[480px] sm:mt-10 lg:max-w-none">
-              <div className="relative aspect-4/3 w-full overflow-hidden">
+            <figure className="mt-8 max-w-[480px] sm:mt-10 lg:mt-8 lg:max-w-none lg:[@media(max-height:760px)]:hidden">
+              <div className="relative aspect-4/3 w-full overflow-hidden lg:aspect-[3/2] lg:max-h-[220px]">
                 <Image
                   src={railImage}
                   alt=""

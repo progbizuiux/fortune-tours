@@ -11,9 +11,23 @@ const QUICK_LINKS = [
 ];
 
 const SOCIAL_LINKS = [
-  { label: "Instagram", href: "https://instagram.com", icon: FaInstagram },
-  { label: "Facebook", href: "https://facebook.com", icon: FaFacebookF },
-  { label: "YouTube", href: "https://youtube.com", icon: FaYoutube },
+  /* Fortune Tours' own profiles. An icon with no real page behind it is
+     removed rather than pointed at the network's home page. */
+  {
+    label: "Instagram",
+    href: "https://instagram.com/fortunetours",
+    icon: FaInstagram,
+  },
+  {
+    label: "Facebook",
+    href: "https://facebook.com/Fortunetours",
+    icon: FaFacebookF,
+  },
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/@fortunetoursindia",
+    icon: FaYoutube,
+  },
 ];
 
 const OFFICES = [

@@ -97,7 +97,7 @@ export default async function DestinationPage({ params }) {
       <MustVisitSection {...page.mustVisit} />
       <HighlightsSection {...page.highlights} />
       <WhyTravelSection {...page.why} />
-      {/* <SeasonsSection {...page.seasons} /> */}
+      <SeasonsSection {...page.seasons} />
       {/* <RegionFixedPackagesSection {...page.packages} /> */}
 
       {/* The enquiry form, then the FAQ — the order the country pages use.
