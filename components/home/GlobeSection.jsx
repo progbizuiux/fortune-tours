@@ -53,36 +53,37 @@ export function GlobeSection() {
           {/* Left: Eyebrow and Title */}
           <div className="flex flex-col items-center md:items-start gap-4">
             <span className="font-top max-lg:text-[12px] max-lg:leading-none text-h4 text-navy/70">
-              Chapter 08 — Wanderlust
+              Every Pin Is a Trip Waiting to Happen
             </span>
             <h2 className="max-lg:text-[30px] max-lg:leading-none max-lg:tracking-[-0.01em] text-navy lg:max-xl:text-[34px]">
-              Destinations without limits
+              Anywhere On The Map, We Will Get You There
             </h2>
           </div>
 
           {/* Right: Description and Buttons */}
-          <div className="flex flex-col items-center md:items-end gap-6 max-w-[375px]">
+          <div className="flex flex-col items-center md:items-end gap-6 max-w-[375px] md:max-w-[500px]">
             {/* Eyebrow, title and this line all carry SectionHeading's own
                 classes rather than sizes of their own, so this section's type
                 tracks every other section heading on the site. The component
                 itself cannot be used here: its layout has no slot for the two
                 buttons that sit under the description. */}
             <p className="max-lg:text-[13px] max-lg:font-light max-lg:leading-[21px] text-navy/70 text-center md:text-right">
-              Explore our selected destinations and create lasting memories.
+              Find your starting point. We'll build the journey around it.
             </p>
             <div className="flex items-center justify-center md:justify-end gap-4">
-              {/* Solid black, per the design — the `rail` variant's own
-                  `active` state is exactly that treatment, so this is the
-                  shared button rather than a one-off colour override. */}
-              <FrameButton variant="rail" active className={GLOBE_BUTTON}>
-                Map of regions
+              <FrameButton
+                href="/plan-my-trip"
+                variant="rail"
+                className={GLOBE_BUTTON}
+              >
+                Plan My Trip
               </FrameButton>
               <FrameButton
                 href="/destinations/a-z"
                 variant="rail"
                 className={GLOBE_BUTTON}
               >
-                A-Z of countries
+                Explore the Map
               </FrameButton>
             </div>
           </div>
