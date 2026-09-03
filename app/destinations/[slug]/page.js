@@ -9,7 +9,19 @@ import { WhyTravelSection } from "@/components/common/WhyTravelSection";
 import { SeasonsSection } from "@/components/destinations/kerala/SeasonsSection";
 import { FaqSection } from "@/components/destinations/kerala/FaqSection";
 import { RegionFixedPackagesSection } from "@/components/destinations/RegionFixedPackagesSection";
+import { PlanMyTripSection } from "@/components/plan-my-trip/PlanMyTripSection";
+import { destinationNameForSlug } from "@/lib/navigation";
+import { destinationOptionsFor } from "@/lib/planMyTrip";
 import { getDestinationPage, getDestinationSlugs } from "@/lib/strapi/kerala";
+
+/* The enquiry form's backdrop per destination. The kerala-pages content type
+   has no planTripSection yet, so the form runs on its own copy here; the
+   picture is the one thing that would look wrong left at the component's
+   default (an African plain). Add a line when a destination page goes live. */
+const PLAN_TRIP_IMAGES = {
+  kerala: "/destinations/kerala/house-boat.avif",
+  india: "/destination/india.avif",
+};
 
 /* One route for every destination. The design is fixed; the CMS supplies the
    content, and the slug picks which entry — see destinationSlug() in
@@ -85,8 +97,23 @@ export default async function DestinationPage({ params }) {
       <MustVisitSection {...page.mustVisit} />
       <HighlightsSection {...page.highlights} />
       <WhyTravelSection {...page.why} />
-      <SeasonsSection {...page.seasons} />
-      <RegionFixedPackagesSection {...page.packages} />
+      {/* <SeasonsSection {...page.seasons} /> */}
+      {/* <RegionFixedPackagesSection {...page.packages} /> */}
+
+      {/* The enquiry form, then the FAQ — the order the country pages use.
+          The destination chips are this place's own (Munnar, Alleppey … on
+          Kerala; Kerala, Rajasthan … on India), from lib/countryPlaces.js via
+          the same helper the country pages use. Everything else is the
+          component's shipped copy until the CMS grows a planTripSection for
+          this content type. */}
+      <PlanMyTripSection
+        backgroundImage={PLAN_TRIP_IMAGES[slug]}
+        options={{
+          destination: destinationOptionsFor({
+            country: destinationNameForSlug(slug),
+          }),
+        }}
+      />
       <FaqSection {...page.faq} />
     </>
   );
