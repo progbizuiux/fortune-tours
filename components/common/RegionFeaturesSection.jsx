@@ -29,17 +29,18 @@ const FALLBACK_FEATURES = [
   },
 ];
 
-/* Desktop column count follows the item count, so the row fills its track
+/* 2xl column count follows the item count, so the row fills its track
    instead of leaving a dead column and reading as off-centre. Written out
    rather than interpolated because Tailwind only sees whole class names.
-   Beyond six, wrap onto a second row of six. */
+   Beyond six, wrap onto a second row of six. From xl to 2xl the row keeps
+   lg's three columns, so six items sit as two rows of three. */
 const XL_WIDTHS = {
-  1: "xl:w-full",
-  2: "xl:w-1/2",
-  3: "xl:w-1/3",
-  4: "xl:w-1/4",
-  5: "xl:w-1/5",
-  6: "xl:w-1/6",
+  1: "2xl:w-full",
+  2: "2xl:w-1/2",
+  3: "2xl:w-1/3",
+  4: "2xl:w-1/4",
+  5: "2xl:w-1/5",
+  6: "2xl:w-1/6",
 };
 
 export function RegionFeaturesSection({
@@ -92,7 +93,7 @@ export function RegionFeaturesSection({
             const itemsInLastTabletRow = visibleOnSmallCount % 2 || 2;
             const isLastRowTablet = i >= visibleOnSmallCount - itemsInLastTabletRow && i < visibleOnSmallCount;
             
-            // On lg (3 cols), if there are 6 items, last row is last 3. If 4 items, last row is just the last 1.
+            // On lg to 2xl (3 cols), if there are 6 items, last row is last 3. If 4 items, last row is just the last 1.
             const itemsInLastLgRow = visibleOnSmallCount % 3 || 3;
             const isLastRowLg = i >= visibleOnSmallCount - itemsInLastLgRow;
             
@@ -101,20 +102,26 @@ export function RegionFeaturesSection({
                 key={i}
                 className={cn(
                   "w-full md:w-1/2 lg:w-1/3",
-                  XL_WIDTHS[activeFeatures.length] ?? "xl:w-1/6",
-                  "flex flex-col items-center justify-start xl:justify-between text-center px-[22px] h-full pt-2",
+                  XL_WIDTHS[activeFeatures.length] ?? "2xl:w-1/6",
+                  // No h-full: a 100% height against the wrap's indefinite
+                  // height resolves to the item's own content, which stops
+                  // the flex line stretching it — so items with a longer
+                  // body ran taller and the dividing rules ended at
+                  // different heights. Left to stretch, every item in a row
+                  // shares the tallest one's height.
+                  "flex flex-col items-center justify-start 2xl:justify-between text-center px-[22px] pt-2",
                   hideOnSmall && "max-lg:hidden",
                   // Vertical borders
                   "md:border-r border-black/10 last:border-r-0",
                   "md:max-lg:even:border-r-0", // On 2-col (md), every 2nd item has no right border
-                  "lg:max-xl:[&:nth-child(3n)]:border-r-0", // On 3-col (lg), every 3rd item has no right border
+                  "lg:max-2xl:[&:nth-child(3n)]:border-r-0", // On 3-col (lg to 2xl), every 3rd item has no right border
                   
                   // Horizontal borders
-                  "border-b border-black/10 max-xl:pb-8",
+                  "border-b border-black/10 max-2xl:pb-8",
                   isLastRowMobile && "max-md:border-b-0 max-md:pb-0",
                   isLastRowTablet && "md:max-lg:border-b-0 md:max-lg:pb-0",
-                  isLastRowLg && "lg:max-xl:border-b-0 lg:max-xl:pb-0",
-                  "xl:border-b-0 xl:pb-0" // No bottom borders on desktop
+                  isLastRowLg && "lg:max-2xl:border-b-0 lg:max-2xl:pb-0",
+                  "2xl:border-b-0 2xl:pb-0" // No bottom borders from 2xl
                 )}
               >
               {/* Two lines' worth of height at every breakpoint, with the
@@ -125,7 +132,7 @@ export function RegionFeaturesSection({
                 {feature.title}
               </h3>
               {(feature.body || feature.description) && (
-                <p className="mt-[10px] font-sans max-lg:text-[14px] lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-[16px] font-light max-xl:leading-[21px] xl:leading-[24px] text-black/80 max-xl:flex-1">
+                <p className="mt-[10px] font-sans max-lg:text-[14px] lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-[16px] font-light max-xl:leading-[21px] xl:leading-[24px] text-black/80 max-2xl:flex-1">
                   {feature.body || feature.description}
                 </p>
               )}

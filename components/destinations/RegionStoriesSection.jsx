@@ -156,6 +156,7 @@ export function RegionStoriesSection({
             {/* Same CarouselArrow the other carousels use, re-coloured for a
                 light panel — the component's default rule is white because it
                 normally sits over a photo. */}
+            {(hasPrev || hasNext) && (
             <div className="flex items-center gap-[10px] max-sm:w-full max-sm:justify-end sm:ml-auto">
               <CarouselArrow
                 direction="prev"
@@ -172,6 +173,7 @@ export function RegionStoriesSection({
                 aria-label="Next story"
               />
             </div>
+            )}
           </div>
         </div>
       </Container>

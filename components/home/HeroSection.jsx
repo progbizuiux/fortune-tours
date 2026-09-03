@@ -10,8 +10,8 @@ import { PageHero } from "@/components/common/PageHero";
    lib/strapi/home.js and these stand in for any field left blank. The
    background video is not CMS-driven — see the note in normaliseHero. */
 const CTA_LINKS = [
-  { label: "Discover experiences", href: "/experiences" },
-  { label: "Design your itinerary", href: "/itinerary" },
+  { label: "Discover experiences", href: "/plan-my-trip" },
+  { label: "Design your itinerary", href: "/destinations/a-z" },
 ];
 
 const DEFAULT_EYEBROW = "Fortune Tours & Travels — Est. 1998";

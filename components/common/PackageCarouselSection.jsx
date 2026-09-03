@@ -136,6 +136,7 @@ export function PackageCarouselSection({
 
         {/* Hidden while stacked: the track is swipeable there, and the dots
             below already say where you are. */}
+        {(canScrollLeft || canScrollRight) && (
         <div className="mb-[30.5px] hidden shrink-0 gap-[10px] xl:flex">
           <button
             type="button"
@@ -156,6 +157,7 @@ export function PackageCarouselSection({
             <ChevronRight className="size-4 stroke-1 text-black" />
           </button>
         </div>
+        )}
       </div>
 
       <div className="mt-5 flex flex-col xl:flex-row">

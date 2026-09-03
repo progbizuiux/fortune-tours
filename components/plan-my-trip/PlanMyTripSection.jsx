@@ -12,6 +12,8 @@ import {
   DESTINATION_OPTIONS,
   DURATION_OPTIONS,
   EMPTY_PLAN,
+  GROUP_SIZE_OPTIONS,
+  GROUP_TRAVELLERS,
   INTEREST_OPTIONS,
   PLAN_STEPS,
   TRAVELLER_OPTIONS,
@@ -534,6 +536,34 @@ export function PlanMyTripSection({
                       }
                     />
                   </QuestionGroup>
+
+                  {/* Headcount, only once a group chip is chosen — the schema
+                      requires it for exactly those chips. */}
+                  {GROUP_TRAVELLERS.includes(travellingWith) && (
+                    <Field
+                      id="groupSize"
+                      label={labels.groupSize ?? "Number of persons"}
+                      error={errors.groupSize?.message}
+                      className="mt-10 md:mt-12 md:max-w-sm"
+                    >
+                      <select
+                        id="groupSize"
+                        aria-invalid={errors.groupSize ? true : undefined}
+                        aria-describedby={
+                          errors.groupSize ? "groupSize-error" : undefined
+                        }
+                        {...register("groupSize")}
+                        className={cn(INPUT_CLASSES, "cursor-pointer [&_option]:text-black")}
+                      >
+                        <option value="">Select</option>
+                        {GROUP_SIZE_OPTIONS.map((size) => (
+                          <option key={size} value={size}>
+                            {size}
+                          </option>
+                        ))}
+                      </select>
+                    </Field>
+                  )}
 
                   <QuestionGroup
                     id="question-interests"
