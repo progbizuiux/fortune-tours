@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Minus, Plus } from "lucide-react";
 import { AnimateIn } from "@/components/common/AnimateIn";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
@@ -123,7 +122,19 @@ function Day({ day, index, isOpen, isFirst, prevOpen, onToggle }) {
 
   return (
     <AnimateIn>
-      <div className={cn(isOpen && "bg-cream", isOpen ? "py-10 md:py-14 lg:py-[60px]" : "")}>
+      {/* Every property that differs between the two states transitions, so
+          a click reads as one motion: the cream fades in under the row, the
+          band's padding eases open, the photograph widens in beside the copy
+          and the detail slides down. Each was a hard switch before, and four
+          things jumping at once around one smooth panel looked broken rather
+          than animated. motion-reduce:transition-none throughout, as the panel
+          already had. */}
+      <div
+        className={cn(
+          "transition-[background-color,padding] duration-300 ease-in-out motion-reduce:transition-none",
+          isOpen ? "bg-cream py-10 md:py-14 lg:py-[60px]" : "bg-transparent py-0",
+        )}
+      >
         <Container>
           {/* The two gaps differ: the numeral stands 60/80px off the
               photograph — that gap is what puts the photograph's left edge
@@ -133,8 +144,14 @@ function Day({ day, index, isOpen, isFirst, prevOpen, onToggle }) {
           <div
             className={cn(
               "flex flex-col lg:flex-row lg:gap-[60px] xl:gap-[80px]",
-              !isOpen && "py-8 md:py-10 lg:py-[45px]",
-              !isOpen && !isFirst && !prevOpen && "border-t border-black/10",
+              "transition-[padding,border-color] duration-300 ease-in-out motion-reduce:transition-none",
+              isOpen ? "py-0" : "py-8 md:py-10 lg:py-[45px]",
+              /* The hairline is always drawn where a closed row would have it
+                 and fades to transparent when the row opens, rather than
+                 appearing and vanishing — a border that toggles cannot be
+                 transitioned, a border colour can. */
+              !isFirst && !prevOpen && "border-t",
+              !isFirst && !prevOpen && (isOpen ? "border-transparent" : "border-black/10"),
             )}
           >
             {/* One casing for every day. The frame draws a lowercase "day" over
@@ -143,7 +160,10 @@ function Day({ day, index, isOpen, isFirst, prevOpen, onToggle }) {
                 the word would change case under the reader's own click. */}
             <DayNumber label="Day" number={day.number} className="lg:w-[60px] shrink-0" />
 
-            <div className="mt-6 lg:mt-0 flex flex-1 flex-col lg:flex-row lg:gap-[42px]">
+            {/* No lg:gap here: the 42px between photograph and copy is the
+                photograph's own margin, so it can shrink to nothing with the
+                photograph instead of leaving a gap on a closed row. */}
+            <div className="mt-6 lg:mt-0 flex flex-1 flex-col lg:flex-row">
               {day.image && (
                 /* Only drawn for the open day — a closed row is a title and
                    nothing else. Kept out of the panel below because the frame
@@ -156,14 +176,20 @@ function Day({ day, index, isOpen, isFirst, prevOpen, onToggle }) {
                    this track is the container less the gutter and its gap, so
                    32% of it lands on that 29%. */
                 <div
+                  aria-hidden={!isOpen}
                   className={cn(
-                    /* A tinted ground under the picture. `display:none` keeps a
-                       lazy image from ever intersecting, so a closed day's
-                       photograph is not fetched until the click — good for the
-                       bytes, but it means the box is empty for one round trip
-                       on first open, and an untinted box is a hole. */
-                    "relative aspect-[4/3] w-full lg:w-[32%] shrink-0 overflow-hidden rounded-sm bg-black/5",
-                    !isOpen && "hidden",
+                    /* Collapsed to nothing rather than display:none, so it can
+                       ease open: to zero width beside the copy from lg, to zero
+                       height above it below lg (the aspect ratio follows the
+                       width down, so lg needs no height rule). The margin that
+                       separates it from the copy collapses with it. A tinted
+                       ground sits under the picture so the box is never a hole
+                       while the file arrives. */
+                    "relative aspect-[4/3] w-full shrink-0 overflow-hidden rounded-sm bg-black/5",
+                    "transition-[width,max-height,margin,opacity] duration-300 ease-in-out motion-reduce:transition-none",
+                    isOpen
+                      ? "opacity-100 max-lg:mb-6 max-lg:max-h-[80vh] lg:mr-[42px] lg:w-[32%]"
+                      : "opacity-0 max-lg:mb-0 max-lg:max-h-0 lg:mr-0 lg:w-0",
                   )}
                 >
                   <Image
@@ -181,7 +207,7 @@ function Day({ day, index, isOpen, isFirst, prevOpen, onToggle }) {
                 </div>
               )}
 
-              <div className={cn("flex-1", day.image && isOpen && "mt-6 lg:mt-0")}>
+              <div className="min-w-0 flex-1">
                 <h3 id={headingId}>
                   <button
                     type="button"
@@ -203,15 +229,28 @@ function Day({ day, index, isOpen, isFirst, prevOpen, onToggle }) {
                         show that the closed ones are controls. The same mark
                         components/common/FaqSection.jsx uses, so the two
                         accordions on this page open the same way. */}
+                    {/* A plus drawn as two bars, so opening turns it into the
+                        minus by rotating the whole mark a quarter turn while
+                        the upright bar shrinks away — one continuous motion
+                        instead of swapping one icon for another. Same 14px
+                        mark and 1.5px stroke as the lucide glyphs it
+                        replaces. */}
                     <span
                       aria-hidden="true"
-                      className="mt-1.5 flex h-[30px] w-[14px] shrink-0 items-center justify-center text-black"
-                    >
-                      {isOpen ? (
-                        <Minus className="h-[14px] w-[14px]" strokeWidth={1.5} />
-                      ) : (
-                        <Plus className="h-[14px] w-[14px]" strokeWidth={1.5} />
+                      className={cn(
+                        "relative mt-1.5 flex h-[30px] w-[14px] shrink-0 items-center justify-center text-black",
+                        "transition-transform duration-300 ease-in-out motion-reduce:transition-none",
+                        isOpen && "rotate-90",
                       )}
+                    >
+                      <span className="absolute h-[1.5px] w-[14px] rounded-full bg-current" />
+                      <span
+                        className={cn(
+                          "absolute h-[14px] w-[1.5px] rounded-full bg-current",
+                          "transition-transform duration-300 ease-in-out motion-reduce:transition-none",
+                          isOpen && "scale-y-0",
+                        )}
+                      />
                     </span>
                   </button>
                 </h3>

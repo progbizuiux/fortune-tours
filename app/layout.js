@@ -5,7 +5,12 @@ import { Footer } from "@/components/layout/Footer";
 import { getCountryParams } from "@/lib/strapi/country";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+/* The public site, fortunetours.in, unless the environment names another (the
+   dev deployment sets fortunedev.progbiz.in). It is the base every canonical
+   and Open Graph URL resolves against, so the fallback must be the real
+   domain rather than localhost — a build without the variable was stamping
+   localhost into the live site's metadata. */
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://fortunetours.in";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
