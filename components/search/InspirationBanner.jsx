@@ -91,11 +91,14 @@ export function InspirationBanner({ inspiration, ctaHref }) {
                 so the copy block keeps its spacing. */}
             <CtaLink
               href={ctaHref}
-              className="font-top text-navy hover:text-sky mt-7 inline-flex min-h-11 items-center gap-2.5 py-3 text-[13px] font-medium tracking-[0.12em] whitespace-nowrap uppercase max-lg:mt-5"
+              underline={false}
+              className="group font-top text-navy hover:text-sky mt-7 inline-flex min-h-11 items-center gap-2.5 py-3 text-[13px] font-medium tracking-[0.12em] whitespace-nowrap uppercase max-lg:mt-5"
             >
               {inspiration.cta}
               {/* lucide ships no filled caret, so the outline triangle is
-                  flipped and filled to match the solid marker in the design.
+                  turned and filled to match the solid marker in the design.
+                  It points right at rest and turns to point down on hover,
+                  in place of the underline the other text links sweep in.
                   shrink-0 with the whitespace-nowrap above keeps the caret on
                   the label's line: the two are flex items, and without it a
                   squeezed label wraps and leaves the caret stranded beside a
@@ -104,7 +107,7 @@ export function InspirationBanner({ inspiration, ctaHref }) {
               <Triangle
                 aria-hidden="true"
                 strokeWidth={0}
-                className="size-2.5 shrink-0 rotate-180 fill-current"
+                className="relative -top-px size-2.5 shrink-0 rotate-90 fill-current transition-transform duration-300 group-hover:rotate-180"
               />
             </CtaLink>
           </AnimateIn>
