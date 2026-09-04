@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { destinationPageHref } from "@/lib/navigation";
 import { Container } from "@/components/common/Container";
 import { CtaLink } from "@/components/common/CtaLink";
 import { SectionHeading } from "@/components/common/SectionHeading";
@@ -20,11 +22,52 @@ const CATEGORIES = [
   { key: "cruises", label: "Cruises" },
 ];
 
+// There is no /destinations route — the index lives at /destinations/a-z
+// (app/destinations/a-z/page.js) and /destinations/[slug] only resolves slugs
+// the CMS has published. Both CTAs pointed at the bare /destinations and 404ed;
+// the index is the one destinations link that always exists.
+const DESTINATIONS_HREF = "/destinations/a-z";
+
+/* Where a slide's CTA goes — the destination on screen, not a fixed page.
+   The CMS's own buttonLink wins; failing that the slide names its destination
+   and gets that destination's page when one exists and a search for it when it
+   does not, which is the ladder lib/navigation.js already walks for the menus.
+   A slide with neither falls back on the index.
+
+   The search leg is what keeps this honest: /destinations/[slug] only resolves
+   slugs the CMS has published, so linking a name straight at it would put the
+   404 back for every destination without a page yet. */
+function slideHref(slide) {
+  if (slide?.ctaHref) {
+    /* Editors write "/destinations" for the index, which is not a route — the
+       index is /destinations/a-z. Corrected here rather than left to 404,
+       because it is the CMS copy that is wrong and every slide carrying it
+       would break the same way. */
+    return slide.ctaHref.replace(/^\/destinations\/?$/, DESTINATIONS_HREF);
+  }
+
+  // CMS slides carry no destination field, so the name is read off the label:
+  // "Cappadocia, Türkiye." → "Türkiye". Only ever feeds a search term.
+  const name =
+    slide?.destination ||
+    (slide?.location ?? "")
+      .split(",")
+      .pop()
+      .replace(/[.\s]+$/, "")
+      .trim();
+
+  if (!name) return DESTINATIONS_HREF;
+  return destinationPageHref(name) ?? `/search?term=${encodeURIComponent(name)}`;
+}
+
 // Images are placeholders from elsewhere in the site — drop the real shots
 // into public/ and update `image` per slide; everything else stays put.
 const SLIDES = [
   {
     key: "cappadocia",
+    // The destination the CTA opens. Resolved through slideHref() above, so a
+    // name with no page of its own lands on a search rather than a 404.
+    destination: "Türkiye",
     location: "Cappadocia, Türkiye.",
     title: "Hot air balloon at sunrise.",
     description:
@@ -34,6 +77,7 @@ const SLIDES = [
   },
   {
     key: "thailand",
+    destination: "Thailand",
     location: "Thailand, Vibrant Cities.",
     title: "Streets that never sleep.",
     description:
@@ -43,6 +87,7 @@ const SLIDES = [
   },
   {
     key: "osaka",
+    destination: "Japan",
     location: "Japan, Osaka",
     title: "Spring under the blossoms.",
     description:
@@ -52,6 +97,7 @@ const SLIDES = [
   },
   {
     key: "kerala",
+    destination: "Kerala",
     location: "Kerala, India.",
     title: "Backwaters at their own pace.",
     description:
@@ -61,6 +107,7 @@ const SLIDES = [
   },
   {
     key: "swiss",
+    destination: "Switzerland",
     location: "Switzerland, Alps.",
     title: "Wake up above the clouds.",
     description:
@@ -70,6 +117,7 @@ const SLIDES = [
   },
   {
     key: "norway",
+    destination: "Norway",
     location: "Norway, Fjords.",
     title: "Chase the northern lights.",
     description:
@@ -813,7 +861,7 @@ export function FeaturedDestinations({
 
                 <div className="text-body flex items-center gap-4 text-white/95">
                   <CtaLink
-                    href={viewAllHref || "/destinations/a-z"}
+                    href={viewAllHref || DESTINATIONS_HREF}
                     fill
                     className="border-x border-white/40 px-5 hover:text-white"
                   >
@@ -838,12 +886,12 @@ export function FeaturedDestinations({
                   />
                 </FrameButton>
 
-                <FrameButton
-                  variant="rail"
-                  className="px-4 text-white/95 max-sm:text-[12px] max-sm:font-light"
+                <Link
+                  href={slideHref(active)}
+                  className="text-body inline-flex min-h-10 items-center justify-center border-x border-white/30 px-4 text-white/95 transition-colors max-sm:text-[12px] max-sm:font-light"
                 >
-                  Explore the destination
-                </FrameButton>
+                  {active.ctaLabel || "Explore the destination"}
+                </Link>
 
                 <FrameButton
                   variant="icon"
@@ -890,11 +938,11 @@ function SlideCopy({ slide }) {
 
       <div className="fd-cta text-body mt-16 flex items-center gap-4 text-white/95 max-lg:hidden">
         <CtaLink
-          href="/destinations"
+          href={slideHref(slide)}
           fill
           className="border-x border-white/40 px-5 hover:text-white"
         >
-          Explore the destination
+          {slide.ctaLabel || "Explore the destination"}
         </CtaLink>
       </div>
     </>

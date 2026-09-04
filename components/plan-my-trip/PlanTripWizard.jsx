@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
@@ -83,7 +84,6 @@ function OptionBox({ label, active, onToggle, className }) {
         )}
       />
       {label}
-      
     </button>
   );
 }
@@ -328,7 +328,16 @@ export function PlanTripWizard({
           narrower than the two destination boxes need side by side. From lg
           the rail takes a fixed 300/320/360px and the form takes the rest, so
           the form column never falls below ~570px. */}
-      <Container className="grid gap-10 py-10 sm:gap-12 sm:py-12 md:py-16 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-0 lg:max-xl:py-14 xl:grid-cols-[minmax(0,1fr)_320px] xl:py-20 2xl:grid-cols-[minmax(0,1fr)_360px]">
+      {/* The rail's column goes with the rail once the brief is sent —
+          keeping the track would reserve 300–360px for something no longer
+          rendered and strand the confirmation in a narrow left column. */}
+      <Container
+        className={cn(
+          "grid gap-10 py-10 sm:gap-12 sm:py-12 md:py-16 lg:gap-0 lg:max-xl:py-14 xl:py-20",
+          !submitted &&
+            "lg:grid-cols-[minmax(0,1fr)_300px] xl:grid-cols-[minmax(0,1fr)_320px] 2xl:grid-cols-[minmax(0,1fr)_360px]",
+        )}
+      >
         {/* ── Form column ──────────────────────────────────────────────── */}
         <form
           ref={formRef}
@@ -337,34 +346,66 @@ export function PlanTripWizard({
           // scroll-mt clears the fixed navbar when a step change scrolls the
           // form back to its own top edge.
           //
-          // At least a screen tall from lg. The rail beside this is sticky,
-          // and sticky is bounded by its grid row — which is as tall as this
-          // form. The first step fits under the fold, so without a floor the
-          // rail had a few dozen pixels to pin against and appeared not to be
-          // sticky at all. With it the rail stays put while the section is in
-          // view on every step, and gives way only as the footer arrives.
-          className="scroll-mt-24 lg:min-h-[calc(100svh-5rem)] lg:pr-10 xl:pr-14 2xl:pr-20"
+          // At least a screen tall from lg. Sticky is bounded by its own grid
+          // row, and that row is as tall as this form — on the short first step
+          // the rail had a few dozen pixels to travel in and read as not
+          // sticky at all. The floor gives it the section to pin through.
+          //
+          // The right padding is the gutter against the rail, so it goes with
+          // the rail: left in place it is 56px of dead space on one side only,
+          // which throws the centred confirmation off the page's centre line.
+          className={cn(
+            "scroll-mt-24 lg:min-h-[calc(100svh-5rem)]",
+            !submitted && "lg:pr-10 xl:pr-14 2xl:pr-20",
+          )}
         >
-          <header>
-            <h4 className="max-sm:text-[14px]">{eyebrow}</h4>
-            {/* No width cap: the design keeps the title on one line. The h2
-                token bottoms out at 36px, which crowds the descenders against
-                the line box on a phone, so this section runs its own smaller
-                step below sm — the same move the dark PlanMyTripSection
-                makes. */}
-            <h2 className="mt-3 max-sm:text-[30px] max-sm:leading-[1.1] sm:mt-4">
-              {title}
-            </h2>
-          </header>
+          {/* The whole masthead belongs to the form: an eyebrow naming the
+              task and a title instructing you to craft something. Once the
+              brief is sent there is nothing left to fill in, so it goes and
+              the thank-you becomes the only heading on the page. */}
+          {!submitted && (
+            <header>
+              <h4 className="max-sm:text-[14px]">{eyebrow}</h4>
+              {/* No width cap: the design keeps the title on one line. The h2
+                  token bottoms out at 36px, which crowds the descenders
+                  against the line box on a phone, so this section runs its own
+                  smaller step below sm — the same move the dark
+                  PlanMyTripSection makes. */}
+              <h2 className="mt-3 max-sm:text-[30px] max-sm:leading-[1.1] sm:mt-4">
+                {title}
+              </h2>
+            </header>
+          )}
 
           {submitted ? (
-            <div className="py-12 motion-safe:animate-menu-drop sm:py-16 lg:py-24">
-              <h3 className={STEP_TITLE_CLASSES}>
+            /* Centred, unlike every step before it. With the rail and its
+               column gone the confirmation has the full width to itself, and
+               left-aligned it read as a paragraph stranded in the corner of an
+               empty page. The measure stays capped — centring the block, not
+               letting the line run the width of the section. */
+            <div className="py-12 text-center motion-safe:animate-menu-drop sm:py-16 lg:py-24">
+              {/* Its own size rather than STEP_TITLE_CLASSES: those are step
+                  questions sitting under the page title, whereas this is now
+                  the only heading on the page, so it takes the weight the
+                  removed title left behind. */}
+              <h3 className="text-[28px] leading-[1.15] sm:text-[34px] xl:text-[40px]">
                 Thank you, {submittedName}.
               </h3>
-              <p className="mt-5 max-w-[560px] text-black/70 max-sm:text-[15px] sm:mt-6">
+              <p className="mx-auto mt-5 max-w-[560px] text-black/70 max-sm:text-[15px] sm:mt-6">
                 {successMessage}
               </p>
+
+              {/* The way off the page. The wizard clears its draft on submit,
+                  so there is no form left to go back to — this returns home
+                  rather than to a step. Outlined like the wizard's own Back:
+                  it is the same kind of retreat, and the page has no primary
+                  action left for a solid button to claim. */}
+              <Link
+                href="/"
+                className="focus-visible:outline-sky mt-8 inline-flex min-h-11 cursor-pointer items-center justify-center border border-black/25 px-8 py-3 text-[15px] text-black transition-colors hover:border-black focus-visible:outline-2 focus-visible:outline-offset-2 sm:mt-10"
+              >
+                Back to home
+              </Link>
             </div>
           ) : (
             <>
@@ -761,65 +802,80 @@ export function PlanTripWizard({
         {/* ── Journey rail ─────────────────────────────────────────────── */}
         {/* The running transcript of what has been answered. aria-live so an
             answer that just landed is announced without moving focus away from
-            the form. Below lg it drops under the form rather than beside it. */}
-        <aside
-          aria-label={railTitle}
-          className="border-t border-black/15 pt-8 sm:pt-10 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10 xl:pl-14 2xl:pl-20"
-        >
-          {/* Sticky only from lg, where the rail is a column of its own. The
-              offset clears the fixed navbar (h-20 at its tallest).
+            the form. Below lg it drops under the form rather than beside it.
 
-              Sticky can only pin an element that fits under that offset: one
-              taller than the viewport has nowhere to pin and just rides along
-              with the row, which is what happened at the contact step, where
-              five answers plus the photograph ran past the fold. So the rail
-              is capped at the viewport height and scrolls inside itself as a
-              last resort (its own overflow is fine — it is an ANCESTOR's
-              overflow that breaks sticky), the photo shrinks from lg, and on
-              a short laptop screen the photo goes altogether. The scrollbar
-              is hidden because it would sit against the column rule. */}
-          <div className="lg:sticky lg:top-24 lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden">
-            <p className={LABEL_CLASSES}>{railTitle}</p>
-            <dl
-              aria-live="polite"
-              className="mt-5 space-y-4 sm:mt-6 sm:space-y-5"
-            >
-              {summary.length === 0 ? (
-                <p className="text-[14px] font-light text-black/45">
-                  Your answers will appear here as you go.
-                </p>
-              ) : (
-                summary.map((row) => (
-                  <div key={row.label}>
-                    <dt className="text-[13px] font-light text-black/45">
-                      {row.label}
-                    </dt>
-                    <dd className="mt-1 text-[14px] font-medium break-words text-black">
-                      {row.value}
-                    </dd>
-                  </div>
-                ))
-              )}
-            </dl>
+            The whole rail goes once the brief is sent: it exists to accompany
+            a form being filled in, and with the form gone the confirmation
+            should be the only thing on the page. */}
+        {!submitted && (
+          <aside
+            aria-label={railTitle}
+            className="border-t border-black/15 pt-8 sm:pt-10 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10 xl:pl-14 2xl:pl-20"
+          >
+            {/* Sticky only from lg, where the rail is a column of its own. The
+              offset clears the tallest state of the fixed navbar (h-20).
 
-            {/* Capped below lg: stacked under the form, a full-bleed 4:3 image
+              Capped at the viewport and scrolling inside itself, because
+              sticky can only pin something that fits under its offset: by the
+              contact step the answers plus the photograph run past the fold,
+              and an over-tall element just rides along with the row instead of
+              pinning. Its OWN overflow is fine here — it is an ancestor's that
+              would break sticky.
+
+              The scrollbar is hidden because it would sit against the column
+              rule. Hiding it costs nothing functionally: the wheel scrolls
+              whichever scroller is under the pointer, so the rail still moves
+              on its own — which is how the rows the cap cuts off (by the
+              contact step the transcript runs eleven rows plus the
+              photograph) are reached.
+
+              overscroll-contain keeps that scroll to the rail. Without it,
+              reaching the rail's last row hands the wheel straight on to the
+              page, so a reader looking over their answers is thrown down into
+              the footer by the same gesture. */}
+            <div className="lg:sticky lg:top-28 lg:max-h-[calc(100dvh-8rem)] lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden">
+              <p className={LABEL_CLASSES}>{railTitle}</p>
+              <dl
+                aria-live="polite"
+                className="mt-5 space-y-4 sm:mt-6 sm:space-y-5"
+              >
+                {summary.length === 0 ? (
+                  <p className="text-[14px] font-light text-black/45">
+                    Your answers will appear here as you go.
+                  </p>
+                ) : (
+                  summary.map((row) => (
+                    <div key={row.label}>
+                      <dt className="text-[13px] font-light text-black/45">
+                        {row.label}
+                      </dt>
+                      <dd className="mt-1 text-[14px] font-medium break-words text-black">
+                        {row.value}
+                      </dd>
+                    </div>
+                  ))
+                )}
+              </dl>
+
+              {/* Capped below lg: stacked under the form, a full-bleed 4:3 image
                 on a tablet is taller than the step it belongs to. */}
-            <figure className="mt-8 max-w-[480px] sm:mt-10 lg:mt-8 lg:max-w-none lg:[@media(max-height:760px)]:hidden">
-              <div className="relative aspect-4/3 w-full overflow-hidden lg:aspect-[3/2] lg:max-h-[220px]">
-                <Image
-                  src={railImage}
-                  alt=""
-                  fill
-                  sizes="(min-width: 1536px) 360px, (min-width: 1280px) 320px, (min-width: 1024px) 300px, (min-width: 640px) 480px, 100vw"
-                  className="object-cover"
-                />
-              </div>
-              <figcaption className="font-heading mt-3 text-[12px] text-black/50 italic">
-                {railCaption}
-              </figcaption>
-            </figure>
-          </div>
-        </aside>
+              <figure className="mt-8 max-w-[480px] sm:mt-10 lg:max-w-none">
+                <div className="relative aspect-4/3 w-full overflow-hidden">
+                  <Image
+                    src={railImage}
+                    alt=""
+                    fill
+                    sizes="(min-width: 1536px) 360px, (min-width: 1280px) 320px, (min-width: 1024px) 300px, (min-width: 640px) 480px, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+                <figcaption className="font-heading mt-3 text-[12px] text-black/50 italic">
+                  {railCaption}
+                </figcaption>
+              </figure>
+            </div>
+          </aside>
+        )}
       </Container>
     </section>
   );
