@@ -9,16 +9,17 @@ import { toast } from "sonner";
 import { Container } from "@/components/common/Container";
 import { FrameButton } from "@/components/common/FrameButton";
 import {
-  DESTINATION_OPTIONS,
+  DESTINATION_MODE_OPTIONS,
   DURATION_OPTIONS,
   EMPTY_PLAN,
+  FLEXIBILITY_OPTIONS,
   GROUP_SIZE_OPTIONS,
   GROUP_TRAVELLERS,
   INTEREST_OPTIONS,
+  OPEN_TO_SUGGESTIONS,
   PLAN_STEPS,
   TRAVELLER_OPTIONS,
   clearPlanDraft,
-  limitDestinationOptions,
   loadPlanDraft,
   planSchema,
   savePlanDraft,
@@ -40,6 +41,67 @@ const BACKGROUND_IMAGE = "/destinations/africa.png";
    the black panel. */
 const INPUT_CLASSES =
   "mt-4 w-full border-b border-white/40 bg-transparent pb-3 text-body lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-body font-light text-white transition-colors placeholder:text-white/40 focus:border-white focus:outline-none [color-scheme:dark]";
+
+/* A checkbox-shaped answer. The square fills solid white once chosen — the
+   design's one selection cue, so it carries aria-pressed for screen readers
+   rather than leaving the state to colour alone. Single- and multi-select
+   share it: the caller owns the semantics, this just renders state. */
+function OptionBox({ label, active, onToggle, className }) {
+  return (
+    <button
+      type="button"
+      aria-pressed={active}
+      onClick={onToggle}
+      className={cn(
+        // Sizes to its label at every width — the labels run from "Solo" to
+        // "I have a destination in mind", so a fixed width would either clip
+        // the long ones or strand the short ones.
+        "inline-flex min-h-11 max-w-full cursor-pointer items-center gap-2.5 border px-3.5 py-3 text-left text-[14px] font-light text-white transition-colors sm:gap-3 sm:px-4 sm:text-[15px] lg:max-xl:text-[13px] xl:max-2xl:text-[15px] 2xl:text-[15px]",
+        "focus-visible:outline-sky focus-visible:outline-2 focus-visible:outline-offset-2",
+        active ? "border-white" : "border-white/20 hover:border-white/50",
+        className,
+      )}
+    >
+      <span
+        aria-hidden="true"
+        className={cn(
+          "size-[13px] shrink-0 border transition-colors",
+          active ? "border-white bg-white" : "border-white/40",
+        )}
+      />
+      {label}
+    </button>
+  );
+}
+
+/* One answer group: the caps label, its options or field, and the group-level
+   error read with it through aria-describedby. */
+function Group({ id, label, error, className, children }) {
+  return (
+    <div className={className}>
+      <p id={id} className="font-top text-small font-light tracking-[0.35em] text-white/85 uppercase lg:max-xl:text-[11px] xl:max-2xl:text-[14px] 2xl:text-small">
+        {label}
+      </p>
+      <div
+        role="group"
+        aria-labelledby={id}
+        aria-describedby={error ? `${id}-error` : undefined}
+        className="mt-3 md:mt-4"
+      >
+        {children}
+      </div>
+      {error && (
+        <p
+          id={`${id}-error`}
+          role="alert"
+          className="mt-3 text-small text-red-300"
+        >
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
 
 /* A question heading with its answers beneath it. The group is labelled by
    the visible heading, and a group-level error (unanswered chips) is read
@@ -162,14 +224,7 @@ export function PlanMyTripSection({
     ...planStep,
     label: stepLabels?.[i] || planStep.label,
   }));
-  /* The page decides the destination chips (its region's countries, or the
-     editor's list — see normalisePlanTrip in lib/strapi/destination.js and
-     lib/strapi/country.js); the design's list is only for a page that sends
-     nothing. Named once because the draft restore below has to check a saved
-     answer against the same list the chips show. */
-  const destinationOptions = limitDestinationOptions(
-    options.destination ?? DESTINATION_OPTIONS,
-  );
+
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState("forward");
   const [submittedName, setSubmittedName] = useState(null);
@@ -203,13 +258,19 @@ export function PlanMyTripSection({
     mode: "onTouched",
   });
 
-  const [destination, duration, travellingWith, interests, arriving] = watch([
-    "destination",
-    "duration",
-    "travellingWith",
-    "interests",
-    "arriving",
-  ]);
+  const values = watch();
+  const {
+    destinationMode,
+    destination,
+    datesFlexible,
+    duration,
+    travellingWith,
+    interests,
+    arriving,
+  } = values;
+
+  const hasDestinationInMind =
+    destinationMode && destinationMode !== OPEN_TO_SUGGESTIONS;
 
   const isLastStep = step === steps.length - 1;
   const submitted = submittedName !== null;
@@ -220,13 +281,12 @@ export function PlanMyTripSection({
   // render and hydration agree on the empty form first.
   useEffect(() => {
     setToday(format(new Date(), "yyyy-MM-dd"));
-    const draft = loadPlanDraft(destinationOptions);
+    const draft = loadPlanDraft();
     if (draft) {
       reset({ ...EMPTY_PLAN, ...draft.values });
       setStep(draft.step);
     }
-    // Runs once on mount by design; the chip list does not change while the
-    // section is on screen.
+    // Runs once on mount by design
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reset]);
 
@@ -281,6 +341,15 @@ export function PlanMyTripSection({
 
   function selectSingle(field, value) {
     setValue(field, value, { shouldValidate: true, shouldDirty: true });
+  }
+
+  function selectDestinationMode(value) {
+    selectSingle("destinationMode", value);
+    // Switching to "open to suggestions" hides the free-text field, so the
+    // answer behind it goes too.
+    if (value === OPEN_TO_SUGGESTIONS) {
+      setValue("destination", "", { shouldValidate: true, shouldDirty: true });
+    }
   }
 
   function toggleInterest(value) {
@@ -461,17 +530,77 @@ export function PlanMyTripSection({
               )}
             >
               {step === 0 && (
-                <QuestionGroup
-                  id="question-destination"
-                  title={questions.destination ?? "Where would you like to go?"}
-                  error={errors.destination?.message}
-                >
-                  <OptionChips
-                    options={destinationOptions}
-                    isActive={(option) => destination === option}
-                    onToggle={(option) => selectSingle("destination", option)}
-                  />
-                </QuestionGroup>
+                <>
+                  <h3 className="max-lg:text-[18px] max-lg:leading-[1.2] lg:max-xl:text-[17px] xl:max-2xl:text-[20.5px] 2xl:text-[35px]">
+                    {questions.destination ?? "Where Are You Thinking of Going?"}
+                  </h3>
+                  <Group
+                    id="group-destination-mode"
+                    label={labels.destination ?? "Destination"}
+                    error={errors.destinationMode?.message}
+                    className="mt-6 md:mt-8"
+                  >
+                    <div className="flex flex-wrap gap-2.5 sm:gap-3">
+                      {DESTINATION_MODE_OPTIONS.map((option) => (
+                        <OptionBox
+                          key={option}
+                          label={option}
+                          active={destinationMode === option}
+                          onToggle={() => selectDestinationMode(option)}
+                        />
+                      ))}
+                    </div>
+                  </Group>
+
+                  {/* Only asked of someone who just said they have somewhere
+                      in mind — the schema requires it under the same
+                      condition. */}
+                  {hasDestinationInMind && (
+                    <div className="mt-8 max-w-[420px] motion-safe:animate-menu-drop md:mt-10">
+                      <input
+                        id="destination"
+                        type="text"
+                        placeholder="where would you like to go?"
+                        aria-label="Where would you like to go?"
+                        aria-invalid={errors.destination ? true : undefined}
+                        aria-describedby={
+                          errors.destination ? "destination-error" : undefined
+                        }
+                        {...register("destination")}
+                        className={INPUT_CLASSES}
+                      />
+                      {errors.destination && (
+                        <p
+                          id="destination-error"
+                          role="alert"
+                          className="mt-2 text-small text-red-300"
+                        >
+                          {errors.destination.message}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  <Group
+                    id="group-flexible"
+                    label={labels.flexible ?? "Are your dates flexible?"}
+                    className="mt-8 md:mt-10"
+                  >
+                    <div className="flex flex-wrap gap-2.5 sm:gap-3">
+                      {FLEXIBILITY_OPTIONS.map((option) => (
+                        <OptionBox
+                          key={option}
+                          label={option}
+                          className="min-w-[110px]"
+                          active={datesFlexible === option}
+                          onToggle={() =>
+                            selectSingle("datesFlexible", option)
+                          }
+                        />
+                      ))}
+                    </div>
+                  </Group>
+                </>
               )}
 
               {step === 1 && (
