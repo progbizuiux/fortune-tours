@@ -132,7 +132,10 @@ export function RegionCuratedSection({
                 aria-hidden="true"
               />
 
-              <div className="absolute inset-0 flex flex-col justify-end p-5 sm:p-8 md:pt-11 md:pb-16">
+              {/* The bottom inset runs tighter than the top and sides, which
+                  sits the title and its description lower in the frame than a
+                  uniform pad would. */}
+              <div className="absolute inset-0 flex flex-col justify-end p-5 pb-3 sm:p-8 sm:pb-4 md:pt-11 md:pb-8">
                 <div className="transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-3">
                   <h3 className="text-white max-sm:text-[24px] md:text-[28px] lg:max-xl:text-[27px] xl:max-2xl:text-[32px] 2xl:text-[32px] leading-none tracking-[-0.01em]">
                     {place.title}

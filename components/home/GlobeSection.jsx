@@ -49,13 +49,13 @@ export function GlobeSection() {
     >
       {/* Content overlay */}
       <Container className="relative z-40 pt-16 lg:pt-24 pointer-events-none">
-        <AnimateIn className="flex flex-col items-center text-center md:flex-row md:items-end md:justify-between md:text-left gap-8 pointer-events-auto">
+        <AnimateIn className="flex flex-col items-center text-center md:flex-row md:items-center md:justify-between md:text-left gap-8 pointer-events-auto">
           {/* Left: Eyebrow and Title */}
           <div className="flex flex-col items-center md:items-start gap-4">
             <span className="font-top max-lg:text-[12px] max-lg:leading-none text-h4 text-navy/70">
               Every Pin Is a Trip Waiting to Happen
             </span>
-            <h2 className="max-lg:text-[30px] max-lg:leading-none max-lg:tracking-[-0.01em] text-navy lg:max-xl:text-[34px]">
+            <h2 className="max-lg:text-[30px] max-lg:leading-none max-lg:tracking-[-0.01em] text-navy lg:max-xl:text-[34px] xl:max-2xl:text-[42px] max-w-[540px] 2xl:max-w-[620px]">
               Anywhere On The Map, We Will Get You There
             </h2>
           </div>
