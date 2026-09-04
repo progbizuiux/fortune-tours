@@ -67,11 +67,11 @@ export function CancellationSection({
                 >
                   <th
                     scope="row"
-                    className="px-5 md:px-8 lg:px-[35px] py-4 lg:py-[18px] font-sans font-light text-[13px] lg:text-[14px] xl:text-[15px] leading-[1.5] text-black/80"
+                    className="px-4 sm:px-5 md:px-8 lg:px-[35px] py-3.5 sm:py-4 lg:py-[18px] font-sans font-light text-[13px] lg:text-[14px] xl:text-[15px] leading-[1.5] text-black/80 w-1/2 lg:w-auto"
                   >
                     {row.label}
                   </th>
-                  <td className="px-5 md:px-8 lg:px-[35px] py-4 lg:py-[18px] text-right font-sans font-light text-[13px] lg:text-[14px] xl:text-[15px] leading-[1.5] text-black/80 whitespace-nowrap">
+                  <td className="px-4 sm:px-5 md:px-8 lg:px-[35px] py-3.5 sm:py-4 lg:py-[18px] text-right font-sans font-light text-[13px] lg:text-[14px] xl:text-[15px] leading-[1.5] text-black/80 max-lg:whitespace-normal lg:whitespace-nowrap w-1/2 lg:w-auto">
                     {row.value}
                   </td>
                 </tr>

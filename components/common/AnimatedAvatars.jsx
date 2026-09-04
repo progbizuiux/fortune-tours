@@ -53,7 +53,7 @@ export function AnimatedAvatars() {
         )}
         <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/45">
           <span className="text-small lg:max-xl:text-[10px] xl:max-2xl:text-[13px] 2xl:text-small font-semibold text-white">
-            13k+
+            14k+
           </span>
         </div>
       </div>

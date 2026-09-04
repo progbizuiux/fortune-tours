@@ -80,7 +80,7 @@ export const SiteMenu = forwardRef(function SiteMenu(
    picture would push them off the screen. */
 function FeaturedPanel() {
   return (
-    <div className="relative ml-auto hidden aspect-[1103/758] w-full max-w-[1103px] lg:max-2xl:max-w-[620px] min-w-0 flex-1 overflow-hidden bg-navy/5 lg:block">
+    <div className="relative ml-auto hidden aspect-[1103/758] w-full max-w-[1103px] lg:max-2xl:max-w-[620px] min-[1500px]:max-2xl:max-w-[880px] min-w-0 flex-1 overflow-hidden bg-navy/5 lg:block">
       <Image
         src="/home/featured_Image.png"
         alt=""

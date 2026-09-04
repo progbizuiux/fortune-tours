@@ -15,22 +15,31 @@ import { useGLTF } from "@react-three/drei";
 
 /* The GLB is a continents-only shell — a thin extruded landmass crust with no
    ocean body and no country labels. The cream sphere it sits on is drawn here
-   as geometry, sized to the shell so no gap shows along the coastlines.
+   as geometry, sized to the shell so no gap shows along the coastlines. */
+const SHELL_URL = "/models/Globe_1.glb";
 
-   Both GLBs in public/models ship byte-identical geometry and differ only in
-   material, so only the coloured one is loaded. The spaces in the filename are
-   percent-encoded because useGLTF keys its cache on the raw URL string. */
-const SHELL_URL = "/models/globe%20with%20texture%201.glb";
-
-/* Least-squares sphere fit over the shell's 7512 vertices, measured AFTER the
-   glTF node transform (-90° about X, uniform 0.5162, small translation). That
+/* Least-squares sphere fit over the shell's 28,000 vertices, measured AFTER the
+   glTF node transform (+90° about X, uniform 0.006720, small translation). That
    transform already lands the shell's centre on the origin, so only the radius
    is needed to normalise it. */
-const SHELL_WORLD_RADIUS = 0.4733;
-/* The crust's inner face sits at 0.9992 of the fit radius; the body tucks
+const SHELL_WORLD_RADIUS = 0.4741;
+/* The crust's inner face sits at 0.9951 of the fit radius; the body tucks
    further in than that. Coincident surfaces z-fight, and a tessellated sphere's
    chords cut inside its nominal radius, so the two would interleave. */
-const BODY_RADIUS_RATIO = 0.995;
+const BODY_RADIUS_RATIO = 0.99;
+
+/* The shell is exported on its own baked axes, which sit at a different
+   orientation from the frame LABELS and DESTINATIONS below are measured in.
+   Rotating the shell into that frame rather than re-measuring every coordinate
+   keeps one number in play instead of eleven.
+
+   Found by maximising the overlap between this shell's landmass mask and the
+   previous shell's, both rasterised to a 3° lat/lon grid: the optimum is a
+   sharp, isolated peak (0.37 overlap against 0.27 just 15° away), and it is
+   within a degree of the 180°-about-X difference in the two files' own node
+   transforms — the two were exported with opposite up-axis conventions. Every
+   label and pin then lands within 1.3° of the nearest coastline vertex. */
+const SHELL_ORIENTATION = [-179.38, -91.25, -184.75]; // deg, Euler XYZ in YXZ order
 
 /* Scene-space radius every other measurement here is expressed in. */
 const GLOBE_RADIUS = 4;
@@ -139,7 +148,16 @@ function Continents() {
   }, [scene]);
 
   return (
-    <primitive object={prepared} scale={GLOBE_RADIUS / SHELL_WORLD_RADIUS} />
+    <primitive
+      object={prepared}
+      scale={GLOBE_RADIUS / SHELL_WORLD_RADIUS}
+      rotation={[
+        THREE.MathUtils.degToRad(SHELL_ORIENTATION[0]),
+        THREE.MathUtils.degToRad(SHELL_ORIENTATION[1]),
+        THREE.MathUtils.degToRad(SHELL_ORIENTATION[2]),
+        "YXZ",
+      ]}
+    />
   );
 }
 
@@ -338,13 +356,24 @@ function GlobeScene({
    lib/navigation.js (app/[slug]), so the globe never links anywhere the
    destinations menu does not. Antarctica has no region page, so it carries a
    label but no pin. Coordinates use the same shell frame as LABELS (see the
-   note there), and each pin sits 6° south of its label so the dot never
-   covers the text. */
+   note there), so each country's real longitude is carried through
+   -(geographic lon) - 85; the latitudes pass through unchanged. Every point
+   below was ray-tested against the crust, so the dot sits on its country
+   rather than off the coast. */
 const DESTINATIONS = [
-  { name: "Japan", href: "/destinations/japan", lat: 36.2, lon: 138.25 },
-  { name: "Switzerland", href: "/destinations/switzerland", lat: 46.8, lon: 8.2 },
-  { name: "India", href: "/destinations/india", lat: 22, lon: 79 },
-  { name: "Norway", href: "/destinations/norway", lat: 62, lon: 9 },
+  // 36.2 N, 138.25 E
+  { name: "Japan", href: "/destinations/japan", lat: 36.2, lon: 136.75 },
+  // 46.8 N, 8.2 E
+  {
+    name: "Switzerland",
+    href: "/destinations/switzerland",
+    lat: 46.8,
+    lon: -93.2,
+  },
+  // 22 N, 79 E
+  { name: "India", href: "/destinations/india", lat: 22, lon: -164 },
+  // 62 N, 9 E
+  { name: "Norway", href: "/destinations/norway", lat: 62, lon: -94 },
 ];
 
 /* Longitudes are in the shell's own frame, not geographic: measured against

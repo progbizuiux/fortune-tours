@@ -26,6 +26,7 @@ export function CalloutSection({
   lead,
   paragraphs = [],
   ctaLabel,
+  ctaHref = "/contact",
   ariaLabel,
   className,
 }) {
@@ -71,7 +72,11 @@ export function CalloutSection({
 
         {ctaLabel && (
           <div className="mt-12 flex justify-center md:mt-16">
-            <FrameButton variant="rail" className="max-md:text-[13px]">
+            <FrameButton
+              variant="rail"
+              href={ctaHref || "/contact"}
+              className="max-md:text-[13px]"
+            >
               {ctaLabel}
             </FrameButton>
           </div>

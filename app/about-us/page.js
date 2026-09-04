@@ -62,7 +62,7 @@ const PROCESS_ITEMS = [
     title: "01 - We Understand Your Journey",
     description:
       "We start by getting to know your destination, interests, travel style, priorities, and expectations. This gives us a clear understanding of what matters to you, what you want to experience, and how you want your journey to feel from the very beginning.",
-    image: "/destinations/kerala/adventure-nature.avif",
+    image: "/about-us/understand.jpeg",
     alt: "We Understand Your Journey",
   },
   {
@@ -70,7 +70,7 @@ const PROCESS_ITEMS = [
     title: "02 - We Shape the Details",
     description:
       "We bring together the right destinations, stays, experiences, transportation, and timing to create a journey around your preferences. Every element is considered carefully, balancing what you want to see with enough time to experience each place at your own pace.",
-    image: "/destinations/kerala/house-boat.avif",
+    image: "/about-us/we shape the details.png",
     alt: "We Shape the Details",
   },
   {
@@ -78,7 +78,7 @@ const PROCESS_ITEMS = [
     title: "03 - We Stay With You",
     description:
       "Once your journey is confirmed, we coordinate the details and remain involved throughout your trip. From preparation and departure to the final transfer, our team stays available to provide guidance, handle the details, and support you whenever you need it.",
-    image: "/destinations/kerala/wildlife.avif",
+    image: "/about-us/travel-guide.jpeg",
     alt: "We Stay With You",
   },
 ];
@@ -98,7 +98,7 @@ export default function AboutUsPage() {
           /* Placeholder. The frame's own export
              (view-green-mountains-sunset-beautiful-summer-landscape.png) is not
              in the repo yet — drop it into /public and change this one line. */
-          image="/inner-page/innerpage.png"
+          image="/about-us_banner.png"
           imageAlt=""
           /* The banner is the LCP element here, as it is on the destination
              pages. */

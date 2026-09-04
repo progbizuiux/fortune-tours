@@ -111,6 +111,7 @@ export default async function ExperiencePage({ params }) {
         lead={experience.calloutLead}
         paragraphs={experience.calloutParagraphs}
         ctaLabel={experience.calloutCtaLabel}
+        ctaHref={experience.calloutCtaHref || "/contact"}
       />
       )}
 

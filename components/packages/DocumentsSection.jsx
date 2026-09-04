@@ -53,18 +53,18 @@ export function DocumentsSection({
         <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
           <AnimateIn className="lg:max-w-[520px]">
             {eyebrow && (
-              <h4 className="font-top text-[14px] lg:text-[16px] xl:text-[18px] text-white/70 font-normal">
+              <h4 className="font-top max-lg:text-[12px] max-lg:leading-none lg:max-xl:text-[13.5px] xl:max-2xl:text-[16.5px] 2xl:text-h4 text-white/70 font-normal">
                 {eyebrow}
               </h4>
             )}
-            <h2 className="mt-4 lg:mt-6 font-heading whitespace-pre-line text-[32px] md:text-[38px] lg:text-[42px] xl:text-[48px] leading-[1.1] tracking-[-0.02em] text-white">
+            <h2 className="mt-4 lg:mt-6 font-heading whitespace-pre-line max-lg:text-[30px] max-lg:leading-none max-lg:tracking-[-0.01em] lg:max-xl:text-[34px] xl:max-2xl:text-[42px] 2xl:text-[48px] leading-[1.1] tracking-[-0.02em] text-white">
               {title}
             </h2>
           </AnimateIn>
 
           {description && (
             <AnimateIn className="lg:max-w-[420px] lg:pt-2">
-              <p className="font-sans font-light text-[13px] lg:text-[14px] xl:text-[15px] leading-[1.7] text-white/80 lg:text-right">
+              <p className="font-sans font-light max-lg:text-[13px] max-lg:leading-[21px] lg:max-xl:text-[13.5px] xl:max-2xl:text-[15px] 2xl:text-body leading-[1.7] text-white/80 lg:text-right">
                 {description}
               </p>
             </AnimateIn>
@@ -83,12 +83,10 @@ export function DocumentsSection({
             missing. More than four wrap onto a second row of four. */}
         <ul
           className={cn(
-            "mt-16 md:mt-24 lg:mt-[180px] xl:mt-[210px] grid gap-10 md:gap-12",
+            "mt-16 md:mt-20 lg:max-xl:mt-[80px] xl:max-2xl:mt-[110px] 2xl:mt-[210px] grid gap-10 md:gap-12",
             items.length <= 2
               ? "md:grid-cols-2 lg:gap-16"
-              : items.length === 3
-                ? "md:grid-cols-2 lg:grid-cols-3 lg:gap-10"
-                : "md:grid-cols-2 lg:grid-cols-4 lg:gap-8 xl:gap-10",
+              : "md:grid-cols-2 2xl:grid-cols-4 lg:gap-8 xl:gap-10",
           )}
         >
           {items.map((item, index) => {
@@ -115,10 +113,10 @@ export function DocumentsSection({
                     : "border-l pl-6 lg:pl-8"
                 )}
               >
-                <p className="font-heading text-[36px] lg:text-[44px] xl:text-[52px] leading-none text-white">
+                <p className="font-heading text-[36px] lg:max-xl:text-[38px] xl:max-2xl:text-[44px] 2xl:text-[52px] leading-none text-white">
                   {item.number}
                 </p>
-                <h3 className="mt-5 lg:mt-7 font-sans text-[16px] lg:text-[17px] xl:text-[18px] font-normal leading-[1.3] text-white">
+                <h3 className="mt-5 lg:mt-7 font-sans text-[16px] lg:max-xl:text-[15.5px] xl:max-2xl:text-[17px] 2xl:text-[18px] font-normal leading-[1.3] text-white">
                   {item.title}
                 </h3>
                 {/* Capped measure. Each item owns half the Container, which is
@@ -132,7 +130,7 @@ export function DocumentsSection({
                     letting it drift inward from the rule. */}
                 <p
                   className={cn(
-                    "mt-3 max-w-[600px] font-sans font-light text-[13px] lg:text-[14px] leading-[1.7] text-white/75",
+                    "mt-3 max-w-[600px] font-sans font-light text-[13px] lg:max-xl:text-[13.5px] xl:max-2xl:text-[14.5px] 2xl:text-body leading-[1.7] text-white/75",
                     mirrored && "md:ml-auto",
                   )}
                 >
