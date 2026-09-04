@@ -125,10 +125,9 @@ export function RegionFeaturesSection({
                 )}
               >
               {/* Two lines' worth of height at every breakpoint, with the
-                  title bottom-aligned inside it: titles run to one or two
-                  lines, and without a common floor each description starts at
-                  a different baseline across the row. xl is 2 x 33px leading. */}
-              <h3 className="flex items-end justify-center font-heading max-lg:text-[20px] lg:max-xl:text-[18px] xl:max-2xl:text-[23px] 2xl:text-[24px] font-normal max-xl:leading-[1.2] xl:leading-[33px] text-black max-xl:min-h-[48px] xl:min-h-[66px]">
+                  title top-aligned inside it so each item starts at the same
+                  vertical baseline across the row. */}
+              <h3 className="flex items-start justify-center font-heading max-lg:text-[20px] lg:max-xl:text-[18px] xl:max-2xl:text-[23px] 2xl:text-[24px] font-normal max-xl:leading-[1.35] xl:leading-[36px] text-black max-xl:min-h-[54px] xl:min-h-[72px]">
                 {feature.title}
               </h3>
               {(feature.body || feature.description) && (

@@ -133,7 +133,10 @@ export function TabbedCardsSection({
                 aria-hidden="true"
               />
 
-              <div className="absolute inset-0 flex flex-col justify-between p-5 sm:p-8 lg:max-xl:p-6 lg:max-xl:pt-8 lg:max-xl:pb-10 xl:max-2xl:p-7 xl:max-2xl:pt-9 xl:max-2xl:pb-12 2xl:p-8 2xl:pt-11 2xl:pb-16">
+              {/* The bottom inset runs tighter than the top and sides, which
+                  sits the month, destination and itinerary line lower in the
+                  frame than a uniform pad would. */}
+              <div className="absolute inset-0 flex flex-col justify-between p-5 pb-3 sm:p-8 sm:pb-4 lg:max-xl:p-6 lg:max-xl:pt-8 lg:max-xl:pb-5 xl:max-2xl:p-7 xl:max-2xl:pt-9 xl:max-2xl:pb-6 2xl:p-8 2xl:pt-11 2xl:pb-8">
                 <span className="text-body lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-body max-sm:text-[12px] max-sm:font-light text-white/80 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:translate-x-3 group-hover:text-white">
                   {/* The experience pages give every card its own month, since a
                     tab there spans several (JAN – MAR shows a January card and
