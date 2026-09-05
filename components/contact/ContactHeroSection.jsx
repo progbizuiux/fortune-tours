@@ -115,7 +115,7 @@ export function ContactHeroSection({
   return (
     <section
       className={cn(
-        "relative min-h-[100svh] 2xl:min-h-[1015px] 2xl:h-[1015px] w-full flex items-center pt-28 pb-16 md:pt-36 md:pb-24 lg:pt-36 lg:pb-12 2xl:pt-0 2xl:pb-0 text-white overflow-visible",
+        "relative min-h-[100svh] 2xl:min-h-[1015px] 2xl:h-[1015px] w-full flex items-center pt-28 pb-16 md:pt-36 md:pb-24 lg:py-0 2xl:pt-0 2xl:pb-0 text-white overflow-visible",
         className
       )}
     >
@@ -142,11 +142,11 @@ export function ContactHeroSection({
         <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/40 to-transparent" />
       </div>
 
-      <Container className="relative z-10 w-full 2xl:max-w-[1928px] 2xl:!px-[84px] pt-16 pb-8 sm:pt-20 sm:pb-10 md:pt-24 lg:pt-36 lg:pb-0 2xl:pt-[180px]">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-8 xl:gap-10 2xl:gap-12 items-center lg:items-end w-full">
+      <Container className="relative z-10 w-full 2xl:max-w-[1928px] 2xl:!px-[84px] pt-16 pb-8 sm:pt-20 sm:pb-10 md:pt-24 lg:pt-0 lg:pb-0 2xl:pt-[180px]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-8 xl:gap-10 2xl:gap-12 items-center 2xl:items-end w-full">
           
           {/* Left Column: Contact Details & Head Office (Centered on small screens, left-aligned on lg+) */}
-          <div className="lg:col-span-5 flex flex-col justify-center items-center lg:items-start text-center lg:text-left max-w-xl lg:max-w-none mx-auto lg:mx-0 pb-2 sm:pb-4 lg:pb-12 2xl:pb-[60px] w-full">
+          <div className="lg:col-span-5 flex flex-col justify-center items-center lg:items-start text-center lg:text-left max-w-xl lg:max-w-none mx-auto lg:mx-0 pb-2 sm:pb-4 lg:pb-0 2xl:pb-[60px] w-full">
             {/* Eyebrow (Spartan 400 20px Line-height 100% Tracking 0% on 2xl) */}
             <span className="font-top text-[13px] sm:text-[15px] md:text-[16px] xl:text-[18px] 2xl:text-[20px] leading-tight 2xl:leading-none tracking-[0.1em] 2xl:tracking-normal text-white uppercase sm:capitalize mb-2 sm:mb-3 md:mb-4 2xl:mb-[34px] block font-normal">
               {eyebrow}
@@ -222,7 +222,7 @@ export function ContactHeroSection({
           </div>
 
           {/* Right Column: Planning Form Card (exact 1038x741 with 50px overhang into next section) */}
-          <div className="lg:col-span-7 flex justify-center lg:justify-end relative z-20 lg:translate-y-[50px] lg:-mb-[50px]">
+          <div className="lg:col-span-7 flex justify-center lg:justify-end relative z-20 2xl:translate-y-[50px] 2xl:-mb-[50px]">
             <div className="w-full max-w-[600px] lg:max-w-none 2xl:w-[1038px] 2xl:h-[741px] bg-[#FAFAF9] text-[#1A1A1A] p-4 sm:p-6 md:p-8 lg:p-7 xl:p-10 2xl:pt-[67px] 2xl:pb-[67px] 2xl:pl-[78px] 2xl:pr-[113px] shadow-2xl shadow-black/30 rounded-[2px] transition-all flex flex-col justify-between">
               
               {isSubmitted ? (

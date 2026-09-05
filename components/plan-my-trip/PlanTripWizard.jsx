@@ -355,7 +355,7 @@ export function PlanTripWizard({
           // the rail: left in place it is 56px of dead space on one side only,
           // which throws the centred confirmation off the page's centre line.
           className={cn(
-            "scroll-mt-24 lg:min-h-[calc(100svh-5rem)]",
+            "scroll-mt-24 lg:sticky lg:top-28 lg:self-start",
             !submitted && "lg:pr-10 xl:pr-14 2xl:pr-20",
           )}
         >
@@ -833,7 +833,10 @@ export function PlanTripWizard({
               reaching the rail's last row hands the wheel straight on to the
               page, so a reader looking over their answers is thrown down into
               the footer by the same gesture. */}
-            <div className="lg:sticky lg:top-28 lg:max-h-[calc(100dvh-8rem)] lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden">
+            <div
+              data-lenis-prevent
+              className="lg:sticky lg:top-28 lg:max-h-[calc(100dvh-8rem)] lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden pb-12"
+            >
               <p className={LABEL_CLASSES}>{railTitle}</p>
               <dl
                 aria-live="polite"

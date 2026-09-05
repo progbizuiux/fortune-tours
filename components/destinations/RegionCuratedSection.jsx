@@ -91,7 +91,7 @@ export function RegionCuratedSection({
   };
 
   return (
-    <section className={cn("relative z-10 bg-[#FAF7F2] border-t-[60px] md:border-t-[90px] lg:border-t-[100px] border-background spacing", className)}>
+    <section className={cn("relative z-10 bg-[#FAF7F2] spacing", className)}>
       <Container>
         <SectionHeading
           eyebrow={eyebrow}
@@ -137,7 +137,7 @@ export function RegionCuratedSection({
                   uniform pad would. */}
               <div className="absolute inset-0 flex flex-col justify-end p-5 pb-3 sm:p-8 sm:pb-4 md:pt-11 md:pb-8">
                 <div className="transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-3">
-                  <h3 className="text-white max-sm:text-[24px] md:text-[28px] lg:max-xl:text-[27px] xl:max-2xl:text-[32px] 2xl:text-[32px] leading-none tracking-[-0.01em]">
+                  <h3 className="text-white max-sm:text-[24px] md:text-[28px] lg:max-xl:text-[27px] xl:max-2xl:text-[26px] 2xl:text-[32px] leading-none tracking-[-0.01em]">
                     {place.title}
                   </h3>
                   <p className="mt-3 max-sm:mt-1 max-sm:text-[14px] text-[16px] lg:max-xl:text-[14px] xl:max-2xl:text-[16px] 2xl:text-[16px] leading-6 font-normal text-white/80 transition-colors duration-500 group-hover:text-white max-w-[80%] xl:max-2xl:hidden 2xl:block">

@@ -157,7 +157,7 @@ export function PageHero({
           /* whitespace-pre-line honours a deliberate break in the title — the
              package frame sets its two lines explicitly — and still wraps on
              overflow, so the single-line home and region titles are unaffected. */
-          className={`hero-heading ${HERO_HEADING} whitespace-pre-line max-md:max-w-[400px] max-w-4xl lg:max-2xl:max-w-[620px] lg:max-2xl:text-h2 text-white opacity-0`}
+          className={`hero-heading ${HERO_HEADING} whitespace-pre-line max-md:max-w-[400px] max-w-4xl lg:max-2xl:max-w-[620px] text-white opacity-0`}
         >
           {title}
         </h1>

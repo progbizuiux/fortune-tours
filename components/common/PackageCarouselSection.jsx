@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { CtaLink } from "@/components/common/CtaLink";
+import { FrameButton } from "@/components/common/FrameButton";
 import { PackageCard } from "@/components/common/PackageCard";
 import { useCardCascade } from "@/lib/gsap/useCardCascade";
 import { SectionHeading } from "@/components/common/SectionHeading";
@@ -195,13 +195,13 @@ export function PackageCarouselSection({
 
             {ctaLabel && (
               <div className="mt-4 flex items-center justify-center xl:mt-11 xl:justify-start">
-                <CtaLink
+                <FrameButton
+                  variant="rail"
                   href={ctaHref}
-                  fill
-                  className="text-body text-navy border-navy/20 max-xl:min-h-11 border-x px-5"
+                  className="max-md:text-[13px]"
                 >
                   {ctaLabel}
-                </CtaLink>
+                </FrameButton>
               </div>
             )}
           </div>

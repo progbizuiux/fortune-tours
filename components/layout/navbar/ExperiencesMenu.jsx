@@ -69,7 +69,7 @@ export const ExperiencesMenu = forwardRef(function ExperiencesMenu(
                     2xl the label steps down as a whole — 12px type, tighter
                     padding and height — so it sits in the smaller tile the
                     way the full-size one sits in the design's. */}
-                <span className="group-hover:text-navy inline-flex min-h-8 items-center border-x border-white px-3 py-1 text-center text-xs leading-tight font-normal transition-colors duration-300 group-hover:bg-white 2xl:text-body 2xl:min-h-9 2xl:px-4 2xl:py-1.5">
+                <span className="group-hover:text-navy inline-flex min-h-8 items-center border-x border-white px-3 py-1 text-center text-xs leading-tight font-normal transition-colors duration-300 group-hover:bg-white xl:max-2xl:text-[14px] 2xl:text-body 2xl:min-h-9 2xl:px-4 2xl:py-1.5">
                   {experience.label}
                 </span>
               </span>

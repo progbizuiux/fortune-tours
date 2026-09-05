@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { CtaLink } from "@/components/common/CtaLink";
@@ -126,7 +127,7 @@ function SoloPackageCard({
         <p className="font-sans mt-[16px] mb-1 text-[12px] leading-[1] font-light uppercase text-black/80 md:mt-[20px] md:text-[13px] lg:text-[16px]">
           {experiencesLabel}
         </p>
-        <p className="font-sans text-[13px] leading-[1.5] font-light text-black/80 lg:text-[16px] lg:leading-[22px]">
+        <p className="font-sans text-[13px] leading-[1.5] font-light text-black/80 lg:text-[16px] lg:leading-[22px] line-clamp-3">
           {experiences}
         </p>
 
@@ -145,6 +146,9 @@ function SoloPackageCard({
     </article>
   );
 }
+
+const ARROW_CLASS =
+  "flex h-[70px] w-[62px] shrink-0 items-center justify-center border-[0.7px] border-black/50 p-[10px] backdrop-blur-[15px] transition-opacity disabled:opacity-30 lg:max-xl:h-[54px] lg:max-xl:w-[48px]";
 
 /* The three CMS-only props — the section is drawn by three pages now (Kerala's
    region, the continent pages and the country pages), so each is handled as
@@ -182,6 +186,8 @@ export function RegionFixedPackagesSection({
   className,
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
   const scrollRef = useRef(null);
 
   /* One departure is drawn wide instead of squeezed into the first cell of a
@@ -189,11 +195,12 @@ export function RegionFixedPackagesSection({
      a page that failed to load. Several countries sell exactly one fixed
      departure, so this is the common case there, not an edge case. */
   const isSolo = items.length === 1;
+  const isSlider = items.length > 3;
 
   /* Two departures take two columns, not the first two cells of three — a grid
      drawn for three leaves a card-shaped hole on the right, which reads as a
-     picture that failed to load. Three or more keep the design's three-up and
-     wrap. */
+     picture that failed to load. Three keep the design's three-up. More than
+     three slide horizontally with navigation arrows. */
   const gridColumns =
     items.length === 2
       ? "xl:grid-cols-2 xl:mx-auto xl:max-w-[940px]"
@@ -204,15 +211,56 @@ export function RegionFixedPackagesSection({
     const { scrollLeft, scrollWidth, clientWidth, children } =
       scrollRef.current;
 
+    setCanScrollLeft(scrollLeft > 5);
+    setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth - 5);
+
     if (scrollLeft + clientWidth >= scrollWidth - 2) {
       setActiveIndex(items.length - 1);
       return;
     }
 
+    if (children && children.length) {
+      const childWidth = children[0].offsetWidth;
+      const gap = children[1]
+        ? children[1].offsetLeft - children[0].offsetLeft - children[0].offsetWidth
+        : 16;
+      const index = Math.round(scrollLeft / (childWidth + gap));
+      setActiveIndex(index);
+    }
+  };
+
+  useEffect(() => {
+    handleScroll();
+    window.addEventListener("resize", handleScroll);
+    return () => window.removeEventListener("resize", handleScroll);
+  }, [items.length]);
+
+  const scrollPrev = () => {
+    if (!scrollRef.current) return;
+    const { children } = scrollRef.current;
+    if (!children || !children.length) return;
     const childWidth = children[0].offsetWidth;
-    const gap = 16; // gap-4 is 16px
-    const index = Math.round(scrollLeft / (childWidth + gap));
-    setActiveIndex(index);
+    const gap = children[1]
+      ? children[1].offsetLeft - children[0].offsetLeft - children[0].offsetWidth
+      : 16;
+    scrollRef.current.scrollBy({
+      left: -(childWidth + gap),
+      behavior: "smooth",
+    });
+  };
+
+  const scrollNext = () => {
+    if (!scrollRef.current) return;
+    const { children } = scrollRef.current;
+    if (!children || !children.length) return;
+    const childWidth = children[0].offsetWidth;
+    const gap = children[1]
+      ? children[1].offsetLeft - children[0].offsetLeft - children[0].offsetWidth
+      : 16;
+    scrollRef.current.scrollBy({
+      left: childWidth + gap,
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -245,16 +293,13 @@ export function RegionFixedPackagesSection({
               ctaHref={cardCtaHref(items[0], ctaHref)}
             />
           ) : (
-            /* Grid layout on desktop, horizontal scroll snap up to xl */
+            /* Grid layout for 2-3 items on desktop, sliding carousel when > 3 items */
             <div
               ref={scrollRef}
               onScroll={handleScroll}
               className={cn(
-                // gap-4 holds at every width below xl on purpose: handleScroll
-                // reads that 16px to work out which card is centred, so a
-                // per-breakpoint gap would drift the pagination dots.
-                "flex max-xl:overflow-x-auto max-xl:snap-x max-xl:snap-mandatory max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden xl:grid gap-4 xl:gap-[42px]",
-                gridColumns,
+                "flex overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden gap-4 xl:gap-[42px]",
+                !isSlider && cn("max-xl:overflow-x-auto xl:grid", gridColumns),
               )}
             >
               {/* The card is components/common/PackageCard, shared with the
@@ -276,9 +321,13 @@ export function RegionFixedPackagesSection({
                   alt={pkg.alt}
                   ctaLabel={CARD_CTA_LABEL}
                   ctaHref={cardCtaHref(pkg, ctaHref)}
-                  className="max-xl:w-[85vw] max-md:max-w-[348px] md:max-xl:max-w-[447px] lg:max-xl:max-w-[372px] max-xl:shrink-0 max-xl:snap-center"
+                  className={cn(
+                    "max-xl:w-[85vw] max-md:max-w-[348px] md:max-xl:max-w-[447px] lg:max-xl:max-w-[372px] max-xl:shrink-0 max-xl:snap-center",
+                    isSlider && "xl:w-[calc((100%-84px)/3)] xl:max-w-none xl:shrink-0 xl:snap-start",
+                  )}
                   imageAspectClassName="aspect-[348/329] md:aspect-[447/423]"
                   metaClassName="text-[13px] md:text-[12px] leading-tight text-black tracking-wider mb-[10px] lg:mb-[12px]"
+                  experiencesClassName="line-clamp-3"
                   contentClassName="px-[12px] pt-[15px] pb-[16px] md:px-[33px] md:pb-[35px]"
                   sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 85vw"
                 />
@@ -286,27 +335,48 @@ export function RegionFixedPackagesSection({
             </div>
           )}
 
-          {/* Pagination Dots — there is nothing to page through with one
-              card, and a single dot reads as a broken control. */}
+          {/* Navigation Arrows (Desktop) & Pagination Dots (Mobile) */}
           {!isSolo && (
-            <div className="mt-6 flex justify-center gap-1 xl:hidden">
-              {items.map((_, i) => (
-                <span
-                  key={i}
-                  className={`block h-[6px] w-[6px] transition-colors ${
-                    i === activeIndex ? "bg-black" : "bg-black/30"
-                  }`}
-                  aria-hidden="true"
-                />
-              ))}
+            <div className={cn("mt-6 flex items-center justify-center", isSlider && "md:mt-8")}>
+              {/* Mobile / Tablet Pagination Dots */}
+              <div className={cn("flex gap-[4px]", isSlider ? "md:hidden" : "xl:hidden")}>
+                {items.map((_, i) => (
+                  <span
+                    key={i}
+                    className={cn(
+                      "h-[7px] w-[7px] transition-colors",
+                      i === activeIndex ? "bg-black" : "bg-black/20",
+                    )}
+                    aria-hidden="true"
+                  />
+                ))}
+              </div>
+
+              {/* Desktop / Tablet Arrows when > 3 cards */}
+              {isSlider && (canScrollLeft || canScrollRight) && (
+                <div className="hidden md:flex items-center gap-[10px] ml-auto">
+                  <button
+                    type="button"
+                    onClick={scrollPrev}
+                    disabled={!canScrollLeft}
+                    className={ARROW_CLASS}
+                    aria-label="Previous packages"
+                  >
+                    <ChevronLeft className="size-4 stroke-1 text-black" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={scrollNext}
+                    disabled={!canScrollRight}
+                    className={ARROW_CLASS}
+                    aria-label="Next packages"
+                  >
+                    <ChevronRight className="size-4 stroke-1 text-black" />
+                  </button>
+                </div>
+              )}
             </div>
           )}
-
-          {/* No button under the row any more: every card carries its own
-              "View Itinerary", so a second, section-wide button ("Open the
-              Plan" in the CMS) was one action drawn twice. The section's
-              ctaLink survives as the cards' fallback link; its ctaLabel is
-              read and ignored. */}
         </div>
       </Container>
     </section>
