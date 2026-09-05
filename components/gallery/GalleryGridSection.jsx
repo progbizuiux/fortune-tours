@@ -159,7 +159,7 @@ export function GalleryGridSection({
             </div>
           </div>
 
-          <Container className="w-full 2xl:max-w-[1928px] 2xl:!px-[84px]">
+          <Container className="w-full max-w-none !px-[14px]">
             {/* Exact 3-column grid with 14px gap and 613x306 (2:1) aspect ratio */}
             <div
               data-zoom-grid

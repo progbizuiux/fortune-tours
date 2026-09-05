@@ -84,7 +84,7 @@ export function RegionStoriesSection({
 
           {/* Quote, then the attribution row beneath its own rule. */}
           {/* Figma: Neiko 400, 35px/110%, -1% tracking, right, black at 80%. */}
-          <blockquote className="mt-8 ml-auto max-w-[1374px] text-right font-heading text-[24px] leading-[110%] font-normal tracking-[-0.01em] text-black/80 md:mt-12 lg:max-xl:text-[28px] xl:max-2xl:text-[34px] 2xl:text-[35px]">
+          <blockquote className="mt-8 ml-auto max-w-[1374px] text-right font-heading text-[24px] leading-[110%] font-normal tracking-[-0.01em] text-black/80 md:mt-12 lg:max-xl:text-[28px] xl:max-[1500px]:text-[34px] min-[1500px]:max-[1700px]:text-[26px] min-[1700px]:text-[35px]">
             {activeStory.quote}
           </blockquote>
 

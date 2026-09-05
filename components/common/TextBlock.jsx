@@ -59,7 +59,7 @@ export function TextBlock({
       {description && (
         <p
           className={cn(
-            "font-sans text-[13px] md:text-[16px] lg:max-xl:text-[14px] xl:max-2xl:text-[17.5px] 2xl:text-[18px] font-light leading-[21px] md:leading-[24px] xl:leading-[28.9px] text-black/80 mt-[6px] md:mt-[32px] max-w-[668.7px]",
+            "font-sans text-[13px] md:text-[16px] lg:max-xl:text-[14px] xl:max-2xl:text-[16px] 2xl:text-[18px] font-light leading-[21px] md:leading-[24px] xl:leading-[28.9px] text-black/80 mt-[6px] md:mt-[32px] max-w-[668.7px]",
             descriptionClassName,
           )}
         >

@@ -1,7 +1,6 @@
 import Image from "next/image";
-import { Triangle } from "lucide-react";
 import { AnimateIn } from "@/components/common/AnimateIn";
-import { CtaLink } from "@/components/common/CtaLink";
+import { FrameButton } from "@/components/common/FrameButton";
 import { HERO_BODY, HERO_HEADING_NARROW } from "@/lib/typography";
 
 /* Editorial band at the top of /search — cream copy panel on the left, a
@@ -85,31 +84,13 @@ export function InspirationBanner({ inspiration, ctaHref }) {
               {inspiration.body}
             </p>
 
-            {/* py-3/min-h-11 give the band's only call to action a 44px touch
-                target — as a bare 13px line it was a 19.5px strip on the first
-                screen of the page. The top margin comes back by the same amount
-                so the copy block keeps its spacing. */}
-            <CtaLink
+            <FrameButton
+              variant="rail"
               href={ctaHref}
-              underline={false}
-              className="group font-top text-navy hover:text-sky mt-7 inline-flex min-h-11 items-center gap-2.5 py-3 text-[13px] font-medium tracking-[0.12em] whitespace-nowrap uppercase max-lg:mt-5"
+              className="mt-7 max-lg:mt-5 max-md:text-[13px]"
             >
               {inspiration.cta}
-              {/* lucide ships no filled caret, so the outline triangle is
-                  turned and filled to match the solid marker in the design.
-                  It points right at rest and turns to point down on hover,
-                  in place of the underline the other text links sweep in.
-                  shrink-0 with the whitespace-nowrap above keeps the caret on
-                  the label's line: the two are flex items, and without it a
-                  squeezed label wraps and leaves the caret stranded beside a
-                  two-line block. The margin is thin — the longest label is
-                  247px against the 316px the column gives at lg. */}
-              <Triangle
-                aria-hidden="true"
-                strokeWidth={0}
-                className="relative -top-px size-2.5 shrink-0 rotate-90 fill-current transition-transform duration-300 group-hover:rotate-180"
-              />
-            </CtaLink>
+            </FrameButton>
           </AnimateIn>
         </div>
 
