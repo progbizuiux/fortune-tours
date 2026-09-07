@@ -11,17 +11,24 @@ import { useRowRise } from "@/lib/gsap/useRowRise";
 
 // Drop matching files into public/destinations/ and the placeholder below is
 // replaced automatically — no other change needed.
+//
+// hrefs follow the site's own rule (destinationHref in lib/navigation.js): a
+// place with its own /destinations/<slug> page links there, everything else
+// lands on the search page pre-filtered to it. Only India has a page today, so
+// the others go to /search?term=… rather than a /destinations/<country> URL,
+// which would 404 (that route is dynamicParams:false and only serves
+// india/kerala).
 const DESTINATIONS = [
   {
     name: "Japan.",
     caption: "Temples, cities, blossoms.",
-    href: "/destinations/japan",
+    href: "/search?term=Japan",
     image: "/destination/japan.avif",
   },
   {
     name: "Switzerland.",
     caption: "Wake up in the Alps.",
-    href: "/destinations/switzerland",
+    href: "/search?term=Switzerland",
     image: "/destination/switzerland.avif",
   },
   {
@@ -33,7 +40,7 @@ const DESTINATIONS = [
   {
     name: "Norway.",
     caption: "Chase northern lights.",
-    href: "/destinations/norway",
+    href: "/search?term=Norway",
     image: "/destination/norway.avif",
   },
 ];

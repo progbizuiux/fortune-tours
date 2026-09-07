@@ -198,6 +198,26 @@ body {
   font-family: var(--font-sans);
 }
 
+/* ── No horizontal page scroll, ever ──────────────────────────────────── */
+/* Nothing on this site is meant to scroll the page sideways — every genuine
+   horizontal scroller is an inner `overflow-x-auto` carousel that scrolls
+   inside itself. But a section can still push the document a few pixels wider
+   than the viewport and raise a horizontal scrollbar: most visibly the gallery,
+   whose mosaic zoom pins its stage as `position: fixed` and scales the grid, so
+   a stage frozen at the full viewport width sits ~15px past the content edge
+   once a classic (Windows) scrollbar is taking its gutter. Overlay scrollbars
+   (0px) hide the gap, which is why it shows on Windows but not everywhere.
+
+   Clip it at the viewport. `clip`, not `hidden`: with overflow-y left `visible`
+   the root never becomes a scroll container, so Lenis's window scrolling,
+   `position: sticky` (the plan-my-trip rail, the gallery title) and every
+   ScrollTrigger pin keep working — `hidden` would quietly break all three. The
+   home DestinationsSection already uses `overflow-x-clip` for the same reason;
+   this is that guard, once, at the root, so no section has to remember it. */
+html {
+  overflow-x: clip;
+}
+
 /* ── Navbar ink ───────────────────────────────────────────────────────── */
 /* A page that opens on a light ground can ask for the bar's links in black
    rather than the navy the solid bar normally carries. Opt-in through a marker

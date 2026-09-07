@@ -340,12 +340,14 @@ export function Navbar({ publishedCountries }) {
             )}
             priority
           />
-          {/* Black — visible once the navbar turns solid.
-              Do not point this back at fortune_Logo_Black&Blue.png: the `&` in
-              that filename makes the request to the image optimiser hang in the
-              browser and never resolve, so the mark silently never paints. */}
+          {/* Black & blue — visible once the navbar turns solid, so it sits on
+              the white bar where the blue reads. The file was renamed from
+              `fortune_Logo_Black&Blue.png`: the `&` in that name made the image
+              optimiser's request hang in the browser and never resolve, so the
+              mark silently never painted. Keep this filename free of `&` (and
+              other query-reserved characters) for the same reason. */}
           <Image
-            src="/fortune_Logo_Black.png"
+            src="/fortune_Logo_Black_Blue.png"
             alt="Fortune Tours & Travels"
             width={192}
             height={70}

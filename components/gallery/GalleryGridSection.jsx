@@ -13,80 +13,123 @@ import { useMaskReveal } from "@/lib/gsap/useMaskReveal";
 import { useMosaicZoom } from "@/lib/gsap/useMosaicZoom";
 import { cn } from "@/lib/utils";
 
+/* `orientation` is what makes the wall a mosaic of mixed shapes rather than one
+   uniform ratio: "portrait" tiles are tall and narrow, everything else wide.
+   THREE portraits, at indices 2, 5 and 8 — deliberately, not for looks alone:
+   with a portrait twice a landscape's height, three columns and this order,
+   dense packing lands one tall frame in each column and every column ends on
+   the same row, so the mosaic has a flush bottom rather than one column jutting
+   below the others. Four portraits (or the wrong three) leaves a column two
+   rows short and a wedge of empty space beside it — the total row-span has to
+   divide by three for the bottom to come out even. The design's own photographs
+   are all landscape files, so a portrait slot here centre-crops one to fit;
+   real uploads carry their own shape and this is only the placeholder. From the
+   CMS the value is read off each upload's dimensions (see lib/strapi/gallery.js)
+   — an arbitrary set will not balance as neatly, that being the nature of a
+   masonry. Index 0 stays landscape on purpose: it is the banner the zoom opens
+   on, and a wide opening frame is the one the reveal was built for. */
 const GALLERY_IMAGES = [
   {
     id: 1,
     src: "/gallery/gallery-1.jpg",
     alt: "Travelers in front of Charminar, Hyderabad",
     title: "Hyderabad Heritage Tour",
+    orientation: "landscape",
   },
   {
     id: 2,
     src: "/gallery/gallery-2.jpg",
     alt: "Pagoda and Japanese gardens",
     title: "Kyoto Gardens & Pagoda",
+    orientation: "landscape",
   },
   {
     id: 3,
     src: "/gallery/gallery-3.jpg",
     alt: "Group photo at the Taj Mahal, Agra",
     title: "Taj Mahal Monument Journey",
+    orientation: "portrait",
   },
   {
     id: 4,
     src: "/gallery/hero-bg.jpg",
     alt: "Hikers walking through sandstone canyon",
     title: "Grand Canyon Exploration",
+    orientation: "landscape",
   },
   {
     id: 5,
     src: "/destination/india.avif",
     alt: "Incredible India journeys",
     title: "Kerala Backwaters & Hills",
+    orientation: "landscape",
   },
   {
     id: 6,
     src: "/destination/japan.avif",
     alt: "Scenic Mount Fuji and cherry blossoms",
     title: "Mount Fuji Discovery",
+    orientation: "portrait",
   },
   {
     id: 7,
     src: "/destination/norway.avif",
     alt: "Norway Fjords & Northern Lights",
     title: "Fjord Cruise & Northern Lights",
+    orientation: "landscape",
   },
   {
     id: 8,
     src: "/destination/switzerland.avif",
     alt: "Swiss Alps Mountain Panorama",
     title: "Swiss Alpine Escapes",
+    orientation: "landscape",
   },
   {
     id: 9,
     src: "/gallery/gallery-1.jpg",
     alt: "Historic monument cultural visit",
     title: "Cultural Wonders",
+    orientation: "portrait",
   },
   {
     id: 10,
     src: "/gallery/gallery-2.jpg",
     alt: "Serene mountain landscape",
     title: "Peaceful Retreats",
+    orientation: "landscape",
   },
   {
     id: 11,
     src: "/gallery/gallery-3.jpg",
     alt: "Joyful group expedition",
     title: "Memorable Group Journeys",
+    orientation: "landscape",
   },
   {
     id: 12,
     src: "/gallery/hero-bg.jpg",
     alt: "Golden hour canyon trail",
     title: "Canyon Adventure Trails",
+    orientation: "landscape",
   },
 ];
+
+/* Orientation → tile shape. Two layers do the work at two sizes, and the split
+   is deliberate:
+   - Below `sm` the grid is a single stacked column, so each tile just carries
+     its own aspect ratio and is as tall as that makes it — a portrait reads as
+     a portrait, a landscape as a landscape, nothing overlaps.
+   - From `sm` up the tiles drop the aspect and span rows instead, against the
+     fixed row unit the grid sets in `auto-rows`. Spanning is what lets a
+     portrait sit two landscapes tall in the same column and the mosaic pack
+     with no gaps: every span is even, so column heights only ever differ by a
+     whole landscape, which the next one drops straight into. object-cover on
+     the image absorbs whatever the row maths does not divide exactly. */
+const SHAPE = {
+  landscape: "aspect-[3/2] sm:aspect-auto sm:row-span-2",
+  portrait: "aspect-[3/4] sm:aspect-auto sm:row-span-4",
+};
 
 export function GalleryGridSection({
   title = "Moments Along the Way",
@@ -135,7 +178,15 @@ export function GalleryGridSection({
               photographs — which is also why it comes first in the DOM. */}
           <div
             data-zoom-content
-            className="pointer-events-none relative z-10 flex flex-col items-center justify-center px-4 pt-28 pb-12 text-center sm:px-6 sm:pt-32 md:px-8 lg:absolute lg:inset-0 lg:px-8 lg:pt-0 lg:pb-0"
+            /* From `lg` this is laid over the stage, and it is centred in the
+               first viewport-height of it — `top-0 inset-x-0 h-screen`, not
+               `inset-0`. The stage is as tall as the mosaic (several thousand
+               px on a wide screen once portrait tiles stretch it), so centring
+               in the stage's full height drops the title far below the fold at
+               the one moment it is the banner. A viewport-tall box pins it to
+               the middle of the opening frame instead — the same "centre on what
+               can be seen" the zoom itself uses for its focal point. */
+            className="pointer-events-none relative z-10 flex flex-col items-center justify-center px-4 pt-28 pb-12 text-center sm:px-6 sm:pt-32 md:px-8 lg:absolute lg:top-0 lg:inset-x-0 lg:h-screen lg:px-8 lg:pt-0 lg:pb-0"
           >
             {/* Navy on the page's own white in the stacked layout, white once it
                 is sitting on the photograph. The contrast underneath it belongs
@@ -160,10 +211,16 @@ export function GalleryGridSection({
           </div>
 
           <Container className="w-full max-w-none !px-[14px]">
-            {/* Exact 3-column grid with 14px gap and 613x306 (2:1) aspect ratio */}
+            {/* One column on phones, two from `sm`, three from `lg`, 14px gap
+                throughout. From `sm` up it is a row-span mosaic: `auto-rows`
+                sets a fixed row height (~3:2 of a column once a landscape spans
+                two of them) and `grid-flow-row-dense` back-fills the holes a
+                taller portrait leaves, so the wall packs tight instead of
+                leaving a ragged checkerboard. The row unit is in `vw` so it
+                tracks the column width and the ratios hold at every size. */}
             <div
               data-zoom-grid
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[14px]"
+              className="grid grid-cols-1 gap-[14px] sm:grid-cols-2 sm:auto-rows-[16vw] sm:grid-flow-row-dense lg:grid-cols-3 lg:auto-rows-[10vw]"
             >
               {images.map((item, index) => {
                 const image = (
@@ -186,28 +243,35 @@ export function GalleryGridSection({
                   /* Subtle hover overlay for rich visual feedback */
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 pointer-events-none" />
                 );
-                const tile =
-                  "group relative w-full aspect-[613/306] bg-neutral-100 rounded-[2px] shadow-sm";
+                // Shape comes from the photo, not from a fixed ratio: a
+                // portrait spans a tall frame, a landscape a wide one. Unknown
+                // values fall to landscape, the same default the CMS reader
+                // uses, so a tile is never left with no size at all.
+                const tile = cn(
+                  "group relative w-full bg-neutral-100 rounded-[2px] shadow-sm",
+                  SHAPE[item.orientation === "portrait" ? "portrait" : "landscape"],
+                );
 
                 // The first tile alone carries the masked reveal's markup: it
                 // is the one on screen at load, and the one the title sits on.
                 //
-                // It is also placed into the middle column rather than left to
+                // It is also pinned to the middle column rather than left to
                 // land top-left, which is where document order would put it.
                 // The zoom holds the banner still and moves the mosaic around
-                // it, so an off-centre banner means the whole wall has to travel
-                // to get where it belongs — from the corner that was a 426px
-                // diagonal slide on the way out. Centred horizontally it is
-                // none: the grid's own centre is already under it, and only the
-                // half-row of vertical offset is left. The other eleven flow
-                // around it, since auto-placement skips a cell that is spoken
-                // for. Below `lg` there is no zoom and one column, so this does
-                // nothing and the banner stays first, where it reads as the
-                // heading's picture.
+                // it, so an off-centre banner would drag the whole wall across
+                // to get where it belongs — the 426px diagonal slide this used
+                // to have. Pinned to the centre column that horizontal travel is
+                // gone: the grid's own centre is already under it, and only the
+                // vertical offset down from the top row is left. The row is left
+                // to auto-placement — with a mosaic of mixed heights there is no
+                // fixed "middle row" to name, and `grid-flow-row-dense` fills the
+                // rest of the top row around it. Below `lg` there is no zoom and
+                // one column, so this does nothing and the banner stays first,
+                // where it reads as the heading's picture.
                 return index === 0 ? (
                   <MaskFrame
                     key={`${item.id}-${index}`}
-                    className={cn(tile, "lg:col-start-2 lg:row-start-2")}
+                    className={cn(tile, "lg:col-start-2")}
                   >
                     <MaskImage>{image}</MaskImage>
                     {/* Contrast for the title, and only under it: inside the
