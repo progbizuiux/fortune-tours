@@ -10,7 +10,7 @@ import { FILL_SWEEP } from "@/lib/motion";
 // frame of their own, where a full-bleed panel has nothing to sit inside.
 const VARIANT_CLASSES = {
   chip: {
-    base: "max-sm:h-[32px] sm:h-[43px] lg:max-xl:h-[32px] lg:max-xl:w-[84px] lg:max-xl:text-[13px] xl:max-2xl:h-[36px] xl:max-2xl:w-[94px] xl:max-2xl:text-[16.5px] 2xl:h-[38px] 2xl:w-[100px] 2xl:text-[18px] max-sm:w-[77px] sm:w-[125px] border-x border-white font-heading max-sm:text-[14px] sm:text-[22px] leading-none tracking-[-0.01em]",
+    base: "max-sm:h-[32px] sm:h-[43px] md:max-lg:h-[34px] md:max-lg:w-[88px] md:max-lg:text-[14px] lg:max-xl:h-[32px] lg:max-xl:w-[84px] lg:max-xl:text-[13px] xl:max-2xl:h-[36px] xl:max-2xl:w-[94px] xl:max-2xl:text-[16.5px] 2xl:h-[38px] 2xl:w-[100px] 2xl:text-[18px] max-sm:w-[77px] sm:w-[125px] border-x border-white font-heading max-sm:text-[14px] sm:text-[22px] leading-none tracking-[-0.01em]",
     idle: "bg-transparent text-white border-transparent",
     active: "bg-white text-navy border-transparent",
   },

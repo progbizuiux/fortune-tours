@@ -53,10 +53,6 @@ const REVIEWS = [
 const HAS_REVIEWER_PHOTOS = true;
 const HAS_REVIEW_PHOTOS = true;
 
-// Collapsed height of a review quote. Shared by the clamp style below and the
-// overflow check above, so the two can never disagree about where the cut is.
-const CLAMP_EM = 3.6;
-
 function ReviewCard({ review, index, isExpanded, onToggle }) {
   const textRef = useRef(null);
   const [needsReadMore, setNeedsReadMore] = useState(false);
@@ -65,16 +61,8 @@ function ReviewCard({ review, index, isExpanded, onToggle }) {
     const checkOverflow = () => {
       const el = textRef.current;
       if (!el) return;
-      // Measured against the clamp height in px, not against clientHeight.
-      // clientHeight is the *animating* height: collapsing sets max-height
-      // back to the clamp but the transition takes 500ms to get there, so a
-      // check on that frame still sees ~500px, concludes the text fits, and
-      // unmounts the button the moment "Read less" is pressed. scrollHeight is
-      // the full content height in either state, so this reads the same
-      // expanded or collapsed.
-      const clampPx = parseFloat(getComputedStyle(el).fontSize) * CLAMP_EM;
-      // 2px threshold absorbs fractional-pixel rounding.
-      setNeedsReadMore(el.scrollHeight > clampPx + 2);
+      if (isExpanded) return;
+      setNeedsReadMore(el.scrollHeight > el.clientHeight + 1);
     };
 
     checkOverflow();
@@ -100,8 +88,7 @@ function ReviewCard({ review, index, isExpanded, onToggle }) {
       <div className="flex-1 flex flex-col items-start mt-8">
         <p 
           ref={textRef}
-          className={`overflow-hidden transition-[max-height] duration-500 ease-in-out max-sm:font-light max-sm:text-[12px] max-sm:leading-120 max-sm:tracking-[-0.3px] text-small lg:font-sans lg:font-light lg:max-xl:text-[15.5px] xl:max-2xl:text-[18px] 2xl:text-[18px] lg:leading-120 lg:tracking-[-1.4px] text-navy lg:text-charcoal group-hover:text-black`}
-          style={{ maxHeight: isExpanded ? "500px" : `${CLAMP_EM}em` }}
+          className={`max-sm:font-light max-sm:text-[12px] max-sm:leading-120 max-sm:tracking-[-0.3px] text-small leading-120 lg:font-sans lg:font-light lg:max-xl:text-[15.5px] xl:max-2xl:text-[18px] 2xl:text-[18px] lg:leading-120 lg:tracking-[-1.4px] text-navy lg:text-charcoal group-hover:text-black ${!isExpanded ? "line-clamp-2" : ""}`}
         >
           {review.quote}
         </p>
@@ -200,7 +187,7 @@ export function CredentialsSection({
           >
             <AnimatedAvatars />
 
-            <p className="max-sm:font-light max-sm:text-[9px] max-sm:leading-[12px] sm:text-[10px] sm:leading-[14px] text-center lg:text-right text-caption lg:font-light lg:max-xl:text-[15px] xl:max-2xl:text-[18px] 2xl:text-[18px] lg:leading-6 text-navy/70 lg:text-black/80 max-sm:w-[160px] sm:w-full lg:w-auto lg:max-w-none">
+            <p className="max-sm:font-light max-sm:text-[9px] max-sm:leading-[12px] sm:max-md:text-[10px] sm:max-md:leading-[14px] md:max-lg:text-[13.5px] md:max-lg:leading-[18px] text-center lg:text-right text-caption lg:font-light lg:max-xl:text-[15px] xl:max-2xl:text-[18px] 2xl:text-[18px] lg:leading-6 text-navy/70 lg:text-black/80 max-sm:w-[160px] sm:w-full lg:w-auto lg:max-w-none">
               4.9 Rating from 14K+<br className="lg:hidden" /> Google Reviews
             </p>
           </a>
