@@ -522,6 +522,7 @@ export function Navbar({ publishedCountries }) {
           links={[...NAV_LINKS, SITE_MENU_ENTRY]}
           pathname={pathname}
           onNavigate={closeAll}
+          publishedCountries={publishedCountries}
         />
       )}
     </header>
