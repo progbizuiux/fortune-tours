@@ -13,33 +13,33 @@ import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 
-/* The GLB is a continents-only shell — a thin extruded landmass crust with no
-   ocean body and no country labels. The cream sphere it sits on is drawn here
-   as geometry, sized to the shell so no gap shows along the coastlines. */
-const SHELL_URL = "/models/Globe_1.glb";
+/* The GLB is a continents-only shell — landmass patches laid on a sphere, with
+   no ocean body and no country labels. The cream sphere they sit on is drawn
+   here as geometry, sized to the shell so no gap shows along the coastlines. */
+const SHELL_URL = "/models/Globe1.glb";
 
-/* Least-squares sphere fit over the shell's 28,000 vertices, measured AFTER the
-   glTF node transform (+90° about X, uniform 0.006720, small translation). That
-   transform already lands the shell's centre on the origin, so only the radius
-   is needed to normalise it. */
-const SHELL_WORLD_RADIUS = 0.4741;
-/* The crust's inner face sits at 0.9951 of the fit radius; the body tucks
-   further in than that. Coincident surfaces z-fight, and a tessellated sphere's
-   chords cut inside its nominal radius, so the two would interleave. */
+/* Exact rather than fitted: every one of the shell's 21,059 vertices sits at
+   precisely 0.475 from its centre, and its single glTF node carries no rotation
+   and no scale — only a translation down +X, which is what SHELL_WORLD_CENTRE
+   undoes so the shell turns about its own centre rather than orbiting. */
+const SHELL_WORLD_RADIUS = 0.475;
+const SHELL_WORLD_CENTRE = [2.18753, 0, 0];
+/* The patches have no thickness, so they lie exactly on that radius and the
+   body has to tuck inside it: a tessellated sphere's chords already cut inside
+   its nominal radius, and the two surfaces would interleave if they met. */
 const BODY_RADIUS_RATIO = 0.99;
 
-/* The shell is exported on its own baked axes, which sit at a different
-   orientation from the frame LABELS and DESTINATIONS below are measured in.
-   Rotating the shell into that frame rather than re-measuring every coordinate
-   keeps one number in play instead of eleven.
-
-   Found by maximising the overlap between this shell's landmass mask and the
-   previous shell's, both rasterised to a 3° lat/lon grid: the optimum is a
-   sharp, isolated peak (0.37 overlap against 0.27 just 15° away), and it is
-   within a degree of the 180°-about-X difference in the two files' own node
-   transforms — the two were exported with opposite up-axis conventions. Every
-   label and pin then lands within 1.3° of the nearest coastline vertex. */
-const SHELL_ORIENTATION = [-179.38, -91.25, -184.75]; // deg, Euler XYZ in YXZ order
+/* The shell is exported on true geographic axes: +Y is the north pole, and a
+   point's longitude is exactly atan2(x, z) — checked against the twenty largest
+   landmasses in the file, every one of which lands within a degree of its real
+   coordinates. That is not the frame LABELS and DESTINATIONS below are measured
+   in, so the shell is turned into theirs rather than every coordinate being
+   re-measured against it. One spin about the pole is the whole difference, and
+   it is 85° because those coordinates carry longitude as -(geographic) - 85 —
+   see the note above LABELS. Turning the shell rather than the numbers also
+   keeps the design's opening view (TILT_DEG/SPIN_DEG) the one it was framed
+   on: the same meridian comes up first as before. */
+const SHELL_ORIENTATION = [0, 85, 0]; // deg, Euler XYZ in YXZ order
 
 /* Scene-space radius every other measurement here is expressed in. */
 const GLOBE_RADIUS = 4;
@@ -147,9 +147,12 @@ function Continents() {
     return root;
   }, [scene]);
 
+  /* Two nodes, because the order matters: the inner one carries the shell back
+     onto the origin, the outer one then scales and turns it. All three on a
+     single node would scale and rotate that offset along with the geometry,
+     which swings the shell out of frame instead of centring it. */
   return (
-    <primitive
-      object={prepared}
+    <group
       scale={GLOBE_RADIUS / SHELL_WORLD_RADIUS}
       rotation={[
         THREE.MathUtils.degToRad(SHELL_ORIENTATION[0]),
@@ -157,7 +160,16 @@ function Continents() {
         THREE.MathUtils.degToRad(SHELL_ORIENTATION[2]),
         "YXZ",
       ]}
-    />
+    >
+      <primitive
+        object={prepared}
+        position={[
+          -SHELL_WORLD_CENTRE[0],
+          -SHELL_WORLD_CENTRE[1],
+          -SHELL_WORLD_CENTRE[2],
+        ]}
+      />
+    </group>
   );
 }
 
@@ -352,30 +364,60 @@ function GlobeScene({
    pixels and written straight to the node's transform. Keeping the text in the
    DOM means it renders at device resolution in the site's own font, upright
    whatever the globe is doing — which is how the design draws it. */
-/* Countries pinned on the globe. Each links where the destinations menu would
-   send it (destinationHref in lib/navigation.js): its own /destinations/<slug>
-   page when one exists, otherwise the search page pre-filtered to it. Only
-   India has a page today, so the rest go to /search?term=… — a hardcoded
-   /destinations/<country> would 404 (that route is dynamicParams:false and
-   serves only india/kerala). Coordinates use the same shell frame as LABELS
-   (see the note there), so each country's real longitude is carried through
-   -(geographic lon) - 85; the latitudes pass through unchanged. Every point
-   below was ray-tested against the crust, so the dot sits on its country
-   rather than off the coast. */
+/* The navbar's regions, pinned on the globe. These are the thirteen rows the
+   Destinations menu opens on — DESTINATION_REGIONS in lib/navigation.js — and
+   each pin links to that row's own href, the /africa, /asia, /europe … pages
+   app/[slug]/page.js serves. They are hardcoded rather than imported so this
+   file stays free of the menu's country lists, taglines and photography, none
+   of which a pin needs; the hrefs are a region's key and change only when the
+   route does.
+
+   Coordinates are in the shell's frame, not geographic: each region's real
+   longitude is carried through -(geographic lon) - 85 and its latitude passes
+   through unchanged. The geographic pair is written above every line, and each
+   one is the middle of the region rather than of any single country in it. All
+   thirteen were tested against the shell's own landmass: the ten land regions
+   sit within 0.35° of a coastline vertex — well inside their own territory —
+   and the three that are seas rather than continents (Caribbean, Indian Ocean,
+   South Pacific) sit on the island group they are named for, or in open water
+   where the model carries no island for it. */
 const DESTINATIONS = [
-  // 36.2 N, 138.25 E
-  { name: "Japan", href: "/search?term=Japan", lat: 36.2, lon: 136.75 },
-  // 46.8 N, 8.2 E
+  // 42 N, 100 W — the Great Plains
+  { name: "North America", href: "/north-america", lat: 42, lon: 15 },
+  // 10 S, 60 W — the Brazilian interior
+  { name: "Latin America", href: "/latin-america", lat: -10, lon: -25 },
+  // 22 N, 78 W — Cuba
+  { name: "Caribbean", href: "/caribbean", lat: 22, lon: -7 },
+  // 75 N, 42 W — the Greenland ice sheet
+  { name: "Arctic Circle", href: "/arctic-circle", lat: 75, lon: -43 },
+  // 48 N, 12 E — southern Germany
+  { name: "Europe", href: "/europe", lat: 48, lon: -97 },
+  // 2 N, 21 E — the Congo basin
+  { name: "Africa", href: "/africa", lat: 2, lon: -106 },
+  // 25 N, 45 E — the Arabian peninsula
+  { name: "Middle East", href: "/middle-east", lat: 25, lon: -130 },
+  // 6 S, 72 E — the Maldives, mid-ocean
+  { name: "Indian Ocean", href: "/indian-ocean", lat: -6, lon: -157 },
+  // 22 N, 79 E — central India
   {
-    name: "Switzerland",
-    href: "/search?term=Switzerland",
-    lat: 46.8,
-    lon: -93.2,
+    name: "Indian Subcontinent",
+    href: "/indian-subcontinent",
+    lat: 22,
+    lon: -164,
   },
-  // 22 N, 79 E
-  { name: "India", href: "/destinations/india", lat: 22, lon: -164 },
-  // 62 N, 9 E
-  { name: "Norway", href: "/search?term=Norway", lat: 62, lon: -94 },
+  // 42 N, 100 E — the Gobi
+  { name: "Asia", href: "/asia", lat: 42, lon: 175 },
+  // 16 N, 105 E — Laos, on the Mekong
+  { name: "South East Asia", href: "/south-east-asia", lat: 16, lon: 170 },
+  // 18 S, 178 E — Fiji
+  { name: "South Pacific", href: "/south-pacific", lat: -18, lon: 97 },
+  // 25 S, 134 E — the centre of Australia
+  {
+    name: "Australasia & Oceania",
+    href: "/australasia-oceania",
+    lat: -25,
+    lon: 141,
+  },
 ];
 
 /* Longitudes are in the shell's own frame, not geographic: measured against
@@ -479,13 +521,12 @@ export default function GlobeCanvas({
   tilt = TILT_DEG,
   spin = SPIN_DEG,
   spinSpeed = SPIN_SPEED,
-  /* The seven continent names pinned to the sphere. On by default, because the
-     home page's globe is the one this was drawn for and the names are part of
-     that frame. Turned off where the globe sits above a list that already
-     names every region in type — see components/destinations/az/RegionGlobe —
-     since the same words twice, once floating and once as a heading, reads as
-     a mistake rather than as a map. */
-  labels = true,
+  /* The seven continent names pinned to the sphere. Off everywhere for now:
+     the region pins below now print their own names on the sphere, and a
+     continent set floating among them is a second, coarser labelling of the
+     same map. The layer is kept rather than deleted because it is the design's
+     own, and turning it back on is this one value. */
+  labels = false,
 }) {
   const wrapRef = useRef(null);
   const labelNodes = useRef([]);
@@ -641,12 +682,17 @@ export default function GlobeCanvas({
                 className="relative h-[11px] w-[11px] rounded-full shadow-[0_0_0_2px_rgba(255,255,255,0.9)] transition-transform duration-300 ease-out group-hover:scale-[1.6] group-focus-visible:scale-[1.6]"
                 style={{ backgroundColor: PIN_COLOR }}
               />
-              {/* Name, rising into place on hover. aria-hidden because the link
-                  already carries it as its accessible name, and pointer-events
+              {/* Name. Drawn from the start rather than revealed on hover: with
+                  the continent labels off the sphere these are the only words
+                  on it, and a globe of unlabelled dots gives a reader nothing
+                  to aim at. Hover and focus still lift it clear of its dot and
+                  take it fully opaque, so the one being pointed at reads in
+                  front of its neighbours. aria-hidden because the link already
+                  carries the name as its accessible name, and pointer-events
                   stay off so the pill never catches the cursor. */}
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute bottom-full left-1/2 mb-1.5 -translate-x-1/2 translate-y-1 whitespace-nowrap rounded-full bg-white/85 px-2.5 py-1 font-top text-navy opacity-0 shadow-[0_2px_10px_rgba(31,41,55,0.12)] backdrop-blur-sm transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
+                className="pointer-events-none absolute bottom-full left-1/2 mb-1.5 -translate-x-1/2 whitespace-nowrap rounded-full bg-white/85 px-2.5 py-1 font-top text-navy opacity-90 shadow-[0_2px_10px_rgba(31,41,55,0.12)] backdrop-blur-sm transition-all duration-300 ease-out group-hover:-translate-y-0.5 group-hover:opacity-100 group-focus-visible:-translate-y-0.5 group-focus-visible:opacity-100"
                 style={{
                   fontSize: "clamp(13px, 1.3vw, 19px)",
                   fontWeight: 400,
