@@ -56,25 +56,33 @@ const HAS_REVIEW_PHOTOS = true;
 function ReviewCard({ review, index, isExpanded, onToggle }) {
   const textRef = useRef(null);
   const [needsReadMore, setNeedsReadMore] = useState(false);
+  const [contentHeight, setContentHeight] = useState(0);
+  const [collapsedHeight, setCollapsedHeight] = useState(0);
 
   useEffect(() => {
-    const checkOverflow = () => {
-      const el = textRef.current;
-      if (!el) return;
-      if (isExpanded) return;
-      setNeedsReadMore(el.scrollHeight > el.clientHeight + 1);
+    const el = textRef.current;
+    if (!el) return;
+
+    const measure = () => {
+      const scrollH = el.scrollHeight;
+      setContentHeight(scrollH);
+      const computed = window.getComputedStyle(el);
+      const lineHeight =
+        parseFloat(computed.lineHeight) || parseFloat(computed.fontSize) * 1.2;
+      const twoLines = Math.ceil(lineHeight * 2);
+      setCollapsedHeight(twoLines);
+      setNeedsReadMore(scrollH > twoLines + 4);
     };
 
-    checkOverflow();
+    measure();
 
-    // Re-check after fonts have loaded, as they can change text dimensions
     if (typeof document !== "undefined" && document.fonts) {
-      document.fonts.ready.then(checkOverflow);
+      document.fonts.ready.then(measure);
     }
 
-    window.addEventListener("resize", checkOverflow);
-    return () => window.removeEventListener("resize", checkOverflow);
-  }, [review.quote, isExpanded]);
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [review.quote]);
 
   return (
     <li
@@ -86,19 +94,34 @@ function ReviewCard({ review, index, isExpanded, onToggle }) {
       </p>
 
       <div className="flex-1 flex flex-col items-start mt-8">
-        <p 
-          ref={textRef}
-          className={`max-sm:font-light max-sm:text-[12px] max-sm:leading-120 max-sm:tracking-[-0.3px] text-small leading-120 lg:font-sans lg:font-light lg:max-xl:text-[15.5px] xl:max-2xl:text-[18px] 2xl:text-[18px] lg:leading-120 lg:tracking-[-1.4px] text-navy lg:text-charcoal group-hover:text-black ${!isExpanded ? "line-clamp-2" : ""}`}
+        <div
+          className="overflow-hidden transition-[max-height] duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] w-full"
+          style={{
+            maxHeight:
+              collapsedHeight > 0
+                ? isExpanded
+                  ? `${contentHeight}px`
+                  : `${collapsedHeight}px`
+                : isExpanded
+                  ? "none"
+                  : "3.5em",
+          }}
         >
-          {review.quote}
-        </p>
+          <p 
+            ref={textRef}
+            className="max-sm:font-light max-sm:text-[12px] max-sm:leading-120 max-sm:tracking-[-0.3px] text-small leading-120 lg:font-sans lg:font-light lg:max-xl:text-[15.5px] xl:max-2xl:text-[18px] 2xl:text-[18px] lg:leading-120 lg:tracking-[-1.4px] text-navy lg:text-charcoal group-hover:text-black"
+          >
+            {review.quote}
+          </p>
+        </div>
         {needsReadMore && (
           <button
+            type="button"
             onClick={(e) => {
               e.stopPropagation();
               onToggle();
             }}
-            className="mt-3 max-sm:text-[11px] text-[13px] font-medium text-sky hover:text-navy transition-colors"
+            className="mt-3 max-sm:text-[11px] text-[13px] font-medium text-sky hover:text-navy transition-colors cursor-pointer"
           >
             {isExpanded ? "Read less" : "Read more"}
           </button>

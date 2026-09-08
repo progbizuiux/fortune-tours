@@ -265,3 +265,19 @@ body:has([data-navbar-ink="black"]) nav[aria-label="Main"] a:hover {
    keyframes. It is now a GSAP timeline in the component, because the leading
    card grows into the backdrop and that move starts from a box CSS cannot know
    — the card's measured rect. See components/home/FeaturedDestinations.jsx. */
+
+/* Ambient hero background videos — hide default browser overlay play buttons */
+video::-webkit-media-controls {
+  display: none !important;
+}
+video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+video::-webkit-media-controls-play-button {
+  display: none !important;
+}
+video::-webkit-media-controls-panel {
+  display: none !important;
+}
+

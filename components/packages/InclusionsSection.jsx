@@ -71,14 +71,14 @@ export function InclusionsSection({
                   aria-controls={`inclusions-panel-${tab.key}`}
                   onClick={() => setActiveKey(tab.key)}
                   className={cn(
-                    "px-8 md:px-10 lg:px-[50px] py-3 lg:py-[14px] font-sans text-[14px] lg:text-[15px] xl:text-[16px] leading-none transition-colors",
+                    "px-8 md:px-10 lg:px-[50px] py-3 lg:py-[14px] font-sans text-[14px] lg:text-[15px] xl:text-[16px] leading-none transition-all duration-300 cursor-pointer select-none",
                     /* A hairline after every control, the last one included —
                        the frame closes the tab row off against the rule on its
                        right as well as splitting the two labels. */
                     "border-r border-black/10",
                     isActive
                       ? "bg-black text-white font-normal"
-                      : "text-black/60 font-light hover:text-black",
+                      : "text-black/60 font-light hover:text-black hover:bg-black/[0.02]",
                   )}
                 >
                   {tab.label}
@@ -87,42 +87,40 @@ export function InclusionsSection({
             })}
           </div>
 
-          {tabs.map((tab) => (
-            <div
-              key={tab.key}
-              role="tabpanel"
-              id={`inclusions-panel-${tab.key}`}
-              aria-labelledby={`inclusions-tab-${tab.key}`}
-              /* Hidden rather than unmounted, so both lists ship in the HTML
-                 and the inactive one stays readable to a crawler and to a
-                 visitor whose JS never ran. */
-              hidden={tab.key !== activeTab?.key}
-              className="mt-8 md:mt-10 lg:mt-[45px] bg-white px-6 md:px-10 lg:px-[60px] py-10 md:py-12 lg:py-[55px]"
-            >
-              <h3 className="text-center font-heading text-[20px] md:text-[22px] lg:text-[24px] leading-[1.2] text-navy">
-                {tab.title}
-              </h3>
+          <div
+            key={activeTab?.key}
+            role="tabpanel"
+            id={`inclusions-panel-${activeTab?.key}`}
+            aria-labelledby={`inclusions-tab-${activeTab?.key}`}
+            className="mt-8 md:mt-10 lg:mt-[45px] bg-white px-6 md:px-10 lg:px-[60px] py-10 md:py-12 lg:py-[55px] motion-safe:animate-menu-drop transition-all duration-300"
+          >
+            <h3 className="text-center font-heading text-[20px] md:text-[22px] lg:text-[24px] leading-[1.2] text-navy">
+              {activeTab?.title}
+            </h3>
 
-              {/* Set inline and wrapped, divided by rules — the frame runs the
-                  items across the panel rather than down it. A list, not a
-                  paragraph, so it still reads as one to a screen reader. */}
-              <ul className="mt-6 lg:mt-[35px] flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
-                {tab.items?.map((item, i) => (
-                  <li key={item} className="flex items-center gap-x-4">
-                    {i > 0 && (
-                      <span
-                        aria-hidden="true"
-                        className="h-[14px] w-px bg-black/20"
-                      />
-                    )}
-                    <span className="font-sans font-light text-[13px] lg:text-[14px] xl:text-[15px] leading-[1.6] text-black/75">
-                      {item}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+            {/* Set inline and wrapped, divided by rules — the frame runs the
+                items across the panel rather than down it. A list, not a
+                paragraph, so it still reads as one to a screen reader. */}
+            <ul className="mt-6 lg:mt-[35px] flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
+              {activeTab?.items?.map((item, i) => (
+                <li
+                  key={item}
+                  className="flex items-center gap-x-4 motion-safe:animate-menu-row"
+                  style={{ "--row-delay": `${Math.min(i * 20, 200)}ms` }}
+                >
+                  {i > 0 && (
+                    <span
+                      aria-hidden="true"
+                      className="h-[14px] w-px bg-black/20"
+                    />
+                  )}
+                  <span className="font-sans font-light text-[13px] lg:text-[14px] xl:text-[15px] leading-[1.6] text-black/75">
+                    {item}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </AnimateIn>
       </Container>
     </section>

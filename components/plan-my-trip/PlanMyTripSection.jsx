@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { toast } from "sonner";
+import { RotateCw } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { FrameButton } from "@/components/common/FrameButton";
 import {
@@ -250,6 +251,7 @@ export function PlanMyTripSection({
     setValue,
     trigger,
     reset,
+    clearErrors,
     getValues,
     formState: { errors },
   } = useForm({
@@ -337,6 +339,17 @@ export function PlanMyTripSection({
     userNavRef.current = true;
     setDirection(next > stepRef.current ? "forward" : "back");
     setStep(next);
+  }
+
+  function handleReset() {
+    clearTimeout(persistTimer.current);
+    clearPlanDraft();
+    reset(EMPTY_PLAN);
+    clearErrors();
+    userNavRef.current = true;
+    setDirection("back");
+    setStep(0);
+    clearPlanDraft();
   }
 
   function selectSingle(field, value) {
@@ -492,14 +505,24 @@ export function PlanMyTripSection({
                   ))}
                 </div>
                 {/* Figma: 50px between "Step 01" and the step name. */}
-                <p className="flex min-w-0 items-baseline gap-5 md:gap-[50px] lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-body">
-                  <span className="shrink-0 text-white/90">
-                    {stepWordLabel} {stepNumber}
-                  </span>
-                  <span className="min-w-0 text-right text-white">
-                    {steps[step].label}
-                  </span>
-                </p>
+                <div className="flex items-center gap-5 md:gap-8">
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    className="inline-flex items-center gap-1.5 text-[13px] lg:max-xl:text-[12px] xl:max-2xl:text-[14px] 2xl:text-[15px] font-light text-white/70 hover:text-white transition-colors cursor-pointer"
+                  >
+                    <RotateCw aria-hidden="true" className="size-3.5 shrink-0" />
+                    <span>Reset</span>
+                  </button>
+                  <p className="flex min-w-0 items-baseline gap-5 md:gap-[50px] lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-body">
+                    <span className="shrink-0 text-white/90">
+                      {stepWordLabel} {stepNumber}
+                    </span>
+                    <span className="min-w-0 text-right text-white">
+                      {steps[step].label}
+                    </span>
+                  </p>
+                </div>
               </div>
               {/* Figma: 0.5px rules at 50% white. */}
               <div className="mt-4 h-[0.5px] w-full bg-white/50">
@@ -813,14 +836,24 @@ export function PlanMyTripSection({
 
             {/* Figma: 58px between the rule and the footer row. */}
             <div className="mt-8 flex flex-wrap items-center justify-between gap-x-6 gap-y-5 border-t-[0.5px] border-white/50 pt-5 md:mt-10 md:pt-6 lg:mt-14 lg:pt-[58px] lg:max-2xl:mt-7 lg:max-2xl:pt-5">
-              {step > 0 && (
-                <FrameButton
-                  variant="option"
-                  onClick={() => goToStep(step - 1)}
+              <div className="flex items-center gap-4 sm:gap-6">
+                {step > 0 && (
+                  <FrameButton
+                    variant="option"
+                    onClick={() => goToStep(step - 1)}
+                  >
+                    {labels.back ?? "Back"}
+                  </FrameButton>
+                )}
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="inline-flex items-center gap-1.5 text-[13px] sm:text-[14px] font-light text-white/70 hover:text-white transition-colors cursor-pointer"
                 >
-                  {labels.back ?? "Back"}
-                </FrameButton>
-              )}
+                  <RotateCw aria-hidden="true" className="size-3.5 shrink-0" />
+                  <span>Reset</span>
+                </button>
+              </div>
               <p
                 className={cn(
                   "order-last w-full text-center text-white/80 md:order-none md:w-auto md:flex-1 lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-body",
