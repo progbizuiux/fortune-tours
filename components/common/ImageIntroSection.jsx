@@ -1,201 +1,238 @@
+"use client";
+
+import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AnimateIn } from "@/components/common/AnimateIn";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { cn } from "@/lib/utils";
 
-/* Second section of every destination region page — Figma "Discover Africa",
- * measured off the 1920 frame.
+/* Reusable Image Intro / Story Slider Section.
  *
- * A centred chapter heading, then one wide photograph with the region's story
- * and its signature places set over the dark end of a gradient.
- *
- * Figma values, all from the frame's own panel:
- *   image        1761 x 781 at left 80  — Container's content box exactly, so
- *                the picture is the Container rather than a measured width
- *                (padding-left/right is 80px from lg; see Container.module.css)
- *   overlay      linear gradient, #000000 -> #000000, transparent at the top
- *   description  Poppins 300 18/24, centred, #FFFFFF, box 1236 wide
- *   gap          description -> places 50
- *   places row   903 x 60 hug, each label 176 x 13 (cap height of 18px Poppins)
- *
- * The aspect ratio carries the picture rather than the raw 1761x781: the width
- * already tracks the Container at every breakpoint, so stating the height as a
- * ratio reproduces the frame exactly at 1920 and keeps the same crop on the way
- * down instead of letterboxing.
- *
- * Shape-only — every string comes from the page, so all thirteen regions render
- * through this one file. Content comes from lib/strapi/destination.js.
+ * Renders either a single rich visual story or a multi-slide carousel with
+ * next/prev arrows placed vertically in the middle on left and right sides.
+ * Supports smooth image transitions, animated story descriptions, and stats tags.
  */
 export function ImageIntroSection({
   eyebrow,
   title,
   description,
   places = [],
-  /* The same row of copy over the picture's bottom edge, but as label/value
-     pairs instead of the region pages' plain place names — DURATION / "4 Days,
-     3 Nights" and its five siblings on the package detail frame.
-     `places` and `stats` are alternatives, not additions: they occupy the same
-     strip, so a caller passing both would stack two rows over one gradient.
-     `stats` wins if both arrive. Region pages pass neither key and are
-     untouched. */
   stats = [],
   image,
   imageAlt = "",
+  slides = [],
   ariaLabel,
-  /* The picture box's own classes, merged over the frame's. The region pages
-     take the ratio below verbatim — it is measured off their 1920 frame — while
-     the package detail frame draws a taller crop over the same width, because
-     its stats row needs more room under the story than a single line of place
-     names does. Overriding here keeps that a caller's decision instead of a
-     second copy of this section. */
   imageClassName,
   className,
 }) {
+  const allSlides =
+    slides && slides.length > 0
+      ? slides
+      : [
+          {
+            image,
+            imageAlt,
+            description,
+            stats,
+            places,
+          },
+        ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState("next");
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
+  const activeSlide = allSlides[currentIndex] || allSlides[0];
+  const isSlider = allSlides.length > 1;
+
+  const prevSlide = useCallback(() => {
+    setDirection("prev");
+    setCurrentIndex((prev) => (prev - 1 + allSlides.length) % allSlides.length);
+  }, [allSlides.length]);
+
+  const nextSlide = useCallback(() => {
+    setDirection("next");
+    setCurrentIndex((prev) => (prev + 1) % allSlides.length);
+  }, [allSlides.length]);
+
+  useEffect(() => {
+    if (!isSlider) return;
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowLeft") prevSlide();
+      if (e.key === "ArrowRight") nextSlide();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isSlider, prevSlide, nextSlide]);
+
+  const minSwipeDistance = 50;
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    if (distance > minSwipeDistance) nextSlide();
+    if (distance < -minSwipeDistance) prevSlide();
+  };
+
   return (
     <section
       aria-label={ariaLabel ?? title}
-      /* bg-background is load-bearing, not cosmetic: the hero above is sticky,
-         so a transparent section scrolls over it and lets the hero show
-         straight through this one's copy. The home page's DestinationsSection
-         carries the same ground for the same reason. The token, not bg-white,
-         so the page ground stays defined in one place.
-
-         `relative z-10` is what makes that ground actually paint. The hero is
-         `sticky z-0` — a POSITIONED box, so it paints in the positioned layer,
-         above the block backgrounds of every static sibling. A white background
-         alone therefore loses to it and the hero shows through this section's
-         gutters, which is precisely the bug this comment used to describe
-         without preventing. Every caller was passing `relative z-10` by hand to
-         work around it; it belongs here, where the next one cannot forget it. */
       className={cn("bg-background relative z-10 spacing !pb-0", className)}
     >
       <Container>
-        <SectionHeading 
-          align="center" 
-          eyebrow={eyebrow} 
-          title={title} 
-          titleClassName="max-w-[900px] mx-auto"
-        />
+        {title && (
+          <SectionHeading
+            align="center"
+            eyebrow={eyebrow}
+            title={title}
+            titleClassName="max-w-[900px] mx-auto"
+          />
+        )}
 
-        {/* The frame puts 60 between the heading block and the picture. */}
-        <AnimateIn className="mt-10 md:mt-14 lg:mt-[60px]">
-          {/* justify-end drops the copy onto the box's bottom padding, which is
-              what the frame measures: the places row closes 30px above the
-              picture's bottom edge and the description sits 50 above that.
-
-              The ratio only governs from lg, where the frame is measured and
-              the 243px of copy has the picture's lower third to itself. Below
-              that the same copy would be a dozen lines inside a 166px-tall
-              strip, so the box takes a min-height and grows with the text —
-              object-cover re-crops the photograph to whatever height that
-              lands on, which is the same trade the hero makes. */}
+        <AnimateIn className={cn(title ? "mt-10 md:mt-14 lg:mt-[60px]" : "mt-0")}>
           <div
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
             className={cn(
-              /* bg-navy is the ground behind the picture: invisible under a
-                 photo (object-cover fills the box), and the readable dark panel
-                 the white copy sits on when a caller passes no image — the
-                 package detail pages, which carry no intro upload. Without it
-                 those render white text on the page's light background. */
-              "bg-navy relative flex flex-col justify-end min-h-[480px] md:min-h-[520px] lg:min-h-[560px] max-md:aspect-[3/4] md:max-xl:aspect-[16/9] xl:aspect-[1755/635] max-md:w-[calc(100%+2rem)] max-md:-ml-4 max-md:rounded-none md:w-full overflow-hidden md:rounded-sm",
+              "bg-navy relative flex flex-col justify-end min-h-[580px] sm:min-h-[560px] md:min-h-[580px] lg:min-h-[620px] xl:min-h-[640px] max-md:w-[calc(100%+2rem)] max-md:-ml-4 max-md:rounded-none md:w-full overflow-hidden md:rounded-sm select-none",
               imageClassName,
             )}
           >
-            {/* Only when the caller has one: next/image throws on an empty src,
-                and a package page with no CMS upload passes none. The bg-navy
-                above stands in for the missing photo. */}
-            {image && (
-              <Image
-                /* The prop, not a literal: this section renders all thirteen
-                   regions, and the file below was Africa's. lib/strapi/destination.js
-                   supplies the CMS upload or the stand-in. */
-                src={image}
-                alt={imageAlt}
-                fill
-                /* The picture is the Container's content box: full-bleed minus
-                   its padding, which is 160px once that padding reaches 80. */
-                sizes="(min-width: 1024px) calc(100vw - 160px), (min-width: 768px) calc(100vw - 64px), calc(100vw - 32px)"
-                className="object-cover"
-              />
-            )}
+            {/* Background Images with smooth zoom/crossfade */}
+            {allSlides.map((slide, idx) => {
+              const slideImg = slide.image || image;
+              if (!slideImg) return null;
+              const isActive = idx === currentIndex;
 
-            {/* The frame's overlay, as its panel states it: one linear gradient,
-                both stops #000000, the first at 0% opacity. Top to bottom is
-                Figma's default direction, so the picture is untouched across
-                its sky and ramps to solid black at the bottom edge — which is
-                what carries the white copy over the lower third. Kept as the
-                literal two stops rather than an eased ramp: the design is a
-                straight interpolation and shaping it is a change, not a
-                translation. */}
+              return (
+                <div
+                  key={idx}
+                  className={cn(
+                    "absolute inset-0 transition-all duration-700 ease-out",
+                    isActive
+                      ? "opacity-100 scale-100 z-0"
+                      : "opacity-0 scale-105 pointer-events-none -z-10",
+                  )}
+                >
+                  <Image
+                    src={slideImg}
+                    alt={slide.imageAlt ?? imageAlt}
+                    fill
+                    sizes="(min-width: 1024px) calc(100vw - 160px), (min-width: 768px) calc(100vw - 64px), calc(100vw - 32px)"
+                    className="object-cover"
+                    priority={idx === 0}
+                  />
+                </div>
+              );
+            })}
+
+            {/* Gradient Scrim */}
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-b from-transparent to-black"
+              className="absolute inset-0 bg-gradient-to-b from-transparent via-black/45 via-50% to-black/95 z-[1] pointer-events-none"
             />
 
-            <div className="relative px-4 pb-8 md:px-8 lg:pb-[30px]">
-              {/* A bare <p> is already Poppins 300 with the body token's
-                  16->18px ramp on a 24px line box — the frame's type spec
-                  exactly at 1920, so only colour, measure and alignment are
-                  stated here. */}
-              {description && (
-                /* whitespace-pre-line so a description written as two
-                   paragraphs keeps its break — the package frame's does. The
-                   region entries are single paragraphs, so this is inert for
-                   them. Same treatment AtAGlanceSection and FaqSection give
-                   their CMS copy. */
-                <p className="whitespace-pre-line mx-auto max-w-[1236px] text-center text-white xl:text-body max-xl:text-[14px] max-md:text-[13px] max-xl:leading-[1.5] lg:max-xl:text-[13.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[16px] xl:max-2xl:leading-[1.4] 2xl:text-[18px] 2xl:leading-[24px] font-light">
-                  {description}
+            {/* Vertically centered Navigation Arrows: Left and Right */}
+            {isSlider && (
+              <>
+                <button
+                  type="button"
+                  onClick={prevSlide}
+                  aria-label="Previous slide"
+                  className="absolute top-1/2 left-2 sm:left-4 md:left-8 z-20 -translate-y-1/2 flex items-center justify-center size-9 sm:size-11 md:w-[62px] md:h-[70px] border-[0.7px] border-white/60 hover:border-white bg-black/25 hover:bg-black/50 backdrop-blur-[12px] text-white transition-all cursor-pointer focus-visible:outline-sky focus-visible:outline-2"
+                >
+                  <ChevronLeft className="size-4 sm:size-5 md:size-[18px] stroke-[1.5]" aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  onClick={nextSlide}
+                  aria-label="Next slide"
+                  className="absolute top-1/2 right-2 sm:right-4 md:right-8 z-20 -translate-y-1/2 flex items-center justify-center size-9 sm:size-11 md:w-[62px] md:h-[70px] border-[0.7px] border-white/60 hover:border-white bg-black/25 hover:bg-black/50 backdrop-blur-[12px] text-white transition-all cursor-pointer focus-visible:outline-sky focus-visible:outline-2"
+                >
+                  <ChevronRight className="size-4 sm:size-5 md:size-[18px] stroke-[1.5]" aria-hidden="true" />
+                </button>
+              </>
+            )}
+
+            {/* Slide Content (Description & Stats / Places) */}
+            <div
+              key={currentIndex}
+              className={cn(
+                "relative z-[2] px-5 sm:px-8 md:px-16 lg:px-20 pt-16 sm:pt-20 pb-8 sm:pb-10 md:pb-12 lg:pb-14",
+                direction === "next"
+                  ? "motion-safe:animate-menu-slide-in"
+                  : "motion-safe:animate-menu-slide-back",
+              )}
+            >
+              {activeSlide.description && (
+                <p className="whitespace-pre-line mx-auto max-w-[1236px] text-center text-white xl:text-body max-xl:text-[14px] max-md:text-[13.5px] max-xl:leading-[1.5] lg:max-xl:text-[13.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[16px] xl:max-2xl:leading-[1.4] 2xl:text-[18px] 2xl:leading-[24px] font-light">
+                  {activeSlide.description}
                 </p>
               )}
 
-              {stats.length > 0 && (
-                /* Scrolls sideways below xl rather than wrapping: six pairs
-                   divided by rules read as one band, and a wrapped half-row
-                   under it does not. Same trade AtAGlanceSection makes. */
+              {(activeSlide.stats?.length > 0 || stats.length > 0) && (
                 <div
                   className={cn(
-                    "overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-3",
-                    description && "mt-7 lg:mt-[27px]",
+                    "w-full pt-2 pb-2 px-1",
+                    activeSlide.description && "mt-6 sm:mt-7 lg:mt-8 xl:mt-9",
                   )}
                 >
-                  <ul className="flex min-w-max xl:min-w-0 xl:justify-center divide-x divide-white/25 text-white">
-                    {stats.map((stat) => (
+                  <ul className="flex flex-wrap items-center justify-center gap-x-3 sm:gap-x-6 md:gap-x-8 lg:gap-x-10 gap-y-3 sm:gap-y-4 text-center text-white">
+                    {(activeSlide.stats?.length > 0 ? activeSlide.stats : stats).map((stat, idx) => (
                       <li
                         key={stat.label}
-                        className="shrink-0 px-5 lg:px-8 xl:px-10 first:pl-0 last:pr-0"
+                        className="flex items-center gap-x-3 sm:gap-x-6 md:gap-x-8 lg:gap-x-10"
                       >
-                        <p className="font-top text-[10px] lg:text-[11px] 2xl:text-[12px] uppercase tracking-[0.08em] text-white/60 leading-none">
-                          {stat.label}
-                        </p>
-                        <p className="mt-2 lg:mt-2.5 font-sans font-light whitespace-nowrap text-[14px] lg:text-[16px] xl:text-[18px] 2xl:text-[20px] leading-[1.3]">
-                          {stat.value}
-                        </p>
+                        {idx > 0 && (
+                          <span
+                            className="h-6 sm:h-7 md:h-8 w-px bg-white/25 shrink-0 hidden sm:inline-block"
+                            aria-hidden="true"
+                          />
+                        )}
+                        <div className="flex flex-col items-center text-center px-1 sm:px-2">
+                          <p className="font-top text-[10px] lg:text-[11px] 2xl:text-[12px] uppercase tracking-[0.08em] text-white/70 leading-none">
+                            {stat.label}
+                          </p>
+                          <p className="mt-1.5 sm:mt-2 lg:mt-2.5 font-sans font-light whitespace-nowrap text-[13.5px] sm:text-[15px] lg:text-[16px] xl:text-[18px] 2xl:text-[20px] leading-normal text-white">
+                            {stat.value}
+                          </p>
+                        </div>
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
 
-              {stats.length === 0 && places.length > 0 && (
-                <ul
-                  className={cn(
-                    "flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center text-white",
-                    description && "mt-7 lg:mt-[27px]",
-                    "lg:min-h-[60px]"
-                  )}
-                >
-                  {places.map((place, i) => (
-                    <li key={place} className="flex items-center gap-x-3">
-                      {/* Between items, never before the first — the frame
-                          draws four marks across five places. */}
-                      {i > 0 && <PlaceMark />}
-                      <span className="xl:text-body max-xl:text-[14px] max-md:text-[13px] max-xl:leading-[1.5] lg:max-xl:text-[13.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[16px] xl:max-2xl:leading-[1.4] 2xl:text-[18px] 2xl:leading-[24px] font-light">
-                        {place}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              {(!activeSlide.stats || activeSlide.stats.length === 0) &&
+                stats.length === 0 &&
+                (activeSlide.places?.length > 0 || places.length > 0) && (
+                  <ul
+                    className={cn(
+                      "flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center text-white",
+                      activeSlide.description && "mt-6 sm:mt-7 lg:mt-[27px]",
+                      "lg:min-h-[60px]",
+                    )}
+                  >
+                    {(activeSlide.places?.length > 0 ? activeSlide.places : places).map((place, i) => (
+                      <li key={place} className="flex items-center gap-x-3">
+                        {i > 0 && <PlaceMark />}
+                        <span className="xl:text-body max-xl:text-[14px] max-md:text-[13px] max-xl:leading-[1.5] lg:max-xl:text-[13.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[16px] xl:max-2xl:leading-[1.4] 2xl:text-[18px] 2xl:leading-[24px] font-light">
+                          {place}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
             </div>
           </div>
         </AnimateIn>
@@ -204,14 +241,6 @@ export function ImageIntroSection({
   );
 }
 
-/* The eight-petal mark the frame sets between places. Drawn here rather than
-   loaded as an asset because the design's export is not in the repo — four
-   ellipses crossed at 45 degrees, which is the shape the frame draws. Swap in
-   the exported SVG when it lands; nothing else has to change.
-
-   14px is what the row's own arithmetic gives it: the five labels measure ~761
-   of the row's 903, leaving the four marks and their eight 12px gaps to fill
-   the remaining 142. */
 function PlaceMark() {
   return (
     <svg
@@ -233,3 +262,4 @@ function PlaceMark() {
     </svg>
   );
 }
+

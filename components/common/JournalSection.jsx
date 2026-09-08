@@ -75,9 +75,9 @@ export function JournalSection({
           as="ul"
           className="mt-16 grid max-xl:flex max-xl:flex-nowrap max-xl:overflow-x-auto max-xl:snap-x max-xl:snap-mandatory max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden max-xl:gap-x-[7px] gap-x-3 gap-y-10 xl:grid-cols-4 xl:max-2xl:mt-12 xl:max-2xl:gap-y-8"
         >
-          {items.map((post) => (
+          {items.map((post, idx) => (
             <li
-              key={post.href}
+              key={post.href || post.title || post.meta || idx}
               data-cascade-card
               className="flex flex-col items-start max-xl:w-[254px] max-xl:shrink-0 max-xl:snap-center"
             >

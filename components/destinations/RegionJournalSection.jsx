@@ -48,9 +48,9 @@ export function RegionJournalSection({
         />
 
         <div className="mt-16 max-xl:flex max-xl:flex-nowrap max-xl:overflow-x-auto max-xl:snap-x max-xl:snap-mandatory max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden xl:grid xl:grid-cols-3 gap-x-[15px] gap-y-12">
-          {items.map((post) => (
+          {items.map((post, idx) => (
             <div 
-              key={post.href}
+              key={post.href || post.title || post.meta || idx}
               className="max-xl:shrink-0 max-xl:snap-center max-sm:w-[254px] sm:max-md:w-[320px] md:max-lg:w-[280px] lg:max-xl:w-[320px]"
             >
               <JournalCard

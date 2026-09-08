@@ -75,7 +75,7 @@ export default async function PackagePage({ params }) {
             because it is the frame, not the content. */}
         <ImageIntroSection
           {...entry.intro}
-          imageClassName="min-h-[580px] lg:min-h-[620px] xl:aspect-[1764/780]"
+          imageClassName="min-h-[580px] sm:min-h-[560px] md:min-h-[580px] lg:min-h-[620px] xl:min-h-[640px]"
         />
       </div>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { Container } from "@/components/common/Container";
 import { CtaLink } from "@/components/common/CtaLink";
@@ -35,6 +35,7 @@ export function HeroSection({
   slug,
 }) {
   const containerRef = useRef(null);
+  const videoRef = useRef(null);
   const rawLinks = ctas?.length ? ctas : CTA_LINKS;
   const ctaLinks = rawLinks
     .filter((link) => !link.label?.toLowerCase().includes("start planning"))
@@ -44,6 +45,81 @@ export function HeroSection({
         : link
     );
   const video = HERO_VIDEOS[slug];
+
+  useEffect(() => {
+    if (!video) return;
+    const videoEl = videoRef.current;
+    const container = containerRef.current;
+    if (!videoEl || !container) return;
+
+    let isVisible = true;
+    let userHasInteracted = false;
+
+    const tryUnmute = () => {
+      if (isVisible) {
+        videoEl.muted = false;
+        videoEl.play().catch(() => {
+          videoEl.muted = true;
+          videoEl.play().catch(() => {});
+        });
+      }
+    };
+
+    videoEl.muted = false;
+    videoEl
+      .play()
+      .then(() => {
+        userHasInteracted = true;
+      })
+      .catch(() => {
+        videoEl.muted = true;
+        videoEl.play().catch(() => {});
+      });
+
+    const handleInteraction = () => {
+      userHasInteracted = true;
+      if (isVisible) {
+        videoEl.muted = false;
+        videoEl.play().catch(() => {});
+      }
+      removeListeners();
+    };
+
+    const events = ["click", "touchstart", "touchend", "scroll", "keydown", "wheel", "pointerdown"];
+    const removeListeners = () => {
+      events.forEach((ev) => {
+        window.removeEventListener(ev, handleInteraction, { capture: true });
+      });
+    };
+
+    events.forEach((ev) => {
+      window.addEventListener(ev, handleInteraction, { capture: true, passive: true, once: true });
+    });
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting && entry.intersectionRatio > 0.05;
+        if (isVisible) {
+          if (userHasInteracted) {
+            videoEl.muted = false;
+          } else {
+            tryUnmute();
+          }
+          videoEl.play().catch(() => {});
+        } else {
+          videoEl.muted = true;
+        }
+      },
+      { threshold: [0, 0.05, 0.25, 0.5] }
+    );
+
+    observer.observe(container);
+
+    return () => {
+      removeListeners();
+      observer.disconnect();
+    };
+  }, [video]);
 
   useGSAP(
     () => {
@@ -120,13 +196,17 @@ export function HeroSection({
       <div className="hero-image absolute inset-0">
         {video ? (
           <video
-            className="absolute inset-0 h-full w-full object-cover max-md:object-[25%] md:object-center"
+            ref={videoRef}
+            className="absolute inset-0 h-full w-full object-cover max-md:object-[25%] md:object-center pointer-events-none select-none [&::-webkit-media-controls]:hidden! [&::-webkit-media-controls-start-playback-button]:hidden! [&::-webkit-media-controls-play-button]:hidden! [&::-webkit-media-controls-panel]:hidden!"
             src={video}
             poster={image || undefined}
             autoPlay
             muted
             loop
             playsInline
+            webkit-playsinline="true"
+            disablePictureInPicture
+            disableRemotePlayback
             preload="auto"
             aria-hidden="true"
           />

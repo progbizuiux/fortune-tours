@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { toast } from "sonner";
+import { RotateCw } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import {
   DESTINATION_MODE_OPTIONS,
@@ -362,6 +363,7 @@ export function PlanTripWizard({
     setValue,
     trigger,
     reset,
+    clearErrors,
     getValues,
     formState: { errors },
   } = useForm({
@@ -460,6 +462,17 @@ export function PlanTripWizard({
     userNavRef.current = true;
     setDirection(next > stepRef.current ? "forward" : "back");
     setStep(next);
+  }
+
+  function handleReset() {
+    clearTimeout(persistTimer.current);
+    clearPlanDraft();
+    reset(EMPTY_PLAN);
+    clearErrors();
+    userNavRef.current = true;
+    setDirection("back");
+    setStep(0);
+    clearPlanDraft();
   }
 
   function selectSingle(field, value) {
@@ -651,14 +664,24 @@ export function PlanTripWizard({
                       </button>
                     ))}
                   </div>
-                  <p className="flex min-w-0 items-baseline justify-between gap-4 text-[13px] sm:justify-start sm:gap-6 sm:text-[15px] md:gap-12">
-                    <span className="shrink-0 text-black/60">
-                      Step {stepNumber}
-                    </span>
-                    <span className="min-w-0 text-right text-black">
-                      {steps[step].label}
-                    </span>
-                  </p>
+                  <div className="flex items-center justify-between sm:justify-end gap-4 sm:gap-6">
+                    <button
+                      type="button"
+                      onClick={handleReset}
+                      className="inline-flex items-center gap-1.5 text-[13px] sm:text-[14px] font-light text-black/60 hover:text-black transition-colors cursor-pointer"
+                    >
+                      <RotateCw aria-hidden="true" className="size-3.5 shrink-0" />
+                      <span>Reset</span>
+                    </button>
+                    <p className="flex min-w-0 items-baseline justify-between gap-4 text-[13px] sm:justify-start sm:gap-6 sm:text-[15px] md:gap-12">
+                      <span className="shrink-0 text-black/60">
+                        Step {stepNumber}
+                      </span>
+                      <span className="min-w-0 text-right text-black">
+                        {steps[step].label}
+                      </span>
+                    </p>
+                  </div>
                 </div>
                 <div className="mt-4 h-px w-full bg-black/15">
                   <div
@@ -983,6 +1006,14 @@ export function PlanTripWizard({
                   className="focus-visible:outline-sky hover:bg-navy min-h-11 w-full cursor-pointer bg-black px-10 py-3 text-[15px] text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 sm:w-auto"
                 >
                   {isLastStep ? "Build My Journey" : "Continue"}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="inline-flex items-center justify-center gap-1.5 text-[14px] font-light text-black/60 hover:text-black transition-colors cursor-pointer py-2 sm:ml-auto"
+                >
+                  <RotateCw aria-hidden="true" className="size-3.5 shrink-0" />
+                  <span>Reset</span>
                 </button>
               </div>
             </>

@@ -51,14 +51,23 @@ export function JournalCard({
         </p>
       )}
 
-      <CtaLink
-        href={href}
-        underline={false}
-        className="font-top text-small max-sm:text-[12px] lg:max-xl:text-[11px] xl:max-2xl:text-[14px] 2xl:text-small hover:text-sky mt-auto inline-flex items-center gap-1.5 pt-4 leading-none font-medium text-navy dark:text-cream"
-      >
-        {readLabel}
-        <ArrowUpRight aria-hidden="true" className="size-3.5 max-sm:size-3 lg:max-xl:size-3 xl:max-2xl:size-[13px] 2xl:size-3.5" />
-      </CtaLink>
+      {href ? (
+        <CtaLink
+          href={href}
+          underline={false}
+          className="font-top text-small max-sm:text-[12px] lg:max-xl:text-[11px] xl:max-2xl:text-[14px] 2xl:text-small hover:text-sky mt-auto inline-flex items-center gap-1.5 pt-4 leading-none font-medium text-navy dark:text-cream"
+        >
+          {readLabel}
+          <ArrowUpRight aria-hidden="true" className="size-3.5 max-sm:size-3 lg:max-xl:size-3 xl:max-2xl:size-[13px] 2xl:size-3.5" />
+        </CtaLink>
+      ) : (
+        <span
+          className="font-top text-small max-sm:text-[12px] lg:max-xl:text-[11px] xl:max-2xl:text-[14px] 2xl:text-small mt-auto inline-flex items-center gap-1.5 pt-4 leading-none font-medium text-navy dark:text-cream select-none cursor-default"
+        >
+          {readLabel}
+          <ArrowUpRight aria-hidden="true" className="size-3.5 max-sm:size-3 lg:max-xl:size-3 xl:max-2xl:size-[13px] 2xl:size-3.5" />
+        </span>
+      )}
     </div>
   );
 }
