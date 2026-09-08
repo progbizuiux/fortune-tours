@@ -85,29 +85,31 @@ export function TabbedCardsSection({
 
         <div
           ref={tabsRef}
-          className="mt-8 sm:mt-12 lg:max-xl:mt-10 xl:max-2xl:mt-14 2xl:mt-20 flex max-xl:flex-nowrap max-xl:overflow-x-auto max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden flex-wrap items-center justify-center gap-2 sm:gap-4 lg:gap-6 xl:gap-8"
+          className="mt-8 sm:mt-12 lg:max-xl:mt-10 xl:max-2xl:mt-14 2xl:mt-20 max-xl:overflow-x-auto max-xl:[scrollbar-width:none] max-xl:[&::-webkit-scrollbar]:hidden"
         >
-          {tabs.map((tab) => (
-            <button
-              key={tab.key}
-              type="button"
-              aria-pressed={activeKey === tab.key}
-              onClick={() => setActiveKey(tab.key)}
-              className={cn(
-                "whitespace-nowrap border-x transition-colors cursor-pointer",
-                "text-[12px] px-3 py-1.5",
-                "sm:text-[14px] sm:px-4 sm:py-2",
-                "lg:max-xl:text-[14.5px] lg:px-5 lg:py-2.5",
-                "xl:max-2xl:text-[17.5px] xl:px-7 xl:py-3",
-                "2xl:text-[18px] 2xl:px-7 2xl:py-3",
-                activeKey === tab.key
-                  ? "border-transparent bg-black text-white"
-                  : "border-black/20 text-black/80 hover:text-black dark:border-cream/20 dark:text-cream/80 dark:hover:text-cream",
-              )}
-            >
-              {tab.label}
-            </button>
-          ))}
+          <div className="flex w-max min-w-full max-xl:flex-nowrap flex-wrap items-center justify-center gap-2 sm:gap-4 lg:gap-6 xl:gap-8">
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                type="button"
+                aria-pressed={activeKey === tab.key}
+                onClick={() => setActiveKey(tab.key)}
+                className={cn(
+                  "shrink-0 whitespace-nowrap border-x transition-colors cursor-pointer",
+                  "text-[12px] px-3 py-1.5",
+                  "sm:text-[14px] sm:px-4 sm:py-2",
+                  "lg:max-xl:text-[14.5px] lg:px-5 lg:py-2.5",
+                  "xl:max-2xl:text-[17.5px] xl:px-7 xl:py-3",
+                  "2xl:text-[18px] 2xl:px-7 2xl:py-3",
+                  activeKey === tab.key
+                    ? "border-transparent bg-black text-white"
+                    : "border-black/20 text-black/80 hover:text-black dark:border-cream/20 dark:text-cream/80 dark:hover:text-cream",
+                )}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
       </Container>
 

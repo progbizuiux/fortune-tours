@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { CtaLink } from "@/components/common/CtaLink";
 import { FrameButton } from "@/components/common/FrameButton";
@@ -10,6 +10,8 @@ import {
   EXPERIENCE_MENU,
   MENU_KEYS,
   SITE_MENU,
+  publishedCountrySet,
+  resolveCountryHref,
 } from "@/lib/navigation";
 import { MENU_ROW_ENTER, menuRowDelay } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -18,23 +20,12 @@ import { cn } from "@/lib/utils";
  *
  * Level one is the main links. A link that has a dropdown on desktop is a row
  * with a chevron here instead; tapping it slides in level two: "Back", the
- * section's name, and its items as plain links. Going back slides level one
- * in again from the other side. Two levels only, matching the reference flow:
- * a region is a link at this size, not another list.
- *
- * Content is the same lib/navigation.js data the desktop sheets use, reduced
- * to labels and hrefs. */
+ * section's name, and its items. Regions under Destinations drill down into
+ * their countries (level three), matching the desktop mega menu.
+ * Going back slides the parent level in again from the other side.
+ */
 
 const SUBMENUS = {
-  [MENU_KEYS.DESTINATIONS]: {
-    title: "Destinations",
-    // A to Z leads here rather than closing the list as it does on desktop:
-    // on a phone the shortcut to everything belongs above the long list.
-    items: [
-      ALL_DESTINATIONS_LINK,
-      ...DESTINATION_REGIONS.map(({ label, href }) => ({ label, href })),
-    ],
-  },
   [MENU_KEYS.EXPERIENCES]: {
     title: "Experiences",
     items: EXPERIENCE_MENU.map(({ label, href }) => ({ label, href })),
@@ -50,9 +41,9 @@ const SUBMENUS = {
 const ROW_LINK =
   "text-navy/80 dark:text-cream/80 text-body flex min-h-11 items-center";
 
-export function MobileMenu({ links, pathname, onNavigate }) {
+export function MobileMenu({ links, pathname, onNavigate, publishedCountries }) {
   const [level, setLevel] = useState(null);
-  // Only a return from level two slides level one in — the first open of the
+  // Only a return from a sub-level slides the previous level in — the first open of the
   // menu animates as a whole (the panel's own entrance below).
   const [returning, setReturning] = useState(false);
 
@@ -63,7 +54,18 @@ export function MobileMenu({ links, pathname, onNavigate }) {
   // keyboard or screen-reader user is dropped on <body>.
   const openedFrom = useRef(null);
 
-  const submenu = level ? SUBMENUS[level] : null;
+  const published = useMemo(
+    () => publishedCountrySet(publishedCountries),
+    [publishedCountries],
+  );
+
+  const isRegionLevel = level?.startsWith("region:");
+  const activeRegion = isRegionLevel
+    ? DESTINATION_REGIONS.find((r) => r.key === level.replace("region:", ""))
+    : null;
+
+  const submenu = level && !isRegionLevel ? SUBMENUS[level] : null;
+
   /* Only the rows that ARE links. A row that opens a sub-list carries an href
      for the desktop bar but is a button here, so its target — the A to Z
      under Destinations — must stay in the list it opens. */
@@ -78,12 +80,17 @@ export function MobileMenu({ links, pathname, onNavigate }) {
 
   function drillInto(key) {
     openedFrom.current = key;
+    setReturning(false);
     setLevel(key);
   }
 
   function goBack() {
-    setLevel(null);
     setReturning(true);
+    if (level?.startsWith("region:")) {
+      setLevel(MENU_KEYS.DESTINATIONS);
+    } else {
+      setLevel(null);
+    }
   }
 
   return (
@@ -106,23 +113,109 @@ export function MobileMenu({ links, pathname, onNavigate }) {
         if (onNavigate && event.target.closest("a[href]")) onNavigate();
       }}
     >
-      {submenu ? (
+      {activeRegion ? (
+        <div key={level} className="motion-safe:animate-menu-slide-in">
+          <FrameButton ref={backRef} variant="menuBack" onClick={goBack}>
+            <ChevronLeft className="size-4" aria-hidden="true" />
+            Back
+          </FrameButton>
+          <h4 className="text-navy dark:text-cream mt-2">
+            Countries in {activeRegion.label}
+          </h4>
+          <ul className="mt-4 flex flex-col gap-1">
+            <li className={MENU_ROW_ENTER} style={menuRowDelay(0)}>
+              <CtaLink
+                href={activeRegion.href}
+                underline={false}
+                className={cn(ROW_LINK, "font-medium text-sky")}
+              >
+                Explore all {activeRegion.label}
+              </CtaLink>
+            </li>
+            {activeRegion.countries.map((country, index) => {
+              const countryHref = resolveCountryHref(country, activeRegion, published);
+              return (
+                <li
+                  key={country.name}
+                  className={MENU_ROW_ENTER}
+                  style={menuRowDelay(index + 1)}
+                >
+                  <CtaLink
+                    href={countryHref}
+                    underline={false}
+                    className={cn(
+                      "flex min-h-11 flex-col justify-center py-2 text-navy/80 hover:text-navy dark:text-cream/80",
+                      pathname === countryHref && "text-sky",
+                    )}
+                  >
+                    <span className="text-body font-normal text-navy dark:text-cream">
+                      {country.name}
+                    </span>
+                    {country.tagline && (
+                      <span className="text-small text-navy/60 dark:text-cream/60 mt-0.5 font-light">
+                        {country.tagline}
+                      </span>
+                    )}
+                  </CtaLink>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ) : level === MENU_KEYS.DESTINATIONS ? (
+        <div key={level} className="motion-safe:animate-menu-slide-in">
+          <FrameButton ref={backRef} variant="menuBack" onClick={goBack}>
+            <ChevronLeft className="size-4" aria-hidden="true" />
+            Back
+          </FrameButton>
+          <h4 className="text-navy dark:text-cream mt-2">Destinations</h4>
+          <ul className="mt-4 flex flex-col gap-1">
+            <li className={MENU_ROW_ENTER} style={menuRowDelay(0)}>
+              <CtaLink
+                href={ALL_DESTINATIONS_LINK.href}
+                underline={false}
+                className={cn(
+                  ROW_LINK,
+                  pathname === ALL_DESTINATIONS_LINK.href && "text-sky",
+                )}
+              >
+                {ALL_DESTINATIONS_LINK.label}
+              </CtaLink>
+            </li>
+            {DESTINATION_REGIONS.map((region, index) => (
+              <li
+                key={region.key}
+                className={MENU_ROW_ENTER}
+                style={menuRowDelay(index + 1)}
+              >
+                <FrameButton
+                  ref={(node) => {
+                    rowRefs.current[`region:${region.key}`] = node;
+                  }}
+                  variant="menuRow"
+                  onClick={() => drillInto(`region:${region.key}`)}
+                >
+                  {region.label}
+                  <ChevronRight
+                    className="text-navy/60 size-4 shrink-0"
+                    aria-hidden="true"
+                  />
+                </FrameButton>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : submenu ? (
         <div key={level} className="motion-safe:animate-menu-slide-in">
           <FrameButton ref={backRef} variant="menuBack" onClick={goBack}>
             <ChevronLeft className="size-4" aria-hidden="true" />
             Back
           </FrameButton>
           <h4 className="text-navy dark:text-cream mt-2">{submenu.title}</h4>
-          {/* gap-1 rather than gap-4: each link carries its own 44px touch
-              height, so the row rhythm comes from the links instead of the
-              gap. */}
           <ul className="mt-4 flex flex-col gap-1">
             {submenu.items
               .filter((item) => !topLevelHrefs.has(item.href))
               .map((item, index) => (
-                // The sub-list slides in as a block and its rows rise in
-                // behind it — the same cascade as the top level and the
-                // desktop sheets.
                 <li
                   key={item.href}
                   className={MENU_ROW_ENTER}
@@ -153,8 +246,6 @@ export function MobileMenu({ links, pathname, onNavigate }) {
           {links.map((link, index) => (
             <li
               key={link.menu ?? link.href}
-              // Staggered only on the first open; on the way back from a
-              // sub-list the whole list slides as one.
               className={cn(!returning && MENU_ROW_ENTER)}
               style={returning ? undefined : menuRowDelay(index)}
             >
