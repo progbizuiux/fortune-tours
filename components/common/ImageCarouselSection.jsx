@@ -57,7 +57,7 @@ export function ImageCarouselSection({
         {items.map((item) => (
           <li
             key={item.key}
-            className="group max-lg:snap-center max-lg:shrink-0 max-sm:w-[142px] sm:max-lg:w-[35vw] relative max-sm:aspect-[142/233] aspect-[234/397] overflow-hidden w-full cursor-pointer"
+            className="group max-lg:snap-center max-lg:shrink-0 max-sm:w-[142px] sm:max-md:w-[35vw] md:max-lg:w-[22vw] relative max-sm:aspect-[142/233] aspect-[234/397] overflow-hidden w-full cursor-pointer"
           >
             <Image
               src={item.image}

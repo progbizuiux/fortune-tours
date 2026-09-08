@@ -37,7 +37,7 @@ export function SectionHeading({
     <AnimateIn
       stagger={0.12}
       className={cn(
-        "flex flex-col gap-5 md:gap-7 lg:max-xl:gap-2 xl:max-2xl:gap-3 2xl:gap-5",
+        "flex flex-col gap-5 md:max-lg:gap-2.5 lg:max-xl:gap-2 xl:max-2xl:gap-3 2xl:gap-5",
         centered && "items-center text-center",
         className,
       )}
@@ -45,7 +45,7 @@ export function SectionHeading({
       {eyebrow && (
         <span
           className={cn(
-            "font-top max-lg:text-[12px] max-lg:leading-none lg:max-xl:text-[13.5px] xl:max-2xl:text-[16.5px] 2xl:text-h4",
+            "font-top max-md:text-[12px] max-md:leading-none md:max-lg:text-[14px] md:max-lg:leading-none lg:max-xl:text-[13.5px] xl:max-2xl:text-[16.5px] 2xl:text-h4",
             centered
               ? "text-black dark:text-cream"
               : "text-navy/70 dark:text-cream/70",
@@ -60,9 +60,9 @@ export function SectionHeading({
         className={cn(
           "flex flex-col gap-4",
           centered
-            ? "items-center lg:max-xl:gap-2 xl:max-2xl:gap-3 2xl:gap-[30px]"
+            ? "items-center md:max-lg:gap-2 lg:max-xl:gap-2 xl:max-2xl:gap-3 2xl:gap-[30px]"
             : cn(
-                "md:flex-row md:justify-between md:gap-8 lg:max-xl:gap-3 xl:max-2xl:gap-4 2xl:gap-8",
+                "md:flex-row md:justify-between md:max-lg:gap-4 md:gap-8 lg:max-xl:gap-3 xl:max-2xl:gap-4 2xl:gap-8",
                 rowAlign === "start" ? "md:items-start" : "md:items-center",
               ),
         )}
@@ -89,7 +89,7 @@ export function SectionHeading({
         {description && (
           <p
             className={cn(
-              "max-lg:text-[13px] max-lg:font-light max-lg:leading-[21px] lg:max-xl:text-[13.5px] xl:max-2xl:text-[16px] 2xl:text-body",
+              "max-md:text-[13px] max-md:font-light max-md:leading-[21px] md:max-lg:text-[15px] md:max-lg:font-light md:max-lg:leading-[24px] lg:max-xl:text-[13.5px] xl:max-2xl:text-[16px] 2xl:text-body",
               centered
                 ? "max-w-[828px] text-black/80 dark:text-cream/80"
                 : // xl and up gets a slightly wider measure — the copy runs to

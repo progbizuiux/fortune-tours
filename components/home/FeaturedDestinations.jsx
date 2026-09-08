@@ -888,7 +888,7 @@ export function FeaturedDestinations({
 
                 <Link
                   href={slideHref(active)}
-                  className="text-body inline-flex min-h-10 items-center justify-center border-x border-white/30 px-4 text-white/95 transition-colors max-sm:text-[12px] max-sm:font-light"
+                  className="text-body inline-flex min-h-10 items-center justify-center text-center border-x border-white/30 px-4 text-white/95 transition-colors max-sm:text-[12px] max-sm:font-light"
                 >
                   {active.ctaLabel || "Explore the destination"}
                 </Link>

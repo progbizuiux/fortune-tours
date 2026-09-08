@@ -149,7 +149,7 @@ export function TabbedCardsSection({
                   <h3 className="text-white text-[24px] lg:max-xl:text-[18px] xl:max-2xl:text-[23px] 2xl:text-[24px] max-sm:text-[18px] max-sm:leading-none max-sm:tracking-[-0.01em]">
                     {card.title}
                   </h3>
-                  <p className="mt-3 lg:max-xl:mt-2 lg:max-xl:text-[12.5px] lg:max-xl:leading-5 xl:max-2xl:mt-2.5 xl:max-2xl:text-[15.5px] xl:max-2xl:leading-6 2xl:text-[16px] 2xl:leading-6 max-sm:mt-1 max-sm:text-[12px] max-sm:leading-6 max-sm:font-normal text-white/80 transition-colors duration-500 group-hover:text-white">
+                  <p className="mt-3 md:max-xl:mt-2 md:max-xl:text-[12.5px] md:max-xl:leading-5 xl:max-2xl:mt-2.5 xl:max-2xl:text-[15.5px] xl:max-2xl:leading-6 2xl:text-[16px] 2xl:leading-6 max-sm:mt-1 max-sm:text-[12px] max-sm:leading-6 max-sm:font-normal text-white/80 transition-colors duration-500 group-hover:text-white">
                     {card.meta}
                   </p>
                 </div>

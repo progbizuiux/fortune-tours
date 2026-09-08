@@ -49,10 +49,10 @@ export function GlobeSection() {
     >
       {/* Content overlay */}
       <Container className="relative z-40 pt-16 lg:pt-24 pointer-events-none">
-        <AnimateIn className="flex flex-col items-center text-center md:flex-row md:items-center md:justify-between md:text-left gap-8 pointer-events-auto">
+        <AnimateIn className="flex flex-col items-center text-center lg:flex-row lg:items-center lg:justify-between lg:text-left gap-8 pointer-events-auto">
           {/* Left: Eyebrow and Title */}
-          <div className="flex flex-col items-center md:items-start gap-4">
-            <span className="font-top max-lg:text-[12px] max-lg:leading-none text-h4 text-navy/70">
+          <div className="flex flex-col items-center lg:items-start gap-4">
+            <span className="font-top max-md:text-[12px] max-md:leading-none md:max-lg:text-[14px] md:max-lg:leading-none lg:max-xl:text-[13.5px] xl:max-2xl:text-[16.5px] 2xl:text-h4 text-navy/70">
               Every Pin Is a Trip Waiting to Happen
             </span>
             <h2 className="max-lg:text-[30px] max-lg:leading-none max-lg:tracking-[-0.01em] text-navy lg:max-xl:text-[34px] xl:max-2xl:text-[42px] max-w-[540px] 2xl:max-w-[620px]">
@@ -61,16 +61,16 @@ export function GlobeSection() {
           </div>
 
           {/* Right: Description and Buttons */}
-          <div className="flex flex-col items-center md:items-end gap-6 max-w-[375px] md:max-w-[500px]">
+          <div className="flex flex-col items-center lg:items-end gap-6 max-w-[375px] md:max-w-[500px]">
             {/* Eyebrow, title and this line all carry SectionHeading's own
                 classes rather than sizes of their own, so this section's type
                 tracks every other section heading on the site. The component
                 itself cannot be used here: its layout has no slot for the two
                 buttons that sit under the description. */}
-            <p className="max-lg:text-[13px] max-lg:font-light max-lg:leading-[21px] text-navy/70 text-center md:text-right">
+            <p className="max-md:text-[13px] max-md:font-light max-md:leading-[21px] md:max-lg:text-[15px] md:max-lg:font-light md:max-lg:leading-[24px] text-navy/70 text-center lg:text-right">
               Find your starting point. We'll build the journey around it.
             </p>
-            <div className="flex items-center justify-center md:justify-end gap-4">
+            <div className="flex items-center justify-center lg:justify-end gap-4">
               <FrameButton
                 href="/plan-my-trip"
                 variant="rail"
