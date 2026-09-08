@@ -36,7 +36,7 @@ export function ServicesSection() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <section className="bg-white spacing">
+    <section className="bg-white spacing max-lg:pb-0!">
       <Container>
         <SectionHeading
           eyebrow="Our Services"

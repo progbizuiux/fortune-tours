@@ -70,7 +70,7 @@ export function TeamSection() {
           title="Faces Behind the journey"
         />
 
-        <div className="mt-12 md:mt-16 xl:mt-[60px] flex overflow-x-auto snap-x snap-mandatory lg:grid lg:grid-cols-4 gap-x-4 md:gap-x-4 lg:gap-x-5 xl:gap-x-6 2xl:gap-x-[25.66px] gap-y-12 xl:gap-y-20 2xl:gap-y-[138px] pb-8 lg:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="mt-8 md:mt-10 lg:max-xl:mt-10 xl:mt-[60px] flex overflow-x-auto snap-x snap-mandatory lg:grid lg:grid-cols-4 gap-x-4 md:gap-x-4 lg:gap-x-5 xl:gap-x-6 2xl:gap-x-[25.66px] gap-y-12 xl:gap-y-20 2xl:gap-y-[138px] pb-8 lg:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {TEAM.map((member, index) => (
             <div key={index} className="flex flex-col w-[323px] shrink-0 snap-start lg:w-auto">
               {/* Profile Skeleton Placeholder */}
