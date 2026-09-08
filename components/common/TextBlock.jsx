@@ -24,7 +24,10 @@ export function TextBlock({
   title,
   description,
   ctaLabel,
-  ctaHref = "#",
+  // No "#" default: a CTA renders only when it has BOTH a label and a real
+  // destination (see below). A stub "#" default made a labelled-but-unlinked
+  // CTA render as a dead link instead of not rendering at all.
+  ctaHref,
   as: Heading = "h3",
   className,
   eyebrowClassName,
@@ -67,7 +70,7 @@ export function TextBlock({
         </p>
       )}
 
-      {ctaLabel && (
+      {ctaLabel && ctaHref && (
         <CtaLink
           href={ctaHref}
           underline={false}

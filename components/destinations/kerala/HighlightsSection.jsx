@@ -36,6 +36,11 @@ const DEFAULT_BLOCKS = [
 
 const CTA_LABELS = ["GET STARTED", "PLAN MY TRIP", "VIEW DESTINATIONS"];
 
+/* Where each CTA above goes — paired by index. Without these the three links
+   fall back to TextBlock's "#" default and go nowhere. The two "start a trip"
+   labels open the planner; "view destinations" opens the A-to-Z index. */
+const CTA_HREFS = ["/plan-my-trip", "/plan-my-trip", "/destinations/a-z"];
+
 /* TextBlock's xl title is 45px on 41.4px leading — under its own font size, so
    a two-line title here stacks its lines into each other. Opened up from xl,
    where these titles are largest and wrap most. Below xl keeps the shared
@@ -108,6 +113,7 @@ export function HighlightsSection({
               description={copy[0].description}
               descriptionClassName="md:mt-[27px] max-w-[612px]"
               ctaLabel={CTA_LABELS[0]}
+              ctaHref={CTA_HREFS[0]}
             />
 
             {/* Mirrored against the other two: this one bleeds off the LEFT
@@ -136,6 +142,7 @@ export function HighlightsSection({
               titleClassName={HIGHLIGHT_TITLE}
               description={copy[1].description}
               ctaLabel={CTA_LABELS[1]}
+              ctaHref={CTA_HREFS[1]}
             />
 
             <div className="hidden xl:block relative w-full lg:w-[70%] xl:w-[85%] 2xl:w-full aspect-[875/846] mt-16 md:mt-24 md:pr-12">
@@ -168,6 +175,7 @@ export function HighlightsSection({
               titleClassName={HIGHLIGHT_TITLE}
               description={copy[2].description}
               ctaLabel={CTA_LABELS[2]}
+              ctaHref={CTA_HREFS[2]}
             />
           </div>
         </div>

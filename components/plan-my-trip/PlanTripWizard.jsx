@@ -36,7 +36,11 @@ import { cn } from "@/lib/utils";
    The dark PlanMyTripSection is a different design for a different placement
    (in-flow on the region pages) and stays as it is. */
 
-const RAIL_IMAGE = "/destinations/kerala/houseboat-alappuzha.jpg";
+/* The neutral default shown in the rail before a destination is picked (and for
+   a place with no picture of its own) — a traveller reading a map, matched to
+   the "Every journey begins with a single question" caption. Swap the file at
+   this path to change it; keep it 4:3 to fit the frame without cropping. */
+const RAIL_IMAGE = "/plan-my-trip/traveller-map.jpg";
 
 /* Match what the traveller typed against the destination catalogue, so the rail
    can show that place's own photograph. A soft match, in priority order — exact

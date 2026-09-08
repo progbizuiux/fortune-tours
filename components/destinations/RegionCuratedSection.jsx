@@ -3,30 +3,38 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { cn } from "@/lib/utils";
 
+// Each carries an `href` so the card actually goes somewhere; the CMS supplies
+// its own per place, and these fallbacks point at the search page filtered to
+// the place. Without it the card is styled cursor-pointer but does nothing.
 const FALLBACK_PLACES = [
   {
     title: "Kenya Safari",
     description: "Masai Mara + Lake Nakuru + Nairobi. Big cats, flamingos and the drama of the open savanna.",
-    image: "/destination/india.avif", 
+    image: "/destination/india.avif",
+    href: "/search?term=Kenya",
   },
   {
     title: "Victoria Falls",
     description: "The thunder of the falls + a sunset cruise on the Zambezi. One of Africa's most dramatic experiences.",
     image: "/destination/switzerland.avif",
+    href: "/search?term=Victoria%20Falls",
   },
   {
     title: "Cape Town",
     description: "Table Mountain + Penguins + Winelands. A city wrapped in nature.",
     image: "/destination/japan.avif",
+    href: "/search?term=Cape%20Town",
   },
   {
     title: "Serengeti",
     description: "Witness the great migration and the endless plains.",
     image: "/destination/norway.avif",
+    href: "/search?term=Serengeti",
   },
 ];
 
@@ -145,6 +153,17 @@ export function RegionCuratedSection({
                   </p>
                 </div>
               </div>
+
+              {/* Full-card click target. z-10 keeps it under the carousel
+                  arrows (z-20) so they stay clickable over the track. */}
+              {place.href && (
+                <Link
+                  href={place.href}
+                  className="absolute inset-0 z-10"
+                >
+                  <span className="sr-only">Explore {place.title}</span>
+                </Link>
+              )}
             </li>
           ))}
         </ul>
