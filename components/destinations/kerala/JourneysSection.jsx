@@ -5,52 +5,65 @@ import { ImageCarouselSection } from "@/components/common/ImageCarouselSection";
 
 const TAG = "I want.";
 
+// Each carries the same href shape the live /api/travel-styles items do —
+// /search?style=<key> — so a card navigates whether the API supplies the list
+// or this fallback stands in (on an empty/failed fetch). Without it the
+// fallback cards render as dead chips. /search ignores a style it does not
+// recognise, so every key here still lands on a working results page.
 const JOURNEYS = [
   {
     key: "backwaters",
     label: "Backwaters",
+    href: "/search?style=backwaters",
     image: "/destinations/kerala/house-boat.avif",
     alt: "House boat in Kerala backwaters",
   },
   {
     key: "hill-stations",
     label: "Hill Stations",
+    href: "/search?style=hill-stations",
     image: "/destinations/kerala/hill-stations.avif",
     alt: "Mist covered hills in Kerala",
   },
   {
     key: "beaches",
     label: "Beaches",
+    href: "/search?style=beaches",
     image: "/destinations/kerala/beaches.avif",
     alt: "Waves crashing on a Kerala beach",
   },
   {
     key: "adventure-nature",
     label: "Adventure",
+    href: "/search?style=adventure-nature",
     image: "/destinations/kerala/adventure-nature.avif",
     alt: "Hiker in the mountains",
   },
   {
     key: "culture-heritage",
     label: "Culture",
+    href: "/search?style=culture-heritage",
     image: "/destinations/kerala/culture-heritage.jpg",
     alt: "Cultural experience in Kerala",
   },
   {
     key: "ayurveda-wellness",
     label: "Ayurveda",
+    href: "/search?style=ayurveda-wellness",
     image: "/destinations/kerala/ayurveda-wellness.jpg",
     alt: "Ayurveda & Wellness in Kerala",
   },
   {
     key: "food-culinary",
     label: "Food",
+    href: "/search?style=food-culinary",
     image: "/destinations/kerala/food-culinary.jpg",
     alt: "Food & Culinary experiance in Kerala",
   },
   {
     key: "wildlife",
     label: "Wildlife.",
+    href: "/search?style=wildlife",
     image: "/destinations/kerala/wildlife.avif",
     alt: "Elephant near a waterfall in Kerala",
   },

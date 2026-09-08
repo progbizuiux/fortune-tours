@@ -11,30 +11,33 @@ import { cn } from "@/lib/utils";
    Card type per Figma: meta = Spartan Light 16/100%, story = Poppins Light
    18/24 at black 80%, Read = Spartan Medium 16/100%. The story <p> gets its
    Poppins values from the design-system tag defaults.
-   Images are placeholders from public/home until journal photography lands. */
+   Images are placeholders from public/home until journal photography lands.
+   Titles and hrefs mirror real articles in lib/journal.js, so a "Read" link on
+   the fallback always opens an article that exists — the earlier placeholder
+   slugs (/journal/sunrise-in-iceland …) had no article behind them and 404'd. */
 const POSTS = [
   {
-    meta: "Field Notes — 6 min read",
+    meta: "Stories — 6 min read",
     title: "What sunrise in Iceland taught me about stillness.",
-    href: "/journal/sunrise-in-iceland",
+    href: "/journal/what-sunrise-in-iceland-taught-me-about-stillness",
     image: "/home/journal/field-notes.png",
   },
   {
-    meta: "City Guide — 9 min read",
-    title: "Explore twelve secret cafés in Paris known only to locals.",
-    href: "/journal/secret-cafes-paris",
+    meta: "Stories — 7 min read",
+    title: "The slow road through the Alps.",
+    href: "/journal/the-slow-road-through-the-alps",
     image: "/home/journal/coastal-escape.png",
   },
   {
-    meta: "Coastal Escape — 7 min read",
-    title: "Five charming towns on Italy's Amalfi Coast.",
-    href: "/journal/amalfi-coast-towns",
+    meta: "Guides — 8 min read",
+    title: "A first-timer's guide to the backwaters.",
+    href: "/journal/a-first-timers-guide-to-the-backwaters",
     image: "/home/journal/city-guide.png",
   },
   {
-    meta: "Card 04 — Kyoto, Japan",
-    title: "Walking through Kyoto during cherry blossom season.",
-    href: "/journal/kyoto-cherry-blossom",
+    meta: "Inspiration — 5 min read",
+    title: "The case for staying put for a week.",
+    href: "/journal/the-case-for-staying-put-for-a-week",
     image: "/home/journal/climatic.png",
   },
 ];

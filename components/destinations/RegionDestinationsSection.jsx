@@ -68,7 +68,11 @@ export function RegionDestinationsSection({
           {visibleDestinations.map((dest, i) => (
             <li key={dest.name} className="max-md:snap-center max-md:shrink-0 max-md:w-[85vw]">
               <Link
-                href={dest.href ?? `/destinations/${dest.name.toLowerCase()}`}
+                /* When the CMS gives no link (the fallback tiles, and any
+                   country whose `link` field is empty), send the reader to the
+                   search page filtered to the place. `/destinations/<name>`
+                   would 404 — only india and kerala have a page there. */
+                href={dest.href ?? `/search?term=${encodeURIComponent(dest.name)}`}
                 className="group block"
               >
                 {/* 474x342 aspect ratio from Figma */}

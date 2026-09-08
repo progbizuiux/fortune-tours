@@ -22,6 +22,12 @@ const DEFAULT_PARAGRAPHS = [
   "Beyond its breathtaking scenery, Kerala welcomes you with warm hospitality, rich traditions, and experiences that feel truly authentic. From exploring spice plantations and vibrant local markets to savoring regional cuisine and discovering hidden gems, every journey is filled with moments worth remembering. Whether you're traveling with family, your partner, or on your own, Kerala leaves you with stories you'll want to tell long after you've returned home.",
 ];
 const DEFAULT_CTA_LABEL = "Explore Packages";
+/* Where the CTA leads. Defaults to the trip planner: the destination pages
+   render no standalone packages list to anchor to (the packages section is
+   commented out in app/destinations/[slug]/page.js), and the planner is where
+   a reader shapes a trip. A caller can point it anywhere via `ctaHref`. Without
+   this the button had no href and rendered as a dead <button>. */
+const DEFAULT_CTA_HREF = "/plan-my-trip";
 const DEFAULT_IMAGE = "/destinations/kerala/house-boat.avif";
 const DEFAULT_IMAGE_ALT = "House boat cruising Kerala backwaters at sunrise";
 
@@ -31,6 +37,7 @@ export function IntroSection({
   lead = DEFAULT_LEAD,
   paragraphs = DEFAULT_PARAGRAPHS,
   ctaLabel = DEFAULT_CTA_LABEL,
+  ctaHref = DEFAULT_CTA_HREF,
   image = DEFAULT_IMAGE,
   imageAlt = DEFAULT_IMAGE_ALT,
 }) {
@@ -101,7 +108,11 @@ export function IntroSection({
               </div>
 
               <div className="mt-6 md:mt-8 lg:mt-10 flex items-center">
-                <FrameButton variant="rail" className="max-md:text-[13px]">
+                <FrameButton
+                  variant="rail"
+                  href={ctaHref}
+                  className="max-md:text-[13px]"
+                >
                   {ctaLabel}
                 </FrameButton>
               </div>

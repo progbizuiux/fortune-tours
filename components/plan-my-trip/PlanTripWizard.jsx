@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -36,7 +36,53 @@ import { cn } from "@/lib/utils";
    The dark PlanMyTripSection is a different design for a different placement
    (in-flow on the region pages) and stays as it is. */
 
-const RAIL_IMAGE = "/destinations/kerala/houseboat-alappuzha.jpg";
+/* The neutral default shown in the rail before a destination is picked (and for
+   a place with no picture of its own) — a traveller reading a map, matched to
+   the "Every journey begins with a single question" caption. Swap the file at
+   this path to change it; keep it 4:3 to fit the frame without cropping. */
+const RAIL_IMAGE = "/plan-my-trip/traveller-map.jpg";
+
+/* Match what the traveller typed against the destination catalogue, so the rail
+   can show that place's own photograph. A soft match, in priority order — exact
+   name, then a name that starts with what was typed ("jap" → Japan), then a
+   name contained anywhere in it ("a trip to Kenya" → Kenya). Below two
+   characters nothing matches, so the image does not flicker between countries on
+   the first keystroke. Returns the matched entry or null; the caller falls back
+   to the neutral image when the match is null OR carries no picture of its own. */
+function matchDestination(destinations, query) {
+  const q = (query ?? "").trim().toLowerCase();
+  if (q.length < 2 || !destinations?.length) return null;
+
+  const byName = destinations.map((d) => [d, d.name.toLowerCase()]);
+
+  return (
+    byName.find(([, name]) => name === q)?.[0] ??
+    byName.find(([, name]) => name.startsWith(q))?.[0] ??
+    byName.find(([, name]) => name.includes(q) || q.includes(name))?.[0] ??
+    null
+  );
+}
+
+/* The autocomplete list under the destination field: the catalogue narrowed to
+   what was typed, names that START with the query first (the ones the traveller
+   most likely means) then names that merely CONTAIN it, capped so the panel
+   stays a glance not a scroll. A name typed in full is dropped — there is
+   nothing left to suggest once it is already in the field. */
+const MAX_SUGGESTIONS = 7;
+function filterDestinations(destinations, query, limit = MAX_SUGGESTIONS) {
+  const q = (query ?? "").trim().toLowerCase();
+  if (!q || !destinations?.length) return [];
+
+  const starts = [];
+  const contains = [];
+  for (const d of destinations) {
+    const name = d.name.toLowerCase();
+    if (name === q) continue;
+    if (name.startsWith(q)) starts.push(d);
+    else if (name.includes(q)) contains.push(d);
+  }
+  return [...starts, ...contains].slice(0, limit);
+}
 
 /* Underline treatment shared by every free-text field on the form. */
 const INPUT_CLASSES =
@@ -138,12 +184,156 @@ function Field({ id, label, error, className, children }) {
   );
 }
 
+/* The "where would you like to go?" field, with an autocomplete over the
+   destination catalogue. It stays wired to react-hook-form through `register`
+   (validation and draft persistence keep working); the dropdown only ever
+   writes the field through `setValue`, so RHF stays the single source of truth
+   and the rail image — which watches the same value — follows a picked
+   suggestion for free. Built to the ARIA combobox pattern: the input carries
+   aria-expanded / aria-activedescendant, the list is a listbox of options, and
+   ↑ ↓ Enter Esc drive it. Enter only steals focus from the form's Continue when
+   a suggestion is actually highlighted; a typed value the list does not carry
+   (say "Bali") still submits on Enter, because this field takes free text. */
+function DestinationField({ destinations, value, error, register, setValue }) {
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(-1);
+  const inputRef = useRef(null);
+  const listId = useId();
+
+  const suggestions = useMemo(
+    () => filterDestinations(destinations, value),
+    [destinations, value],
+  );
+  // Only a non-empty list, opened, is shown; the highlight is clamped to it
+  // because the list shrinks as the query narrows.
+  const showList = open && suggestions.length > 0;
+  const activeIndex = active >= 0 && active < suggestions.length ? active : -1;
+  const optionId = (i) => `${listId}-o${i}`;
+
+  const reg = register("destination");
+
+  function choose(item) {
+    setValue("destination", item.name, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setOpen(false);
+    setActive(-1);
+    inputRef.current?.focus();
+  }
+
+  function onKeyDown(event) {
+    if (event.key === "ArrowDown" && suggestions.length) {
+      event.preventDefault();
+      setOpen(true);
+      setActive((i) => (i + 1) % suggestions.length);
+    } else if (event.key === "ArrowUp" && suggestions.length) {
+      event.preventDefault();
+      setOpen(true);
+      setActive((i) => (i <= 0 ? suggestions.length - 1 : i - 1));
+    } else if (event.key === "Enter" && showList && activeIndex >= 0) {
+      event.preventDefault();
+      choose(suggestions[activeIndex]);
+    } else if (event.key === "Escape" && showList) {
+      event.stopPropagation();
+      setOpen(false);
+      setActive(-1);
+    }
+  }
+
+  return (
+    <div className="mt-8 max-w-[420px] motion-safe:animate-menu-drop sm:mt-10">
+      <div className="relative">
+        <input
+          id="destination"
+          type="text"
+          role="combobox"
+          autoComplete="off"
+          placeholder="where would you like to go?"
+          aria-label="Where would you like to go?"
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? "destination-error" : undefined}
+          aria-expanded={showList}
+          aria-controls={showList ? listId : undefined}
+          aria-autocomplete="list"
+          aria-activedescendant={
+            activeIndex >= 0 ? optionId(activeIndex) : undefined
+          }
+          {...reg}
+          ref={(el) => {
+            reg.ref(el);
+            inputRef.current = el;
+          }}
+          onChange={(event) => {
+            reg.onChange(event);
+            setOpen(true);
+            setActive(-1);
+          }}
+          onFocus={() => setOpen(true)}
+          onBlur={(event) => {
+            reg.onBlur(event);
+            // Closes when focus truly leaves the field. An option click keeps
+            // focus (onMouseDown preventDefault below), so it does not race.
+            setOpen(false);
+            setActive(-1);
+          }}
+          onKeyDown={onKeyDown}
+          className={INPUT_CLASSES}
+        />
+
+        {showList && (
+          <ul
+            id={listId}
+            role="listbox"
+            data-lenis-prevent
+            className="absolute top-full right-0 left-0 z-20 mt-1 max-h-80 overflow-y-auto border border-black/10 bg-white py-1 shadow-lg"
+          >
+            {suggestions.map((item, i) => (
+              <li
+                key={item.slug || item.name}
+                id={optionId(i)}
+                role="option"
+                aria-selected={i === activeIndex}
+                onMouseDown={(event) => event.preventDefault()}
+                onMouseEnter={() => setActive(i)}
+                onClick={() => choose(item)}
+                className={cn(
+                  "cursor-pointer px-3.5 py-2.5 text-[14px] font-light text-black transition-colors",
+                  i === activeIndex ? "bg-black/[0.06]" : "hover:bg-black/[0.04]",
+                )}
+              >
+                {item.name}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {error && (
+        <p
+          id="destination-error"
+          role="alert"
+          className="mt-2 text-[13px] text-red-600"
+        >
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
 export function PlanTripWizard({
   eyebrow = "Plan my trip",
   title = "Craft your unique journey.",
   railTitle = "Your journey",
   railCaption = "Every journey begins with a single question.",
   railImage = RAIL_IMAGE,
+  // [{ name, slug, image }] for every destination the site covers, fetched on
+  // the server (lib/strapi/search.js → getDestinations). Feeds the "where would
+  // you like to go?" autocomplete (all names) and the rail image (a place's
+  // `image`, or null → the rail keeps `railImage`). Empty — a CMS that is down
+  // or forbidden — just means no suggestions and the neutral rail image.
+  destinations = [],
   successMessage = "Your journey brief is with our travel designers. Expect personalised recommendations from a real person — usually within a day, always with no obligation.",
 }) {
   const steps = PLAN_STEPS;
@@ -183,6 +373,7 @@ export function PlanTripWizard({
   const values = watch();
   const {
     destinationMode,
+    destination,
     datesFlexible,
     duration,
     travellingWith,
@@ -192,6 +383,19 @@ export function PlanTripWizard({
 
   const hasDestinationInMind =
     destinationMode && destinationMode !== OPEN_TO_SUGGESTIONS;
+
+  // The rail shows the typed destination's own photograph when the CMS has one,
+  // and the neutral default otherwise. Recomputed only when the text or the
+  // list changes — not on every keystroke in the other fields.
+  const matchedDestination = useMemo(
+    () => matchDestination(destinations, destination),
+    [destinations, destination],
+  );
+  // A matched place with no picture of its own keeps the neutral rail image —
+  // and stays alt="" with it, since the houseboat is then decorative, not that
+  // place. Only a real match with a real image names itself.
+  const railImageResolved = matchedDestination?.image ?? railImage;
+  const railImageAlt = matchedDestination?.image ? matchedDestination.name : "";
   const isLastStep = step === steps.length - 1;
   const submitted = submittedName !== null;
   const summary = summarizePlan(values);
@@ -505,31 +709,17 @@ export function PlanTripWizard({
 
                     {/* Only asked of someone who just said they have somewhere
                         in mind — the schema requires it under the same
-                        condition. */}
+                        condition. The field carries its own autocomplete over
+                        the destination catalogue; picking a suggestion also
+                        sets the rail photograph, since both read this value. */}
                     {hasDestinationInMind && (
-                      <div className="mt-8 max-w-[420px] motion-safe:animate-menu-drop sm:mt-10">
-                        <input
-                          id="destination"
-                          type="text"
-                          placeholder="where would you like to go?"
-                          aria-label="Where would you like to go?"
-                          aria-invalid={errors.destination ? true : undefined}
-                          aria-describedby={
-                            errors.destination ? "destination-error" : undefined
-                          }
-                          {...register("destination")}
-                          className={INPUT_CLASSES}
-                        />
-                        {errors.destination && (
-                          <p
-                            id="destination-error"
-                            role="alert"
-                            className="mt-2 text-[13px] text-red-600"
-                          >
-                            {errors.destination.message}
-                          </p>
-                        )}
-                      </div>
+                      <DestinationField
+                        destinations={destinations}
+                        value={destination}
+                        error={errors.destination?.message}
+                        register={register}
+                        setValue={setValue}
+                      />
                     )}
 
                     <Group
@@ -864,12 +1054,18 @@ export function PlanTripWizard({
                 on a tablet is taller than the step it belongs to. */}
               <figure className="mt-8 max-w-[480px] sm:mt-10 lg:max-w-none">
                 <div className="relative aspect-4/3 w-full overflow-hidden">
+                  {/* Keyed by the resolved src so a new destination's picture
+                      fades in rather than snapping — the source changes as the
+                      traveller types. The alt names the place when one is
+                      matched, and stays empty on the neutral default, which is
+                      decorative. */}
                   <Image
-                    src={railImage}
-                    alt=""
+                    key={railImageResolved}
+                    src={railImageResolved}
+                    alt={railImageAlt}
                     fill
                     sizes="(min-width: 1536px) 360px, (min-width: 1280px) 320px, (min-width: 1024px) 300px, (min-width: 640px) 480px, 100vw"
-                    className="object-cover"
+                    className="object-cover motion-safe:animate-menu-drop"
                   />
                 </div>
                 <figcaption className="font-heading mt-3 text-[12px] text-black/50 italic">

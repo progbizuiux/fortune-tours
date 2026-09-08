@@ -352,28 +352,30 @@ function GlobeScene({
    pixels and written straight to the node's transform. Keeping the text in the
    DOM means it renders at device resolution in the site's own font, upright
    whatever the globe is doing — which is how the design draws it. */
-/* Continents pinned on the globe. Each links to its region page from
-   lib/navigation.js (app/[slug]), so the globe never links anywhere the
-   destinations menu does not. Antarctica has no region page, so it carries a
-   label but no pin. Coordinates use the same shell frame as LABELS (see the
-   note there), so each country's real longitude is carried through
+/* Countries pinned on the globe. Each links where the destinations menu would
+   send it (destinationHref in lib/navigation.js): its own /destinations/<slug>
+   page when one exists, otherwise the search page pre-filtered to it. Only
+   India has a page today, so the rest go to /search?term=… — a hardcoded
+   /destinations/<country> would 404 (that route is dynamicParams:false and
+   serves only india/kerala). Coordinates use the same shell frame as LABELS
+   (see the note there), so each country's real longitude is carried through
    -(geographic lon) - 85; the latitudes pass through unchanged. Every point
    below was ray-tested against the crust, so the dot sits on its country
    rather than off the coast. */
 const DESTINATIONS = [
   // 36.2 N, 138.25 E
-  { name: "Japan", href: "/destinations/japan", lat: 36.2, lon: 136.75 },
+  { name: "Japan", href: "/search?term=Japan", lat: 36.2, lon: 136.75 },
   // 46.8 N, 8.2 E
   {
     name: "Switzerland",
-    href: "/destinations/switzerland",
+    href: "/search?term=Switzerland",
     lat: 46.8,
     lon: -93.2,
   },
   // 22 N, 79 E
   { name: "India", href: "/destinations/india", lat: 22, lon: -164 },
   // 62 N, 9 E
-  { name: "Norway", href: "/destinations/norway", lat: 62, lon: -94 },
+  { name: "Norway", href: "/search?term=Norway", lat: 62, lon: -94 },
 ];
 
 /* Longitudes are in the shell's own frame, not geographic: measured against

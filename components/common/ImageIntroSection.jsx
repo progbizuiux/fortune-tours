@@ -92,22 +92,32 @@ export function ImageIntroSection({
               lands on, which is the same trade the hero makes. */}
           <div
             className={cn(
-              "relative flex flex-col justify-end min-h-[480px] md:min-h-[520px] lg:min-h-[560px] max-md:aspect-[3/4] md:max-xl:aspect-[16/9] xl:aspect-[1755/635] max-md:w-[calc(100%+2rem)] max-md:-ml-4 max-md:rounded-none md:w-full overflow-hidden md:rounded-sm",
+              /* bg-navy is the ground behind the picture: invisible under a
+                 photo (object-cover fills the box), and the readable dark panel
+                 the white copy sits on when a caller passes no image — the
+                 package detail pages, which carry no intro upload. Without it
+                 those render white text on the page's light background. */
+              "bg-navy relative flex flex-col justify-end min-h-[480px] md:min-h-[520px] lg:min-h-[560px] max-md:aspect-[3/4] md:max-xl:aspect-[16/9] xl:aspect-[1755/635] max-md:w-[calc(100%+2rem)] max-md:-ml-4 max-md:rounded-none md:w-full overflow-hidden md:rounded-sm",
               imageClassName,
             )}
           >
-            <Image
-              /* The prop, not a literal: this section renders all thirteen
-                 regions, and the file below was Africa's. lib/strapi/destination.js
-                 supplies the CMS upload or the stand-in. */
-              src={image}
-              alt={imageAlt}
-              fill
-              /* The picture is the Container's content box: full-bleed minus
-                 its padding, which is 160px once that padding reaches 80. */
-              sizes="(min-width: 1024px) calc(100vw - 160px), (min-width: 768px) calc(100vw - 64px), calc(100vw - 32px)"
-              className="object-cover"
-            />
+            {/* Only when the caller has one: next/image throws on an empty src,
+                and a package page with no CMS upload passes none. The bg-navy
+                above stands in for the missing photo. */}
+            {image && (
+              <Image
+                /* The prop, not a literal: this section renders all thirteen
+                   regions, and the file below was Africa's. lib/strapi/destination.js
+                   supplies the CMS upload or the stand-in. */
+                src={image}
+                alt={imageAlt}
+                fill
+                /* The picture is the Container's content box: full-bleed minus
+                   its padding, which is 160px once that padding reaches 80. */
+                sizes="(min-width: 1024px) calc(100vw - 160px), (min-width: 768px) calc(100vw - 64px), calc(100vw - 32px)"
+                className="object-cover"
+              />
+            )}
 
             {/* The frame's overlay, as its panel states it: one linear gradient,
                 both stops #000000, the first at 0% opacity. Top to bottom is

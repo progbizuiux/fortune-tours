@@ -36,7 +36,10 @@ export function PackageCarouselSection({
   subheading,
   description,
   ctaLabel,
-  ctaHref = "#",
+  // No "#" default: the CTA renders only with both a label and a real href
+  // (see below), so a caller that supplies a label but no destination gets no
+  // link rather than a dead "#".
+  ctaHref,
   items,
   ariaLabel,
   className,
@@ -193,7 +196,7 @@ export function PackageCarouselSection({
               {description}
             </p>
 
-            {ctaLabel && (
+            {ctaLabel && ctaHref && (
               <div className="mt-4 flex items-center justify-center xl:mt-11 xl:justify-start">
                 <FrameButton
                   variant="rail"
