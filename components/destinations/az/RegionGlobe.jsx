@@ -43,9 +43,10 @@ export function RegionGlobe() {
   return (
     <div
       aria-hidden="true"
-      /* Decorative. The names underneath are the navigable content, and every
-         pin the globe draws is a link that also appears in the list below, so
-         announcing it again would be a second copy of the same four places. */
+      /* Decorative. The names underneath are the navigable content, and the
+         globe now pins those same thirteen regions — every dot is a link to the
+         row directly below it — so announcing it would be a second copy of the
+         whole list rather than a second way into it. */
       /* The 40% is a fraction of the WIDTH, so on a narrow screen it collapses:
          at 375px it is an 85–102px arc of a 254px sphere, which reads as a
          stray curve rather than a globe — and with the region lists gone this
