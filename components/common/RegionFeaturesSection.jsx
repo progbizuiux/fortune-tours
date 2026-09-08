@@ -78,9 +78,9 @@ export function RegionFeaturesSection({
       </Container>
 
       {/* Features Grid */}
-      <div className="w-full px-4 md:px-8 lg:px-[80px] mt-[95px] lg:max-xl:mt-[50px] xl:max-2xl:mt-[70px] 2xl:mt-[95px]">
+      <div className="w-full px-4 md:px-8 lg:px-[80px] mt-8 md:max-lg:mt-12 lg:max-xl:mt-[50px] xl:max-2xl:mt-[70px] 2xl:mt-[95px]">
         <div className={cn(
-          "flex flex-wrap justify-center gap-y-12 max-w-[1920px] mx-auto"
+          "flex flex-wrap justify-center max-md:gap-y-6 md:max-lg:gap-y-8 lg:gap-y-12 max-w-[1920px] mx-auto"
         )}>
           {activeFeatures.map((feature, i) => {
             // If we have > 4 items (e.g. 6), we hide the last 2 on mobile/tablet.
@@ -117,7 +117,7 @@ export function RegionFeaturesSection({
                   "lg:max-2xl:[&:nth-child(3n)]:border-r-0", // On 3-col (lg to 2xl), every 3rd item has no right border
                   
                   // Horizontal borders
-                  "border-b border-black/10 max-2xl:pb-8",
+                  "border-b border-black/10 max-md:pb-5 md:max-lg:pb-6 lg:max-2xl:pb-8",
                   isLastRowMobile && "max-md:border-b-0 max-md:pb-0",
                   isLastRowTablet && "md:max-lg:border-b-0 md:max-lg:pb-0",
                   isLastRowLg && "lg:max-2xl:border-b-0 lg:max-2xl:pb-0",
@@ -127,11 +127,11 @@ export function RegionFeaturesSection({
               {/* Two lines' worth of height at every breakpoint, with the
                   title top-aligned inside it so each item starts at the same
                   vertical baseline across the row. */}
-              <h3 className="flex items-start justify-center font-heading max-lg:text-[20px] lg:max-xl:text-[18px] xl:max-2xl:text-[23px] 2xl:text-[24px] font-normal max-xl:leading-[1.35] xl:leading-[36px] text-black max-xl:min-h-[54px] xl:min-h-[72px]">
+              <h3 className="flex items-start justify-center font-heading max-lg:text-[20px] lg:max-xl:text-[18px] xl:max-2xl:text-[23px] 2xl:text-[24px] font-normal max-xl:leading-[1.35] xl:leading-[36px] text-black max-lg:min-h-0 lg:max-xl:min-h-[54px] xl:min-h-[72px]">
                 {feature.title}
               </h3>
               {(feature.body || feature.description) && (
-                <p className="mt-[10px] font-sans max-lg:text-[14px] lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-[16px] font-light max-xl:leading-[21px] xl:leading-[24px] text-black/80 max-2xl:flex-1">
+                <p className="mt-2 md:mt-[10px] font-sans max-lg:text-[14px] lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-[16px] font-light max-xl:leading-[21px] xl:leading-[24px] text-black/80 max-2xl:flex-1">
                   {feature.body || feature.description}
                 </p>
               )}

@@ -89,7 +89,7 @@ export default async function CountryPage({ params }) {
           it, which is why the CMS section arrives as two props rather than
           being handed to one component. */}
       {page.ground?.rows?.length > 0 && (
-        <div className="bg-background relative z-10 pt-16 md:pt-24 lg:pt-[120px] pb-16 md:pb-24 lg:pb-[120px]">
+        <div className="bg-background relative z-10 pt-10 md:pt-16 xl:pt-[120px] pb-10 md:pb-16 xl:pb-[120px]">
           <Container>
             <SectionHeading
               align="left"
@@ -100,7 +100,7 @@ export default async function CountryPage({ params }) {
           </Container>
           <FeatureRows
             items={page.ground.rows}
-            className="mt-12 md:mt-16 xl:mt-[60px]"
+            className="!py-0 mt-8 md:mt-12 xl:mt-[60px]"
             stacked
           />
         </div>
