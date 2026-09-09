@@ -58,6 +58,8 @@ export function ImageIntroSection({
     setCurrentIndex((prev) => (prev + 1) % allSlides.length);
   }, [allSlides.length]);
 
+  const [isPaused, setIsPaused] = useState(false);
+
   useEffect(() => {
     if (!isSlider) return;
     const handleKeyDown = (e) => {
@@ -67,6 +69,15 @@ export function ImageIntroSection({
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isSlider, prevSlide, nextSlide]);
+
+  /* Auto-advance slides every 5.5 seconds, paused while hovered or touched */
+  useEffect(() => {
+    if (!isSlider || isPaused) return;
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 5500);
+    return () => clearInterval(interval);
+  }, [isSlider, isPaused, nextSlide]);
 
   const minSwipeDistance = 50;
   const onTouchStart = (e) => {
@@ -100,9 +111,17 @@ export function ImageIntroSection({
 
         <AnimateIn className={cn(title ? "mt-10 md:mt-14 lg:mt-[60px]" : "mt-0")}>
           <div
-            onTouchStart={onTouchStart}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            onTouchStart={(e) => {
+              setIsPaused(true);
+              onTouchStart(e);
+            }}
             onTouchMove={onTouchMove}
-            onTouchEnd={onTouchEnd}
+            onTouchEnd={() => {
+              setIsPaused(false);
+              onTouchEnd();
+            }}
             className={cn(
               "bg-navy relative flex flex-col justify-end min-h-[580px] sm:min-h-[560px] md:min-h-[580px] lg:min-h-[620px] xl:min-h-[640px] max-md:w-[calc(100%+2rem)] max-md:-ml-4 max-md:rounded-none md:w-full overflow-hidden md:rounded-sm select-none",
               imageClassName,
@@ -118,7 +137,7 @@ export function ImageIntroSection({
                 <div
                   key={idx}
                   className={cn(
-                    "absolute inset-0 transition-all duration-700 ease-out",
+                    "absolute inset-0 transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]",
                     isActive
                       ? "opacity-100 scale-100 z-0"
                       : "opacity-0 scale-105 pointer-events-none -z-10",
@@ -149,33 +168,48 @@ export function ImageIntroSection({
                   type="button"
                   onClick={prevSlide}
                   aria-label="Previous slide"
-                  className="absolute top-1/2 left-2 sm:left-4 md:left-8 z-20 -translate-y-1/2 flex items-center justify-center size-9 sm:size-11 md:w-[62px] md:h-[70px] border-[0.7px] border-white/60 hover:border-white bg-black/25 hover:bg-black/50 backdrop-blur-[12px] text-white transition-all cursor-pointer focus-visible:outline-sky focus-visible:outline-2"
+                  className="group absolute top-1/2 left-2 sm:left-4 md:left-8 z-20 -translate-y-1/2 flex items-center justify-center size-9 sm:size-11 md:w-[62px] md:h-[70px] border-[0.7px] border-white/60 hover:border-white bg-black/25 hover:bg-black/50 active:scale-95 active:bg-black/70 backdrop-blur-[12px] text-white transition-all duration-200 cursor-pointer focus-visible:outline-sky focus-visible:outline-2"
                 >
-                  <ChevronLeft className="size-4 sm:size-5 md:size-[18px] stroke-[1.5]" aria-hidden="true" />
+                  <ChevronLeft className="size-4 sm:size-5 md:size-[18px] stroke-[1.5] transition-transform duration-200 group-hover:-translate-x-0.5 group-active:-translate-x-1" aria-hidden="true" />
                 </button>
                 <button
                   type="button"
                   onClick={nextSlide}
                   aria-label="Next slide"
-                  className="absolute top-1/2 right-2 sm:right-4 md:right-8 z-20 -translate-y-1/2 flex items-center justify-center size-9 sm:size-11 md:w-[62px] md:h-[70px] border-[0.7px] border-white/60 hover:border-white bg-black/25 hover:bg-black/50 backdrop-blur-[12px] text-white transition-all cursor-pointer focus-visible:outline-sky focus-visible:outline-2"
+                  className="group absolute top-1/2 right-2 sm:right-4 md:right-8 z-20 -translate-y-1/2 flex items-center justify-center size-9 sm:size-11 md:w-[62px] md:h-[70px] border-[0.7px] border-white/60 hover:border-white bg-black/25 hover:bg-black/50 active:scale-95 active:bg-black/70 backdrop-blur-[12px] text-white transition-all duration-200 cursor-pointer focus-visible:outline-sky focus-visible:outline-2"
                 >
-                  <ChevronRight className="size-4 sm:size-5 md:size-[18px] stroke-[1.5]" aria-hidden="true" />
+                  <ChevronRight className="size-4 sm:size-5 md:size-[18px] stroke-[1.5] transition-transform duration-200 group-hover:translate-x-0.5 group-active:translate-x-1" aria-hidden="true" />
                 </button>
               </>
             )}
 
-            {/* Slide Content (Description & Stats / Places) */}
+            {/* Slide Content (Title centered in image, Description & Stats / Places at bottom) */}
             <div
               key={currentIndex}
               className={cn(
-                "relative z-[2] px-5 sm:px-8 md:px-16 lg:px-20 pt-16 sm:pt-20 pb-8 sm:pb-10 md:pb-12 lg:pb-14",
-                direction === "next"
-                  ? "motion-safe:animate-menu-slide-in"
-                  : "motion-safe:animate-menu-slide-back",
+                "relative z-[2] flex flex-col justify-between h-full min-h-[580px] sm:min-h-[560px] md:min-h-[580px] lg:min-h-[620px] xl:min-h-[640px] px-5 sm:px-8 md:px-16 lg:px-20 pt-8 sm:pt-12 md:pt-14 pb-8 sm:pb-10 md:pb-12 lg:pb-14",
+
               )}
             >
-              {activeSlide.description && (
-                <p className="whitespace-pre-line mx-auto max-w-[1236px] text-center text-white xl:text-body max-xl:text-[14px] max-md:text-[13.5px] max-xl:leading-[1.5] lg:max-xl:text-[13.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[16px] xl:max-2xl:leading-[1.4] 2xl:text-[18px] 2xl:leading-[24px] font-light">
+              {/* Title centered in upper/middle of image */}
+              <div className={cn(
+                "flex-1 flex flex-col items-center justify-center text-center py-4",
+                direction === "next" ? "motion-safe:animate-story-slide-in" : "motion-safe:animate-story-slide-back"
+              )}>
+                {activeSlide.title && (
+                  <h3 className="whitespace-pre-line mx-auto max-w-[900px] text-center text-white font-heading max-lg:text-[30px] max-lg:leading-[1.1] max-lg:tracking-[-0.01em] lg:max-xl:text-[34px] lg:max-xl:leading-[1.15] xl:max-2xl:text-[42px] xl:max-2xl:leading-[1.15] 2xl:text-[46px] 2xl:leading-[1.15]">
+                    {activeSlide.title}
+                  </h3>
+                )}
+              </div>
+
+              {/* Bottom section: Description & Stats */}
+              <div className="w-full flex flex-col items-center text-center">
+                {activeSlide.description && (
+                <p className={cn(
+                    "whitespace-pre-line mx-auto max-w-[1236px] text-center text-white xl:text-body max-xl:text-[14px] max-md:text-[13.5px] max-xl:leading-[1.5] lg:max-xl:text-[13.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[16px] xl:max-2xl:leading-[1.4] 2xl:text-[18px] 2xl:leading-[24px] font-light",
+                    direction === "next" ? "motion-safe:animate-story-desc-in" : "motion-safe:animate-story-desc-back"
+                  )}>
                   {activeSlide.description}
                 </p>
               )}
@@ -233,6 +267,7 @@ export function ImageIntroSection({
                     ))}
                   </ul>
                 )}
+              </div>
             </div>
           </div>
         </AnimateIn>

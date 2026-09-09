@@ -11,6 +11,7 @@ import { Container } from "@/components/common/Container";
 import { FrameButton } from "@/components/common/FrameButton";
 import {
   DESTINATION_MODE_OPTIONS,
+  DESTINATION_OPTIONS,
   DURATION_OPTIONS,
   EMPTY_PLAN,
   FLEXIBILITY_OPTIONS,
@@ -225,6 +226,9 @@ export function PlanMyTripSection({
     ...planStep,
     label: stepLabels?.[i] || planStep.label,
   }));
+  const destinationOptions = (options.destination ?? DESTINATION_OPTIONS).filter(
+    (item) => item !== OPEN_TO_SUGGESTIONS,
+  );
 
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState("forward");
@@ -505,24 +509,14 @@ export function PlanMyTripSection({
                   ))}
                 </div>
                 {/* Figma: 50px between "Step 01" and the step name. */}
-                <div className="flex items-center gap-5 md:gap-8">
-                  <button
-                    type="button"
-                    onClick={handleReset}
-                    className="inline-flex items-center gap-1.5 text-[13px] lg:max-xl:text-[12px] xl:max-2xl:text-[14px] 2xl:text-[15px] font-light text-white/70 hover:text-white transition-colors cursor-pointer"
-                  >
-                    <RotateCw aria-hidden="true" className="size-3.5 shrink-0" />
-                    <span>Reset</span>
-                  </button>
-                  <p className="flex min-w-0 items-baseline gap-5 md:gap-[50px] lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-body">
-                    <span className="shrink-0 text-white/90">
-                      {stepWordLabel} {stepNumber}
-                    </span>
-                    <span className="min-w-0 text-right text-white">
-                      {steps[step].label}
-                    </span>
-                  </p>
-                </div>
+                <p className="flex min-w-0 items-baseline gap-5 md:gap-[50px] lg:max-xl:text-[13px] xl:max-2xl:text-[16px] 2xl:text-body">
+                  <span className="shrink-0 text-white/90">
+                    {stepWordLabel} {stepNumber}
+                  </span>
+                  <span className="min-w-0 text-right text-white">
+                    {steps[step].label}
+                  </span>
+                </p>
               </div>
               {/* Figma: 0.5px rules at 50% white. */}
               <div className="mt-4 h-[0.5px] w-full bg-white/50">
@@ -601,6 +595,16 @@ export function PlanMyTripSection({
                           {errors.destination.message}
                         </p>
                       )}
+                    </div>
+                  )}
+
+                  {destinationMode === OPEN_TO_SUGGESTIONS && (
+                    <div className="mt-8 motion-safe:animate-menu-drop md:mt-10">
+                      <OptionChips
+                        options={destinationOptions}
+                        isActive={(option) => destination === option}
+                        onToggle={(option) => selectSingle("destination", option)}
+                      />
                     </div>
                   )}
 
@@ -838,21 +842,23 @@ export function PlanMyTripSection({
             <div className="mt-8 flex flex-wrap items-center justify-between gap-x-6 gap-y-5 border-t-[0.5px] border-white/50 pt-5 md:mt-10 md:pt-6 lg:mt-14 lg:pt-[58px] lg:max-2xl:mt-7 lg:max-2xl:pt-5">
               <div className="flex items-center gap-4 sm:gap-6">
                 {step > 0 && (
-                  <FrameButton
-                    variant="option"
-                    onClick={() => goToStep(step - 1)}
-                  >
-                    {labels.back ?? "Back"}
-                  </FrameButton>
+                  <>
+                    <FrameButton
+                      variant="option"
+                      onClick={() => goToStep(step - 1)}
+                    >
+                      {labels.back ?? "Back"}
+                    </FrameButton>
+                    <button
+                      type="button"
+                      onClick={handleReset}
+                      className="inline-flex items-center gap-1.5 text-[13px] sm:text-[14px] font-light text-white/70 hover:text-white transition-colors cursor-pointer"
+                    >
+                      <RotateCw aria-hidden="true" className="size-3.5 shrink-0" />
+                      <span>Reset</span>
+                    </button>
+                  </>
                 )}
-                <button
-                  type="button"
-                  onClick={handleReset}
-                  className="inline-flex items-center gap-1.5 text-[13px] sm:text-[14px] font-light text-white/70 hover:text-white transition-colors cursor-pointer"
-                >
-                  <RotateCw aria-hidden="true" className="size-3.5 shrink-0" />
-                  <span>Reset</span>
-                </button>
               </div>
               <p
                 className={cn(
