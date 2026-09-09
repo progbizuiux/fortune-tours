@@ -226,9 +226,10 @@ export function PlanMyTripSection({
     ...planStep,
     label: stepLabels?.[i] || planStep.label,
   }));
-  const destinationOptions = (options.destination ?? DESTINATION_OPTIONS).filter(
-    (item) => item !== OPEN_TO_SUGGESTIONS,
-  );
+  const rawDestinations = options.destination ?? DESTINATION_OPTIONS;
+  const destinationOptions = rawDestinations.includes(OPEN_TO_SUGGESTIONS)
+    ? rawDestinations
+    : [...rawDestinations.filter((d) => d !== OPEN_TO_SUGGESTIONS), OPEN_TO_SUGGESTIONS];
 
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState("forward");
@@ -549,84 +550,48 @@ export function PlanMyTripSection({
               {step === 0 && (
                 <>
                   <h3 className="max-lg:text-[18px] max-lg:leading-[1.2] lg:max-xl:text-[17px] xl:max-2xl:text-[20.5px] 2xl:text-[35px]">
-                    {questions.destination ?? "Where Are You Thinking of Going?"}
+                    {questions.destination ?? "Where would you like to go?"}
                   </h3>
-                  <Group
-                    id="group-destination-mode"
-                    label={labels.destination ?? "Destination"}
-                    error={errors.destinationMode?.message}
-                    className="mt-6 md:mt-8"
-                  >
-                    <div className="flex flex-wrap gap-2.5 sm:gap-3">
-                      {DESTINATION_MODE_OPTIONS.map((option) => (
-                        <OptionBox
-                          key={option}
-                          label={option}
-                          active={destinationMode === option}
-                          onToggle={() => selectDestinationMode(option)}
-                        />
-                      ))}
-                    </div>
-                  </Group>
 
-                  {/* Only asked of someone who just said they have somewhere
-                      in mind — the schema requires it under the same
-                      condition. */}
-                  {hasDestinationInMind && (
-                    <div className="mt-8 max-w-[420px] motion-safe:animate-menu-drop md:mt-10">
-                      <input
-                        id="destination"
-                        type="text"
-                        placeholder="where would you like to go?"
-                        aria-label="Where would you like to go?"
-                        aria-invalid={errors.destination ? true : undefined}
-                        aria-describedby={
-                          errors.destination ? "destination-error" : undefined
-                        }
-                        {...register("destination")}
-                        className={INPUT_CLASSES}
-                      />
-                      {errors.destination && (
-                        <p
-                          id="destination-error"
-                          role="alert"
-                          className="mt-2 text-small text-red-300"
-                        >
-                          {errors.destination.message}
-                        </p>
-                      )}
-                    </div>
-                  )}
+                  {/* Option chips including "I'm open to suggestions" */}
+                  <div className="mt-6 md:mt-8">
+                    <OptionChips
+                      options={destinationOptions}
+                      isActive={(option) => destination === option}
+                      onToggle={(option) => {
+                        const next = destination === option ? "" : option;
+                        setValue("destination", next, { shouldValidate: true, shouldDirty: true });
+                        if (errors.destination) clearErrors("destination");
+                      }}
+                    />
+                  </div>
 
-                  {destinationMode === OPEN_TO_SUGGESTIONS && (
-                    <div className="mt-8 motion-safe:animate-menu-drop md:mt-10">
-                      <OptionChips
-                        options={destinationOptions}
-                        isActive={(option) => destination === option}
-                        onToggle={(option) => selectSingle("destination", option)}
-                      />
-                    </div>
-                  )}
+                  {/* Free-text input field below options */}
+                  <div className="mt-8 max-w-[420px] md:mt-10">
+                    <input
+                      id="destination"
+                      type="text"
+                      placeholder="where would you like to go?"
+                      aria-label="Where would you like to go?"
+                      aria-invalid={errors.destination ? true : undefined}
+                      aria-describedby={
+                        errors.destination ? "destination-error" : undefined
+                      }
+                      {...register("destination")}
+                      className={INPUT_CLASSES}
+                    />
+                    {errors.destination && (
+                      <p
+                        id="destination-error"
+                        role="alert"
+                        className="mt-2 text-small text-red-300"
+                      >
+                        {errors.destination.message}
+                      </p>
+                    )}
+                  </div>
 
-                  <Group
-                    id="group-flexible"
-                    label={labels.flexible ?? "Are your dates flexible?"}
-                    className="mt-8 md:mt-10"
-                  >
-                    <div className="flex flex-wrap gap-2.5 sm:gap-3">
-                      {FLEXIBILITY_OPTIONS.map((option) => (
-                        <OptionBox
-                          key={option}
-                          label={option}
-                          className="min-w-[110px]"
-                          active={datesFlexible === option}
-                          onToggle={() =>
-                            selectSingle("datesFlexible", option)
-                          }
-                        />
-                      ))}
-                    </div>
-                  </Group>
+
                 </>
               )}
 
