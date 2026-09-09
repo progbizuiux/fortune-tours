@@ -1,3 +1,6 @@
+"use client";
+
+import { getLenis } from "@/lib/lenis";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { FILL_SWEEP, FILL_SWEEP_INSET, LINK_UNDERLINE } from "@/lib/motion";
@@ -16,6 +19,7 @@ import { FILL_SWEEP, FILL_SWEEP_INSET, LINK_UNDERLINE } from "@/lib/motion";
 // solid panel reads as a rendering bug. Passing `fill` wins and the underline
 // is skipped.
 export function CtaLink({
+
   href,
   children,
   className,
@@ -24,8 +28,24 @@ export function CtaLink({
   withLeftDivider = false,
   withRightDivider = false,
   dividerClassName = "h-6 w-px bg-white/40",
+  onClick,
   ...props
 }) {
+  const handleClick = (e) => {
+    if (onClick) onClick(e);
+    if (typeof href === "string" && href.startsWith("#")) {
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        const lenis = getLenis();
+        if (lenis) {
+          lenis.scrollTo(target);
+        } else {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }
+  };
   return (
     <>
       {withLeftDivider && (
@@ -33,6 +53,7 @@ export function CtaLink({
       )}
       <Link
         href={href}
+        onClick={handleClick}
         className={cn(
           "transition-colors",
           fill && [FILL_SWEEP, FILL_SWEEP_INSET],
