@@ -664,24 +664,14 @@ export function PlanTripWizard({
                       </button>
                     ))}
                   </div>
-                  <div className="flex items-center justify-between sm:justify-end gap-4 sm:gap-6">
-                    <button
-                      type="button"
-                      onClick={handleReset}
-                      className="inline-flex items-center gap-1.5 text-[13px] sm:text-[14px] font-light text-black/60 hover:text-black transition-colors cursor-pointer"
-                    >
-                      <RotateCw aria-hidden="true" className="size-3.5 shrink-0" />
-                      <span>Reset</span>
-                    </button>
-                    <p className="flex min-w-0 items-baseline justify-between gap-4 text-[13px] sm:justify-start sm:gap-6 sm:text-[15px] md:gap-12">
-                      <span className="shrink-0 text-black/60">
-                        Step {stepNumber}
-                      </span>
-                      <span className="min-w-0 text-right text-black">
-                        {steps[step].label}
-                      </span>
-                    </p>
-                  </div>
+                  <p className="flex min-w-0 items-baseline justify-between gap-4 text-[13px] sm:justify-start sm:gap-6 sm:text-[15px] md:gap-12">
+                    <span className="shrink-0 text-black/60">
+                      Step {stepNumber}
+                    </span>
+                    <span className="min-w-0 text-right text-black">
+                      {steps[step].label}
+                    </span>
+                  </p>
                 </div>
                 <div className="mt-4 h-px w-full bg-black/15">
                   <div
@@ -1007,14 +997,16 @@ export function PlanTripWizard({
                 >
                   {isLastStep ? "Build My Journey" : "Continue"}
                 </button>
-                <button
-                  type="button"
-                  onClick={handleReset}
-                  className="inline-flex items-center justify-center gap-1.5 text-[14px] font-light text-black/60 hover:text-black transition-colors cursor-pointer py-2 sm:ml-auto"
-                >
-                  <RotateCw aria-hidden="true" className="size-3.5 shrink-0" />
-                  <span>Reset</span>
-                </button>
+                {step > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    className="inline-flex items-center justify-center gap-1.5 text-[14px] font-light text-black/60 hover:text-black transition-colors cursor-pointer py-2 sm:ml-auto"
+                  >
+                    <RotateCw aria-hidden="true" className="size-3.5 shrink-0" />
+                    <span>Reset</span>
+                  </button>
+                )}
               </div>
             </>
           )}
