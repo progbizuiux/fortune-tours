@@ -47,6 +47,8 @@ const ARROW_CLASS =
   "flex h-[70px] w-[62px] shrink-0 items-center justify-center border-[0.7px] border-white p-[10px] backdrop-blur-[15px] transition-opacity disabled:opacity-30 lg:max-2xl:h-[54px] lg:max-2xl:w-[48px]";
 
 export function RegionCuratedSection({
+  id = "curated",
+
   eyebrow = "Curated for you",
   title = "Places worth going out of your way for.",
   description = "",
@@ -99,7 +101,7 @@ export function RegionCuratedSection({
   };
 
   return (
-    <section className={cn("relative z-10 bg-[#FAF7F2] spacing", className)}>
+    <section id={id} className={cn("relative z-10 bg-[#FAF7F2] spacing", className)}>
       <Container>
         <SectionHeading
           eyebrow={eyebrow}
