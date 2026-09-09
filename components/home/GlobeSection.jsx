@@ -83,7 +83,7 @@ export function GlobeSection() {
                 variant="rail"
                 className={GLOBE_BUTTON}
               >
-                Explore the Map
+                A to Z destinations
               </FrameButton>
             </div>
           </div>

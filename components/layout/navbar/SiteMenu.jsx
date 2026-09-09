@@ -23,7 +23,7 @@ export const SiteMenu = forwardRef(function SiteMenu(
       onNavigate={onNavigate}
       {...panelProps}
     >
-      <div className="flex items-start gap-14 2xl:gap-20">
+      <div className="flex items-stretch gap-14 2xl:gap-20">
       <nav
         aria-label="Site"
         className="flex flex-col gap-14 lg:gap-[59px] lg:max-2xl:gap-[32px]"
@@ -80,7 +80,7 @@ export const SiteMenu = forwardRef(function SiteMenu(
    picture would push them off the screen. */
 function FeaturedPanel() {
   return (
-    <div className="relative ml-auto hidden aspect-[1103/758] w-full max-w-[1103px] lg:max-2xl:max-w-[620px] min-[1500px]:max-2xl:max-w-[880px] min-w-0 flex-1 overflow-hidden bg-navy/5 lg:block">
+    <div className="relative ml-auto hidden self-stretch h-full min-h-0 w-full max-w-[1103px] lg:max-2xl:max-w-[620px] min-[1500px]:max-2xl:max-w-[880px] min-w-0 flex-1 overflow-hidden bg-navy/5 lg:block">
       <Image
         src="/home/featured_Image.png"
         alt=""
@@ -94,7 +94,7 @@ function FeaturedPanel() {
           destinations sheet's concierge card carries, from lib/navigation.js. */}
       {/* Figma: 611 wide, hugging 156 tall, 16 padding, 12 gap, on #000000 at
           10.2% with a blur behind it. */}
-      <div className="absolute inset-x-0 bottom-8 mx-auto flex w-[611px] max-w-[calc(100%-3.5rem)] flex-col gap-3 bg-black/[0.102] p-4 text-center text-white backdrop-blur-[6px]">
+      <div className="absolute inset-x-0 bottom-4 lg:bottom-6 2xl:bottom-8 mx-auto flex w-[611px] max-w-[calc(100%-3.5rem)] flex-col gap-2.5 2xl:gap-3 bg-black/[0.102] p-3.5 2xl:p-4 text-center text-white backdrop-blur-[6px]">
         {/* Poppins 400 16/100%, #FFFFFF. */}
         <p className="text-[16px] leading-none font-normal">
           {CONCIERGE_PROMO.lead}
