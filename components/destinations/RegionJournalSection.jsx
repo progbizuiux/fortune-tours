@@ -57,7 +57,6 @@ export function RegionJournalSection({
                 meta={post.meta}
                 title={post.title}
                 description={post.description}
-                href={post.href}
                 image={post.image}
                 alt={post.title}
                 readLabel={readLabel}

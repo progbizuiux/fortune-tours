@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { useRowRise } from "@/lib/gsap/useRowRise";
@@ -171,15 +170,6 @@ export function RegionExperiencesSection({
                   
                 </div>
               </div>
-              
-              {/* Full-card clickable overlay. The CMS `link` field wins when an
-                  editor fills it; otherwise the search page filtered to the
-                  experience. `/experiences/<id>` would 404 — that route serves
-                  only the real experience slugs (families, honeymoon, luxury,
-                  adventure, spiritual), not these fallback/title-derived ids. */}
-              <Link href={exp.href ?? `/search?term=${encodeURIComponent(exp.title)}`} className="absolute inset-0 z-10">
-                <span className="sr-only">Explore {exp.title}</span>
-              </Link>
             </li>
           ))}
         </ul>
