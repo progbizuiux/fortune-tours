@@ -57,11 +57,13 @@ const DEFAULT_IMAGES = [
 /* Field-by-field rather than a spread: the normaliser reports an unfilled CMS
    field as undefined, and `{...fallback, ...incoming}` would let that undefined
    overwrite the default instead of deferring to it. */
-function mergeBlock(fallback, incoming) {
+function mergeBlock(fallback, incoming, index) {
   return {
     eyebrow: incoming?.eyebrow ?? fallback.eyebrow,
     title: incoming?.title ?? fallback.title,
     description: incoming?.description ?? fallback.description,
+    ctaLabel: incoming?.ctaLabel || CTA_LABELS[index],
+    ctaHref: incoming?.ctaHref || CTA_HREFS[index],
   };
 }
 
@@ -72,7 +74,7 @@ export function HighlightsSection({
   images,
 }) {
   const copy = DEFAULT_BLOCKS.map((fallback, i) =>
-    mergeBlock(fallback, blocks?.[i]),
+    mergeBlock(fallback, blocks?.[i], i),
   );
   const pictures = DEFAULT_IMAGES.map((fallback, i) => ({
     src: images?.[i] ?? fallback.src,
@@ -112,8 +114,8 @@ export function HighlightsSection({
               titleClassName={`md:mt-[30px] ${HIGHLIGHT_TITLE}`}
               description={copy[0].description}
               descriptionClassName="md:mt-[27px] max-w-[612px]"
-              ctaLabel={CTA_LABELS[0]}
-              ctaHref={CTA_HREFS[0]}
+              ctaLabel={copy[0].ctaLabel}
+              ctaHref={copy[0].ctaHref}
             />
 
             {/* Mirrored against the other two: this one bleeds off the LEFT
@@ -141,8 +143,8 @@ export function HighlightsSection({
               title={copy[1].title}
               titleClassName={HIGHLIGHT_TITLE}
               description={copy[1].description}
-              ctaLabel={CTA_LABELS[1]}
-              ctaHref={CTA_HREFS[1]}
+              ctaLabel={copy[1].ctaLabel}
+              ctaHref={copy[1].ctaHref}
             />
 
             <div className="hidden xl:block relative w-full lg:w-[70%] xl:w-[85%] 2xl:w-full aspect-[875/846] mt-16 md:mt-24 md:pr-12">
@@ -174,8 +176,8 @@ export function HighlightsSection({
               title={copy[2].title}
               titleClassName={HIGHLIGHT_TITLE}
               description={copy[2].description}
-              ctaLabel={CTA_LABELS[2]}
-              ctaHref={CTA_HREFS[2]}
+              ctaLabel={copy[2].ctaLabel}
+              ctaHref={copy[2].ctaHref}
             />
           </div>
         </div>
