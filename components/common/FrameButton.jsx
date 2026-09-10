@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { FILL_SWEEP } from "@/lib/motion";
+import { getLenis } from "@/lib/lenis";
 
 // Every button in the app renders through this component — add a variant here
 // rather than styling a bare <button> at the call site, so the shared base
@@ -185,9 +186,25 @@ export function FrameButton({
     className,
   );
 
+  const handleClick = (e) => {
+    if (props.onClick) props.onClick(e);
+    if (typeof href === "string" && href.startsWith("#")) {
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        const lenis = getLenis();
+        if (lenis) {
+          lenis.scrollTo(target);
+        } else {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }
+  };
+
   if (href) {
     return (
-      <Link href={href} className={classes} {...props}>
+      <Link href={href} onClick={handleClick} className={classes} {...props}>
         {children}
       </Link>
     );
