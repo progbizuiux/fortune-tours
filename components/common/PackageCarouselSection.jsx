@@ -246,6 +246,7 @@ export function PackageCarouselSection({
                   experiences={item.experiences}
                   image={item.image}
                   alt={item.alt}
+                  href={item.href || item.link}
                   className="h-full"
                   // A shallower picture across the band too, so the card is not
                   // mostly photograph once the copy beneath it has shrunk.

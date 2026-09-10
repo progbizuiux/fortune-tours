@@ -26,6 +26,7 @@ function CardShell({ href, className, children }) {
 }
 
 export function TabbedCardsSection({
+  id,
   eyebrow,
   title,
   description,
@@ -71,6 +72,7 @@ export function TabbedCardsSection({
 
   return (
     <section
+      id={id}
       ref={sectionRef}
       aria-label={sectionAriaLabel}
       className={`spacing ${extraCls}`}

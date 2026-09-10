@@ -1,4 +1,3 @@
-import { ChevronRight } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import { AtAGlanceSection } from "@/components/common/AtAGlanceSection";
@@ -14,6 +13,7 @@ import { RegionFeaturesSection } from "@/components/common/RegionFeaturesSection
 import { RegionFixedPackagesSection } from "@/components/destinations/RegionFixedPackagesSection";
 import { PlanMyTripSection } from "@/components/plan-my-trip/PlanMyTripSection";
 import { getCountryPage, getCountryParams } from "@/lib/strapi/country";
+import { HERO_CTA } from "@/lib/typography";
 
 /* Country pages: /africa/botswana and its siblings — one file for all of them.
  *
@@ -105,14 +105,13 @@ export default async function CountryPage({ params }) {
             className="!py-0 mt-8 md:mt-12 xl:mt-[60px]"
             stacked
           />
-          <Container className="mt-12 md:mt-16 xl:mt-20 flex justify-end">
+          <Container className="mt-12 md:mt-16 xl:mt-20 flex justify-center">
             <CtaLink
               href={page.ground.ctaHref || "/destinations/a-z"}
-              underline={false}
-              className="inline-flex items-center gap-2 font-sans text-[12px] md:text-[14px] font-normal leading-[11px] tracking-[1px] uppercase text-navy hover:opacity-70 transition-opacity"
+              fill
+              className={`${HERO_CTA} border-navy/20 text-navy`}
             >
-              {page.ground.ctaLabel || "VIEW MORE"}
-              <ChevronRight className="w-4 h-4" />
+              {page.ground.ctaLabel || "View more"}
             </CtaLink>
           </Container>
         </div>

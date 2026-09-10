@@ -1,7 +1,20 @@
 import Image from "next/image";
+import Link from "next/link";
 import { CascadeText } from "@/components/common/CascadeText";
 import { CtaLink } from "@/components/common/CtaLink";
 import { cn } from "@/lib/utils";
+
+function CardShell({ href, className, children }) {
+  if (!href) {
+    return <div className={className}>{children}</div>;
+  }
+
+  return (
+    <Link href={href} className={cn(className, "cursor-pointer")}>
+      {children}
+    </Link>
+  );
+}
 
 /* Bordered package card: picture, then the title, the nights/destinations line
  * and an EXPERIENCES list pinned to the bottom of the box.
@@ -34,6 +47,7 @@ export function PackageCard({
   image,
   alt,
   className,
+  href,
   imageAspectClassName = "aspect-[348/329] md:aspect-[460/423]",
   metaClassName = "text-[13px] leading-[1.4] lg:max-xl:text-[14.5px] lg:max-xl:leading-[1.4] xl:max-2xl:text-[16px] xl:max-2xl:leading-[1.4] 2xl:text-[16px] 2xl:leading-[20px] text-black/80 mb-[10px] lg:mb-[12px]",
   // 15 from the picture to the title and 12 in from each edge, per the redline.
@@ -59,7 +73,7 @@ export function PackageCard({
   cascade = false,
   /* Opt in to a fixed measure for the three text blocks, so a row of cards
      reads as a grid rather than three independently-sized boxes.
-
+ 
      Without it each block is as tall as its own copy: a two-line title pushes
      its card's meta a line lower than its neighbour's, and mt-auto only
      bottom-aligns the lower block, so the EXPERIENCES lists end up level while
@@ -67,7 +81,7 @@ export function PackageCard({
      title, the meta and the list each hold two lines' worth of space and clamp
      at two lines, which pins every part of every card to the same baseline
      whatever the CMS copy runs to.
-
+ 
      Because it clamps, copy longer than two lines is truncated with an ellipsis
      — the limit is the point, but it means the CMS entries have to be written to
      it. Off by default so Kerala's grid, which is not drawn this way, is
@@ -81,7 +95,8 @@ export function PackageCard({
      type down the breakpoints without restating a pixel height per block. */
   const clamp2 = uniform ? "line-clamp-2 min-h-[2lh]" : undefined;
   return (
-    <div
+    <CardShell
+      href={href}
       className={cn(
         "group flex flex-col overflow-hidden border border-black/10 bg-white",
         className,
@@ -148,18 +163,24 @@ export function PackageCard({
           </p>
         </div>
 
-        {ctaLabel && ctaHref && (
+        {ctaLabel && (
           <div className="mt-auto pt-[18px] md:pt-[24px]">
-            <CtaLink
-              href={ctaHref}
-              fill
-              className="text-body border-navy/20 text-black max-md:text-[13px] max-md:min-h-11 border-x px-5"
-            >
-              {ctaLabel}
-            </CtaLink>
+            {href ? (
+              <span className="inline-flex items-center justify-center text-body border-navy/20 text-black max-md:text-[13px] max-md:min-h-11 border-x px-5">
+                {ctaLabel}
+              </span>
+            ) : ctaHref ? (
+              <CtaLink
+                href={ctaHref}
+                fill
+                className="text-body border-navy/20 text-black max-md:text-[13px] max-md:min-h-11 border-x px-5"
+              >
+                {ctaLabel}
+              </CtaLink>
+            ) : null}
           </div>
         )}
       </div>
-    </div>
+    </CardShell>
   );
 }

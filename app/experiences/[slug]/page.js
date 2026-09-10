@@ -96,7 +96,11 @@ export default async function ExperiencePage({ params }) {
         subheading={experience.packagesSubheading}
         description={experience.packagesDescription}
         ctaLabel={experience.packagesCtaLabel}
-        ctaHref={experience.packagesCtaHref}
+        ctaHref={
+          experience.packagesCtaHref && experience.packagesCtaHref !== "/concierge"
+            ? experience.packagesCtaHref
+            : "#seasons"
+        }
         items={experience.packages}
         /* The vita-travel.webflow.io statistics cascade, on the one section
            here that had no motion of its own — see lib/gsap/useCardCascade.js. */
@@ -117,6 +121,7 @@ export default async function ExperiencePage({ params }) {
 
       {experience.monthTabs?.length > 0 && (
       <TabbedCardsSection
+        id="seasons"
         sectionAriaLabel={experience.monthsLabel}
         eyebrow={experience.monthsEyebrow}
         title={experience.monthsTitle}

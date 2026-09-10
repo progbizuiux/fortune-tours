@@ -321,6 +321,7 @@ export function RegionFixedPackagesSection({
                   experiencesLabel={experiencesLabel || undefined}
                   image={pkg.image}
                   alt={pkg.alt}
+                  href={pkg.href || pkg.link}
                   ctaLabel={CARD_CTA_LABEL}
                   ctaHref={cardCtaHref(pkg, ctaHref)}
                   className={cn(
