@@ -105,9 +105,9 @@ export default async function CountryPage({ params }) {
             className="!py-0 mt-8 md:mt-12 xl:mt-[60px]"
             stacked
           />
-          <Container className="mt-12 md:mt-16 xl:mt-20 flex justify-center">
+          <Container className="mt-12 md:mt-16 xl:mt-20 flex justify-end">
             <CtaLink
-              href={page.ground.ctaHref || "/plan-my-trip"}
+              href={page.ground.ctaHref || "/destinations/a-z"}
               underline={false}
               className="inline-flex items-center gap-2 font-sans text-[12px] md:text-[14px] font-normal leading-[11px] tracking-[1px] uppercase text-navy hover:opacity-70 transition-opacity"
             >
@@ -133,7 +133,7 @@ export default async function CountryPage({ params }) {
            starts immediately under the black. The region pages, where the
            preceding section closes with its own gap, leave it off. */
         <RegionFixedPackagesSection
-          id={page.ground?.rows?.length ? "packages" : "itinerary"}
+          id="packages"
           {...page.packages}
           withTopSpacing
         />
