@@ -165,6 +165,7 @@ const ARROW_CLASS =
    normaliser (packagesSection.ctaLink / .experiencesLabel) and being dropped
    here, so an editor filling either field saw no change on the page. */
 export function RegionFixedPackagesSection({
+  id = "packages",
   eyebrow = "Fixed Packages",
   title = "Find the Perfect Escape",
   description = "Small-group journeys with a host. Fixed dates, limited seats.",
@@ -268,6 +269,7 @@ export function RegionFixedPackagesSection({
     // `!pt-0` below rather than fighting it — the important flag is needed on
     // both because `.spacing` is unlayered and outranks a plain utility.
     <section
+      id={id}
       className={cn(
         "relative z-10 bg-background spacing lg:max-xl:pb-[20px] xl:max-2xl:pb-[30px]",
         !withTopSpacing && "!pt-0",
