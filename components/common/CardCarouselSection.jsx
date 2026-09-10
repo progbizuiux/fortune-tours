@@ -2,11 +2,24 @@
 
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { useRowRise } from "@/lib/gsap/useRowRise";
 import { cn } from "@/lib/utils";
+
+function CardShell({ href, className, children }) {
+  if (!href) {
+    return <div className={className}>{children}</div>;
+  }
+
+  return (
+    <Link href={href} className={className}>
+      {children}
+    </Link>
+  );
+}
 
 /* Centred chapter heading over a horizontally-scrolled row of picture cards,
    each captioned with a title and a line of copy underneath.
@@ -120,42 +133,50 @@ export function CardCarouselSection({
             trackClassName,
           )}
         >
-          {items.map((item) => (
-            <li
-              key={item.key}
-              className="group flex w-[323px] shrink-0 snap-start flex-col gap-[18px] 2xl:w-[437px] cursor-pointer"
-            >
-              <div className="bg-navy/5 relative aspect-[323/371] w-full overflow-hidden 2xl:aspect-[437/502]">
-                <Image
-                  src={item.image}
-                  alt={item.alt ?? item.title}
-                  fill
-                  sizes="(min-width: 1536px) 437px, 323px"
-                  className="object-cover transition-all duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.07] group-hover:brightness-105"
-                />
+          {items.map((item) => {
+            const href = item.href || item.link;
+            return (
+              <li
+                key={item.key}
+                className="group flex w-[323px] shrink-0 snap-start flex-col 2xl:w-[437px] cursor-pointer"
+              >
+                <CardShell
+                  href={href}
+                  className="flex flex-col gap-[18px] w-full h-full"
+                >
+                  <div className="bg-navy/5 relative aspect-[323/371] w-full overflow-hidden 2xl:aspect-[437/502]">
+                    <Image
+                      src={item.image}
+                      alt={item.alt ?? item.title}
+                      fill
+                      sizes="(min-width: 1536px) 437px, 323px"
+                      className="object-cover transition-all duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.07] group-hover:brightness-105"
+                    />
 
-                {/* The site's standard card scrim — the same stack the curated
-                    and destination cards carry. Captions here sit below the
-                    picture rather than on it, so this is doing the tonal work
-                    only: it settles the brighter photographs into the cream
-                    panel instead of letting them glare against it. */}
-                {imageOverlay && (
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"
-                  />
-                )}
-              </div>
-              <div className="flex max-w-[323px] flex-col gap-[20px] lg:max-xl:gap-[12px] xl:max-2xl:gap-[15px] 2xl:gap-[20px] lg:max-xl:flex-1 xl:max-2xl:flex-1 2xl:flex-initial">
-                <h3 className="font-heading text-[24px] leading-[1] font-normal text-black lg:max-xl:text-[19px] lg:max-xl:leading-[24px] xl:max-2xl:text-[23px] xl:max-2xl:leading-[28.5px] 2xl:text-[24px] 2xl:leading-[1] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-sky group-hover:translate-x-2">
-                  {item.title}
-                </h3>
-                <p className="font-sans text-[16px] leading-[1.5] font-light text-black/80 lg:max-xl:text-[13.5px] lg:max-xl:leading-[19px] xl:max-2xl:text-[16px] xl:max-2xl:leading-[23px] 2xl:text-[16px] 2xl:leading-[1.5] lg:max-xl:mt-auto xl:max-2xl:mt-auto 2xl:mt-0 transition-all duration-700 delay-75 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:opacity-75 group-hover:translate-x-4">
-                  {item.description}
-                </p>
-              </div>
-            </li>
-          ))}
+                    {/* The site's standard card scrim — the same stack the curated
+                        and destination cards carry. Captions here sit below the
+                        picture rather than on it, so this is doing the tonal work
+                        only: it settles the brighter photographs into the cream
+                        panel instead of letting them glare against it. */}
+                    {imageOverlay && (
+                      <div
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"
+                      />
+                    )}
+                  </div>
+                  <div className="flex max-w-[323px] flex-col gap-[20px] lg:max-xl:gap-[12px] xl:max-2xl:gap-[15px] 2xl:gap-[20px] lg:max-xl:flex-1 xl:max-2xl:flex-1 2xl:flex-initial">
+                    <h3 className="font-heading text-[24px] leading-[1] font-normal text-black lg:max-xl:text-[19px] lg:max-xl:leading-[24px] xl:max-2xl:text-[23px] xl:max-2xl:leading-[28.5px] 2xl:text-[24px] 2xl:leading-[1] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-sky group-hover:translate-x-2">
+                      {item.title}
+                    </h3>
+                    <p className="font-sans text-[16px] leading-[1.5] font-light text-black/80 lg:max-xl:text-[13.5px] lg:max-xl:leading-[19px] xl:max-2xl:text-[16px] xl:max-2xl:leading-[23px] 2xl:text-[16px] 2xl:leading-[1.5] lg:max-xl:mt-auto xl:max-2xl:mt-auto 2xl:mt-0 transition-all duration-700 delay-75 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:opacity-75 group-hover:translate-x-4">
+                      {item.description}
+                    </p>
+                  </div>
+                </CardShell>
+              </li>
+            );
+          })}
         </ul>
 
         {canScrollLeft && (
