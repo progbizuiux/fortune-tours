@@ -1,7 +1,9 @@
+import { ChevronRight } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import { AtAGlanceSection } from "@/components/common/AtAGlanceSection";
 import { Container } from "@/components/common/Container";
+import { CtaLink } from "@/components/common/CtaLink";
 import { FaqSection } from "@/components/common/FaqSection";
 import { FeatureRows } from "@/components/common/FeatureRows";
 import { ImageIntroSection } from "@/components/common/ImageIntroSection";
@@ -89,7 +91,7 @@ export default async function CountryPage({ params }) {
           it, which is why the CMS section arrives as two props rather than
           being handed to one component. */}
       {page.ground?.rows?.length > 0 && (
-        <div className="bg-background relative z-10 pt-10 md:pt-16 xl:pt-[120px] pb-10 md:pb-16 xl:pb-[120px]">
+        <div id="itinerary" className="bg-background relative z-10 pt-10 md:pt-16 xl:pt-[120px] pb-10 md:pb-16 xl:pb-[120px]">
           <Container>
             <SectionHeading
               align="left"
@@ -103,6 +105,16 @@ export default async function CountryPage({ params }) {
             className="!py-0 mt-8 md:mt-12 xl:mt-[60px]"
             stacked
           />
+          <Container className="mt-12 md:mt-16 xl:mt-20 flex justify-center">
+            <CtaLink
+              href={page.ground.ctaHref || "/plan-my-trip"}
+              underline={false}
+              className="inline-flex items-center gap-2 font-sans text-[12px] md:text-[14px] font-normal leading-[11px] tracking-[1px] uppercase text-navy hover:opacity-70 transition-opacity"
+            >
+              {page.ground.ctaLabel || "VIEW MORE"}
+              <ChevronRight className="w-4 h-4" />
+            </CtaLink>
+          </Container>
         </div>
       )}
 
@@ -120,7 +132,11 @@ export default async function CountryPage({ params }) {
            panel, which ends flush at its own edge — without it the eyebrow
            starts immediately under the black. The region pages, where the
            preceding section closes with its own gap, leave it off. */
-        <RegionFixedPackagesSection {...page.packages} withTopSpacing />
+        <RegionFixedPackagesSection
+          id={page.ground?.rows?.length ? "packages" : "itinerary"}
+          {...page.packages}
+          withTopSpacing
+        />
       ) : null}
 
       <FaqSection {...page.faq} />
