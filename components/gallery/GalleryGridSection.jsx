@@ -136,6 +136,7 @@ export function GalleryGridSection({
   description = "A collection of places, people, and moments that bring every Fortune journey to life.",
   images = GALLERY_IMAGES,
   className,
+  
 }) {
   // The grid opens blown up on its middle tile and shrinks to the layout below
   // as you scroll past. Everything it needs is measured off the markup — see
