@@ -46,6 +46,16 @@ export function CtaLink({
       }
     }
   };
+  /* next/link throws on a missing href rather than degrading — a 500 for the
+     whole page on the server, and an aborted export at build time. Copy comes
+     out of the CMS, where a filled label beside an empty link field is an
+     everyday state, so the label renders as plain text instead. See cta() in
+     lib/strapi/normalise.js, which drops such a pair before it gets here;
+     this is the floor under every other call site. */
+  if (!href) {
+    return <span className={className}>{children}</span>;
+  }
+
   return (
     <>
       {withLeftDivider && (
