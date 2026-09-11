@@ -345,21 +345,21 @@ export function ContactHeroSection({
                   </div>
 
                   {/* Message */}
-                  <div className="relative flex flex-col justify-between 2xl:h-[80px]">
+                  <div className="relative flex flex-col justify-between">
                     <label
                       htmlFor="contact-message"
                       className="font-sans font-light text-[12px] sm:text-[13px] md:text-[14px] 2xl:text-[16px] leading-[18px] sm:leading-[20px] 2xl:leading-[24px] tracking-[0.3em] text-black uppercase block mb-0.5 sm:mb-1 2xl:mb-[16px]"
                     >
                       MESSAGE
                     </label>
-                    <input
+                    <textarea
                       id="contact-message"
                       name="message"
-                      type="text"
+                      rows={3}
                       value={formData.message}
                       onChange={handleChange}
                       placeholder="A anniversary in the Mara, a first safari with the children, a slow week by the ocean..."
-                      className="w-full bg-transparent border-b-[0.5px] border-black/50 focus:border-black pb-1 sm:pb-1.5 2xl:pb-[16px] text-[13px] sm:text-[14px] md:text-[15px] 2xl:text-[16px] leading-[20px] 2xl:leading-[24px] text-black placeholder:text-black/35 font-sans font-light tracking-normal focus:outline-none transition-colors"
+                      className="w-full bg-transparent border-b-[0.5px] border-black/50 focus:border-black pb-1 sm:pb-1.5 2xl:pb-[16px] text-[13px] sm:text-[14px] md:text-[15px] 2xl:text-[16px] leading-[20px] 2xl:leading-[24px] text-black placeholder:text-black/35 font-sans font-light tracking-normal focus:outline-none transition-colors resize-none"
                     />
                   </div>
 

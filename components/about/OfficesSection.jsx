@@ -91,7 +91,7 @@ export function OfficesSection({
                   >
                     {office.phone}
                   </a>
-                  <p className="font-sans text-[11px] md:text-[10px] lg:text-[9px] 2xl:text-[10px] 2xl:leading-[15px] tracking-[0.05em] text-[#F9F7F2]/40 uppercase">
+                  <p className="font-sans text-[12px] 2xl:text-[13px] 2xl:leading-[18px] tracking-[0.05em] text-[#F9F7F2]/70 uppercase">
                     {office.timing}
                   </p>
                 </div>

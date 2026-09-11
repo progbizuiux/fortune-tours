@@ -13,6 +13,7 @@ import { ExperiencesMenu } from "@/components/layout/navbar/ExperiencesMenu";
 import { MobileMenu } from "@/components/layout/navbar/MobileMenu";
 import { SiteMenu } from "@/components/layout/navbar/SiteMenu";
 import { MENU_KEYS } from "@/lib/navigation";
+import { getLenis } from "@/lib/lenis";
 import { cn } from "@/lib/utils";
 
 // `menu` names the dropdown a link opens on hover (desktop only). Links without
@@ -151,12 +152,12 @@ export function Navbar({ publishedCountries }) {
   // Timers must not outlive the component.
   useEffect(() => clearTimers, [clearTimers]);
 
-  // While a dropdown is open: Escape closes it, and a pointer pressed anywhere
+  // While a dropdown or mobile menu is open: Escape closes it, and a pointer pressed anywhere
   // outside the header closes it too (a sheet opened by keyboard focus has no
   // mouseleave to close it otherwise, and the pointer may never have entered
   // the bar).
   useEffect(() => {
-    if (!openMenu) return;
+    if (!openMenu && !isMenuOpen) return;
 
     function handleKeyDown(event) {
       if (event.key !== "Escape" || event.defaultPrevented) return;
@@ -166,14 +167,18 @@ export function Navbar({ publishedCountries }) {
       // real surprise. Focus first, then hide: the trigger opens its menu on
       // focus, so the other order would have the refocus reopen it (both
       // updates land in the same batch, so nothing flashes).
-      if (headerRef.current?.contains(document.activeElement)) {
+      if (openMenu && headerRef.current?.contains(document.activeElement)) {
         triggerRefs.current[openMenu]?.focus();
       }
       hideMenu();
+      setIsMenuOpen(false);
     }
 
     function handlePointerDown(event) {
-      if (!headerRef.current?.contains(event.target)) hideMenu();
+      if (!headerRef.current?.contains(event.target)) {
+        hideMenu();
+        setIsMenuOpen(false);
+      }
     }
 
     document.addEventListener("keydown", handleKeyDown);
@@ -182,7 +187,28 @@ export function Navbar({ publishedCountries }) {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("pointerdown", handlePointerDown);
     };
-  }, [openMenu, hideMenu]);
+  }, [openMenu, isMenuOpen, hideMenu]);
+
+  // Lock background scroll when the mobile menu is open
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    const lenis = getLenis();
+    lenis?.stop();
+
+    const { body } = document;
+    const previousOverflow = body.style.overflow;
+    const previousPadding = body.style.paddingRight;
+    const scrollbar = window.innerWidth - document.documentElement.clientWidth;
+    body.style.overflow = "hidden";
+    if (scrollbar > 0) body.style.paddingRight = `${scrollbar}px`;
+
+    return () => {
+      body.style.overflow = previousOverflow;
+      body.style.paddingRight = previousPadding;
+      lenis?.start();
+    };
+  }, [isMenuOpen]);
 
   useEffect(() => {
     // Stay transparent over the hero and turn solid the moment the next

@@ -33,7 +33,7 @@ const VARIANT_CLASSES = {
   // Category tabs on the dark FeaturedDestinations panel — outlined boxes that
   // flip to solid white when selected.
   tab: {
-    base: "text-nav lg:max-xl:text-[13px] lg:max-xl:px-4 lg:max-xl:py-2.5 xl:max-2xl:text-[16px] xl:max-2xl:px-4.5 xl:max-2xl:py-3 2xl:text-nav 2xl:px-5 2xl:py-3.5 max-sm:text-[11px] max-sm:px-3 max-sm:py-2 whitespace-nowrap border px-5 py-3.5",
+    base: "text-nav lg:max-xl:text-[13px] lg:max-xl:px-4 lg:max-xl:py-2.5 xl:max-2xl:text-[16px] xl:max-2xl:px-4.5 xl:max-2xl:py-3 2xl:text-nav 2xl:px-5 2xl:py-3.5 max-sm:text-[11px] max-sm:px-3 max-sm:py-2 whitespace-nowrap shrink-0 border px-5 py-3.5",
     idle: "border-white/25 border-y-transparent text-white/90",
     active: "border-white bg-white text-navy",
   },

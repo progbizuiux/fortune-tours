@@ -465,6 +465,14 @@ export function PlanTripWizard({
   }
 
   function handleReset() {
+    if (
+      typeof window !== "undefined" &&
+      !window.confirm(
+        "Are you sure you want to reset your journey brief? All entered details will be lost.",
+      )
+    ) {
+      return;
+    }
     clearTimeout(persistTimer.current);
     clearPlanDraft();
     reset(EMPTY_PLAN);
@@ -583,14 +591,14 @@ export function PlanTripWizard({
           {!submitted && (
             <header>
               <h4 className="max-sm:text-[14px]">{eyebrow}</h4>
-              {/* No width cap: the design keeps the title on one line. The h2
-                  token bottoms out at 36px, which crowds the descenders
+              {/* No width cap: the design keeps the title on one line. The h1
+                  token bottoms out at 44px, which crowds the descenders
                   against the line box on a phone, so this section runs its own
                   smaller step below sm — the same move the dark
                   PlanMyTripSection makes. */}
-              <h2 className="mt-3 max-sm:text-[30px] max-sm:leading-[1.1] sm:mt-4">
+              <h1 className="mt-3 max-sm:text-[30px] max-sm:leading-[1.1] sm:mt-4">
                 {title}
-              </h2>
+              </h1>
             </header>
           )}
 

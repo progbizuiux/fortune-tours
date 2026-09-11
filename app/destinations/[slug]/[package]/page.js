@@ -59,6 +59,24 @@ export default async function PackagePage({ params }) {
   const entry = await getPackage(slug, packageSlug);
 
   if (!entry) notFound();
+
+  const heroCtas = entry.hero?.ctas?.map((link, index) =>
+    index === 0 ? { ...link, opensForm: true } : link,
+  );
+
+  const heroProps = {
+    ...entry.hero,
+    ctas: heroCtas,
+    formTitle: entry.hero?.formTitle ?? entry.cta?.formTitle,
+    formDescription: entry.hero?.formDescription ?? entry.cta?.formDescription,
+    formImage: entry.hero?.formImage ?? entry.cta?.formImage,
+    formImageAlt: entry.hero?.formImageAlt ?? entry.cta?.formImageAlt,
+    packageName:
+      entry.hero?.packageName ??
+      entry.cta?.packageName ??
+      entry.hero?.title?.replace(/\n/g, " "),
+  };
+
   return (
     <>
       {/* Pin scope for the sticky hero: sticky positioning is bounded by the
@@ -67,7 +85,7 @@ export default async function PackagePage({ params }) {
           bottom, it pushes the hero away instead of leaving it pinned for the
           rest of the page — the same wrapper the destination route uses. */}
       <div>
-        <PageHero {...entry.hero} priority />
+        <PageHero {...heroProps} priority />
         {/* A taller crop than the region pages' 1755x635. Their strip carries a
             single row of place names under the story; this one carries six
             label/value pairs, which needs the extra height to sit clear of the
