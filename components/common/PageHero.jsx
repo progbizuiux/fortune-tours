@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { Container } from "@/components/common/Container";
 import { CtaLink } from "@/components/common/CtaLink";
+import { BookingCtaButton } from "@/components/packages/BookingCtaButton";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { HERO_BODY, HERO_CTA, HERO_HEADING } from "@/lib/typography";
 import { cn } from "@/lib/utils";
@@ -40,6 +41,12 @@ export function PageHero({
   video,
   image,
   imageAlt = "",
+  /* Optional modal props for packages opening enquiry dialog from banner */
+  formTitle,
+  formDescription,
+  formImage,
+  formImageAlt,
+  packageName,
   /* Only the home page's video is above the fold on first paint today. A still
      that is genuinely the LCP element should pass `priority` — see the
      destination pages, which do. */
@@ -264,16 +271,32 @@ export function PageHero({
             button at all. Wrapping only engages when the row genuinely does not
             fit, so the single-CTA and short-label heroes are unchanged. */}
         <div className="hero-cta mt-4 flex flex-wrap items-center justify-center max-md:gap-4 gap-x-6 gap-y-3 max-md:text-[13px] max-md:leading-6 text-body text-white/90 opacity-0">
-          {ctas.map((link) => (
-            <CtaLink
-              key={link.label}
-              href={link.href}
-              fill
-              className={`${HERO_CTA} border-white/40 whitespace-nowrap`}
-            >
-              {link.label}
-            </CtaLink>
-          ))}
+          {ctas.map((link, index) =>
+            link.opensForm ? (
+              <BookingCtaButton
+                key={link.label}
+                href={link.href}
+                label={link.label}
+                withLeftDivider={index > 0}
+                dividerClassName="h-6 w-px bg-white/40 max-sm:hidden"
+                className={`${HERO_CTA} border-white/40 text-white inline-flex items-center justify-center whitespace-nowrap`}
+                modalTitle={formTitle ?? link.formTitle}
+                modalDescription={formDescription ?? link.formDescription}
+                image={formImage ?? link.formImage ?? image}
+                imageAlt={formImageAlt ?? link.formImageAlt ?? imageAlt}
+                packageName={packageName ?? link.packageName ?? title?.replace(/\n/g, " ")}
+              />
+            ) : (
+              <CtaLink
+                key={link.label}
+                href={link.href}
+                fill
+                className={`${HERO_CTA} border-white/40 whitespace-nowrap`}
+              >
+                {link.label}
+              </CtaLink>
+            )
+          )}
         </div>
       </Container>
     </section>

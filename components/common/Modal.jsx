@@ -112,6 +112,7 @@ export function Modal({
 
   return createPortal(
     <div
+      data-lenis-prevent
       className="fixed inset-0 z-[100] flex items-end justify-center overflow-y-auto p-0 sm:items-center sm:p-6"
       onKeyDown={handleKeyDown}
     >
@@ -129,6 +130,7 @@ export function Modal({
         aria-modal="true"
         aria-labelledby={labelledBy}
         tabIndex={-1}
+        data-lenis-prevent
         className={cn(
           "relative z-10 w-full max-h-full overflow-y-auto bg-white shadow-2xl outline-none motion-safe:animate-menu-drop sm:max-w-[900px]",
           className,

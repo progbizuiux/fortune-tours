@@ -33,12 +33,14 @@ export function SearchToolbar({ className, packageOptions }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Always starts empty, including on a shared /search?term=... link: the box
-  // is where the NEXT search is typed, and the one in force is shown as a chip
-  // below. It deliberately does not mirror the URL — see submitTerm.
-  const [term, setTerm] = useState("");
+  const currentTerm = searchParams.get("term") ?? "";
+  const [term, setTerm] = useState(currentTerm);
   const [openKey, setOpenKey] = useState(null);
   const railRef = useRef(null);
+
+  useEffect(() => {
+    setTerm(currentTerm);
+  }, [currentTerm]);
 
   useEffect(() => {
     if (!openKey) return;
@@ -78,10 +80,6 @@ export function SearchToolbar({ className, packageOptions }) {
     commit((params) =>
       trimmed ? params.set("term", trimmed) : params.delete("term"),
     );
-    // Emptied on submit so the next search can be typed straight over it
-    // instead of having to clear the previous one first. The term is not lost:
-    // it becomes a chip below, which is also how it gets removed again.
-    setTerm("");
   }
 
   function resetAll() {
@@ -89,13 +87,17 @@ export function SearchToolbar({ className, packageOptions }) {
     router.push(pathname, { scroll: false });
   }
 
-  // The term leads, then one chip per filter group that holds a value.
+  // The term leads, then one chip per filter group that holds a valid value.
   const activeChips = [
-    { key: "term", value: searchParams.get("term") },
-    ...groups.map((group) => ({
-      key: group.key,
-      value: searchParams.get(group.key),
-    })),
+    { key: "term", value: searchParams.get("term")?.trim() },
+    ...groups.map((group) => {
+      const raw = searchParams.get(group.key);
+      const isKnown = group.options.some((o) => optionValue(o) === raw);
+      return {
+        key: group.key,
+        value: isKnown ? raw : null,
+      };
+    }),
   ].filter((chip) => chip.value);
 
   return (
@@ -124,7 +126,9 @@ export function SearchToolbar({ className, packageOptions }) {
             to hang it under its own cell. */}
         <div className="relative flex flex-wrap max-lg:gap-3 lg:static">
           {railGroups.map((group, index) => {
-            const value = searchParams.get(group.key);
+            const raw = searchParams.get(group.key);
+            const isKnown = group.options.some((o) => optionValue(o) === raw);
+            const value = isKnown ? raw : null;
             const isOpen = openKey === group.key;
             const options = group.options;
 

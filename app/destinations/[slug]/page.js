@@ -21,6 +21,7 @@ import { getDestinationPage, getDestinationSlugs } from "@/lib/strapi/kerala";
 const PLAN_TRIP_IMAGES = {
   kerala: "/destinations/kerala/house-boat.avif",
   india: "/destination/india.avif",
+  kashmir: "/destinations/kerala/house-boat.avif",
 };
 
 /* One route for every destination. The design is fixed; the CMS supplies the

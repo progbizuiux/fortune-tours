@@ -347,6 +347,14 @@ export function PlanMyTripSection({
   }
 
   function handleReset() {
+    if (
+      typeof window !== "undefined" &&
+      !window.confirm(
+        "Are you sure you want to reset your journey brief? All entered details will be lost.",
+      )
+    ) {
+      return;
+    }
     clearTimeout(persistTimer.current);
     clearPlanDraft();
     reset(EMPTY_PLAN);

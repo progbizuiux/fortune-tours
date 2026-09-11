@@ -117,14 +117,14 @@ export function Footer() {
           {/* Offset at lg so the row lines up with the tagline rather than
               the wordmark, matching the design. */}
           <nav aria-label="Quick links" className="lg:mt-15">
-            <ul className="flex max-sm:flex-row max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:[scrollbar-width:none] max-sm:[&::-webkit-scrollbar]:hidden flex-wrap items-center gap-x-4 max-sm:gap-x-2 gap-y-2">
-              <li className="font-heading text-body text-white max-sm:text-[12px] max-sm:font-normal max-sm:whitespace-nowrap">
+            <ul className="flex flex-wrap items-center gap-x-4 max-sm:gap-x-2 gap-y-2">
+              <li className="font-heading text-body text-white max-sm:text-[12px] max-sm:font-normal">
                 Quick Links :
               </li>
               {QUICK_LINKS.map((link, index) => (
                 <li
                   key={link.href}
-                  className="flex items-center gap-4 max-sm:gap-2 max-sm:whitespace-nowrap"
+                  className="flex items-center gap-4 max-sm:gap-2"
                 >
                   {index > 0 && (
                     <span
@@ -135,9 +135,6 @@ export function Footer() {
                   <CtaLink
                     href={link.href}
                     underline={false}
-                    // Below sm these sit in a pannable row and were 18px tall;
-                    // the min-h only applies there, so the desktop row is
-                    // untouched.
                     className="text-small text-white/70 hover:text-white max-sm:inline-flex max-sm:min-h-11 max-sm:items-center max-sm:text-[12px] max-sm:font-light"
                   >
                     {link.label}
@@ -182,13 +179,13 @@ export function Footer() {
           {/* A ratio, not a flat 24px: the size drops to 10px here, so a fixed
               24px leading gave the two wrapped lines a 2.4 line-height on a
               320px screen. */}
-          <p className="text-small text-white/60 max-sm:order-1 max-sm:text-[10px] max-sm:leading-[1.4] max-sm:font-light">
+          <p className="text-small text-white/60 max-sm:order-1 max-sm:text-[12px] max-sm:leading-[1.4] max-sm:font-light">
             © {year} Fortune Tours &amp; Travels. All journeys reserved.
           </p>
           {/* Only the name is the link, not the whole line: "Designed by" is
               not part of the destination. Same target/rel and hover-to-white as
               the other outbound links in this footer. */}
-          <p className="text-small text-white/50 max-sm:order-3 max-sm:w-full max-sm:text-center max-sm:text-[10px] max-sm:leading-[1.4] max-sm:font-light">
+          <p className="text-small text-white/50 max-sm:order-3 max-sm:w-full max-sm:text-center max-sm:text-[12px] max-sm:leading-[1.4] max-sm:font-light">
             Designed by{" "}
             <a
               href="https://progbiz.io"

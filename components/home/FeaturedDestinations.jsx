@@ -703,9 +703,10 @@ export function FeaturedDestinations({
             Height now comes from the content, which the card sizing below caps
             against the viewport — so the whole section fits on one screen. */}
         <Container className="relative flex flex-col pt-10 pb-10 max-lg:min-h-0 lg:pt-[min(2.5rem,4vh)] lg:pb-[min(2rem,3.5vh)] xl:max-2xl:pt-[min(3.25rem,5.5vh)] xl:max-2xl:pb-[min(2.75rem,5vh)] xl:max-2xl:min-h-[92vh] 2xl:pt-14 2xl:pb-11">
-          {/* Category tabs — individually outlined boxes with small gaps;
-              the active tab flips to solid white, as in the design. */}
-          <div className="relative z-30 flex flex-wrap gap-3 max-lg:flex-nowrap max-lg:overflow-x-auto max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden lg:justify-end">
+          <div
+            className="relative z-30 flex flex-wrap gap-3 max-lg:flex-nowrap max-lg:overflow-x-auto max-lg:w-full max-lg:min-w-0 max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden lg:justify-end"
+            data-lenis-prevent
+          >
             {categories.map((tab) => (
               <FrameButton
                 key={tab.key}
