@@ -86,7 +86,7 @@ export function Footer() {
                 alt="Fortune Tours & Travels"
                 width={192}
                 height={70}
-                className="h-auto w-[160px] object-contain max-sm:w-[93px]"
+                className="h-auto w-[130px] sm:w-[140px] lg:w-[160px] object-contain max-sm:w-[82px]"
               />
             </Link>
 

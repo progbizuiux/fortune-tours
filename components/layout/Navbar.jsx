@@ -358,10 +358,10 @@ export function Navbar({ publishedCountries }) {
               // Both axes sized in CSS on purpose. Tailwind's preflight sets
               // `height: auto` on every img, which left height CSS-driven and
               // width attribute-driven — Next flags that mismatch in dev and
-              // can no longer guarantee the aspect ratio. Pairing w-[140px]
+              // can no longer guarantee the aspect ratio. Pairing w-[90px]
               // with h-auto puts both under CSS and silences it; the width and
               // height props stay as the ratio hint that reserves the space.
-              "h-auto w-[140px] lg:max-xl:w-[90px] xl:max-2xl:w-[110px] 2xl:w-[140px] object-contain transition-opacity duration-300",
+              "h-auto w-[90px] sm:w-[105px] lg:max-xl:w-[90px] xl:max-2xl:w-[110px] 2xl:w-[140px] object-contain transition-opacity duration-300",
               isSolid ? "absolute opacity-0" : "opacity-100",
             )}
             priority
@@ -381,10 +381,10 @@ export function Navbar({ publishedCountries }) {
               // Both axes sized in CSS on purpose. Tailwind's preflight sets
               // `height: auto` on every img, which left height CSS-driven and
               // width attribute-driven — Next flags that mismatch in dev and
-              // can no longer guarantee the aspect ratio. Pairing w-[140px]
+              // can no longer guarantee the aspect ratio. Pairing w-[90px]
               // with h-auto puts both under CSS and silences it; the width and
               // height props stay as the space hint that reserves the space.
-              "h-auto w-[140px] lg:max-xl:w-[90px] xl:max-2xl:w-[110px] 2xl:w-[140px] object-contain transition-opacity duration-300",
+              "h-auto w-[90px] sm:w-[105px] lg:max-xl:w-[90px] xl:max-2xl:w-[110px] 2xl:w-[140px] object-contain transition-opacity duration-300",
               isSolid ? "opacity-100" : "absolute opacity-0",
             )}
             priority

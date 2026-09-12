@@ -236,15 +236,15 @@ function Day({ day, index, isOpen, isFirst, prevOpen, onToggle }) {
                         instead of swapping one icon for another. Same 14px
                         mark and 1.5px stroke as the lucide glyphs it
                         replaces. */}
-                    <span className="shrink-0 text-black flex items-center justify-center w-[14px] h-[30px] mt-1.5" aria-hidden="true">
+                    <span className="shrink-0 text-black flex items-center justify-center w-5 h-[30px] mt-1.5" aria-hidden="true">
                       {isOpen ? (
                         <Minus
-                          className="w-[14px] h-[14px]"
+                          className="w-5 h-5"
                           strokeWidth={1.5}
                         />
                       ) : (
                         <Plus
-                          className="w-[14px] h-[14px]"
+                          className="w-5 h-5"
                           strokeWidth={1.5}
                         />
                       )}
