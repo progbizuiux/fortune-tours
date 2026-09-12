@@ -234,7 +234,7 @@ export function ImageIntroSection({
                           />
                         )}
                         <div className="flex flex-col items-center text-center px-1 sm:px-2">
-                          <p className="font-top text-[10px] lg:text-[11px] 2xl:text-[12px] uppercase tracking-[0.08em] text-white/70 leading-none">
+                          <p className="font-top text-[11px] sm:text-[12px] lg:text-[11px] 2xl:text-[12px] uppercase tracking-[0.08em] text-white/75 leading-none">
                             {stat.label}
                           </p>
                           <p className="mt-1.5 sm:mt-2 lg:mt-2.5 font-sans font-light whitespace-nowrap text-[13.5px] sm:text-[15px] lg:text-[16px] xl:text-[18px] 2xl:text-[20px] leading-normal text-white">

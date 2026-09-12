@@ -52,7 +52,7 @@ export default async function Home() {
       <TravelStylesSection {...homeData.travelStyles} items={travelStyles} />
       <FeaturedDestinations {...homeData.featured} />
       <DeparturesSection {...homeData.departures} />
-      <JournalSection {...homeData.journal} />
+      {/* <JournalSection {...homeData.journal} /> */}
       <GlobeSection />
       {/* Same cloud bank that closes the hero, reused to close the globe. The
           art is white clouds fading to white, so it only reads when it lies

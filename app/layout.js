@@ -15,17 +15,22 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://fortunetours.in";
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Fortune Travels | Tours & Travel Boilerplate",
-    template: "%s | Fortune Travels",
+    default: "Fortune Tours & Travels | Custom Journeys from Kerala",
+    template: "%s | Fortune Tours & Travels",
   },
   description:
-    "A production-ready Next.js travel website boilerplate ready for Strapi CMS integration.",
+    "Custom journeys, curated holidays, and bespoke travel experiences crafted with local expertise from Kerala.",
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
   openGraph: {
-    title: "Fortune Travels | Tours & Travel Boilerplate",
+    title: "Fortune Tours & Travels | Custom Journeys from Kerala",
     description:
-      "A production-ready Next.js travel website boilerplate ready for Strapi CMS integration.",
+      "Custom journeys, curated holidays, and bespoke travel experiences crafted with local expertise from Kerala.",
     url: siteUrl,
-    siteName: "Fortune Travels",
+    siteName: "Fortune Tours & Travels",
     type: "website",
   },
 };
