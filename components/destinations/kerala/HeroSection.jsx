@@ -22,8 +22,8 @@ const DEFAULT_IMAGE_ALT = "Kerala backwaters with palm trees and a boat";
 /* Background videos for specific destinations, keyed by route slug. A slug
    without an entry keeps the CMS image. */
 const HERO_VIDEOS = {
-  kerala: "/destinations/kerala-destination.mov",
-  india: "/destinations/India-destination.mov",
+  kerala: "/destinations/Fortune Kerala 2.9.26.mov",
+  india: "/destinations/Fortune india 2.9.26.mov",
 };
 
 export function HeroSection({

@@ -211,7 +211,7 @@ export function CredentialsSection({
             <AnimatedAvatars />
 
             <p className="max-sm:font-light max-sm:text-[9px] max-sm:leading-[12px] sm:max-md:text-[10px] sm:max-md:leading-[14px] md:max-lg:text-[13.5px] md:max-lg:leading-[18px] text-center lg:text-right text-caption lg:font-light lg:max-xl:text-[15px] xl:max-2xl:text-[18px] 2xl:text-[18px] lg:leading-6 text-navy/70 lg:text-black/80 max-sm:w-[160px] sm:w-full lg:w-auto lg:max-w-none">
-              4.9 Rating from 14K+<br className="lg:hidden" /> Google Reviews
+              4.9 Rating from 14k+<br className="lg:hidden" /> Google Reviews
             </p>
           </a>
         </div>

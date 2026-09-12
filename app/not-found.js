@@ -61,7 +61,7 @@ export default function NotFound() {
                 <button
                   type="button"
                   onClick={() => window.history.back()}
-                  className="underline underline-offset-4 transition-colors hover:text-navy"
+                  className="cursor-pointer underline underline-offset-4 transition-colors hover:text-navy"
                 >
                   Back
                 </button>{" "}

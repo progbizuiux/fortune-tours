@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import { toast } from "sonner";
 import { RotateCw } from "lucide-react";
 import { Container } from "@/components/common/Container";
+import { Modal } from "@/components/common/Modal";
 import {
   DESTINATION_MODE_OPTIONS,
   DURATION_OPTIONS,
@@ -341,6 +342,7 @@ export function PlanTripWizard({
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState("forward");
   const [submittedName, setSubmittedName] = useState(null);
+  const [resetModalOpen, setResetModalOpen] = useState(false);
   // Set after mount: rendering new Date() would differ between the server pass
   // and hydration around midnight/timezones.
   const [today, setToday] = useState("");
@@ -465,14 +467,11 @@ export function PlanTripWizard({
   }
 
   function handleReset() {
-    if (
-      typeof window !== "undefined" &&
-      !window.confirm(
-        "Are you sure you want to reset your journey brief? All entered details will be lost.",
-      )
-    ) {
-      return;
-    }
+    setResetModalOpen(true);
+  }
+
+  function confirmReset() {
+    setResetModalOpen(false);
     clearTimeout(persistTimer.current);
     clearPlanDraft();
     reset(EMPTY_PLAN);
@@ -1107,6 +1106,46 @@ export function PlanTripWizard({
           </aside>
         )}
       </Container>
+
+      {/* Custom Reset Confirmation Modal */}
+      <Modal
+        open={resetModalOpen}
+        onClose={() => setResetModalOpen(false)}
+        labelledBy="reset-dialog-title"
+        className="sm:max-w-[460px] p-6 sm:p-8"
+      >
+        <div className="flex flex-col">
+          <span className="font-top text-[11px] font-light tracking-[0.18em] text-black/45 uppercase">
+            Reset Brief
+          </span>
+          <h3
+            id="reset-dialog-title"
+            className="mt-2 font-heading text-[22px] leading-[1.2] text-black sm:text-[24px]"
+          >
+            Reset your journey brief?
+          </h3>
+          <p className="mt-3 text-[14px] leading-relaxed font-light text-black/70">
+            All entered details and selections will be cleared, and you will return to the first step.
+          </p>
+
+          <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
+            <button
+              type="button"
+              onClick={() => setResetModalOpen(false)}
+              className="focus-visible:outline-sky min-h-11 w-full cursor-pointer border border-black/20 px-6 py-2.5 text-[14px] font-light text-black transition-colors hover:border-black sm:w-auto"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={confirmReset}
+              className="focus-visible:outline-sky hover:bg-navy min-h-11 w-full cursor-pointer bg-black px-6 py-2.5 text-[14px] font-medium text-white transition-colors sm:w-auto"
+            >
+              Reset Brief
+            </button>
+          </div>
+        </div>
+      </Modal>
     </section>
   );
 }

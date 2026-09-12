@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { Plus, Minus } from "lucide-react";
 import { AnimateIn } from "@/components/common/AnimateIn";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
@@ -235,22 +236,18 @@ function Day({ day, index, isOpen, isFirst, prevOpen, onToggle }) {
                         instead of swapping one icon for another. Same 14px
                         mark and 1.5px stroke as the lucide glyphs it
                         replaces. */}
-                    <span
-                      aria-hidden="true"
-                      className={cn(
-                        "relative mt-1.5 flex h-[30px] w-[14px] shrink-0 items-center justify-center text-black",
-                        "transition-transform duration-300 ease-in-out motion-reduce:transition-none",
-                        isOpen && "rotate-90",
+                    <span className="shrink-0 text-black flex items-center justify-center w-[14px] h-[30px] mt-1.5" aria-hidden="true">
+                      {isOpen ? (
+                        <Minus
+                          className="w-[14px] h-[14px]"
+                          strokeWidth={1.5}
+                        />
+                      ) : (
+                        <Plus
+                          className="w-[14px] h-[14px]"
+                          strokeWidth={1.5}
+                        />
                       )}
-                    >
-                      <span className="absolute h-[1.5px] w-[14px] rounded-full bg-current" />
-                      <span
-                        className={cn(
-                          "absolute h-[14px] w-[1.5px] rounded-full bg-current",
-                          "transition-transform duration-300 ease-in-out motion-reduce:transition-none",
-                          isOpen && "scale-y-0",
-                        )}
-                      />
                     </span>
                   </button>
                 </h3>

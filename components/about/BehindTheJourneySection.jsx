@@ -40,7 +40,7 @@ import { cn } from "@/lib/utils";
 const RULE_COLOR = "#E0DACE";
 
 const INTRO =
-  "Fortune Tours & Travels has been crafting journeys from Kerala for over two decades. With offices across Ernakulam, Kochi, Thrissur, Trivandrum and Kannur, we plan travel across India and around the world. Every journey is shaped around the people travelling not pulled from a shelf. From your first conversation to your final transfer, our team stays involved, making sure every detail feels considered, personal and effortless.";
+  "Fortune Tours & Travels has been crafting journeys from Kerala for over two decades. With offices across Ernakulam, Kochi, Thrissur, Trivandrum and Kannur, we plan travel across India and around the world. Every journey is shaped around the people travelling, not pulled from a shelf. From your first conversation to your final transfer, our team stays involved, making sure every detail feels considered, personal and effortless.";
 
 const STATS = [
   {

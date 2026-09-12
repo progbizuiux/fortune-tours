@@ -271,7 +271,7 @@ export function ContactHeroSection({
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="James Thomas"
-                        className="w-full bg-transparent border-b-[0.5px] border-black/50 focus:border-black pb-1 sm:pb-1.5 2xl:pb-[16px] text-[13px] sm:text-[14px] md:text-[15px] 2xl:text-[16px] leading-[20px] 2xl:leading-[24px] text-black placeholder:text-black/35 font-sans font-light tracking-normal focus:outline-none transition-colors"
+                        className="w-full bg-transparent border-b-[0.5px] border-black/50 focus:border-black pb-1 sm:pb-1.5 2xl:pb-[16px] text-[13px] sm:text-[14px] md:text-[15px] 2xl:text-[16px] leading-[20px] 2xl:leading-[24px] text-black placeholder:text-black/35 font-sans font-light tracking-normal focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky transition-colors"
                       />
                     </div>
 
@@ -291,7 +291,7 @@ export function ContactHeroSection({
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="JamesThomas@gmail.com"
-                        className="w-full bg-transparent border-b-[0.5px] border-black/50 focus:border-black pb-1 sm:pb-1.5 2xl:pb-[16px] text-[13px] sm:text-[14px] md:text-[15px] 2xl:text-[16px] leading-[20px] 2xl:leading-[24px] text-black placeholder:text-black/35 font-sans font-light tracking-normal focus:outline-none transition-colors"
+                        className="w-full bg-transparent border-b-[0.5px] border-black/50 focus:border-black pb-1 sm:pb-1.5 2xl:pb-[16px] text-[13px] sm:text-[14px] md:text-[15px] 2xl:text-[16px] leading-[20px] 2xl:leading-[24px] text-black placeholder:text-black/35 font-sans font-light tracking-normal focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky transition-colors"
                       />
                     </div>
                   </div>
@@ -311,7 +311,7 @@ export function ContactHeroSection({
                       value={formData.phone}
                       onChange={handleChange}
                       placeholder="JamesThomas@gmail.com"
-                      className="w-full bg-transparent border-b-[0.5px] border-black/50 focus:border-black pb-1 sm:pb-1.5 2xl:pb-[16px] text-[13px] sm:text-[14px] md:text-[15px] 2xl:text-[16px] leading-[20px] 2xl:leading-[24px] text-black placeholder:text-black/35 font-sans font-light tracking-normal focus:outline-none transition-colors"
+                      className="w-full bg-transparent border-b-[0.5px] border-black/50 focus:border-black pb-1 sm:pb-1.5 2xl:pb-[16px] text-[13px] sm:text-[14px] md:text-[15px] 2xl:text-[16px] leading-[20px] 2xl:leading-[24px] text-black placeholder:text-black/35 font-sans font-light tracking-normal focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky transition-colors"
                     />
                   </div>
 
@@ -329,7 +329,7 @@ export function ContactHeroSection({
                         name="interest"
                         value={formData.interest}
                         onChange={handleChange}
-                        className="w-full bg-transparent border-b-[0.5px] border-black/50 focus:border-black pb-1 sm:pb-1.5 2xl:pb-[16px] text-[12px] sm:text-[13px] md:text-[14px] 2xl:text-[16px] leading-[18px] sm:leading-[20px] 2xl:leading-[24px] text-black font-sans font-light tracking-normal focus:outline-none transition-colors appearance-none pr-8 cursor-pointer"
+                        className="w-full bg-transparent border-b-[0.5px] border-black/50 focus:border-black pb-1 sm:pb-1.5 2xl:pb-[16px] text-[12px] sm:text-[13px] md:text-[14px] 2xl:text-[16px] leading-[18px] sm:leading-[20px] 2xl:leading-[24px] text-black font-sans font-light tracking-normal focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky transition-colors appearance-none pr-8 cursor-pointer"
                       >
                         {INTEREST_OPTIONS.map((opt) => (
                           <option key={opt} value={opt} className="text-black bg-white text-[12px] sm:text-[13px] md:text-[14px] 2xl:text-[16px] py-1.5 sm:py-2 px-3 sm:px-4 pl-3 sm:pl-4">
@@ -345,7 +345,7 @@ export function ContactHeroSection({
                   </div>
 
                   {/* Message */}
-                  <div className="relative flex flex-col justify-between">
+                  <div className="relative flex flex-col justify-between 2xl:h-[80px]">
                     <label
                       htmlFor="contact-message"
                       className="font-sans font-light text-[12px] sm:text-[13px] md:text-[14px] 2xl:text-[16px] leading-[18px] sm:leading-[20px] 2xl:leading-[24px] tracking-[0.3em] text-black uppercase block mb-0.5 sm:mb-1 2xl:mb-[16px]"
@@ -355,11 +355,11 @@ export function ContactHeroSection({
                     <textarea
                       id="contact-message"
                       name="message"
-                      rows={3}
+                      rows={1}
                       value={formData.message}
                       onChange={handleChange}
-                      placeholder="A anniversary in the Mara, a first safari with the children, a slow week by the ocean..."
-                      className="w-full bg-transparent border-b-[0.5px] border-black/50 focus:border-black pb-1 sm:pb-1.5 2xl:pb-[16px] text-[13px] sm:text-[14px] md:text-[15px] 2xl:text-[16px] leading-[20px] 2xl:leading-[24px] text-black placeholder:text-black/35 font-sans font-light tracking-normal focus:outline-none transition-colors resize-none"
+                      placeholder="An anniversary in the Mara, a first safari with the children, a slow week by the ocean..."
+                      className="w-full bg-transparent border-b-[0.5px] border-black/50 focus:border-black pb-1 sm:pb-1.5 2xl:pb-[16px] text-[13px] sm:text-[14px] md:text-[15px] 2xl:text-[16px] leading-[20px] 2xl:leading-[24px] text-black placeholder:text-black/35 font-sans font-light tracking-normal focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky transition-colors resize-none overflow-y-auto h-[29px] sm:h-[32px] 2xl:h-[40px]"
                     />
                   </div>
 
@@ -368,7 +368,7 @@ export function ContactHeroSection({
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full sm:w-auto 2xl:w-[186px] 2xl:h-[52px] bg-black text-white font-sans font-light text-[13px] sm:text-[14px] md:text-[15px] 2xl:text-[18px] leading-[20px] sm:leading-[22px] 2xl:leading-[24px] tracking-normal px-6 py-2.5 sm:px-8 sm:py-3 2xl:px-0 2xl:py-0 hover:bg-neutral-800 active:scale-[0.99] transition-all duration-200 cursor-pointer inline-flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
+                      className="w-full sm:w-auto 2xl:w-[186px] 2xl:h-[52px] bg-black text-white font-sans font-light text-[13px] sm:text-[14px] md:text-[15px] 2xl:text-[18px] leading-[20px] sm:leading-[22px] 2xl:leading-[24px] tracking-normal px-6 py-2.5 sm:px-8 sm:py-3 2xl:px-0 2xl:py-0 hover:bg-neutral-800 active:scale-[0.99] transition-all duration-200 cursor-pointer inline-flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky"
                     >
                       {isSubmitting ? (
                         <Loader2 className="w-4 h-4 animate-spin" />
