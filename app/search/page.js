@@ -4,8 +4,8 @@ import { InspirationBanner } from "@/components/search/InspirationBanner";
 import { ResultsGrid } from "@/components/search/ResultsGrid";
 import { SearchToolbar } from "@/components/search/SearchToolbar";
 import { getInspiration } from "@/lib/inspirationData";
-import { getTravelStyle, toInspiration } from "@/lib/strapi/travel-styles";
 import { getPackageOptions, getSearchResults } from "@/lib/strapi/search";
+import { getTravelStyle, toInspiration } from "@/lib/strapi/travel-styles";
 
 // The band's caret points at the results, so the link needs a target to reach
 // and the results need to clear the fixed navbar when it lands.
@@ -31,9 +31,16 @@ export async function generateMetadata({ searchParams }) {
   };
 }
 
+/* Renders as h1 or h2 depending on whether the inspiration banner above it
+   supplied the page's h1. Size comes from the caller's className either way. */
+function ResultsHeading({ as: Tag = "h2", className, children }) {
+  return <Tag className={className}>{children}</Tag>;
+}
+
 export default async function SearchPage({ searchParams }) {
   const params = await searchParams;
   const experience = first(params.experience);
+  const styleParam = first(params.style);
 
   // Real continents and countries from lib/navigation.js, with pictures and
   // links resolved against Strapi — see lib/strapi/search.js.
@@ -42,25 +49,31 @@ export default async function SearchPage({ searchParams }) {
       term: first(params.term),
       continent: first(params.continent),
       country: first(params.country),
-      style: first(params.style),
+      style: styleParam,
       pkg: first(params.package),
     }),
     getPackageOptions(),
   ]);
 
-  /* The band follows whichever theme the URL names. `?style=` comes from the
-     travel-style cards on the destination pages and is answered from the CMS;
-     `?experience=` is the older filter-driven path and still resolves from
-     lib/inspirationData. A style that no longer exists falls through to the
-     experience band rather than rendering an empty one.
+  /* The band is a theme's introduction, so it belongs only on a themed
+     search. Bare /search — and a plain term or destination search — opens on
+     the results instead; a band there had no theme to name.
+
+     `?style=` comes from the travel-style cards on the destination pages and
+     is answered from the CMS; `?experience=` is the older filter-driven path
+     and still resolves from lib/inspirationData. A style that no longer
+     exists falls through to the experience band rather than rendering an
+     empty one.
 
      Fetched only when the param is present, so the unfiltered page does not
      pay for a request it will not use. */
-  const style = await getTravelStyle(first(params.style));
-
-  // Re-themes with the experience filter, so the band never contradicts the
-  // results underneath it.
-  const inspiration = style ? toInspiration(style) : getInspiration({ experience });
+  const style = await getTravelStyle(styleParam);
+  const inspiration =
+    style || experience
+      ? style
+        ? toInspiration(style)
+        : getInspiration({ experience })
+      : null;
 
   return (
     <>
@@ -71,7 +84,9 @@ export default async function SearchPage({ searchParams }) {
           and keeps it there. */}
       <div data-navbar-solid-from aria-hidden="true" />
 
-      <InspirationBanner inspiration={inspiration} ctaHref={`#${RESULTS_ID}`} />
+      {inspiration ? (
+        <InspirationBanner inspiration={inspiration} ctaHref={`#${RESULTS_ID}`} />
+      ) : null}
 
       {/* scroll-mt clears the fixed 80px navbar, which would otherwise sit over
           the heading when the caret above jumps here. */}
@@ -82,10 +97,10 @@ export default async function SearchPage({ searchParams }) {
         <Container>
           <AnimateIn stagger={0.12} className="flex flex-col">
 
-            {/* h2, not h1 — the banner above carries this page's only h1. The
-                text-h1 class keeps the size it has always had, so this is a
-                document-outline fix and nothing more. */}
-            <h2 className="text-h2 text-navy max-lg:capitalize max-lg:text-[30px] max-lg:leading-[120%] max-lg:tracking-[0px]">Explore relaxing journeys</h2>
+            {/* The banner carries an h1 when it renders, so this drops to an
+                h2 then and steps up to h1 on the unthemed page — one h1 per
+                document either way. The text-h2 size never changes. */}
+            <ResultsHeading as={inspiration ? "h2" : "h1"} className="text-h2 text-navy max-lg:capitalize max-lg:text-[30px] max-lg:leading-[120%] max-lg:tracking-[0px]">Explore relaxing journeys</ResultsHeading>
             <p className="text-navy/70 mt-[14px] max-lg:mt-[6px] max-lg:font-light max-lg:text-[14px] max-lg:leading-[100%] max-lg:tracking-[0px] max-lg:text-black/80">
               Find your perfect stay anywhere in the world.
             </p>

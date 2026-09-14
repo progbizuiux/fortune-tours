@@ -4,7 +4,6 @@ import { CardCarouselSection } from "@/components/common/CardCarouselSection";
 import { FeatureRows } from "@/components/common/FeatureRows";
 import { PackageCarouselSection } from "@/components/common/PackageCarouselSection";
 import { TabbedCardsSection } from "@/components/common/TabbedCardsSection";
-import { JournalSection } from "@/components/common/JournalSection";
 import { ExperienceHero } from "@/components/experiences/ExperienceHero";
 import {
   getExperience,
@@ -135,7 +134,7 @@ export default async function ExperiencePage({ params }) {
       {/* !mt-0 cancels the negative top margin the home page needs to tuck this
           strip under its cloud transition — there is nothing to tuck under
           here, and left in it would ride up over the section above. */}
-      <JournalSection className="!mt-0" />
+      {/* Journal section hidden site-wide. */}
     </>
   );
 }

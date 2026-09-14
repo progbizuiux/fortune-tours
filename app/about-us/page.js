@@ -7,7 +7,6 @@ import { FeatureRows } from "@/components/common/FeatureRows";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { CredentialsSection } from "@/components/common/CredentialsSection";
 import { OfficesSection } from "@/components/about/OfficesSection";
-import { JournalSection } from "@/components/common/JournalSection";
 
 /* /about-us — the About page.
  *

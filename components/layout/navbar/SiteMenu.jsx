@@ -31,7 +31,7 @@ export const SiteMenu = forwardRef(function SiteMenu(
         <ul className="flex flex-col gap-[26px] lg:max-2xl:gap-[16px]">
           {SITE_MENU.primary.map((item, index) => (
             <li
-              key={item.href}
+              key={item.label}
               className={MENU_ROW_ENTER}
               style={menuRowDelay(index)}
             >
@@ -49,7 +49,7 @@ export const SiteMenu = forwardRef(function SiteMenu(
         <ul className="flex flex-col gap-[9px] lg:max-2xl:gap-[4px]">
           {SITE_MENU.secondary.map((item, index) => (
             <li
-              key={item.href}
+              key={item.label}
               className={MENU_ROW_ENTER}
               // Continues the count from the primary list, so the two tiers
               // read as one cascade.
@@ -57,6 +57,9 @@ export const SiteMenu = forwardRef(function SiteMenu(
             >
               <Link
                 href={item.href}
+                {...(item.external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
                 className="text-[18px] leading-none font-light text-[#454E56] lg:max-xl:text-[12px] xl:max-[1500px]:text-[14.5px] min-[1500px]:max-[1700px]:text-[16px] min-[1700px]:text-[18px] hover:text-sky flex min-h-9 items-center transition-colors"
               >
                 {item.label}
