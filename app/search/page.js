@@ -31,6 +31,19 @@ export async function generateMetadata({ searchParams }) {
   };
 }
 
+/* The heading over the results. It used to be the Relax copy, hard-coded, so
+   every themed search — cruise, wildlife, spiritual — contradicted the hero
+   directly above it. Built from the theme instead: "Cruise journeys",
+   "Wildlife journeys", and plain "Explore journeys" when nothing is themed.
+
+   The theme, not the banner's headline: the headline ("Let the sea take you")
+   is the h1 above and would only repeat itself here. A theme the CMS adds
+   later needs no change to this file. */
+function resultsHeading(inspiration) {
+  const theme = inspiration?.theme?.trim();
+  return theme ? `${theme} journeys` : "Explore journeys";
+}
+
 /* Renders as h1 or h2 depending on whether the inspiration banner above it
    supplied the page's h1. Size comes from the caller's className either way. */
 function ResultsHeading({ as: Tag = "h2", className, children }) {
@@ -85,7 +98,10 @@ export default async function SearchPage({ searchParams }) {
       <div data-navbar-solid-from aria-hidden="true" />
 
       {inspiration ? (
-        <InspirationBanner inspiration={inspiration} ctaHref={`#${RESULTS_ID}`} />
+        <InspirationBanner
+          inspiration={inspiration}
+          ctaHref={`#${RESULTS_ID}`}
+        />
       ) : null}
 
       {/* scroll-mt clears the fixed 80px navbar, which would otherwise sit over
@@ -96,11 +112,19 @@ export default async function SearchPage({ searchParams }) {
       >
         <Container>
           <AnimateIn stagger={0.12} className="flex flex-col">
-
             {/* The banner carries an h1 when it renders, so this drops to an
                 h2 then and steps up to h1 on the unthemed page — one h1 per
                 document either way. The text-h2 size never changes. */}
-            <ResultsHeading as={inspiration ? "h2" : "h1"} className="text-h2 text-navy max-lg:capitalize max-lg:text-[30px] max-lg:leading-[120%] max-lg:tracking-[0px]">Explore relaxing journeys</ResultsHeading>
+            {/* No max-lg:capitalize: it retitled the heading below lg, so the
+                same page read "Explore relaxing journeys" on desktop and
+                "Explore Relaxing Journeys" on a phone. The heading now carries
+                a theme name, which capitalize would mangle further. */}
+            <ResultsHeading
+              as={inspiration ? "h2" : "h1"}
+              className="text-h2 text-navy max-lg:text-[30px] max-lg:leading-[120%] max-lg:tracking-[0px]"
+            >
+              {resultsHeading(inspiration)}
+            </ResultsHeading>
             <p className="text-navy/70 mt-[14px] max-lg:mt-[6px] max-lg:font-light max-lg:text-[14px] max-lg:leading-[100%] max-lg:tracking-[0px] max-lg:text-black/80">
               Find your perfect stay anywhere in the world.
             </p>

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { destinationPageHref } from "@/lib/navigation";
+import { countryHrefByName, destinationPageHref } from "@/lib/navigation";
 import { Container } from "@/components/common/Container";
 import { CtaLink } from "@/components/common/CtaLink";
 import { SectionHeading } from "@/components/common/SectionHeading";
@@ -39,11 +39,18 @@ const DESTINATIONS_HREF = "/destinations/a-z";
    404 back for every destination without a page yet. */
 function slideHref(slide) {
   if (slide?.ctaHref) {
+    /* An editor's path without its leading slash ("europe/france") is a
+       RELATIVE link: right on the home page by luck, wrong anywhere else this
+       section renders. Absolute before anything else looks at it. */
+    const href = /^([a-z]+:|[/#])/i.test(slide.ctaHref)
+      ? slide.ctaHref
+      : `/${slide.ctaHref}`;
+
     /* Editors write "/destinations" for the index, which is not a route — the
        index is /destinations/a-z. Corrected here rather than left to 404,
        because it is the CMS copy that is wrong and every slide carrying it
        would break the same way. */
-    return slide.ctaHref.replace(/^\/destinations\/?$/, DESTINATIONS_HREF);
+    return href.replace(/^\/destinations\/?$/, DESTINATIONS_HREF);
   }
 
   // CMS slides carry no destination field, so the name is read off the label:
@@ -57,7 +64,16 @@ function slideHref(slide) {
       .trim();
 
   if (!name) return DESTINATIONS_HREF;
-  return destinationPageHref(name) ?? `/search?term=${encodeURIComponent(name)}`;
+
+  /* The country's own page before a search for its name: "Greece" has
+     /europe/greece, which the Destinations menu has always linked, while
+     destinationPageHref alone knows only the three in DESTINATION_PAGES and
+     sent every other country to /search. */
+  return (
+    destinationPageHref(name) ??
+    countryHrefByName(name) ??
+    `/search?term=${encodeURIComponent(name)}`
+  );
 }
 
 // Images are placeholders from elsewhere in the site — drop the real shots
@@ -825,6 +841,22 @@ export function FeaturedDestinations({
                         {slide.location}
                       </span>
                     </figcaption>
+
+                    {/* The whole card is its destination's link, through the
+                        same slideHref() the slide's own CTA uses — so a card
+                        and the CTA it becomes when promoted always agree.
+
+                        An overlay rather than a wrapper: Flip matches cards
+                        between layouts on the figure carrying data-flip-id, and
+                        putting an element around that changes what it measures
+                        mid-promotion. Sits above the gradient so the whole
+                        picture is clickable, and carries the label itself
+                        because the caption is hidden below lg. */}
+                    <Link
+                      href={slideHref(slide)}
+                      aria-label={`${slide.location} — ${slide.title}`}
+                      className="focus-visible:outline-sky absolute inset-0 z-10 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2"
+                    />
                   </figure>
                 ))}
               </div>

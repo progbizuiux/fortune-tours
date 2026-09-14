@@ -79,13 +79,22 @@ export const SiteMenu = forwardRef(function SiteMenu(
    12%. Written as a ratio rather than those fixed pixels so it holds the shape
    while the column flexes.
 
+   Kerala, not the East African savanna the comp shipped with — this is a
+   Kerala house and the menu is where a first-time visitor meets it. kerala.avif
+   is 4096x2296, the panel's own 16:9, so object-cover barely crops; it is also
+   204KB against the placeholder's 13.9MB PNG.
+
+   h-full would resolve against a parent with no height of its own and
+   collapse the column to zero — taking the fill image and the absolutely
+   positioned card with it. self-stretch alone is what fills the row.
+
    Hidden below lg: the sheet is a single stacked column of links there and the
    picture would push them off the screen. */
 function FeaturedPanel() {
   return (
-    <div className="relative ml-auto hidden self-stretch h-full min-h-0 w-full max-w-[1103px] lg:max-2xl:max-w-[620px] min-[1500px]:max-2xl:max-w-[880px] min-w-0 flex-1 overflow-hidden bg-navy/5 lg:block">
+    <div className="relative ml-auto hidden self-stretch min-h-0 w-full max-w-[1103px] lg:max-2xl:max-w-[620px] min-[1500px]:max-2xl:max-w-[880px] min-w-0 flex-1 overflow-hidden bg-navy/5 lg:block">
       <Image
-        src="/home/featured_Image.png"
+        src="/destinations/kerala/kerala.avif"
         alt=""
         fill
         sizes="(min-width: 1536px) 1103px, 50vw"

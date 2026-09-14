@@ -126,6 +126,23 @@ const GALLERY_IMAGES = [
      with no gaps: every span is even, so column heights only ever differ by a
      whole landscape, which the next one drops straight into. object-cover on
      the image absorbs whatever the row maths does not divide exactly. */
+/* What the browser is told each tile will be drawn at.
+ *
+ * These are two different pictures. The focal tile opens the zoom spanning the
+ * stage's full width, so it really is a full-bleed photograph for as long as
+ * that lasts — 100vw, and it gets the 1920 variant.
+ *
+ * Every other tile is 33vw: three columns from `lg`, which is 461px at 1440.
+ * They were on 100vw too, which fetched twenty 1920-wide files — about 14MB —
+ * to draw them at 461. The zoom does magnify them on the way in, but they are
+ * lazy and clipped while it is at its widest, so what they are nearly always
+ * drawn at is the grid size. Below `lg` there is no zoom at all: two columns
+ * from `sm`, one below it.
+ *
+ * Keep these in step with the grid's column counts in the markup below. */
+const FOCAL_SIZES = "(min-width: 1024px) 100vw, (min-width: 640px) 50vw, 100vw";
+const TILE_SIZES = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw";
+
 const SHAPE = {
   landscape: "aspect-[3/2] sm:aspect-auto sm:row-span-2",
   portrait: "aspect-[3/4] sm:aspect-auto sm:row-span-4",
@@ -230,13 +247,9 @@ export function GalleryGridSection({
                     alt={item.alt || "Fortune Travels Gallery Photo"}
                     fill
                     // The first tile is the page's opening frame, so it is
-                    // fetched eagerly; the rest stay lazy and mostly never load
-                    // at all until the zoom has pulled back far enough to show
-                    // them. 100vw from `lg`, where a single tile is blown up to
-                    // fill the screen — asking for 33vw there buys a 480px file
-                    // and shows it four times that wide.
+                    // fetched eagerly; the rest stay lazy.
                     priority={index === 0}
-                    sizes="(min-width: 1024px) 100vw, (min-width: 640px) 50vw, 100vw"
+                    sizes={index === 0 ? FOCAL_SIZES : TILE_SIZES}
                     className="object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                 );

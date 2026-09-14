@@ -197,7 +197,7 @@ export function Footer() {
             </a>
           </p>
           <p className="text-small text-white/60 max-sm:hidden">
-            Est. 1998 — India · Worldwide
+            Est. 2006 — India · Worldwide
           </p>
 
           {/* Each anchor now carries its own 44px box: the icons were 16x16 tap
