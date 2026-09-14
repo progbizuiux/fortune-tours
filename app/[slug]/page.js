@@ -6,7 +6,6 @@ import { ImageIntroSection } from "@/components/common/ImageIntroSection";
 import { RegionExperiencesSection } from "@/components/destinations/RegionExperiencesSection";
 import { RegionDestinationsSection } from "@/components/destinations/RegionDestinationsSection";
 import { RegionFeaturesSection } from "@/components/common/RegionFeaturesSection";
-import { RegionJournalSection } from "@/components/destinations/RegionJournalSection";
 import { PlanMyTripSection } from "@/components/plan-my-trip/PlanMyTripSection";
 import { RegionCuratedSection } from "@/components/destinations/RegionCuratedSection";
 import { RegionStoriesSection } from "@/components/destinations/RegionStoriesSection";
@@ -95,7 +94,7 @@ export default async function DestinationRegionPage({ params }) {
 
         <RegionFeaturesSection {...page.whyUs} />
         <RegionExperiencesSection {...page.experiences} />
-        <RegionJournalSection {...page.journal} className="!pt-0" />
+        {/* Journal section hidden site-wide. */}
 
         <PlanMyTripSection {...page.planTrip} />
         <RegionCuratedSection {...page.highlights} />

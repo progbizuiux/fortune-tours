@@ -4,7 +4,6 @@ import { GlobeSection } from "@/components/home/GlobeSection";
 import { DestinationsSection } from "@/components/home/DestinationsSection";
 import { CredentialsSection } from "@/components/common/CredentialsSection";
 import { DeparturesSection } from "@/components/home/DeparturesSection";
-import { JournalSection } from "@/components/common/JournalSection";
 import { PolaroidGallery } from "@/components/home/PolaroidGallery";
 import { FeaturedDestinations } from "@/components/home/FeaturedDestinations";
 import { CloudTransition } from "@/components/common/CloudTransition";
