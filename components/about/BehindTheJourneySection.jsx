@@ -40,27 +40,27 @@ import { cn } from "@/lib/utils";
 const RULE_COLOR = "#E0DACE";
 
 const INTRO =
-  "Fortune Tours & Travels has been crafting journeys from Kerala for over two decades. With offices across Ernakulam, Kochi, Thrissur, Trivandrum and Kannur, we plan travel across India and around the world. Every journey is shaped around the people travelling, not pulled from a shelf. From your first conversation to your final transfer, our team stays involved, making sure every detail feels considered, personal and effortless.";
+  "Five offices across the state, more than a million travellers served, and a way of working that starts with listening and ends with you getting home safely with a story worth telling. Every trip is shaped around who is travelling, not pulled from a list. From your first conversation to your last transfer, our team stays involved so nothing falls through.";
 
 const STATS = [
   {
-    value: "2005",
-    label: "Established",
+    value: "20",
+    label: "Years of Experience",
     note: "Our specialists have travelled extensively",
   },
   {
     value: "5",
-    label: "Offices in Kerala",
+    label: "Offices Across Kerala",
     note: "Our specialists have travelled extensively",
   },
   {
-    value: "4,200",
-    label: "Custom journeys",
+    value: "1M+",
+    label: "Travellers Served",
     note: "Our specialists have travelled extensively",
   },
   {
-    value: "21",
-    label: "Years of continuous service",
+    value: "4.9",
+    label: "Google Rating",
     note: "Our specialists have travelled extensively",
   },
 ];

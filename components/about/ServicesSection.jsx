@@ -8,27 +8,27 @@ import { cn } from "@/lib/utils";
 const SERVICES = [
   {
     num: "01",
-    title: "Custom Tour Planning",
+    title: "Group and Escorted Tours",
     description:
-      "Personalized itineraries built around your destination, interests, travel style, and preferred pace. Every detail is planned to create a journey that feels right for you.",
+      "Set departure dates through the year, with a Malayalee tour manager, hotels, all meals, and every detail arranged before you leave. This is what most of our travellers book, and what twenty years of experience has made us best at.",
   },
   {
     num: "02",
-    title: "Visa & Passport Assistance",
+    title: "Custom Trips and Honeymoon Packages",
     description:
-      "Guidance with essential travel documentation, requirements, and application preparation. We help make the preparation process clearer and easier to navigate.",
+      "Your own route, built around your dates, your interests, your budget and your pace. Whether it's a week in one country, a month across several, or a romantic escape for two, we plan it with the same care and experience we bring to our group tours.",
   },
   {
     num: "03",
-    title: "Flight & Hotel Booking",
+    title: "Visa, Documentation and Travel Insurance",
     description:
-      "Flights and stays arranged around your itinerary, preferred timings, location, comfort, and travel needs. We coordinate the essentials so your journey comes together smoothly.",
+      "We handle passport support, visa applications, embassy appointments, and every piece of travel paperwork that comes before you leave. Travel insurance is included in most international packages for travellers up to 70 years of age. We explain what's covered, what's not, and what to do if something goes wrong on the road.",
   },
   {
     num: "04",
-    title: "Travel Insurance",
+    title: "Flights and Hotels",
     description:
-      "Travel insurance assistance to help you prepare for unexpected situations and travel with greater confidence. We help you understand the available options before you set off.",
+      "Booked as part of your package, not as separate pieces. We choose flights for timing and hotels for location, negotiating rates that come from sending groups to the same properties year after year. Everything is coordinated so your journey flows seamlessly.",
   },
 ];
 
