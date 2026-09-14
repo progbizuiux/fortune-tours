@@ -3,39 +3,29 @@ import { SectionHeading } from "@/components/common/SectionHeading";
 
 const OFFICES = [
   {
-    role: "CORPORATE HEADQUARTERS",
-    city: "Ernakulam",
-    address: "Fortune House, MG Road, Ravipuram, Ernakulam, Kochi - 682016",
-    phone: "+91 484 237 8850",
-    timing: "MON - SAT: 09:00 - 18:30",
+    city: "Corporate Office, Kochi",
+    address: "Mannamthara Tower, Paramara Rd, Ernakulam North",
+    phone: "7510 755 888",
   },
   {
-    role: "HERITAGE DESK",
-    city: "Fort Kochi",
-    address: "1/8, Jacob Road, Near St. Francis Church, Fort Kochi - 682001",
-    phone: "+91 484 221 5400",
-    timing: "MON - SAT: 09:30 - 18:00",
+    city: "Thiruvananthapuram Office",
+    address: "2nd Floor, Annas Arcade, Spencer Junction, M.G Road",
+    phone: "7510 755 888",
   },
   {
-    role: "CENTRAL HUB",
-    city: "Thrissur",
-    address: "Kaus Towers, Round North, Near Swaraj Round, Thrissur - 680001",
-    phone: "+91 487 233 4112",
-    timing: "MON - SAT: 09:00 - 18:30",
+    city: "Kannur Office",
+    address: "1st Floor, Umbai Tower, Opp. Training School, Thalassery Road",
+    phone: "7510 755 888",
   },
   {
-    role: "SOUTH HUB",
-    city: "Trivandrum",
-    address: "Heritage Square, MG Road, Statue, Trivandrum - 695001",
-    phone: "+91 471 247 1122",
-    timing: "MON - SAT: 09:00 - 18:30",
+    city: "Thrissur Office",
+    address: "1st Floor, St Antony's Tower, East Fort",
+    phone: "7510 755 888",
   },
   {
-    role: "NORTH HUB",
-    city: "Kannur",
-    address: "Fort Road, Near Central Station, Kannur - 670001",
-    phone: "+91 497 270 6630",
-    timing: "MON - SAT: 09:30 - 18:00",
+    city: "Ravipuram Office",
+    address: "6th Floor, KG Oxford Business Center, Sreekandath Rd, Ravipuram, Perumanoor, Ernakulam",
+    phone: "7510 755 888",
   },
 ];
 
@@ -91,9 +81,11 @@ export function OfficesSection({
                   >
                     {office.phone}
                   </a>
-                  <p className="font-sans text-[12px] 2xl:text-[13px] 2xl:leading-[18px] tracking-[0.05em] text-[#F9F7F2]/70 uppercase">
-                    {office.timing}
-                  </p>
+                  {office.timing && (
+                    <p className="font-sans text-[12px] 2xl:text-[13px] 2xl:leading-[18px] tracking-[0.05em] text-[#F9F7F2]/70 uppercase">
+                      {office.timing}
+                    </p>
+                  )}
                 </div>
               </div>
             ))}

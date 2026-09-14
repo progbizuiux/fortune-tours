@@ -32,54 +32,54 @@ const BRING_TOGETHER_ITEMS = [
   {
     key: "right-places",
     title: "The Right Places",
-    body: "Destinations chosen around your interests, travel style, and the experiences you want to discover.",
+    body: "Chosen from twenty years of sending groups to these destinations, not from a brochure picked up at a fair.",
   },
   {
-    key: "thoughtful-stays",
-    title: "Thoughtful Stays",
-    body: "Hotels, resorts, villas, and retreats selected for their location, character, comfort, and setting.",
+    key: "your-plan-your-pace",
+    title: "Your Plan, Your Pace",
+    body: "No two families travel the same way, so no two plans should look the same. We listen first, then shape the days around your pace and your priorities.",
   },
   {
-    key: "meaningful-experiences",
-    title: "Meaningful Experiences",
-    body: "Carefully chosen experiences that help you connect with the destination beyond the usual sights.",
+    key: "everything-in-one-booking",
+    title: "Everything in One Booking",
+    body: "Flights, hotels, meals, visas, insurance, entry tickets, coaches and transfers. One team holds all of it, so nothing sits with you to sort out.",
   },
   {
-    key: "smooth-connections",
-    title: "Smooth Connections",
-    body: "Transfers, transportation, and logistics planned to keep your journey comfortable and well connected.",
+    key: "always-with-you",
+    title: "Always With You",
+    body: "A Malayalee tour manager travels with the group from Kerala. Questions get answered in your language, and someone who knows the plan is always within reach.",
   },
   {
-    key: "travel-support",
-    title: "Travel Support",
-    body: "Dedicated assistance before and throughout your journey, whenever you need guidance or support.",
+    key: "support-throughout",
+    title: "Support Throughout",
+    body: "Our team is available through the whole journey. We stay involved because your experience is what our name runs on.",
   },
 ];
 
 const PROCESS_ITEMS = [
   {
-    key: "understand",
-    title: "01 - We Understand Your Journey",
+    key: "plan-it-right",
+    title: "01. We Plan It Right",
     description:
-      "We start by getting to know your destination, interests, travel style, priorities, and expectations. This gives us a clear understanding of what matters to you, what you want to experience, and how you want your journey to feel from the very beginning.",
+      "We listen first;understanding who's travelling, your budget, timing, and what matters most. Then we build a route that fits, handling every detail: flights, hotels, meals, visas, insurance, transfers. Everything works because we've done these routes before and know where things go wrong.",
     image: "/about-us/understand.jpeg",
-    alt: "We Understand Your Journey",
+    alt: "01. We Plan It Right",
   },
   {
-    key: "shape",
-    title: "02 - We Shape the Details",
+    key: "travel-with-you",
+    title: "02. We Travel With You",
     description:
-      "We bring together the right destinations, stays, experiences, transportation, and timing to create a journey around your preferences. Every element is considered carefully, balancing what you want to see with enough time to experience each place at your own pace.",
+      "A Fortune tour manager joins your group and stays throughout. When last-minute changes happen, questions arise, or something unexpected occurs, someone who knows your plan is there to help. You're never managing logistics alone.",
     image: "/about-us/we shape the details.png",
-    alt: "We Shape the Details",
+    alt: "02. We Travel With You",
   },
   {
-    key: "stay",
-    title: "03 - We Stay With You",
+    key: "follow-up",
+    title: "03. We Follow Up",
     description:
-      "Once your journey is confirmed, we coordinate the details and remain involved throughout your trip. From preparation and departure to the final transfer, our team stays available to provide guidance, handle the details, and support you whenever you need it.",
+      "Your trip doesn't end when you land. We check in, gather your feedback, and carry it forward. What worked and what didn't shapes how we build the next journey better.",
     image: "/about-us/travel-guide.jpeg",
-    alt: "We Stay With You",
+    alt: "03. We Follow Up",
   },
 ];
 
@@ -92,9 +92,9 @@ export default function AboutUsPage() {
          the rest of the page. */}
       <div>
         <PageHero
-          eyebrow="About Fortune · EST. 2005"
-          title="Two decades of making travel feel personal."
-          description="An editorial travel house, working out of Kerala since 2005. Built on local expertise, direct planners, and thoughtfully crafted journeys."
+          eyebrow="Our Foundation"
+          title="Twenty Years of Planning Journeys That Feel Like Yours."
+          description="Fortune Tours has been sending travellers from Kerala to every corner of the map for over twenty years."
           /* Placeholder. The frame's own export
              (view-green-mountains-sunset-beautiful-summer-landscape.png) is not
              in the repo yet — drop it into /public and change this one line. */
@@ -114,17 +114,17 @@ export default function AboutUsPage() {
       </div>
 
       <RegionFeaturesSection
-        eyebrow="More Than A Booking"
+        eyebrow="More Than a Booking."
         title="What We Bring Together"
-        description="A great journey is made up of many details. We bring them together so every part works naturally with the next."
+        description="A great trip needs someone who's been there, knows what goes wrong, and builds plans that prevent it."
         features={BRING_TOGETHER_ITEMS}
       />
 
       <section className="bg-white pt-10 md:pt-16 xl:pt-[150px] xl:max-2xl:pt-[100px]">
         <div className="mx-auto max-w-[1160px] px-4 md:px-8 xl:px-0">
           <SectionHeading
-            eyebrow="Our Process"
-            title="From Your Idea to Your Journey"
+            eyebrow="How It Works"
+            title="From Your Idea to Your Journey."
             titleClassName="max-w-none"
             /* No description in the design */
           />
@@ -137,16 +137,23 @@ export default function AboutUsPage() {
       </section>
 
       <ServicesSection />
-      <TeamSection />
-      <CredentialsSection />
-      <OfficesSection title="Five offices across Kerala." />
+      {/* <TeamSection /> */}
+      <CredentialsSection
+        eyebrow="Industry Affiliations"
+        title="Recognised Across the Travel Industry."
+      />
+      <OfficesSection
+        eyebrow="Five Offices Across Kerala"
+        title="Walk In or Call. Someone Will Be There."
+        description="Start your trip at fortunetours.in or call any office. Someone will be there to listen."
+      />
       
       {/* Journal Section relies on negative top margins by default to overlap the home page cloud bank.
           On the About Us page, we override it with 'mt-0!' so it sits naturally below the Offices section,
           or we can just let it sit if it doesn't cause issues. Wait, let's look at `JournalSection.jsx`:
           `className={cn("spacing -mt-[40px] lg:-mt-[100px] 2xl:mt-0 relative z-10", className)}`
           I will pass `className="mt-0! lg:mt-0!"` to clear that margin. */}
-      <JournalSection className="mt-0! lg:mt-0! bg-white pt-20 md:pt-32 xl:pt-[150px]" />
+      {/* <JournalSection className="mt-0! lg:mt-0! bg-white pt-20 md:pt-32 xl:pt-[150px]" /> */}
     </>
   );
 }
