@@ -5,27 +5,27 @@ const OFFICES = [
   {
     city: "Corporate Office, Kochi",
     address: "Mannamthara Tower, Paramara Rd, Ernakulam North",
-    phone: "7510 755 888",
+    phone: "+91 9656 211 888",
   },
   {
     city: "Thiruvananthapuram Office",
     address: "2nd Floor, Annas Arcade, Spencer Junction, M.G Road",
-    phone: "7510 755 888",
+    phone: "+91 7558 887 711",
   },
   {
     city: "Kannur Office",
     address: "1st Floor, Umbai Tower, Opp. Training School, Thalassery Road",
-    phone: "7510 755 888",
+    phone: "+91 8156 911 888",
   },
   {
     city: "Thrissur Office",
     address: "1st Floor, St Antony's Tower, East Fort",
-    phone: "7510 755 888",
+    phone: "+91 9656 211 888",
   },
   {
     city: "Ravipuram Office",
     address: "6th Floor, KG Oxford Business Center, Sreekandath Rd, Ravipuram, Perumanoor, Ernakulam",
-    phone: "7510 755 888",
+    phone: "+91 9656 211 888",
   },
 ];
 
