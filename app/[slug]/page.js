@@ -33,16 +33,6 @@ import {
    force-dynamic would silently override it. */
 export const revalidate = 3600;
 
-/* Closed to the slugs below, and safe to close: the regions come from the
-   hard-coded list in lib/navigation.js, not from Strapi, so the allowlist
-   cannot go stale the way destinations/[slug]'s would (see the note there).
-
-   This is what keeps the 404 server-rendered. A slug outside the list is now
-   a routing miss, which Next answers with the prerendered not-found page —
-   HTML, heading and recovery links included. Left open, the page rendered and
-   then threw notFound(), and Next answers that with a client-side error
-   fallback: correct 404 status, but an empty body until JavaScript runs. */
-export const dynamicParams = false;
 
 export function generateStaticParams() {
   return getDestinationSlugs().map((slug) => ({ slug }));
