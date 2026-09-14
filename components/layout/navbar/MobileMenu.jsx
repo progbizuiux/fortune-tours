@@ -217,12 +217,15 @@ export function MobileMenu({ links, pathname, onNavigate, publishedCountries }) 
               .filter((item) => !topLevelHrefs.has(item.href))
               .map((item, index) => (
                 <li
-                  key={item.href}
+                  key={item.label}
                   className={MENU_ROW_ENTER}
                   style={menuRowDelay(index)}
                 >
                   <CtaLink
                     href={item.href}
+                    {...(item.external
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
                     underline={false}
                     className={cn(
                       ROW_LINK,

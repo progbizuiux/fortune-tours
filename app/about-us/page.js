@@ -7,7 +7,6 @@ import { FeatureRows } from "@/components/common/FeatureRows";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { CredentialsSection } from "@/components/common/CredentialsSection";
 import { OfficesSection } from "@/components/about/OfficesSection";
-import { JournalSection } from "@/components/common/JournalSection";
 
 /* /about-us — the About page.
  *
@@ -141,12 +140,7 @@ export default function AboutUsPage() {
       <CredentialsSection />
       <OfficesSection title="Five offices across Kerala." />
       
-      {/* Journal Section relies on negative top margins by default to overlap the home page cloud bank.
-          On the About Us page, we override it with 'mt-0!' so it sits naturally below the Offices section,
-          or we can just let it sit if it doesn't cause issues. Wait, let's look at `JournalSection.jsx`:
-          `className={cn("spacing -mt-[40px] lg:-mt-[100px] 2xl:mt-0 relative z-10", className)}`
-          I will pass `className="mt-0! lg:mt-0!"` to clear that margin. */}
-      <JournalSection className="mt-0! lg:mt-0! bg-white pt-20 md:pt-32 xl:pt-[150px]" />
+      {/* Journal section hidden site-wide. */}
     </>
   );
 }
