@@ -310,7 +310,7 @@ export function ContactHeroSection({
                       type="tel"
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="JamesThomas@gmail.com"
+                      placeholder="+91 98765 43210"
                       className="w-full bg-transparent border-b-[0.5px] border-black/50 focus:border-black pb-1 sm:pb-1.5 2xl:pb-[16px] text-[13px] sm:text-[14px] md:text-[15px] 2xl:text-[16px] leading-[20px] 2xl:leading-[24px] text-black placeholder:text-black/35 font-sans font-light tracking-normal focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky transition-colors"
                     />
                   </div>
