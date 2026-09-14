@@ -15,8 +15,8 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://fortunetours.in";
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Fortune Tours & Travels | Custom Journeys from Kerala",
-    template: "%s | Fortune Tours & Travels",
+    default: "Fortune Tours | Custom Journeys from Kerala",
+    template: "%s | Fortune Tours",
   },
   description:
     "Custom journeys, curated holidays, and bespoke travel experiences crafted with local expertise from Kerala.",
@@ -26,11 +26,11 @@ export const metadata = {
     apple: "/favicon.png",
   },
   openGraph: {
-    title: "Fortune Tours & Travels | Custom Journeys from Kerala",
+    title: "Fortune Tours | Custom Journeys from Kerala",
     description:
       "Custom journeys, curated holidays, and bespoke travel experiences crafted with local expertise from Kerala.",
     url: siteUrl,
-    siteName: "Fortune Tours & Travels",
+    siteName: "Fortune Tours",
     type: "website",
   },
 };

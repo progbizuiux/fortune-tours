@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { RotateCw } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { Modal } from "@/components/common/Modal";
+import { getLenis } from "@/lib/lenis";
 import {
   DESTINATION_MODE_OPTIONS,
   DURATION_OPTIONS,
@@ -476,10 +477,23 @@ export function PlanTripWizard({
     clearPlanDraft();
     reset(EMPTY_PLAN);
     clearErrors();
-    userNavRef.current = true;
+    userNavRef.current = false;
     setDirection("back");
     setStep(0);
     clearPlanDraft();
+
+    const scrollToTop = () => {
+      const lenis = getLenis();
+      if (lenis) {
+        lenis.scrollTo(0, { immediate: true, force: true });
+      }
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    };
+
+    scrollToTop();
+    requestAnimationFrame(scrollToTop);
+    setTimeout(scrollToTop, 50);
+    setTimeout(scrollToTop, 150);
   }
 
   function selectSingle(field, value) {

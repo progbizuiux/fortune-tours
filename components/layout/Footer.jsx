@@ -73,7 +73,7 @@ export function Footer() {
           <div className="flex max-sm:flex-row max-sm:items-start max-sm:justify-between flex-col gap-6">
             <Link
               href="/"
-              aria-label="Fortune Tours & Travels — Home"
+              aria-label="Fortune Tours — Home"
               className="w-fit max-sm:shrink-0"
             >
               {/* Intrinsic size, not display size — the file is 192x70, and
@@ -83,7 +83,7 @@ export function Footer() {
                   the navbar does it. */}
               <Image
                 src="/fortune_Logo_White.png"
-                alt="Fortune Tours & Travels"
+                alt="Fortune Tours"
                 width={192}
                 height={70}
                 className="h-auto w-[130px] sm:w-[140px] lg:w-[160px] object-contain max-sm:w-[82px]"
@@ -116,15 +116,15 @@ export function Footer() {
 
           {/* Offset at lg so the row lines up with the tagline rather than
               the wordmark, matching the design. */}
-          <nav aria-label="Quick links" className="lg:mt-15">
-            <ul className="flex flex-wrap items-center gap-x-4 max-sm:gap-x-2 gap-y-2">
-              <li className="font-heading text-body text-white max-sm:text-[12px] max-sm:font-normal">
+          <nav aria-label="Quick links" className="lg:mt-15 shrink-0">
+            <ul className="flex flex-wrap lg:flex-nowrap items-center gap-x-4 lg:max-xl:gap-x-3 max-sm:gap-x-2 gap-y-2">
+              <li className="font-heading text-body text-white max-sm:text-[12px] max-sm:font-normal shrink-0">
                 Quick Links :
               </li>
               {QUICK_LINKS.map((link, index) => (
                 <li
                   key={link.href}
-                  className="flex items-center gap-4 max-sm:gap-2"
+                  className="flex items-center gap-4 lg:max-xl:gap-3 max-sm:gap-2 shrink-0"
                 >
                   {index > 0 && (
                     <span
@@ -180,7 +180,7 @@ export function Footer() {
               24px leading gave the two wrapped lines a 2.4 line-height on a
               320px screen. */}
           <p className="text-small text-white/60 max-sm:order-1 max-sm:text-[12px] max-sm:leading-[1.4] max-sm:font-light">
-            © {year} Fortune Tours &amp; Travels. All journeys reserved.
+            © {year} Fortune Tours. All journeys reserved.
           </p>
           {/* Only the name is the link, not the whole line: "Designed by" is
               not part of the destination. Same target/rel and hover-to-white as

@@ -14,7 +14,7 @@ const CTA_LINKS = [
   { label: "Design Your Trip", href: "/plan-my-trip" },
 ];
 
-const DEFAULT_EYEBROW = "Fortune Tours & Travels — Est. 1998";
+const DEFAULT_EYEBROW = "Fortune Tours — Est. 1998";
 const DEFAULT_TITLE = "Everyone Sees Kerala. Few Actually Feel It.";
 const DEFAULT_IMAGE = "/destinations/kerala/kerala.avif";
 const DEFAULT_IMAGE_ALT = "Kerala backwaters with palm trees and a boat";
