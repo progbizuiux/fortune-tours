@@ -69,36 +69,30 @@ export function PageHero({
     if (!videoEl || !container) return;
 
     let isVisible = true;
-    let userHasInteracted = false;
 
-    const tryUnmute = () => {
-      if (isVisible) {
-        videoEl.muted = false;
-        videoEl.play().catch(() => {
+    /* Playback never stops — the clip keeps looping whether or not the hero is
+       on screen; only the audio follows visibility. Autoplay with sound is
+       blocked until the page has been engaged with, so start muted (which is
+       always allowed), immediately try to lift it, and keep retrying on every
+       user gesture until the browser lets the sound through. */
+    const unmute = () => {
+      if (!isVisible) return;
+      videoEl.muted = false;
+      const played = videoEl.play();
+      if (played) {
+        played.catch(() => {
           videoEl.muted = true;
           videoEl.play().catch(() => {});
         });
       }
     };
 
-    videoEl.muted = false;
-    videoEl
-      .play()
-      .then(() => {
-        userHasInteracted = true;
-      })
-      .catch(() => {
-        videoEl.muted = true;
-        videoEl.play().catch(() => {});
-      });
+    videoEl.muted = true;
+    videoEl.play().catch(() => {});
+    unmute();
 
     const handleInteraction = () => {
-      userHasInteracted = true;
-      if (isVisible) {
-        videoEl.muted = false;
-        videoEl.play().catch(() => {});
-      }
-      removeListeners();
+      unmute();
     };
 
     const events = ["click", "touchstart", "touchend", "scroll", "keydown", "wheel", "pointerdown"];
@@ -109,19 +103,14 @@ export function PageHero({
     };
 
     events.forEach((ev) => {
-      window.addEventListener(ev, handleInteraction, { capture: true, passive: true, once: true });
+      window.addEventListener(ev, handleInteraction, { capture: true, passive: true });
     });
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting && entry.intersectionRatio > 0.05;
         if (isVisible) {
-          if (userHasInteracted) {
-            videoEl.muted = false;
-          } else {
-            tryUnmute();
-          }
-          videoEl.play().catch(() => {});
+          unmute();
         } else {
           videoEl.muted = true;
         }
