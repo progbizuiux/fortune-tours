@@ -8,15 +8,15 @@ import { PolicyPage } from "@/components/common/PolicyPage";
 export const metadata = {
   title: "Terms and Conditions",
   description:
-    "The terms and conditions for using the Fortune Tours & Travels website and services.",
+    "The terms and conditions for using the Fortune Tours website and services.",
 };
 
 export default function TermsAndConditionsPage() {
   return (
     <PolicyPage title="Terms and Conditions">
       <p>
-        These are the terms and conditions for using the Fortune Tours &amp;
-        Travels website and booking our travel services.
+        These are the terms and conditions for using the Fortune Tours website
+        and booking our travel services.
       </p>
       <p>
         Our full terms are being finalised. In the meantime, if you have any

@@ -20,18 +20,32 @@ import { cn } from "@/lib/utils";
  */
 const PHONE_RE = /^\+?[0-9][0-9\s().-]{6,17}$/;
 
-const enquirySchema = z.object({
-  name: z.string().trim().min(2, "Please enter your name."),
-  phone: z
-    .string()
-    .trim()
-    .regex(PHONE_RE, "Enter a valid phone or WhatsApp number."),
-  email: z.email("Enter a valid email address."),
-  // Optional: a reader who knows they want the trip but not the week should
-  // not be stopped at the door by a date picker.
-  date: z.string(),
-  message: z.string().max(1000, "Please keep it under 1000 characters."),
-});
+const enquirySchema = z
+  .object({
+    name: z.string().trim().min(2, "Please enter your name."),
+    phone: z
+      .string()
+      .trim()
+      .regex(PHONE_RE, "Enter a valid phone or WhatsApp number."),
+    email: z.email("Enter a valid email address."),
+    // Optional: a reader who knows they want the trip but not the week should
+    // not be stopped at the door by a date picker.
+    date: z.string(),
+    message: z.string().max(1000, "Please keep it under 1000 characters."),
+  })
+  .superRefine((values, ctx) => {
+    if (values.date) {
+      const now = new Date();
+      const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+      if (values.date < today) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["date"],
+          message: "Preferred date must be in the future.",
+        });
+      }
+    }
+  });
 
 const EMPTY = { name: "", phone: "", email: "", date: "", message: "" };
 

@@ -4,11 +4,11 @@ import Image from "next/image";
 
 // Save the partner logos (transparent PNG or SVG) here, then flip the flag.
 const PARTNERS = [
-  { name: "Partner 1", src: "/credentials/user-logo/Mask group.png" },
-  { name: "Partner 2", src: "/credentials/user-logo/Mask group-1.png" },
-  { name: "Partner 3", src: "/credentials/user-logo/Mask group-2.png" },
-  { name: "Partner 4", src: "/credentials/user-logo/Mask group-3.png" },
-  { name: "Partner 5", src: "/credentials/user-logo/Mask group-4.png" },
+  { name: "IATA", src: "/credentials/user-logo/Mask group.png" },
+  { name: "Kerala Tourism", src: "/credentials/user-logo/Mask group-1.png" },
+  { name: "TAFI", src: "/credentials/user-logo/Mask group-2.png" },
+  { name: "OTOAI", src: "/credentials/user-logo/Mask group-3.png" },
+  { name: "Incredible India", src: "/credentials/user-logo/Mask group-4.png" },
 ];
 
 const HAS_PARTNER_LOGOS = true;

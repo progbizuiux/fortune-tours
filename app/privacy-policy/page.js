@@ -8,14 +8,14 @@ import { PolicyPage } from "@/components/common/PolicyPage";
 export const metadata = {
   title: "Privacy Policy",
   description:
-    "How Fortune Tours & Travels collects, uses and protects the information you share with us.",
+    "How Fortune Tours collects, uses and protects the information you share with us.",
 };
 
 export default function PrivacyPolicyPage() {
   return (
     <PolicyPage title="Privacy Policy">
       <p>
-        Fortune Tours &amp; Travels respects your privacy and is committed to
+        Fortune Tours respects your privacy and is committed to
         protecting the personal information you share with us when planning your
         journey.
       </p>

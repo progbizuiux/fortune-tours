@@ -83,19 +83,12 @@ export function RegionFeaturesSection({
           "flex flex-wrap justify-center max-md:gap-y-6 md:max-lg:gap-y-8 lg:gap-y-12 max-w-[1920px] mx-auto"
         )}>
           {activeFeatures.map((feature, i) => {
-            // If we have > 4 items (e.g. 6), we hide the last 2 on mobile/tablet.
-            const hideOnSmall = activeFeatures.length > 4 && i >= activeFeatures.length - 2;
-            const visibleOnSmallCount = activeFeatures.length > 4 ? activeFeatures.length - 2 : activeFeatures.length;
-
             // Determine if the item is in the last row for each breakpoint
-            const isLastRowMobile = i === visibleOnSmallCount - 1; // 1 col (max-md)
-            // On md (2 cols), if there are 3 items, last row is just the last 1.
-            const itemsInLastTabletRow = visibleOnSmallCount % 2 || 2;
-            const isLastRowTablet = i >= visibleOnSmallCount - itemsInLastTabletRow && i < visibleOnSmallCount;
-            
-            // On lg to 2xl (3 cols), if there are 6 items, last row is last 3. If 4 items, last row is just the last 1.
-            const itemsInLastLgRow = visibleOnSmallCount % 3 || 3;
-            const isLastRowLg = i >= visibleOnSmallCount - itemsInLastLgRow;
+            const isLastRowMobile = i === activeFeatures.length - 1; // 1 col (max-md)
+            const itemsInLastTabletRow = activeFeatures.length % 2 || 2;
+            const isLastRowTablet = i >= activeFeatures.length - itemsInLastTabletRow;
+            const itemsInLastLgRow = activeFeatures.length % 3 || 3;
+            const isLastRowLg = i >= activeFeatures.length - itemsInLastLgRow;
             
             return (
               <div
@@ -110,7 +103,6 @@ export function RegionFeaturesSection({
                   // different heights. Left to stretch, every item in a row
                   // shares the tallest one's height.
                   "flex flex-col items-center justify-start 2xl:justify-between text-center px-[22px] pt-2",
-                  hideOnSmall && "max-lg:hidden",
                   // Vertical borders
                   "md:border-r border-black/10 last:border-r-0",
                   "md:max-lg:even:border-r-0", // On 2-col (md), every 2nd item has no right border

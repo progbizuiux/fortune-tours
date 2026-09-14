@@ -334,7 +334,7 @@ export function Navbar({ publishedCountries }) {
       <Container className="flex h-20 lg:max-xl:h-14 xl:max-2xl:h-16 2xl:h-20 items-center justify-between">
         <Link
           href="/"
-          aria-label="Fortune Tours & Travels — Home"
+          aria-label="Fortune Tours — Home"
           // relative is load-bearing: the cut being faded out is absolutely
           // positioned, and without a positioned parent it anchors to the fixed
           // <header> instead of this box — so it leaves the logo's slot and
@@ -351,7 +351,7 @@ export function Navbar({ publishedCountries }) {
           {/* White — visible on the transparent navbar (over the hero) */}
           <Image
             src="/fortune_Logo_White.png"
-            alt="Fortune Tours & Travels"
+            alt="Fortune Tours"
             width={192}
             height={70}
             className={cn(
@@ -374,7 +374,7 @@ export function Navbar({ publishedCountries }) {
               other query-reserved characters) for the same reason. */}
           <Image
             src="/fortune_Logo_Black_Blue.png"
-            alt="Fortune Tours & Travels"
+            alt="Fortune Tours"
             width={192}
             height={70}
             className={cn(
