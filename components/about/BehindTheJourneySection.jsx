@@ -46,22 +46,18 @@ const STATS = [
   {
     value: "20",
     label: "Years of Experience",
-    note: "Our specialists have travelled extensively",
   },
   {
     value: "5",
     label: "Offices Across Kerala",
-    note: "Our specialists have travelled extensively",
   },
   {
     value: "1M+",
     label: "Travellers Served",
-    note: "Our specialists have travelled extensively",
   },
   {
     value: "4.9",
     label: "Google Rating",
-    note: "Our specialists have travelled extensively",
   },
 ];
 
@@ -154,13 +150,11 @@ export function BehindTheJourneySection({ className }) {
                   {stat.label}
                 </dt>
 
-                {/* Poppins is the page's own body family, so only size, measure
-                    and colour are stated. 14px is the frame's; 16 from 2xl is
-                    the text-small token's own value, which is where the rest of
-                    the site's small copy lands at that width. */}
-                <p className="max-w-[216px] text-[13px] lg:text-sm font-normal leading-[1.5] text-black/80">
-                  {stat.note}
-                </p>
+                {stat.note && (
+                  <p className="max-w-[216px] text-[13px] lg:text-sm font-normal leading-[1.5] text-black/80">
+                    {stat.note}
+                  </p>
+                )}
               </div>
             ))}
           </dl>
