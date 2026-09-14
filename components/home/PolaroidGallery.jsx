@@ -84,9 +84,9 @@ export function PolaroidGallery({ items = POLAROIDS }) {
                   />
                   <div className={styles.scrim} aria-hidden="true" />
                 </div>
-                <figcaption className={styles.caption}>
+                {/* <figcaption className={styles.caption}>
                   <Caption {...shot} />
-                </figcaption>
+                </figcaption> */}
               </figure>
             </li>
           );
