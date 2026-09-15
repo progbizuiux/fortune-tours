@@ -206,7 +206,13 @@ export function FrameButton({
 
   if (href) {
     return (
-      <Link href={href} onClick={handleClick} className={classes} {...props}>
+      <Link
+        href={href}
+        onClick={handleClick}
+        className={classes}
+        suppressHydrationWarning
+        {...props}
+      >
         {children}
       </Link>
     );
@@ -216,6 +222,7 @@ export function FrameButton({
     <button
       type={type}
       className={classes}
+      suppressHydrationWarning
       {...props}
     >
       {children}

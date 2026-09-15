@@ -363,7 +363,7 @@ export function ContactHeroSection({
                       value={formData.message}
                       onChange={handleChange}
                       placeholder="An anniversary in the Mara, a first safari with the children, a slow week by the ocean..."
-                      className="w-full bg-transparent border-b-[0.5px] border-black/50 focus:border-black pb-1 sm:pb-1.5 2xl:pb-[16px] text-[13px] sm:text-[14px] md:text-[15px] 2xl:text-[16px] leading-[20px] 2xl:leading-[24px] text-black placeholder:text-black/35 font-sans font-light tracking-normal focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky transition-colors resize-none overflow-y-auto h-[29px] sm:h-[32px] 2xl:h-[40px]"
+                      className="w-full bg-transparent border-b-[0.5px] border-black/50 focus:border-black pb-1 sm:pb-1.5 2xl:pb-[16px] text-[13px] sm:text-[14px] md:text-[15px] 2xl:text-[16px] leading-[20px] 2xl:leading-[24px] text-black placeholder:text-black/35 font-sans font-light tracking-normal focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky transition-colors resize-none overflow-hidden h-[29px] sm:h-[32px] 2xl:h-[40px]"
                     />
                   </div>
 

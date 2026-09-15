@@ -126,7 +126,7 @@ export function DestinationIndex({ published }) {
               "text-navy/60 mt-5 max-w-[640px] font-light lg:mt-8",
             )}
           >
-            Every place Fortune travels, set out the way an index sets things
+            Every place Fortune Tours, set out the way an index sets things
             out — by letter, or by the part of the world it belongs to.
           </p>
         </AnimateIn>
