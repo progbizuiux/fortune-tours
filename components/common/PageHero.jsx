@@ -185,6 +185,7 @@ export function PageHero({
             ref={videoRef}
             className="absolute inset-0 h-full w-full object-cover object-center pointer-events-none select-none [&::-webkit-media-controls]:hidden! [&::-webkit-media-controls-start-playback-button]:hidden! [&::-webkit-media-controls-play-button]:hidden! [&::-webkit-media-controls-panel]:hidden!"
             src={video}
+            poster={image || undefined}
             autoPlay
             muted
             loop
