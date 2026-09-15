@@ -26,6 +26,14 @@ const HERO_VIDEOS = {
   india: "/destinations/Fortune india 2.9.26.mov",
 };
 
+/* Poster shown while the (large) background video loads, keyed the same way
+   as HERO_VIDEOS. Used only as a fallback when the CMS hasn't supplied its
+   own background image for the slug. */
+const HERO_VIDEO_POSTERS = {
+  kerala: "/destinations/kerala/kerala.avif",
+  india: "/destination/india.avif",
+};
+
 export function HeroSection({
   eyebrow = DEFAULT_EYEBROW,
   title = DEFAULT_TITLE,
@@ -188,7 +196,7 @@ export function HeroSection({
             ref={videoRef}
             className="absolute inset-0 h-full w-full object-cover max-md:object-[25%] md:object-center pointer-events-none select-none [&::-webkit-media-controls]:hidden! [&::-webkit-media-controls-start-playback-button]:hidden! [&::-webkit-media-controls-play-button]:hidden! [&::-webkit-media-controls-panel]:hidden!"
             src={video}
-            poster={image || undefined}
+            poster={image || HERO_VIDEO_POSTERS[slug]}
             autoPlay
             muted
             loop

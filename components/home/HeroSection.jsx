@@ -19,6 +19,7 @@ const DEFAULT_TITLE = "The journey begins before you leave home.";
 const DEFAULT_DESCRIPTION =
   "Travel isn't measured by miles. It's measured by moments that stay with you forever.";
 const HERO_VIDEO = "/home-banner-asset/hero-bg.mov"
+const HERO_VIDEO_POSTER = "/home-banner-asset/hero-poster.jpg"
 
 export function HeroSection({
   eyebrow = DEFAULT_EYEBROW,
@@ -29,6 +30,7 @@ export function HeroSection({
   return (
     <PageHero
       video={HERO_VIDEO}
+      image={HERO_VIDEO_POSTER}
       eyebrow={eyebrow}
       title={title}
       description={description}
