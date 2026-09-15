@@ -5,9 +5,11 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Modal } from "@/components/common/Modal";
+import { submitEnquiry } from "@/lib/enquiry";
 import { cn } from "@/lib/utils";
 
 /* The "Book Your Seat" enquiry — a picture beside a five-field form, opened
@@ -114,12 +116,13 @@ export function BookingEnquiryModal({
   }, [open, reset]);
 
   async function onSubmit(values) {
-    // TODO(backend): POST `values` (plus packageName) to the enquiry endpoint
-    // through lib/axios.js once it exists. Until then the enquiry ends
-    // client-side, the same way the plan-my-trip wizard does.
-    void values;
-    toast.success("Thanks — we'll be in touch shortly.");
-    onClose();
+    try {
+      await submitEnquiry("Package Booking Enquiry", { ...values, packageName });
+      toast.success("Thanks — we'll be in touch shortly.");
+      onClose();
+    } catch (error) {
+      toast.error(error.message || "Something went wrong. Please try again.");
+    }
   }
 
   return (
@@ -269,9 +272,13 @@ export function BookingEnquiryModal({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="focus-visible:outline-sky hover:bg-navy mt-1 min-h-11 w-full lg:col-span-2 cursor-pointer bg-black px-8 py-3 text-[15px] text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+              className="focus-visible:outline-sky hover:bg-navy mt-1 inline-flex min-h-11 w-full items-center justify-center lg:col-span-2 cursor-pointer bg-black px-8 py-3 text-[15px] text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {isSubmitting ? "Sending…" : "Send Enquiry"}
+              {isSubmitting ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                "Send Enquiry"
+              )}
             </button>
           </form>
         </div>
