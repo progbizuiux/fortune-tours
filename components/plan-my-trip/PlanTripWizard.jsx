@@ -282,6 +282,7 @@ function DestinationField({ destinations, value, error, register, setValue }) {
           }}
           onKeyDown={onKeyDown}
           className={INPUT_CLASSES}
+          suppressHydrationWarning
         />
 
         {showList && (

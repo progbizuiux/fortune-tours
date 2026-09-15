@@ -92,7 +92,7 @@ export function Footer() {
 
             <p className="max-w-xs text-small leading-relaxed text-white/70 max-sm:text-[11px] max-sm:leading-[120%] max-sm:text-right max-sm:font-light max-sm:w-[228px]">
               An editorial travel house. Cinematic journeys, quietly curated
-              since 1998.
+              since 2006.
             </p>
 
             <ul className="mt-2 flex items-center gap-8 max-sm:hidden">
