@@ -59,6 +59,20 @@ export async function generateMetadata({ params }) {
   };
 }
 
+/* Regions with no traveller-story content of their own in the CMS, so
+   RegionStoriesSection would otherwise fall back to its hardcoded Kenya/
+   Tanzania safari quotes — right at home on /africa, out of place everywhere
+   else in this list. Hidden here rather than left to show the wrong region's
+   testimonial; drop a key once its region has real stories in Strapi. */
+const HIDE_STORIES_FOR = new Set([
+  "africa",
+  "caribbean",
+  "latin-america",
+  "middle-east",
+  "south-pacific",
+  "australasia-oceania",
+]);
+
 export default async function DestinationRegionPage({ params }) {
   const { slug } = await params;
   const region = getDestinationRegion(slug);
@@ -99,7 +113,9 @@ export default async function DestinationRegionPage({ params }) {
 
         <PlanMyTripSection {...page.planTrip} />
         <RegionCuratedSection {...page.highlights} />
-        <RegionStoriesSection {...page.stories} />
+        {HIDE_STORIES_FOR.has(region.key) ? null : (
+          <RegionStoriesSection {...page.stories} />
+        )}
 
         {/* Packages only when this region has its own.
 
