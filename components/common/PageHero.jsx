@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { Volume2, VolumeX } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { CtaLink } from "@/components/common/CtaLink";
 import { BookingCtaButton } from "@/components/packages/BookingCtaButton";
@@ -61,6 +62,11 @@ export function PageHero({
 }) {
   const containerRef = useRef(null);
   const videoRef = useRef(null);
+  // Mirrors the video's own muted state so the corner button's icon always
+  // matches what the viewer is actually hearing — the autoplay logic below and
+  // the visibility observer both flip `muted` on their own, so the button
+  // listens to the element rather than owning the state.
+  const [muted, setMuted] = useState(true);
 
   useEffect(() => {
     if (!video) return;
@@ -69,6 +75,10 @@ export function PageHero({
     if (!videoEl || !container) return;
 
     let isVisible = true;
+
+    setMuted(videoEl.muted);
+    const onVolumeChange = () => setMuted(videoEl.muted);
+    videoEl.addEventListener("volumechange", onVolumeChange);
 
     /* Playback never stops — the clip keeps looping whether or not the hero is
        on screen; only the audio follows visibility. Autoplay with sound is
@@ -123,8 +133,19 @@ export function PageHero({
     return () => {
       removeListeners();
       observer.disconnect();
+      videoEl.removeEventListener("volumechange", onVolumeChange);
     };
   }, [video]);
+
+  // The corner control: flips the video's sound on or off. Unmuting counts as
+  // the user gesture browsers require, so a play() nudge follows it.
+  const toggleMute = () => {
+    const videoEl = videoRef.current;
+    if (!videoEl) return;
+    videoEl.muted = !videoEl.muted;
+    if (!videoEl.muted) videoEl.play().catch(() => {});
+    setMuted(videoEl.muted);
+  };
 
   useGSAP(
     () => {
@@ -289,6 +310,24 @@ export function PageHero({
           )}
         </div>
       </Container>
+
+      {/* Sound toggle for the background video, pinned to the banner's
+          bottom-left corner. Only rendered when a video is playing. */}
+      {video && (
+        <button
+          type="button"
+          onClick={toggleMute}
+          aria-label={muted ? "Unmute video" : "Mute video"}
+          aria-pressed={!muted}
+          className="absolute bottom-5 left-5 z-20 flex items-center justify-center text-white transition hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 max-md:bottom-4 max-md:left-4"
+        >
+          {muted ? (
+            <VolumeX className="h-7 w-7 drop-shadow-[0_1px_3px_rgba(0,0,0,0.55)]" strokeWidth={1.25} aria-hidden="true" />
+          ) : (
+            <Volume2 className="h-7 w-7 drop-shadow-[0_1px_3px_rgba(0,0,0,0.55)]" strokeWidth={1.25} aria-hidden="true" />
+          )}
+        </button>
+      )}
     </section>
   );
 }
