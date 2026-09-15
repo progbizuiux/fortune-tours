@@ -53,6 +53,10 @@ const REVIEWS = [
 const HAS_REVIEWER_PHOTOS = true;
 const HAS_REVIEW_PHOTOS = true;
 
+// Same destination as the section's "View more" CTA below — the review photos
+// link out to it too.
+const REVIEWS_LINK = "https://share.google/Lix6EWHT7FpV5iwR8";
+
 function ReviewCard({ review, index, isExpanded, onToggle }) {
   const textRef = useRef(null);
   const [needsReadMore, setNeedsReadMore] = useState(false);
@@ -128,9 +132,12 @@ function ReviewCard({ review, index, isExpanded, onToggle }) {
         )}
       </div>
 
-      <div
+      <a
+        href={REVIEWS_LINK}
+        target="_blank"
+        rel="noopener noreferrer"
         data-cascade-picture
-        className="bg-navy/10 relative mt-10 shrink-0 aspect-5/6 max-sm:aspect-[179/216] lg:aspect-[319/386] w-full md:max-lg:max-w-[280px] lg:max-xl:max-w-[320px] overflow-hidden"
+        className="bg-navy/10 relative mt-10 shrink-0 aspect-5/6 max-sm:aspect-[179/216] lg:aspect-[319/386] w-full md:max-lg:max-w-[280px] lg:max-xl:max-w-[320px] overflow-hidden block"
       >
         {HAS_REVIEW_PHOTOS && (
           <Image
@@ -162,7 +169,7 @@ function ReviewCard({ review, index, isExpanded, onToggle }) {
             <span className="sr-only">out of 5 on Google</span>
           </span>
         </div>
-      </div>
+      </a>
     </li>
   );
 }

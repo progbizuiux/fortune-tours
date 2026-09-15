@@ -55,6 +55,44 @@ const BRING_TOGETHER_ITEMS = [
   },
 ];
 
+// Same reviews as the home page's CredentialsSection default, with this
+// page's own photos from public/about-us/ in place of the shared /credentials/
+// images.
+const ABOUT_REVIEWS = [
+  {
+    numeral: "I.",
+    quote:
+      "I really enjoyed the Delhi tour conducted on 25 August. Althaf our tour manager was very friendly and excellent. Thanks fortune for making a wonderful memory.",
+    name: "Leelamma Mathew",
+    rating: "4.6",
+    src: "/about-us/india-gate.jpg",
+  },
+  {
+    numeral: "II.",
+    quote:
+      "We had an amazing 4 Days & 3 Nights Malaysia trip arranged by Fortune Tours. The entire tour was well organized, comfortable, and truly enjoyable from start to finish. A special thanks to our Tour Manager, Divya, who did an excellent job coordinating everything with great care and professionalism. Our guide, Mr. Sathya, was also outstanding—friendly and knowledgeable. This was a wonderful family experience, and we will definitely prefer Fortune Tours again for our future holidays. Highly recommended!",
+    name: "Deepesh Kumar",
+    rating: "4.6",
+    src: "/about-us/malaysia.jpg",
+  },
+  {
+    numeral: "III.",
+    quote:
+      "Our first international trip to Thailand was truly memorable and stress-free, thanks to Fortune Tours! From the 5-star hotel stays to the daily sightseeing, everything was seamlessly organized. Highly recommended!",
+    name: "Smrithi Mohan",
+    rating: "4.6",
+    src: "/about-us/thailand.jpg",
+  },
+  {
+    numeral: "IV.",
+    quote:
+      "The trip to Bhutan was extremely good. The place was really peaceful and calm. The Fortune group, as usual, never disappoints. This is our 5th trip with Fortune Travels. The stay, vehicle, and food arrangements were too good. The accompanying partner from Fortune, Mr. Abijith, was really helpful and understanding. I had a 3-year-old kid and was worried about it. Abijith was too good to help us along, even during the long trek to Tiger’s Nest. Thanks, Abijith and Fortune.",
+    name: "Kothott Babu",
+    rating: "4.6",
+    src: "/about-us/before-you-travel.jpg",
+  },
+];
+
 const PROCESS_ITEMS = [
   {
     key: "plan-it-right",
@@ -140,6 +178,7 @@ export default function AboutUsPage() {
       <CredentialsSection
         eyebrow="Industry Affiliations"
         title="Recognised Across the Travel Industry."
+        reviews={ABOUT_REVIEWS}
       />
       <OfficesSection
         eyebrow="Five Offices Across Kerala"
