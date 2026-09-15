@@ -348,6 +348,10 @@ export function PlanTripWizard({
   // Set after mount: rendering new Date() would differ between the server pass
   // and hydration around midnight/timezones.
   const [today, setToday] = useState("");
+  // The furthest date the calendar picker offers — kept in step with
+  // planSchema's own upper bound so the picker can't offer a date the
+  // schema would then reject.
+  const [maxDate, setMaxDate] = useState("");
 
   const formRef = useRef(null);
   const stepPanelRef = useRef(null);
@@ -412,6 +416,9 @@ export function PlanTripWizard({
   // render and hydration agree on the empty form first.
   useEffect(() => {
     setToday(format(new Date(), "yyyy-MM-dd"));
+    const maxAheadDate = new Date();
+    maxAheadDate.setFullYear(maxAheadDate.getFullYear() + 3);
+    setMaxDate(format(maxAheadDate, "yyyy-MM-dd"));
     const draft = loadPlanDraft();
     if (draft) {
       reset({ ...EMPTY_PLAN, ...draft.values });
@@ -794,6 +801,7 @@ export function PlanTripWizard({
                           id="arriving"
                           type="date"
                           min={today || undefined}
+                          max={maxDate || undefined}
                           aria-invalid={errors.arriving ? true : undefined}
                           aria-describedby={
                             errors.arriving ? "arriving-error" : undefined
@@ -811,6 +819,7 @@ export function PlanTripWizard({
                           id="returning"
                           type="date"
                           min={arriving || today || undefined}
+                          max={maxDate || undefined}
                           aria-invalid={errors.returning ? true : undefined}
                           aria-describedby={
                             errors.returning ? "returning-error" : undefined

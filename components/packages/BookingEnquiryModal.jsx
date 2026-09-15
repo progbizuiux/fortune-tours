@@ -39,11 +39,31 @@ const enquirySchema = z
     if (values.date) {
       const now = new Date();
       const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-      if (values.date < today) {
+      // The supported booking horizon — far enough out for a real trip to be
+      // planned, close enough that a mistyped year (a five-digit year is a
+      // known native date-input glitch) can't sneak an implausible date past
+      // this field.
+      const maxAheadDate = new Date(now);
+      maxAheadDate.setFullYear(maxAheadDate.getFullYear() + 3);
+      const maxAhead = `${maxAheadDate.getFullYear()}-${String(maxAheadDate.getMonth() + 1).padStart(2, "0")}-${String(maxAheadDate.getDate()).padStart(2, "0")}`;
+
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(values.date)) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["date"],
+          message: "Enter a valid date.",
+        });
+      } else if (values.date < today) {
         ctx.addIssue({
           code: "custom",
           path: ["date"],
           message: "Preferred date must be in the future.",
+        });
+      } else if (values.date > maxAhead) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["date"],
+          message: "Preferred date is too far in the future.",
         });
       }
     }
@@ -92,6 +112,10 @@ export function BookingEnquiryModal({
   // Set after mount: rendering new Date() on the server would disagree with
   // hydration around midnight and across timezones.
   const [today, setToday] = useState("");
+  // The furthest date the calendar picker offers — kept in step with
+  // enquirySchema's own upper bound so the picker can't offer a date the
+  // schema would then reject.
+  const [maxDate, setMaxDate] = useState("");
 
   const {
     register,
@@ -106,6 +130,9 @@ export function BookingEnquiryModal({
 
   useEffect(() => {
     setToday(format(new Date(), "yyyy-MM-dd"));
+    const maxAheadDate = new Date();
+    maxAheadDate.setFullYear(maxAheadDate.getFullYear() + 3);
+    setMaxDate(format(maxAheadDate, "yyyy-MM-dd"));
   }, []);
 
   // The panel unmounts on close, so the fields are empty on the next open
@@ -241,6 +268,7 @@ export function BookingEnquiryModal({
                 id="booking-date"
                 type="date"
                 min={today || undefined}
+                max={maxDate || undefined}
                 aria-invalid={errors.date ? true : undefined}
                 aria-describedby={
                   errors.date ? "booking-date-error" : undefined
