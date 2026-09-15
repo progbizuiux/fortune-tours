@@ -7,6 +7,7 @@ import { ChevronDown, Loader2 } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa6";
 import { toast } from "sonner";
 import { Container } from "@/components/common/Container";
+import { submitEnquiry } from "@/lib/enquiry";
 import { cn } from "@/lib/utils";
 
 /* The services the site menu offers (lib/navigation.js SITE_MENU.secondary),
@@ -104,12 +105,15 @@ export function ContactHeroSection({
 
     setIsSubmitting(true);
 
-    // Simulate submission or handle endpoint
-    await new Promise((resolve) => setTimeout(resolve, 800));
-
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    toast.success("Thank you! Your travel inquiry has been received. We'll be in touch shortly.");
+    try {
+      await submitEnquiry("Contact Us", formData);
+      setIsSubmitted(true);
+      toast.success("Thank you! Your travel inquiry has been received. We'll be in touch shortly.");
+    } catch (error) {
+      toast.error(error.message || "Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (

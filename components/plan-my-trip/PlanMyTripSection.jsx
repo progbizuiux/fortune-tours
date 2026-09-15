@@ -6,10 +6,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { toast } from "sonner";
-import { RotateCw } from "lucide-react";
+import { Loader2, RotateCw } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { FrameButton } from "@/components/common/FrameButton";
 import { Modal } from "@/components/common/Modal";
+import { submitEnquiry } from "@/lib/enquiry";
 import {
   DESTINATION_MODE_OPTIONS,
   DESTINATION_OPTIONS,
@@ -235,6 +236,7 @@ export function PlanMyTripSection({
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState("forward");
   const [submittedName, setSubmittedName] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [resetModalOpen, setResetModalOpen] = useState(false);
   // Set after mount: rendering new Date() would differ between the server
   // pass and hydration around midnight/timezones.
@@ -384,16 +386,23 @@ export function PlanMyTripSection({
     setValue("interests", next, { shouldValidate: true, shouldDirty: true });
   }
 
-  function handleFinalSubmit(values) {
-    // TODO(backend): POST `values` to the enquiry endpoint (lib/axios.js)
-    // once it exists — until then the brief ends client-side by design.
-    // The pending debounced save must die with the draft, or the keystrokes
-    // that filled the last field write the draft straight back 250ms from now.
-    isSubmittedRef.current = true;
-    clearTimeout(persistTimer.current);
-    clearPlanDraft();
-    setSubmittedName(values.name.trim().split(/\s+/)[0]);
-    toast.success("Your journey brief is on its way.");
+  async function handleFinalSubmit(values) {
+    setIsSubmitting(true);
+    try {
+      await submitEnquiry("Plan My Trip", values);
+      // The pending debounced save must die with the draft, or the keystrokes
+      // that filled the last field write the draft straight back 250ms from
+      // now.
+      isSubmittedRef.current = true;
+      clearTimeout(persistTimer.current);
+      clearPlanDraft();
+      setSubmittedName(values.name.trim().split(/\s+/)[0]);
+      toast.success("Your journey brief is on its way.");
+    } catch (error) {
+      toast.error(error.message || "Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   // A final submit that fails on a field from an earlier step (possible if a
@@ -843,11 +852,16 @@ export function PlanMyTripSection({
               <FrameButton
                 variant="option"
                 type="submit"
-                className="ml-auto"
+                className="ml-auto disabled:cursor-not-allowed disabled:opacity-60"
+                disabled={isLastStep && isSubmitting}
               >
-                {isLastStep
-                  ? (labels.submit ?? "Build My Journey")
-                  : (labels.continue ?? "Continue")}
+                {isLastStep && isSubmitting ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : isLastStep ? (
+                  (labels.submit ?? "Build My Journey")
+                ) : (
+                  (labels.continue ?? "Continue")
+                )}
               </FrameButton>
             </div>
           </>
