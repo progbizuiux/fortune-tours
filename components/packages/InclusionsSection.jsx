@@ -53,6 +53,7 @@ export function InclusionsSection({
               sitting on it. */}
           <div className="mt-10 md:mt-12 lg:mt-[55px] border-t border-black/10" />
 
+          {tabs.length > 1 && (
           <div
             role="tablist"
             aria-label={title}
@@ -86,6 +87,7 @@ export function InclusionsSection({
               );
             })}
           </div>
+          )}
 
           <div
             key={activeTab?.key}

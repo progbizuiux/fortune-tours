@@ -89,7 +89,7 @@ export function BehindTheJourneySection({ className }) {
              text-h2's own floor; the steps below it come down from there. */
           descriptionClassName={cn(
             "font-heading font-normal text-[#16150F]",
-            "max-lg:text-[20px] max-lg:leading-[1.45] max-lg:font-normal",
+            "max-lg:text-[22px] max-lg:leading-[1.45] max-lg:font-normal max-md:text-[22px] max-md:leading-[1.45]",
             "lg:max-xl:text-[28px] lg:max-xl:leading-[1.45]",
             "xl:max-2xl:text-[33px] xl:max-2xl:leading-[1.45]",
             "2xl:text-[36px] 2xl:leading-[54px]",
