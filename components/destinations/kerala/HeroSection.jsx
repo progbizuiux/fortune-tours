@@ -87,9 +87,17 @@ export function HeroSection({
       }
     };
 
-    videoEl.muted = true;
-    videoEl.play().catch(() => {});
-    unmute();
+    // Default to sound ON. Browsers that block autoplay-with-sound reject this
+    // play() — we then fall back to muted playback, and the gesture listeners
+    // below lift the mute at the first interaction.
+    videoEl.muted = false;
+    const initialPlay = videoEl.play();
+    if (initialPlay) {
+      initialPlay.catch(() => {
+        videoEl.muted = true;
+        videoEl.play().catch(() => {});
+      });
+    }
 
     const handleInteraction = () => {
       unmute();

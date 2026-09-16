@@ -101,9 +101,17 @@ export function PageHero({
       }
     };
 
-    videoEl.muted = true;
-    videoEl.play().catch(() => {});
-    unmute();
+    // Default to sound ON. Browsers that block autoplay-with-sound reject this
+    // play() — we then fall back to muted playback, and the gesture listeners
+    // below lift the mute at the first interaction.
+    videoEl.muted = false;
+    const initialPlay = videoEl.play();
+    if (initialPlay) {
+      initialPlay.catch(() => {
+        videoEl.muted = true;
+        videoEl.play().catch(() => {});
+      });
+    }
 
     const handleInteraction = () => {
       unmute();
@@ -324,7 +332,11 @@ export function PageHero({
           onClick={toggleMute}
           aria-label={muted ? "Unmute video" : "Mute video"}
           aria-pressed={!muted}
+<<<<<<< HEAD
+          className="absolute bottom-5 left-5 z-20 flex items-center justify-center text-white transition hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 max-md:bottom-8 max-md:left-4"
+=======
           className="absolute bottom-5 left-5 z-20 flex items-center justify-center text-white transition hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 max-md:bottom-10 max-md:left-4"
+>>>>>>> 16bf466ea7699e7c96e6236e4bdb814727cc11a2
         >
           {muted ? (
             <VolumeX className="h-7 w-7 drop-shadow-[0_1px_3px_rgba(0,0,0,0.55)]" strokeWidth={1.25} aria-hidden="true" />

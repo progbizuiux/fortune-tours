@@ -99,16 +99,9 @@ export function RegionStoriesSection({
             {/* Figma rhythm across the row: 14px avatar → name, then 20px to
                 the rule and 20px again to the review badge. */}
             <div className="flex items-center gap-5 lg:max-xl:gap-3 xl:max-2xl:gap-4">
-              {/* 81px square, per the Figma measure. */}
+              {/* Reviewer avatar hidden per request — name, trip meta and the
+                  Google rating badge remain. */}
               <div className="flex items-center gap-[14px]">
-                <Image
-                  src={activeStory.authorImage}
-                  alt={activeStory.author}
-                  width={81}
-                  height={81}
-                  className="size-[81px] lg:max-xl:size-[60px] xl:max-2xl:size-[70px] 2xl:size-[81px] shrink-0 object-cover"
-                />
-
                 {/* text-body carries the Poppins 18px/24px light spec and
                     steps down on small screens with the rest of the site. */}
                 <div className="flex flex-col">
