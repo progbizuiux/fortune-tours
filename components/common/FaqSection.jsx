@@ -5,6 +5,62 @@ import { Plus, Minus } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { cn } from "@/lib/utils";
 
+/* Turn email addresses and phone numbers inside a plain-text string into
+   clickable <a> links. Phone patterns match sequences like "9656 211 888",
+   "+91 7510 255 888", or "7510255888". The combined regex splits the string
+   once; non-matching segments stay as plain text. */
+function linkifyContact(text) {
+  // Email or phone (Indian-style: optional +91, then 10 digits with optional spaces)
+  const pattern =
+    /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})|(\+?\d[\d\s]{8,14}\d)/g;
+
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = pattern.exec(text)) !== null) {
+    // Push preceding plain text
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+
+    if (match[1]) {
+      // Email
+      parts.push(
+        <a
+          key={match.index}
+          href={`mailto:${match[1]}`}
+          className="underline underline-offset-2 hover:text-black/70 transition-colors"
+        >
+          {match[1]}
+        </a>,
+      );
+    } else if (match[2]) {
+      // Phone — strip spaces for the tel: href
+      const digits = match[2].replace(/\s+/g, "");
+      const tel = digits.startsWith("+") ? digits : `+91${digits}`;
+      parts.push(
+        <a
+          key={match.index}
+          href={`tel:${tel}`}
+          className="underline underline-offset-2 hover:text-black/70 transition-colors"
+        >
+          {match[2]}
+        </a>,
+      );
+    }
+
+    lastIndex = match.index + match[0].length;
+  }
+
+  // Trailing plain text
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  return parts;
+}
+
 export function FaqSection({
   eyebrow = "Good To Know",
   title = "Questions with useful\nanswers",
@@ -42,7 +98,7 @@ export function FaqSection({
 
             {contactInfo && (
               <div className="mt-8 md:mt-10 lg:mt-[55px] xl:mt-[65px] 2xl:mt-[75px] text-[13px] md:text-[14px] text-black font-light leading-[1.6] whitespace-pre-line">
-                {contactInfo}
+                {linkifyContact(contactInfo)}
               </div>
             )}
           </div>
