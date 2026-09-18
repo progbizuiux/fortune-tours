@@ -286,7 +286,7 @@ export function HeroSection({
           onClick={toggleMute}
           aria-label={muted ? "Unmute video" : "Mute video"}
           aria-pressed={!muted}
-          className="absolute bottom-5 left-5 z-20 flex items-center justify-center text-white transition hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 max-md:bottom-4 max-md:left-4"
+          className="absolute bottom-5 left-5 z-20 flex items-center justify-center text-white transition hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 max-md:bottom-16 max-md:left-4"
         >
           {muted ? (
             <VolumeX className="h-7 w-7 drop-shadow-[0_1px_3px_rgba(0,0,0,0.55)]" strokeWidth={1.25} aria-hidden="true" />
